@@ -3,12 +3,15 @@
 from dataclasses import asdict, dataclass
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
+import stat
 import tempfile
 
 
 MAX_SOURCE_BYTES = 64 * 1024
+MAX_INDEX_BYTES = 1024 * 1024
 MAX_PAGES = 10
 
 
@@ -69,6 +72,11 @@ def validate_document(payload: object, filename: str, sha256: str) -> Document:
         raise DocumentError(f"DOCUMENT_LIMIT: at most {MAX_PAGES} synthetic pages")
     if not any(page.strip() for page in pages):
         raise DocumentError("EMPTY_DOCUMENT: no nonblank source text")
+    try:
+        for text in [*(payload[key] for key in required), *pages, filename]:
+            text.encode("utf-8")
+    except UnicodeEncodeError as exc:
+        raise DocumentError("INVALID_DOCUMENT: text must contain valid Unicode scalar values") from exc
     return Document(
         doc_id=payload["doc_id"], company=payload["company"], year=payload["year"],
         language=payload["language"], classification=payload["classification"],
@@ -80,8 +88,11 @@ def safe_source_path(data_dir: Path, filename: str) -> Path:
     relative = Path(filename)
     if relative.is_absolute() or ".." in relative.parts or relative.suffix != ".json":
         raise DocumentError("INVALID_PATH: use a relative .json path inside data/synthetic")
-    root = data_dir.resolve()
-    resolved = (root / relative).resolve()
+    try:
+        root = data_dir.resolve()
+        resolved = (root / relative).resolve()
+    except (OSError, RuntimeError, ValueError) as exc:
+        raise DocumentError("INVALID_PATH: source path cannot be resolved") from exc
     if not resolved.is_relative_to(root):
         raise DocumentError("INVALID_PATH: source resolves outside data/synthetic")
     return resolved
@@ -124,12 +135,29 @@ def make_chunks(document: Document) -> list[Chunk]:
 
 
 def read_index(index_path: Path, *, missing_ok: bool = False) -> list[Document]:
-    if not index_path.exists():
+    descriptor = None
+    try:
+        # Nonblocking open prevents a FIFO from waiting before fstat can reject it.
+        descriptor = os.open(index_path, os.O_RDONLY | getattr(os, "O_NONBLOCK", 0))
+        if not stat.S_ISREG(os.fstat(descriptor).st_mode):
+            raise DocumentError("INDEX_INVALID: index must be a regular file")
+        with os.fdopen(descriptor, "rb", closefd=False) as stream:
+            raw = stream.read(MAX_INDEX_BYTES + 1)
+    except FileNotFoundError as exc:
+        if index_path.is_symlink():
+            raise DocumentError("INDEX_INVALID: index link has no readable target") from exc
         if missing_ok:
             return []
-        raise DocumentError("INDEX_MISSING: run the import command first")
+        raise DocumentError("INDEX_MISSING: run the import command first") from exc
+    except OSError as exc:
+        raise DocumentError("INDEX_INVALID: index cannot be read as a regular file") from exc
+    finally:
+        if descriptor is not None:
+            os.close(descriptor)
+    if len(raw) > MAX_INDEX_BYTES:
+        raise DocumentError(f"INDEX_LIMIT: index exceeds {MAX_INDEX_BYTES} bytes")
     try:
-        payload = json.loads(index_path.read_text(encoding="utf-8"))
+        payload = json.loads(raw.decode("utf-8"))
         if not isinstance(payload, dict) or type(payload.get("version")) is not int or payload["version"] != 1:
             raise ValueError("unsupported index version")
         records = payload.get("documents")
@@ -166,12 +194,18 @@ def write_index(index_path: Path, documents: list[Document]) -> None:
     temporary = None
     try:
         with tempfile.NamedTemporaryFile(
-            mode="w", encoding="utf-8", dir=index_path.parent,
+            mode="wb", dir=index_path.parent,
             prefix="index.", suffix=".tmp", delete=False,
         ) as stream:
             temporary = Path(stream.name)
-            json.dump(payload, stream, ensure_ascii=False, indent=2)
-            stream.write("\n")
+            size = 1  # Include the final newline in the read/write capacity contract.
+            for piece in json.JSONEncoder(ensure_ascii=False, indent=2).iterencode(payload):
+                raw = piece.encode("utf-8")
+                size += len(raw)
+                if size > MAX_INDEX_BYTES:
+                    raise DocumentError(f"INDEX_LIMIT: index exceeds {MAX_INDEX_BYTES} bytes; nothing was written")
+                stream.write(raw)
+            stream.write(b"\n")
         temporary.replace(index_path)
     finally:
         if temporary is not None:

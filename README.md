@@ -34,7 +34,7 @@ The second query returns `NO_MATCH`, an empty citations list and `answer: null`.
 - English BM25 retrieval with exact company/year metadata filters; deterministic ranking.
 - A shared workflow and JSON response contract with request ID, status, original excerpts, citations and limitations.
 - Four typed synthetic facts, explicit units/period/currency/basis/scope, original-source rechecks and deterministic Decimal gross margin.
-- 51 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
+- 65 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
 
 All companies, amounts and statements in the sample corpus are fictional. `page_kind=synthetic` is **not** a PDF physical page. Engineering tests do not establish real financial question-answering quality.
 
@@ -72,6 +72,10 @@ Missing operands return `FACTS_NOT_FOUND` rather than falling back to another co
 | `tests/test_finance*.py` | Literal arithmetic oracles and source-linked calculation boundaries |
 
 The generated `data/index.json` is ignored by Git. It is an import snapshot; source edits do not silently replace existing records. To intentionally rebuild, back up the index and re-import the sources. Queries do not write history.
+
+The offline JSON index has a **1 MiB (1,048,576-byte) UTF-8 storage limit**, including formatting and its final newline. Both reading and writing enforce this limit: oversized input or a batch that would exceed it returns `INDEX_LIMIT` without replacing the existing index. Nonregular index files and broken index links return `INDEX_INVALID`; a genuinely absent index retains `INDEX_MISSING` for queries and can be created by import. On POSIX, nonblocking open followed by descriptor type validation rejects a FIFO without waiting for a writer.
+
+Isolated Unicode surrogate characters in source text or stored metadata are rejected; valid non-BMP characters are preserved. Source link cycles return `INVALID_PATH`. These input checks preserve the original text rather than dropping bad characters. See [input boundaries and regression evidence](docs/INPUT_BOUNDARIES.md).
 
 This release adds explicit fictional period/basis/scope wording to the two source paragraphs, so their hashes change. An old index is intentionally rejected for calculation. Use a fresh clone, or move the old index outside the checkout as a backup and re-import. Do not manually patch hashes to bypass drift checks.
 

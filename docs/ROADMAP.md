@@ -31,6 +31,8 @@ E7 visual direction: a restrained enterprise research workspace with a neutral p
 
 Next: comparable-period revenue change and percentage-point change with literal numeric oracles, zero/negative-prior semantics, calendar/fiscal period alignment and source lineage. Then integrate parameterized read-only lookup when used by the workflow. Do not let an LLM choose arbitrary formulas or infer currency/unit scales from prose. See FINANCIAL_CALCULATIONS for the current limits and source trust model.
 
+Review-driven work takes precedence: the 2026-10-20 input-boundary increment fixes FE-009/010/011 with 14 added regression tests (65 total). FE-004 retrieval source consistency is next; FE-005 concurrent writes remain unsupported and need a complete transaction/lock design. This reliability work does not complete E1 or start the final UI acceptance gate.
+
 ## Review procedure
 
 Review a specific remote commit, read actual implementation and run reproducible checks. Classify defects separately from missing target capabilities. Record P0/P1/P2/P3, file/function, input, observed result, expected result, impact and minimal fix. A roadmap gap must not masquerade as a reproduced bug. The review cycle writes findings and suggestions, not competing production changes.
