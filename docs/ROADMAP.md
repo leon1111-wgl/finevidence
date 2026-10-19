@@ -25,9 +25,11 @@ E7 visual direction: a restrained enterprise research workspace with a neutral p
 6. Verify pushed SHA and GitHub checks; fresh-clone smoke important releases. Update Chinese local notes with what changed, why and how an interviewer can reproduce it.
 7. Remove only clean, remotely recoverable temporary code. On failed push preserve unsynced work and report recovery location.
 
-## Next concrete implementation after E0
+## E1 progress and next increment
 
-Create `finevidence/finance.py` with Decimal-based gross margin, comparable-period revenue change and percentage-point change. Start tests with literal expected values, zero denominator, missing/nonfinite numbers and negative-prior-value semantics. Add a typed fact/comparability model and parameterized read-only lookup only when used by the workflow. Do not let an LLM choose arbitrary formulas or infer currency/unit scales from prose.
+2026-10-20: source-linked calendar-year gross margin is implemented through CLI and shared workflow, with four explicitly synthetic facts, typed comparability checks, Decimal normalization and 23 added tests. This is a partial E1 delivery. No SQLite or human verification is claimed.
+
+Next: comparable-period revenue change and percentage-point change with literal numeric oracles, zero/negative-prior semantics, calendar/fiscal period alignment and source lineage. Then integrate parameterized read-only lookup when used by the workflow. Do not let an LLM choose arbitrary formulas or infer currency/unit scales from prose. See FINANCIAL_CALCULATIONS for the current limits and source trust model.
 
 ## Review procedure
 

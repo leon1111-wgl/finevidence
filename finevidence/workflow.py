@@ -1,11 +1,13 @@
 """A shared retrieval workflow with an explicit, source-linked response contract."""
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from uuid import uuid4
 
 from .documents import Document, make_chunks, read_index
 from .retrieval import QueryError, SearchHit, search
+from .facts import load_fixture_facts
+from .finance import gross_margin
 
 
 LIMITATIONS = [
@@ -76,3 +78,42 @@ def retrieve(
     ]
     hits = search(candidates, query, top_k)
     return RetrievalResult(query, company, year, top_k, trace_id or uuid4().hex, documents, hits)
+
+
+def calculation_envelope(trace_id: str, status: str) -> dict:
+    payload = response_envelope(trace_id, status)
+    payload.update(mode="synthetic_calculation", facts=[], limitations=[
+        "SYNTHETIC fixture calculation only; not real financial data or human-verified facts.",
+        "The version-controlled fixture manifest is trusted for numeric transcription and metadata.",
+        "Source hashes/excerpts detect drift, not semantic correctness or malicious replacement of all artifacts.",
+        "Only calendar-year gross margin is exposed; no currency conversion or missing-value inference.",
+        "Decimal division uses 50 significant digits; displayed percent uses two decimals, half-even rounding.",
+        "No model, database, authorization system or persistent trace is involved.",
+    ])
+    return payload
+
+
+def calculate_margin(
+    index_path: Path, manifest_path: Path, data_dir: Path, company: str, year: int, *,
+    trace_id: str | None = None,
+) -> dict:
+    facts, citations = load_fixture_facts(manifest_path, data_dir, index_path, company, year)
+    by_metric = {fact.metric: fact for fact in facts}
+    calculation = gross_margin(by_metric["gross_profit"], by_metric["revenue"])
+    payload = calculation_envelope(trace_id or uuid4().hex, "CALCULATED")
+    payload["filters"] = {"company": company, "year": year, "report_type": "annual"}
+    payload["citations"] = citations
+    for fact in facts:
+        record = asdict(fact)
+        record["normalized_value"] = format(fact.normalized_value, "f")
+        record["classification"] = "SYNTHETIC"
+        record["citation_id"] = next(c["citation_id"] for c in citations
+                                     if c["doc_id"] == fact.doc_id and c["page"] == fact.page
+                                     and c["excerpt"] == fact.source_excerpt)
+        payload["facts"].append(record)
+    calculation["citation_ids"] = [c["citation_id"] for c in citations]
+    payload["calculations"] = [calculation]
+    payload["answer"] = f"SYNTHETIC: {company} {year} gross margin = {calculation['display']}"
+    payload["claims"] = [{"text": payload["answer"], "calc_id": calculation["calc_id"],
+                           "citation_ids": calculation["citation_ids"]}]
+    return payload

@@ -38,7 +38,7 @@ flowchart LR
 - Retrieval filters are query controls, **not authorization**. When authenticated document access is implemented, server-derived permissions must be intersected before retrieval and revalidated before returning citations; test cross-user leakage.
 - Output contract: schema_version, trace_id, mode, status, answer, claims, citations, calculations, limitations. Retrieval-only mode keeps answer null and does not invent claims.
 - Citation existence and excerpt matching establish structural provenance, not semantic support. Evaluate support separately with human labels.
-- Fact contract includes raw/normalized values, Decimal-compatible encoding, unit scale, currency, period, accounting basis, consolidation scope, provenance and review status. Only verified facts enter formal calculations.
+- Fact contract includes raw/normalized values, Decimal-compatible encoding, unit scale, currency, period, accounting basis, consolidation scope, provenance and review status. Only verified facts enter formal real-data calculations. The current synthetic_calculation mode uses separately labelled synthetic_fixture records with verified_by=null; it cannot accept human_verified labels or establish real-data quality.
 - Tools are search_documents, get_financial_facts and calculate_metric. Parameterized read-only SQL; no generated executable code. Agent limits cover iterations, total calls, elapsed time, provider timeout and at most one format-repair attempt.
 - Provider errors, invalid JSON, budget exhaustion and refusals are typed outcomes, not silent fallback answers. Offline stubs are labeled. Secrets remain in environment/secret stores; no full prompts or raw private documents in telemetry.
 
@@ -46,7 +46,7 @@ flowchart LR
 
 | Dimension | Required demonstrable evidence | Present state |
 |---|---|---|
-| Correctness | Source-linked results; arithmetic edge cases; explicit failures | Synthetic retrieval baseline; further work tracked |
+| Correctness | Source-linked results; arithmetic edge cases; explicit failures | Synthetic retrieval plus source-linked Decimal gross margin; real review remains pending |
 | Access boundaries | Authentication + server-side document authorization + negative tests | Not implemented; no hosted upload service |
 | Reliability | Timeouts, bounded retry, idempotency, restart recovery tests | File import idempotency only |
 | Observability | Redacted tool spans, versioned corpus/config, categorized failures | Request identifier is an initial step, not full tracing |
