@@ -34,7 +34,7 @@ The second query returns `NO_MATCH`, an empty citations list and `answer: null`.
 - English BM25 retrieval with exact company/year metadata filters; deterministic ranking.
 - A shared workflow and JSON response contract with request ID, status, original excerpts, citations and limitations.
 - Four typed synthetic facts, explicit units/period/currency/basis/scope, original-source rechecks and deterministic Decimal gross margin.
-- 50 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
+- 51 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
 
 All companies, amounts and statements in the sample corpus are fictional. `page_kind=synthetic` is **not** a PDF physical page. Engineering tests do not establish real financial question-answering quality.
 

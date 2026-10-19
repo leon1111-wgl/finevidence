@@ -1,6 +1,6 @@
 """Bounded synthetic facts and structural source checks, not human verification."""
 
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass, fields
 from datetime import date
 from decimal import Context, Decimal, DivisionByZero, InvalidOperation, Overflow, ROUND_HALF_EVEN, localcontext
 import json
@@ -50,11 +50,16 @@ class FinancialFact:
     verified_by: str | None
 
     def __post_init__(self):
-        for key, value in asdict(self).items():
+        # Inspect field types before any recursive dataclass serialization.
+        for field in fields(self):
+            key, value = field.name, getattr(self, field.name)
             if key in {"page", "verified_by"}:
                 continue
             if not isinstance(value, str) or not value.strip() or len(value) > 8192:
                 raise FinanceError(f"INVALID_FACT: missing or invalid {key}")
+        if self.verified_by is not None and (not isinstance(self.verified_by, str)
+                                            or not self.verified_by.strip() or len(self.verified_by) > 256):
+            raise FinanceError("INVALID_FACT: invalid verifier identity")
         decimal_value(self.raw_value)
         for key in ("fact_id", "doc_id"):
             if not re.fullmatch(r"[a-z][a-z0-9_]{0,63}", getattr(self, key)):

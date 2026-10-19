@@ -58,6 +58,17 @@ class FinanceTests(unittest.TestCase):
             with self.subTest(override=override), self.assertRaisesRegex(FinanceError, "INVALID_FACT"):
                 gross_margin(fact("gross_profit", "36", **override), fact("revenue", "120"))
 
+    def test_nested_wrong_types_refuse_before_recursive_dataclass_copy(self):
+        nested = "not a field value"
+        for _ in range(600):
+            nested = [nested]
+        for field in ("raw_value", "verified_by"):
+            with self.assertRaisesRegex(FinanceError, "INVALID_FACT"):
+                if field == "raw_value":
+                    fact("gross_profit", nested)
+                else:
+                    fact("gross_profit", "36", verified_by=nested)
+
     def test_each_incompatible_dimension_refuses_comparison(self):
         for override in ({"company": "Harbor Lantern"}, {"currency": "HKD"},
                          {"period_start": "2024-04-01"}, {"period_end": "2024-09-30"},

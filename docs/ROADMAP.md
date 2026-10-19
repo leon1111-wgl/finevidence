@@ -27,7 +27,7 @@ E7 visual direction: a restrained enterprise research workspace with a neutral p
 
 ## E1 progress and next increment
 
-2026-10-20: source-linked calendar-year gross margin is implemented through CLI and shared workflow, with four explicitly synthetic facts, typed comparability checks, Decimal normalization and 23 added tests. This is a partial E1 delivery. No SQLite or human verification is claimed.
+2026-10-20: source-linked calendar-year gross margin is implemented through CLI and shared workflow, with four explicitly synthetic facts, typed comparability checks, Decimal normalization and 24 added tests. This is a partial E1 delivery. No SQLite or human verification is claimed.
 
 Next: comparable-period revenue change and percentage-point change with literal numeric oracles, zero/negative-prior semantics, calendar/fiscal period alignment and source lineage. Then integrate parameterized read-only lookup when used by the workflow. Do not let an LLM choose arbitrary formulas or infer currency/unit scales from prose. See FINANCIAL_CALCULATIONS for the current limits and source trust model.
 
