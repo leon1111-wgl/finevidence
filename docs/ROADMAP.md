@@ -33,6 +33,8 @@ Next: comparable-period revenue change and percentage-point change with literal 
 
 Review-driven work takes precedence: the 2026-10-20 input-boundary increment fixes FE-009/010/011 with 14 added regression tests (65 total). FE-004 retrieval source consistency is next; FE-005 concurrent writes remain unsupported and need a complete transaction/lock design. This reliability work does not complete E1 or start the final UI acceptance gate.
 
+The subsequent bebb865 review reopened FE-010 for financial fact text. That follow-up now validates all supplied fact strings, with five additional tests (70 total). The original document fix and source-path error contract remain intact. Next priority remains FE-004; do not infer progress on E1 arithmetic extensions or E7 from this boundary fix.
+
 ## Review procedure
 
 Review a specific remote commit, read actual implementation and run reproducible checks. Classify defects separately from missing target capabilities. Record P0/P1/P2/P3, file/function, input, observed result, expected result, impact and minimal fix. A roadmap gap must not masquerade as a reproduced bug. The review cycle writes findings and suggestions, not competing production changes.

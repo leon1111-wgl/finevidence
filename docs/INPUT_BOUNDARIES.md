@@ -48,3 +48,20 @@ On macOS 14.6.1 arm64 / Python 3.12.2, the new suite initially ran 13 tests: 10 
 The new suite also verifies directory/broken-link indexes, the exact read-capacity boundary, over-limit reads/writes, no partial batch persistence, valid non-BMP text, retained old-index bytes and temporary-file cleanup. The normal smoke returned imported=2 / skipped=0 / documents=2 / chunks=8, EVIDENCE_FOUND, and the explicitly synthetic Aurora gross margin 30.00%. Repeat import returned imported=0 / skipped=2; the filtered lamps query returned NO_MATCH.
 
 GitHub Actions runs the same suite on macOS and Ubuntu; verify the exact commit's run before claiming CI success. POSIX FIFO/link behavior, other Python versions, Windows and a production workload are different claims. This increment does not establish real-report quality, human verification, Agent safety or UI acceptance.
+
+## Financial text follow-up after bebb865
+
+The independent review of bebb865 found a remaining FE-010 input path: the fact manifest accepted an escaped isolated surrogate in accounting_basis or consolidation_scope. When both selected facts had identical malformed text, comparability/source checks passed and numeric arithmetic ran, but calculation-ID UTF-8 encoding raised UnicodeEncodeError. All four high/low-surrogate combinations exited 1 with an empty stdout. Existing document validation did not cover this separate model.
+
+`FinancialFact.__post_init__` now checks every supplied text field, including a non-null verified_by, using strict UTF-8 encoding after the existing type/nonempty/length checks. It returns INVALID_FACT before selection, calculation or serialization. Source_file keeps INVALID_PATH for malformed Unicode, matching the prior CLI path contract; embedded null and containment checks still belong to source-path validation. Errors name the field but never echo its invalid value. No character is removed, replaced, normalized or silently escaped to make a bad fact pass.
+
+Optional verifier null, the 256-character verifier bound and 8192-character general bound are unchanged. A valid verifier string does not grant human verification: this synthetic workflow still refuses any non-null verified_by. Legitimate non-BMP text remains verbatim, produces a stable calculation ID on replay, and changing valid metadata changes that ID. These checks do not verify whether a basis/scope label is semantically supported by a report.
+
+Executed on macOS 14.6.1 arm64 / Python 3.12.2:
+
+```sh
+.venv/bin/python -m unittest discover -s tests -p 'test_finance*.py' -v
+.venv/bin/python -m unittest discover -s tests -v
+```
+
+Before the production fix, the targeted suite ran 29 methods in 2.807s with 20 failing subtests across three newly added methods: 14 constructor checks, four CLI crashes and two verifier-validation status checks. Two added controls already passed. After the fix, 29 targeted tests passed in 3.045s and all 70 passed in 8.803s. The previous 65 tests, including source-file INVALID_PATH checks, remain unchanged. The new CLI tests cover JSON and text error output, no partial result, old-index preservation and valid Unicode replay. This is one local-input correction, not twenty separate defects or a financial accuracy measurement.

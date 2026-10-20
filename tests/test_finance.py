@@ -69,6 +69,31 @@ class FinanceTests(unittest.TestCase):
                 else:
                     fact("gross_profit", "36", verified_by=nested)
 
+    def test_lone_surrogates_in_fact_text_reject_at_construction(self):
+        for field in ("company", "accounting_basis", "consolidation_scope", "source_excerpt",
+                      "verification_status", "verified_by", "source_file"):
+            for codepoint in (0xD800, 0xDC00):
+                with self.subTest(field=field, codepoint=codepoint):
+                    value = "invalid" + chr(codepoint)
+                    if field == "source_file":
+                        value += ".json"
+                    expected = "INVALID_PATH" if field == "source_file" else "INVALID_FACT"
+                    with self.assertRaisesRegex(FinanceError, expected) as caught:
+                        fact("gross_profit", "36", **{field: value})
+                    # Error envelopes must be encodable without echoing the bad input.
+                    str(caught.exception).encode("utf-8")
+                    self.assertNotIn(value, str(caught.exception))
+
+    def test_verifier_type_and_size_limits_remain_enforced(self):
+        for invalid in ([], 1, True, "", " ", "x" * 257):
+            with self.subTest(value=invalid), self.assertRaisesRegex(FinanceError, "INVALID_FACT"):
+                fact("gross_profit", "36", verified_by=invalid)
+        self.assertIsNone(fact("gross_profit", "36").verified_by)
+        named = fact("gross_profit", "36", verified_by="x" * 255 + "🍎")
+        self.assertEqual(named.verified_by, "x" * 255 + "🍎")
+        with self.assertRaisesRegex(FinanceError, "FACT_UNVERIFIED"):
+            gross_margin(named, fact("revenue", "120"))
+
     def test_each_incompatible_dimension_refuses_comparison(self):
         for override in ({"company": "Harbor Lantern"}, {"currency": "HKD"},
                          {"period_start": "2024-04-01"}, {"period_end": "2024-09-30"},

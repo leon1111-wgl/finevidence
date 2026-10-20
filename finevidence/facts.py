@@ -53,13 +53,17 @@ class FinancialFact:
         # Inspect field types before any recursive dataclass serialization.
         for field in fields(self):
             key, value = field.name, getattr(self, field.name)
-            if key in {"page", "verified_by"}:
+            if key == "page" or (key == "verified_by" and value is None):
                 continue
-            if not isinstance(value, str) or not value.strip() or len(value) > 8192:
+            limit = 256 if key == "verified_by" else 8192
+            if not isinstance(value, str) or not value.strip() or len(value) > limit:
                 raise FinanceError(f"INVALID_FACT: missing or invalid {key}")
-        if self.verified_by is not None and (not isinstance(self.verified_by, str)
-                                            or not self.verified_by.strip() or len(self.verified_by) > 256):
-            raise FinanceError("INVALID_FACT: invalid verifier identity")
+            try:
+                value.encode("utf-8")
+            except UnicodeEncodeError as exc:
+                # Preserve the CLI's existing path-error contract for source names.
+                code = "INVALID_PATH" if key == "source_file" else "INVALID_FACT"
+                raise FinanceError(f"{code}: {key} must contain valid Unicode scalar values") from exc
         decimal_value(self.raw_value)
         for key in ("fact_id", "doc_id"):
             if not re.fullmatch(r"[a-z][a-z0-9_]{0,63}", getattr(self, key)):

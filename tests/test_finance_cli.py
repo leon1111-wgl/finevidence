@@ -186,6 +186,68 @@ class FinanceCommandTests(unittest.TestCase):
                          "120000000", "aurora_2024.json", "page=1"):
             self.assertIn(expected, result.stdout)
 
+    def test_invalid_unicode_fact_metadata_has_typed_failure_in_both_output_modes(self):
+        self.import_examples()
+        before = self.index.read_bytes()
+        original = self.manifest.read_bytes()
+        for field in ("accounting_basis", "consolidation_scope"):
+            for codepoint in (0xD800, 0xDC00):
+                with self.subTest(field=field, codepoint=codepoint):
+                    self.manifest.write_bytes(original)
+                    def change(manifest):
+                        for record in manifest["facts"]:
+                            if record["company"] == "Aurora Orchard":
+                                record[field] += chr(codepoint)
+                    self.edit_manifest(change)
+                    result = self.calculate()
+                    self.assert_refusal(result, "INVALID_FACT")
+                    self.assertEqual(json.loads(result.stdout)["facts"], [])
+                    self.assertEqual(result.stderr, "")
+                    text = self.run_cli("calculate", "gross-margin", "--company", "Aurora Orchard",
+                                        "--year", "2024")
+                    self.assertEqual(text.returncode, 2, text.stderr)
+                    self.assertEqual(text.stdout, "")
+                    self.assertTrue(text.stderr.startswith("INVALID_FACT:"), text.stderr)
+                    self.assertNotIn("Traceback", text.stderr)
+                    self.assertEqual(self.index.read_bytes(), before)
+
+    def test_valid_non_bmp_fact_metadata_is_preserved_and_replayable(self):
+        self.import_examples()
+        original = self.manifest.read_bytes()
+        before = self.index.read_bytes()
+        baseline = json.loads(self.calculate().stdout)["calculations"][0]["calc_id"]
+        for field in ("accounting_basis", "consolidation_scope"):
+            with self.subTest(field=field):
+                self.manifest.write_bytes(original)
+                def change(manifest):
+                    for record in manifest["facts"]:
+                        if record["company"] == "Aurora Orchard":
+                            record[field] += "🍎"
+                self.edit_manifest(change)
+                first, replay = self.calculate(), self.calculate()
+                self.assertEqual(first.returncode, 0, first.stderr)
+                self.assertEqual(replay.returncode, 0, replay.stderr)
+                payload = json.loads(first.stdout)
+                self.assertEqual(payload["status"], "CALCULATED")
+                for record in payload["facts"]:
+                    self.assertTrue(record[field].endswith("🍎"))
+                calculation = payload["calculations"][0]
+                self.assertEqual(calculation["display"], "30.00%")
+                self.assertNotEqual(calculation["calc_id"], baseline)
+                self.assertEqual(calculation, json.loads(replay.stdout)["calculations"][0])
+                self.assertEqual(self.index.read_bytes(), before)
+
+    def test_verifier_text_validation_does_not_grant_verification(self):
+        self.import_examples()
+        original = self.manifest.read_bytes()
+        for value, expected in (("reviewer" + chr(0xD800), "INVALID_FACT"),
+                                ("reviewer" + chr(0xDC00), "INVALID_FACT"),
+                                ("reviewer🍎", "FACT_UNVERIFIED")):
+            with self.subTest(value=repr(value)):
+                self.manifest.write_bytes(original)
+                self.edit_manifest(lambda m: m["facts"][0].update(verified_by=value))
+                self.assert_refusal(self.calculate(), expected)
+
 
 if __name__ == "__main__":
     unittest.main()
