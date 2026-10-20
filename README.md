@@ -6,7 +6,7 @@ An enterprise-oriented financial evidence application: trace source passages, re
 
 ## Run the current version
 
-Python 3.12; the current implementation has no third-party runtime dependencies.
+Python 3.12 on Linux/macOS; the current implementation has no third-party runtime dependencies. Imports require the POSIX locking backend; unsupported platforms fail closed rather than importing without a lock.
 
 ```bash
 git clone https://github.com/leon1111-wgl/finevidence.git
@@ -31,12 +31,12 @@ The second query returns `NO_MATCH`, an empty citations list and `answer: null`.
 ## What is implemented
 
 - Four clearly marked **SYNTHETIC** documents: two fictional companies across 2023/2024, eight synthetic pages, sixteen paragraphs when all are imported.
-- Bounded JSON ingestion, path containment, regular-file checks, duplicate/conflict detection and atomic snapshot writes.
+- Bounded JSON ingestion, path containment, regular-file checks, duplicate/conflict detection and atomic snapshot writes protected by a full-operation import lock.
 - Page-preserving paragraph chunks, source IDs and import-time source SHA256.
 - English BM25 retrieval with exact company/year metadata filters; source/snapshot equality checked before filtering and deterministic ranking.
 - A shared workflow and JSON response contract with request ID, status, original excerpts, citations and limitations.
 - Eight typed synthetic facts, explicit units/period/currency/basis/scope, original-source rechecks and deterministic Decimal gross margin/revenue growth.
-- 91 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
+- 105 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
 
 All companies, amounts and statements in the sample corpus are fictional. `page_kind=synthetic` is **not** a PDF physical page. Engineering tests do not establish real financial question-answering quality.
 
@@ -77,9 +77,10 @@ Missing operands return `FACTS_NOT_FOUND` rather than falling back to another co
 | `tests/test_cli.py` | Real CLI integration and boundary tests |
 | `tests/test_finance*.py` | Literal arithmetic oracles and source-linked calculation boundaries |
 | `tests/test_growth*.py` | Annual-comparison arithmetic, policy boundaries and two-source CLI lineage |
+| `tests/test_import_concurrency.py` | Real-process contention, retry, crash-boundary and lock-input tests |
 | `tests/test_retrieval_integrity.py` | Source/snapshot drift, including false empty results from altered metadata |
 
-The generated `data/index.json` is ignored by Git. It is an import snapshot; source edits do not silently replace existing records. To intentionally rebuild, back up the index and re-import the sources. Queries do not write history.
+The generated `data/index.json` and stable `data/index.json.lock` are ignored by Git. It is an import snapshot; source edits do not silently replace existing records. To intentionally rebuild, back up the index and re-import the sources. Queries do not write history.
 
 The offline JSON index has a **1 MiB (1,048,576-byte) UTF-8 storage limit**, including formatting and its final newline. Both reading and writing enforce this limit: oversized input or a batch that would exceed it returns `INDEX_LIMIT` without replacing the existing index. Nonregular index files and broken index links return `INDEX_INVALID`; a genuinely absent index retains `INDEX_MISSING` for queries and can be created by import. On POSIX, nonblocking open followed by descriptor type validation rejects a FIFO without waiting for a writer.
 
@@ -89,11 +90,19 @@ Queries now re-read every indexed original before applying company/year filters.
 
 The original 2024 source bytes are unchanged by this increment. Import the two additional 2023 files to enable comparison. If an older source/index predates the explicit financial-period wording, preserve the old index outside the checkout and re-import; do not patch hashes to bypass checks.
 
+## Concurrent import and retry
+
+The import lock covers reading the index, validation, merging and atomic replacement. A second overlapping import returns `INDEX_BUSY` (exit 2) without writing; retry the same command after the active import finishes. The retry re-reads the committed index, so different documents are retained, identical imports are skipped, and conflicting versions still return `IMPORT_CONFLICT`. There is no automatic waiting or retry loop.
+
+The empty `data/index.json.lock` file normally remains. Its presence does not mean a live process holds the lock; do not delete or replace it while writers might run. It is a separate stable file because `index.json` itself is replaced during publication. Malformed lock objects and lock acquisition errors fail closed. Queries still read complete committed snapshots without taking the writer lock.
+
+Actual process-kill tests cover before and after publication. A kill can leave `index.*.tmp`; those files are ignored as uncommitted data and are not automatically deleted. A commit may survive even if its process dies before printing success; retry is idempotent. These are process-interruption checks, not power-loss durability or distributed recovery. See [import concurrency and recovery limits](docs/IMPORT_CONCURRENCY.md).
+
 ## Engineering direction and limits
 
 The business goal is to help analysts review document evidence and reproducible financial calculations. The design favors a modular Python application, deterministic tools and a bounded single Agent. See [architecture](docs/ARCHITECTURE.md), [roadmap](docs/ROADMAP.md), [status](docs/STATUS.md), [review queue](docs/REVIEW_QUEUE.md) and [hiring-requirement mapping](docs/HIRING_MAP.md).
 
-This is not a production banking system, investment recommendation engine or trading system. There are no live users, uptime promises, paid model calls, real-report accuracy claims or production compliance claims. Company/year filters are not authorization. The request ID is not full persistent tracing. Concurrent index writers, cryptographic snapshot authenticity and multilingual/semantic retrieval are not supported.
+This is not a production banking system, investment recommendation engine or trading system. There are no live users, uptime promises, paid model calls, real-report accuracy claims or production compliance claims. Company/year filters are not authorization. The request ID is not full persistent tracing. Cooperating imports on a supported local filesystem now reject contention with INDEX_BUSY and support explicit retry. Distributed writers, cryptographic snapshot authenticity and multilingual/semantic retrieval are not supported.
 
 The final interface pass targets a restrained enterprise research workspace: clear typography, neutral colors, readable tables, source review and understandable failures. It will be evaluated in a real browser after the underlying workflow is complete.
 

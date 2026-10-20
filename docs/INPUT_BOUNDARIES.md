@@ -25,7 +25,7 @@ The local index is limited to **1 MiB = 1,048,576 encoded UTF-8 bytes**, includi
 
 No automatic deletion or truncation is performed. For an oversized corpus, preserve the index and sources; use a smaller explicit corpus or deliberately revise the storage design and tests. Do not merely disable the read limit. This policy can reject a manually created or legacy index that exceeds the limit.
 
-The descriptor check is not a transaction or full hostile-filesystem sandbox. Concurrent changes to regular files, concurrent imports, source-path replacement races and network filesystem stalls are not claimed solved. Valid index links to regular files still follow their target for reads. At that release snapshot drift remained FE-004. The subsequent retrieval fix is documented in RETRIEVAL_INTEGRITY; cryptographic authenticity is still unsupported, and lost concurrent updates remain FE-005.
+The descriptor check is not a transaction or full hostile-filesystem sandbox. Concurrent changes to regular files, concurrent imports, source-path replacement races and network filesystem stalls are not claimed solved. Valid index links to regular files still follow their target for reads. At that release snapshot drift remained FE-004. The subsequent retrieval fix is documented in RETRIEVAL_INTEGRITY; cryptographic authenticity is still unsupported. The later FE-005 local import fix is documented in IMPORT_CONCURRENCY.
 
 ## Text and path validation
 

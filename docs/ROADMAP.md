@@ -42,3 +42,7 @@ Review a specific remote commit, read actual implementation and run reproducible
 ## Source-checked annual comparison, 2026-10-20
 
 FE-004 reproduced retrieval drift is now fixed with seven regressions. Revenue growth is implemented with two additional synthetic 2023 reports, eight total facts and fourteen growth tests. Both years are checked from a single manifest/index read; results contain both sources and literal growth/decline examples. The full suite is 91 tests. E1 remains partial: percentage-point change and read-only storage are next; fiscal-year/restatement support and human review remain explicit gaps. FE-005 concurrent import is still open. No real model, API or UI was added, and E7 has not begun.
+
+## Local import concurrency, 2026-10-20
+
+FE-005 cooperating-writer lost update is fixed with a full-operation POSIX lock and explicit INDEX_BUSY retry contract. Fourteen new tests bring the suite to 105; they include real process interruption before/after replacement. This is local file coordination, not the planned read-only SQLite fact store or Agent state recovery. Next continue E1 percentage-point calculations and parameterized fact storage; no new UI or E7 acceptance is claimed. See IMPORT_CONCURRENCY.

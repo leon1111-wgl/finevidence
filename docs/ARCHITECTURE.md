@@ -48,7 +48,7 @@ flowchart LR
 |---|---|---|
 | Correctness | Source-linked results; arithmetic edge cases; explicit failures | Source-checked synthetic retrieval, Decimal gross margin and annual revenue growth; real review remains pending |
 | Access boundaries | Authentication + server-side document authorization + negative tests | Not implemented; no hosted upload service |
-| Reliability | Timeouts, bounded retry, idempotency, restart recovery tests | File import idempotency only |
+| Reliability | Timeouts, bounded retry, idempotency, restart recovery tests | Local import contention refusal, idempotent retry and process-kill boundaries tested; full workflow recovery pending |
 | Observability | Redacted tool spans, versioned corpus/config, categorized failures | Request identifier is an initial step, not full tracing |
 | Evaluation | Frozen development/holdout splits, denominators, replayable results | Synthetic engineering tests only |
 | Delivery | Clean-clone setup, CI, container smoke, rollback runbook | Incremental rollout; see STATUS |

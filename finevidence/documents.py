@@ -1,6 +1,8 @@
 """Validate synthetic sources, preserve pages, and build a local import snapshot."""
 
+from contextlib import contextmanager
 from dataclasses import asdict, dataclass
+import errno
 import hashlib
 import json
 import os
@@ -8,6 +10,11 @@ from pathlib import Path
 import re
 import stat
 import tempfile
+
+try:
+    import fcntl
+except ImportError:
+    fcntl = None
 
 
 MAX_SOURCE_BYTES = 64 * 1024
@@ -223,7 +230,41 @@ def load_verified_documents(index_path: Path, data_dir: Path) -> list[Document]:
     return originals
 
 
+@contextmanager
+def _index_write_lock(index_path: Path):
+    """Keep one stable lock inode across the complete read-modify-replace operation."""
+    if fcntl is None or not all(hasattr(os, flag) for flag in ("O_NOFOLLOW", "O_NONBLOCK")):
+        raise DocumentError("LOCK_UNSUPPORTED: imports require local POSIX file locking")
+    descriptor = None
+    try:
+        try:
+            index_path.parent.mkdir(parents=True, exist_ok=True)
+            lock_path = index_path.with_name(index_path.name + ".lock")
+            descriptor = os.open(lock_path, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600)
+            metadata = os.fstat(descriptor)
+            if not stat.S_ISREG(metadata.st_mode) or metadata.st_nlink != 1:
+                raise DocumentError("INDEX_LOCK_ERROR: lock must be a dedicated regular file")
+        except OSError as exc:
+            raise DocumentError("INDEX_LOCK_ERROR: cannot open the index lock safely") from exc
+        try:
+            fcntl.flock(descriptor, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except OSError as exc:
+            if exc.errno in (errno.EAGAIN, errno.EACCES):
+                raise DocumentError("INDEX_BUSY: another import is active; retry after it finishes") from exc
+            raise DocumentError("INDEX_LOCK_ERROR: cannot acquire the index lock") from exc
+        yield
+    finally:
+        if descriptor is not None:
+            # Close releases ownership on success and failure. Never unlink the inode.
+            os.close(descriptor)
+
+
 def import_documents(data_dir: Path, index_path: Path, filenames: list[str]) -> ImportResult:
+    with _index_write_lock(index_path):
+        return _import_documents_locked(data_dir, index_path, filenames)
+
+
+def _import_documents_locked(data_dir: Path, index_path: Path, filenames: list[str]) -> ImportResult:
     documents = read_index(index_path, missing_ok=True)
     by_id = {document.doc_id: document for document in documents}
     by_file = {document.filename: document.doc_id for document in documents}

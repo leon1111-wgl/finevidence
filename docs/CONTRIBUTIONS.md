@@ -13,3 +13,5 @@
 2026-10-20 fact-text follow-up: Codex reproduced the remaining FE-010 financial Unicode failure, added five constructor/CLI regression methods and validated all accepted fact text before downstream use. Existing 65 tests were retained. No user-authored code, human financial review or independent mastery is inferred from automated validation.
 
 2026-10-20 source-consistency and annual-growth increment: Codex implemented retrieval source/snapshot checks, added two fictional 2023 reports and annual revenue growth, and authored 21 regression methods. The previous 70 methods remain; two old fixture selections were updated for the additional year without weakening their error assertions. No user-authored code, independent walkthrough or human financial verification is recorded.
+
+2026-10-20 import-concurrency increment: Codex reproduced FE-005 with real overlapping imports, added a stable full-operation POSIX lock and fourteen process/failure tests, and documented the retry/platform/durability limits. The prior 91 tests are unchanged. No user-authored fix, personal mastery or production incident response is inferred.
