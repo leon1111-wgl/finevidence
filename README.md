@@ -2,7 +2,7 @@
 
 [![Offline regression](https://github.com/leon1111-wgl/finevidence/actions/workflows/ci.yml/badge.svg)](https://github.com/leon1111-wgl/finevidence/actions/workflows/ci.yml)
 
-An enterprise-oriented financial evidence application: trace source passages, review facts and build bounded AI workflows. **Currently implemented: source-checked offline retrieval, synthetic gross margin and annual revenue growth.** Real-report ingestion, human fact review, a model-driven Agent and the reviewer interface remain tracked work.
+An enterprise-oriented financial evidence application: trace source passages, review facts and build bounded AI workflows. **Currently implemented: source-checked offline retrieval, synthetic gross margin, annual revenue growth and margin percentage-point change.** Real-report ingestion, human fact review, a model-driven Agent and the reviewer interface remain tracked work.
 
 ## Run the current version
 
@@ -18,6 +18,7 @@ python3 -m venv --without-pip .venv
 .venv/bin/python -m finevidence calculate gross-margin --company "Aurora Orchard" --year 2024 --json
 .venv/bin/python -m finevidence import aurora_2023.json harbor_2023.json
 .venv/bin/python -m finevidence calculate revenue-growth --company "Aurora Orchard" --year 2024 --json
+.venv/bin/python -m finevidence calculate gross-margin-change --company "Aurora Orchard" --year 2024 --json
 ```
 
 For a human-readable result, omit `--json`. A repeat import skips identical files. Filtered searches never fall back to other companies or years.
@@ -35,8 +36,8 @@ The second query returns `NO_MATCH`, an empty citations list and `answer: null`.
 - Page-preserving paragraph chunks, source IDs and import-time source SHA256.
 - English BM25 retrieval with exact company/year metadata filters; source/snapshot equality checked before filtering and deterministic ranking.
 - A shared workflow and JSON response contract with request ID, status, original excerpts, citations and limitations.
-- Eight typed synthetic facts, explicit units/period/currency/basis/scope, original-source rechecks and deterministic Decimal gross margin/revenue growth.
-- 112 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
+- Eight typed synthetic facts, explicit units/period/currency/basis/scope, original-source rechecks and deterministic Decimal gross margin, revenue growth and margin percentage-point change.
+- 127 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
 
 All companies, amounts and statements in the sample corpus are fictional. `page_kind=synthetic` is **not** a PDF physical page. Engineering tests do not establish real financial question-answering quality.
 
@@ -54,15 +55,19 @@ The `calculate gross-margin` command requires imported source documents and an e
 
 `calculate revenue-growth --company "Aurora Orchard" --year 2024` compares 2024 to 2023. Both reports must be imported. The formula is `(current_revenue - prior_revenue) / prior_revenue`: Aurora gives `(120 - 100) / 100 = 20.00%`; Harbor gives `(80 - 100) / 100 = -20.00%`. The result contains both facts, both source citations, normalized inputs and the absolute currency change. Growth needs revenue facts only, not gross profit.
 
-The JSON mode is `synthetic_calculation`. It includes typed `facts`, exact string-encoded normalized values, a deterministic `calc_id`, input fact IDs, formula, ratio unit, rounding policy, citations and a **templated** synthetic answer. This is a fixed workflow, not model inference. Replaying identical facts and policy retains the calculation ID and gets a new request ID; no history is persisted.
+The JSON mode is `synthetic_calculation`. It includes typed `facts`, exact string-encoded normalized values, a deterministic `calc_id`, input fact IDs, formula, explicit ratio or percentage-point unit, rounding policy, citations and a **templated** synthetic answer. This is a fixed workflow, not model inference. Replaying identical facts and policy retains the calculation ID and gets a new request ID; no history is persisted.
 
-Values must be bounded fixed-point decimal strings, not floats, exponent notation, null or NaN. Explicit scales of 1, thousand, million or billion are normalized before division. For gross margin, company, dates, report type, currency, accounting basis and consolidation scope must agree. Zero revenue returns `ZERO_DENOMINATOR`; negative revenue is outside the current policy and returns `NEGATIVE_REVENUE`; negative gross profit is allowed. Division uses an isolated 50-significant-digit Decimal context; only display percentages are quantized to two decimals using half-even rounding. Recurring decimals are precision-limited, not claimed exact.
+Values must be bounded fixed-point decimal strings, not floats, exponent notation, null or NaN. Explicit scales of 1, thousand, million or billion are normalized before division. For gross margin, company, dates, report type, currency, accounting basis and consolidation scope must agree. Zero revenue returns `ZERO_DENOMINATOR`; negative revenue is outside the current policy and returns `NEGATIVE_REVENUE`; negative gross profit is allowed. Gross-margin and revenue-growth division uses an isolated 50-significant-digit Decimal context; only display percentages are quantized to two decimals using half-even rounding. Recurring decimals are precision-limited, not claimed exact.
 
 Facts are authored test fixtures (`verification_status=synthetic_fixture`, `verified_by=null`), **not human-verified financial facts**. The loader checks the original bytes against the imported snapshot and fact hash, report year/company, and exact page paragraph. The version-controlled manifest is trusted for numeric transcription; these checks do not independently establish semantic correctness or authenticate a coordinated edit of all files. Real/human-verified statuses are refused until a review workflow exists.
 
-Growth requires adjacent complete calendar years with matching company, currency, basis and scope. Leap years are supported; non-calendar fiscal years, quarters and nonadjacent years are refused. A zero prior revenue returns `ZERO_DENOMINATOR`, a negative prior returns `NEGATIVE_BASE`, and negative current revenue returns `NEGATIVE_REVENUE`. Zero current revenue with a positive prior is a valid -100% change. A percentage-point margin change is a different operation and is not implemented.
+Growth requires adjacent complete calendar years with matching company, currency, basis and scope. Leap years are supported; non-calendar fiscal years, quarters and nonadjacent years are refused. A zero prior revenue returns `ZERO_DENOMINATOR`, a negative prior returns `NEGATIVE_BASE`, and negative current revenue returns `NEGATIVE_REVENUE`. Zero current revenue with a positive prior is a valid -100% change. A percentage-point margin change is a separate operation described below.
 
-Missing operands return `FACTS_NOT_FOUND` rather than falling back to another company/year. Invalid manifests, incompatible facts, unverified facts and source drift have separate error codes and return no answer/calculation (exit 2). SQLite lookup and percentage-point change remain subsequent E1 work. See [the calculation contract](docs/FINANCIAL_CALCULATIONS.md).
+`calculate gross-margin-change --company "Aurora Orchard" --year 2024` compares the two margins: `(36 / 120 - 25 / 100) * 100 = 5.00 pp`. This means **five percentage points**, not 5% relative growth; Harbor gives `-5.00 pp`. The result includes four input facts, two source citations, both component margins and `unit=percentage_points`. Both revenues must be positive, while negative profits remain valid. Current/prior years must be adjacent complete calendar years with matching company, currency, basis and scope. No missing operand is inferred.
+
+Margin change uses normalized cross-products in an isolated 100-digit Decimal context, then rounds only the final display to two decimals. It does not subtract the two rounded percentage displays or the 50-digit component ratios. This preserves small differences between nearly equal margins. Its policy and all four fact records determine the calculation ID; recurring results remain precision-limited.
+
+Missing operands return `FACTS_NOT_FOUND` rather than falling back to another company/year. Invalid manifests, incompatible facts, unverified facts and source drift have separate error codes and return no answer/calculation (exit 2). Read-only SQLite lookup remains subsequent E1 work. See [the calculation contract](docs/FINANCIAL_CALCULATIONS.md).
 
 ## Code map
 
@@ -73,9 +78,10 @@ Missing operands return `FACTS_NOT_FOUND` rather than falling back to another co
 | `finevidence/documents.py` | Source validation, snapshot and page-preserving chunks |
 | `finevidence/retrieval.py` | Tokenization and BM25 scoring |
 | `finevidence/facts.py` | Typed fixture validation, selection and original-source checks |
-| `finevidence/finance.py` | Comparable-input validation, Decimal gross margin and annual revenue growth |
+| `finevidence/finance.py` | Comparable-input validation and Decimal financial operations |
 | `tests/test_cli.py` | Real CLI integration and boundary tests |
 | `tests/test_finance*.py` | Literal arithmetic oracles and source-linked calculation boundaries |
+| `tests/test_margin_change*.py` | Percentage-point arithmetic, comparability, four-fact and two-source CLI lineage |
 | `tests/test_growth*.py` | Annual-comparison arithmetic, policy boundaries and two-source CLI lineage |
 | `tests/test_import_concurrency.py` | Real-process contention, retry, crash-boundary and lock-input tests |
 | `tests/test_retrieval_integrity.py` | Source/snapshot drift, including false empty results from altered metadata |

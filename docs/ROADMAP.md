@@ -50,3 +50,7 @@ FE-005 cooperating-writer lost update is fixed with a full-operation POSIX lock 
 ## Query input correction, 2026-10-20
 
 Independent review of af20584 found a remaining FE-010 query/company Unicode boundary. Shared entry validation and seven new regression methods now fix that observed failure (112 tests total), while keeping the original source/finance/import behavior. Continue E1 percentage-point calculations and read-only fact storage next; this input correction does not complete E1 or begin E7.
+
+## Margin percentage-point change, 2026-10-21
+
+The adjacent-calendar-year margin comparison is implemented through the shared workflow and CLI, with four explicit facts, both original citations and a percentage_points unit. Fifteen added tests and a separate numeric oracle validate the bounded arithmetic and failure contract. E1 remains partial; parameterized read-only fact storage is next, followed by the real-source/review work. The existing synthetic manifest trust boundary is unchanged. No E7 or model completion is claimed.

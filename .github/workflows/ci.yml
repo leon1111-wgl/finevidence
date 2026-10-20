@@ -32,3 +32,5 @@ jobs:
         run: python -m finevidence import aurora_2023.json harbor_2023.json
       - name: Source-linked annual growth smoke
         run: python -m finevidence calculate revenue-growth --company "Aurora Orchard" --year 2024 --json
+      - name: Source-linked margin percentage-point smoke
+        run: python -m finevidence calculate gross-margin-change --company "Aurora Orchard" --year 2024 --json

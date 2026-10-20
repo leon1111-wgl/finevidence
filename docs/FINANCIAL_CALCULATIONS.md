@@ -1,6 +1,6 @@
 # Financial calculation contract and trust model
 
-Implemented 2026-10-20: gross margin and adjacent-calendar-year revenue growth, entirely synthetic. This does not complete E1 or establish real-report quality.
+Implemented through 2026-10-21: gross margin, adjacent-calendar-year revenue growth and margin percentage-point change, entirely synthetic. This does not complete E1 or establish real-report quality.
 
 ## Data flow
 
@@ -16,7 +16,7 @@ For Aurora Orchard, revenue `120 × 1000000 = 120000000 USD` and gross profit `3
 - Scale: explicit multiplier `1`, `1000`, `1000000` or `1000000000`. Normalize before dividing; preserve the raw value and scale.
 - Equality for gross margin: company, period start/end, report type, currency, accounting basis and consolidation scope. Growth instead requires adjacent complete calendar years; company, currency, basis and scope still match. Currency codes have a three-uppercase-letter syntax check, not an ISO registry lookup. No currency conversion.
 - Zero revenue: refuse. Negative revenue: refuse under this initial policy. Negative gross profit: retain the negative ratio. Do not clamp unusual ratios into 0–100%.
-- Arithmetic: isolated Decimal context, 50 significant digits, half-even rounding. Display: percentage with two fractional digits. No early input rounding. This precision exceeds the exact normalized input length under the declared bounds, but division can still recur.
+- Gross margin / revenue growth arithmetic: isolated Decimal context, 50 significant digits, half-even rounding. Display: percentage with two fractional digits. No early input rounding. This precision exceeds the exact normalized input length under the declared bounds, but division can still recur.
 - Each fact must come from its own report year. Prior-year comparative columns inside a newer report, restatement selection and non-calendar financial years remain unsupported.
 
 ## Annual revenue growth
@@ -28,6 +28,20 @@ The loader reads one manifest and one index for the entire comparison, requires 
 After explicit unit normalization, `(current - prior) / prior` returns a ratio; `absolute_change` remains in the displayed `currency`. Aurora's 2024 versus 2023 fixture is `(120000000 - 100000000) / 100000000 = 0.2`, displayed as `20.00%`. Harbor's result is `-20.00%`. The calculation identity binds both complete fact records and `revenue_growth_v1` policy; both original citations are returned.
 
 Prior revenue must be positive: zero (including negative zero) is `ZERO_DENOMINATOR`; a negative prior is `NEGATIVE_BASE`. Current revenue must be nonnegative; zero against a positive prior gives -100%. This is an explicit support policy, not a claim that negative revenue can never occur. Complete adjacent years accept leap years without requiring equal day counts. Quarterly, partial, fiscal and nonadjacent periods are refused, not annualized.
+
+## Margin percentage-point change
+
+`cli.main` → `workflow.calculate_margin_change` → `facts.load_fixture_periods` → `finance.gross_margin_change` → shared result formatting. The CLI operation is `gross-margin-change`; current year 1001–9999 selects that year and its immediate predecessor. The existing loader reads one index and manifest, requires both revenue and gross profit in both years, then checks the two selected original sources. Results contain four fact records and two deduplicated paragraph citations for the current fixtures.
+
+The formula is `(current_gross_profit / current_revenue - prior_gross_profit / prior_revenue) * 100`, returned as `unit=percentage_points` and displayed with `pp`. Aurora: 30% minus 25% = 5.00 pp; Harbor: 25% minus 30% = -5.00 pp. Relative growth of a margin is a different quantity and is not provided. Both component margin ratios/displays are included for inspection, not used as operands for the change.
+
+All four identities must be distinct and all facts explicitly synthetic. Within each year the existing margin checks enforce matching company, dates, report type, currency, basis and scope. Across years, company/currency/basis/scope must match, and periods must be adjacent complete calendar years, current first. Both revenues must be positive: zero including signed zero is ZERO_DENOMINATOR, negative is NEGATIVE_REVENUE. Negative/zero profits and margins outside 0–100% are not clamped. Missing operands, unimported/changed sources and fabricated review statuses fail explicitly with no partial result.
+
+To avoid cancellation between independently rounded ratios, let `cg, cr, pg, pr` be the four normalized Decimal values. Compute `((cg * pr - pg * cr) * 100) / (cr * pr)` under a fresh 100-digit half-even context. The declared 18-integral/12-fractional digit bound and maximum billion scale give at most 39 digits on a common decimal grid; products, subtraction and multiplication by 100 fit within 81 digits. Thus these intermediates are exact under this context. Division may recur, so the `value` is explicitly precision-limited. Final display alone is quantized to 0.01 pp; a rounded zero has no minus sign. The component margins retain the existing 50-digit policy and cannot reconstruct the more precise change in near-equal extreme cases. `gross_margin_change_v1` records both precisions and the method, and the calculation ID binds all four full fact records and policy.
+
+Literal rounding control: 12.346% minus 12.344% is 0.002 pp, displayed 0.00 pp. Subtracting their displayed 12.35% and 12.34% would incorrectly yield 0.01 pp. Consecutive 30-digit coefficients also test a nonzero change near 1e-58 pp that would disappear if 50-digit component ratios were subtracted.
+
+Fifteen new unit/CLI methods first failed with 59 assertions/subtests on the absent function/operation, then passed in 1.493s. All prior 112 tests remain unchanged; full 127 pass in 15.773s on macOS/Python 3.12.2. A separate seeded oracle uses exact Fraction arithmetic and integer half-even rounding for 14 fixed plus 1,000 generated inputs, including signs, all scales and bounds: all 1,014 displays match, exact zeros remain zero, and nonzero reported values have relative error below 1e-98 for these inputs. This is engineering evidence, not extraction accuracy or a real-report denominator. Inspect exact-commit CI separately.
 
 ## Evidence boundary
 

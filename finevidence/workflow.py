@@ -7,7 +7,7 @@ from uuid import uuid4
 from .documents import Document, make_chunks, load_verified_documents
 from .retrieval import QueryError, SearchHit, search, validate_query_text
 from .facts import FinancialFact, FinanceError, load_fixture_facts, load_fixture_periods
-from .finance import gross_margin, revenue_growth
+from .finance import gross_margin, gross_margin_change, revenue_growth
 
 
 LIMITATIONS = [
@@ -92,8 +92,8 @@ def calculation_envelope(trace_id: str, status: str) -> dict:
         "SYNTHETIC fixture calculation only; not real financial data or human-verified facts.",
         "The version-controlled fixture manifest is trusted for numeric transcription and metadata.",
         "Source hashes/excerpts detect drift, not semantic correctness or malicious replacement of all artifacts.",
-        "Only calendar-year gross margin and adjacent-year revenue growth are exposed; no currency conversion or missing-value inference.",
-        "Decimal division uses 50 significant digits; displayed percent uses two decimals, half-even rounding.",
+        "Only calendar-year gross margin, adjacent-year revenue growth and margin percentage-point change are exposed; no currency conversion or missing-value inference.",
+        "Decimal ratios use 50 significant digits; margin change uses 100-digit cross-product arithmetic. Displays use two decimals, half-even rounding.",
         "No model, database, authorization system or persistent trace is involved.",
     ])
     return payload
@@ -128,6 +128,30 @@ def calculate_revenue_growth(
         facts, citations, calculation,
         {"company": company, "year": year, "prior_year": year - 1, "report_type": "annual"},
         f"SYNTHETIC: {company} {year} vs {year - 1} revenue growth = {calculation['display']}",
+        trace_id,
+    )
+
+
+def calculate_margin_change(
+    index_path: Path, manifest_path: Path, data_dir: Path, company: str, year: int, *,
+    trace_id: str | None = None,
+) -> dict:
+    if type(year) is not int or not 1001 <= year <= 9999:
+        raise FinanceError("INVALID_YEAR: margin change needs a current year and four-digit prior year")
+    facts, citations = load_fixture_periods(
+        manifest_path, data_dir, index_path, company, (year, year - 1),
+        metrics=("gross_profit", "revenue"))
+    selected = {(int(fact.period_start[:4]), fact.metric): fact for fact in facts}
+    calculation = gross_margin_change(
+        selected[(year, "gross_profit")], selected[(year, "revenue")],
+        selected[(year - 1, "gross_profit")], selected[(year - 1, "revenue")])
+    current, prior = (calculation["component_margins"][period]["display"]
+                      for period in ("current", "prior"))
+    return _calculation_result(
+        facts, citations, calculation,
+        {"company": company, "year": year, "prior_year": year - 1, "report_type": "annual"},
+        f"SYNTHETIC: {company} {year} vs {year - 1} gross margin change = {calculation['display']} "
+        f"(current {current}; prior {prior})",
         trace_id,
     )
 

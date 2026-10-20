@@ -4,7 +4,7 @@ Baseline review: 2026-10-19, before first public repository commit. These are ob
 
 | ID | Priority | Kind | Evidence / impact | Next acceptance check |
 |---|---|---|---|---|
-| FE-001 | P1 | Financial capability gap | Partial E1: synthetic gross margin and annual revenue growth implemented; human fact review, SQLite and percentage-point change remain absent | Keep open; finish remaining E1 operations/storage and real review boundary |
+| FE-001 | P1 | Financial capability gap | Partial E1: synthetic gross margin, annual revenue growth and margin percentage-point change implemented; human fact review and SQLite remain absent | Keep open; finish remaining E1 operations/storage and real review boundary |
 | FE-002 | P1 | Real-evidence gap | Only four synthetic documents; no real PDF extraction or real-report quality denominator | E2 preserves physical pages and records human fact review |
 | FE-003 | P1 | Agent capability gap | No live model or model-selected tool loop | E3 bounds tool requests and records real/stub mode; real execution remains unverified until authorized |
 | FE-004 | P2 | Reproduced drift fixed | At 6458207 altered text/company/year/pages/hash or unavailable originals could yield false evidence or false NO_MATCH | Query now validates all indexed originals before filters and uses checked objects. Seven new regressions plus the prior 32-case script were run; see RETRIEVAL_INTEGRITY. Cryptographic authenticity and coordinated edits remain unsupported |
@@ -55,3 +55,7 @@ Fourteen added tests cover actual subprocesses at read/before-replace/after-repl
 The independent review passed 105 tests and rechecked the FE-004/005 fixes, but found another FE-010 entry point. Invalid UTF-8 POSIX argv bytes became a lone surrogate in the question/company filter. Default stdout could emit invalid UTF-8 despite exit 0; strict stdout and direct cli.main surrogate inputs exited 1. Document and fact validators did not protect query parameters.
 
 Seven new test methods first produced 27 failing assertions/subtests across six methods; the valid non-BMP control passed. The minimal fix validates query type/text in shared retrieval and direct search, and company text before index reads. The targeted seven pass in 1.080s; all 112 pass in 16.249s. The original 30-scenario review script was rerun unchanged: all ten malformed-query cases now return exit 2 with valid UTF-8 JSON, no traceback/answer/citations, and unchanged index bytes. Known source, financial and concurrent-import behavior remains covered. This closes the observed query input omission, not all possible caller or output-environment failures.
+
+## Margin percentage-point increment, 2026-10-21
+
+FE-001 remains partial. Fifteen new tests first produced 59 failed assertions/subtests because the function and CLI operation were absent; they pass in 1.493s after implementation. The prior 112 tests are unchanged; all 127 pass locally in 15.773s. Coverage includes four-operand scales/identities/review status, within/across-year comparability, calendar alignment, zero/negative revenues, negative profits, early rounding, near cancellation, context isolation and actual CLI source drift/refusal/lineage. A separate seeded Fraction/integer-rounding oracle matched 1,014 synthetic cases. This does not add SQLite, human review, model inference or UI acceptance.

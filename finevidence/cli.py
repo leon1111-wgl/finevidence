@@ -10,7 +10,8 @@ from .documents import DocumentError, import_documents
 from .facts import FinanceError
 from .retrieval import QueryError, SearchHit
 from .workflow import (
-    calculation_envelope, calculate_margin, calculate_revenue_growth, response_envelope, retrieve,
+    calculation_envelope, calculate_margin, calculate_margin_change, calculate_revenue_growth,
+    response_envelope, retrieve,
 )
 
 
@@ -31,10 +32,10 @@ def build_parser() -> argparse.ArgumentParser:
     query.add_argument("--company", help="精确匹配公司元数据（区分大小写）")
     query.add_argument("--year", type=int, help="筛选报告年度")
     query.add_argument("--json", action="store_true", dest="as_json", help="输出结构化证据和状态")
-    calculator = commands.add_parser("calculate", help="计算虚构事实的毛利率或收入同比，并核对来源")
-    calculator.add_argument("operation", choices=("gross-margin", "revenue-growth"))
+    calculator = commands.add_parser("calculate", help="计算虚构事实的毛利率、收入同比或毛利率百分点变化")
+    calculator.add_argument("operation", choices=("gross-margin", "revenue-growth", "gross-margin-change"))
     calculator.add_argument("--company", required=True, help="精确匹配虚构公司")
-    calculator.add_argument("--year", type=int, required=True, help="完整公历年度；收入同比自动比较上一年")
+    calculator.add_argument("--year", type=int, required=True, help="完整公历年度；跨年计算自动比较上一年")
     calculator.add_argument("--json", action="store_true", dest="as_json")
     return parser
 
@@ -67,7 +68,8 @@ def main(argv: list[str] | None = None) -> int:
                 f"documents={result.documents} chunks={result.chunks}"
             )
         elif args.command == "calculate":
-            calculate = calculate_margin if args.operation == "gross-margin" else calculate_revenue_growth
+            calculate = {"gross-margin": calculate_margin, "revenue-growth": calculate_revenue_growth,
+                         "gross-margin-change": calculate_margin_change}[args.operation]
             payload = calculate(INDEX_PATH, FACTS_PATH, DATA_DIR, args.company, args.year,
                                 trace_id=trace_id)
             if args.as_json:

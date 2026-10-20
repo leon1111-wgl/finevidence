@@ -91,3 +91,54 @@ def revenue_growth(current: FinancialFact, prior: FinancialFact) -> dict:
         "value": format(ratio, "f"), "unit": "ratio", "display": f"{display:.2f}%",
         "numeric_policy": policy,
     }
+
+
+def gross_margin_change(
+    current_profit: FinancialFact, current_revenue: FinancialFact,
+    prior_profit: FinancialFact, prior_revenue: FinancialFact,
+) -> dict:
+    """Return current minus prior margin in percentage points, using checked fixtures."""
+    inputs = (current_profit, current_revenue, prior_profit, prior_revenue)
+    if len({fact.fact_id for fact in inputs}) != 4:
+        raise FinanceError("FACT_CONFLICT: four distinct input fact identities required")
+    current = gross_margin(current_profit, current_revenue)
+    prior = gross_margin(prior_profit, prior_revenue)
+    for fact in (current_revenue, prior_revenue):
+        year = fact.period_start[:4]
+        if (fact.report_type != "annual" or fact.period_start != f"{year}-01-01"
+                or fact.period_end != f"{year}-12-31"):
+            raise FinanceError("INCOMPARABLE_FACTS: margin change requires complete calendar years")
+    if int(current_revenue.period_start[:4]) != int(prior_revenue.period_start[:4]) + 1:
+        raise FinanceError("INCOMPARABLE_FACTS: margin change requires adjacent years in current/prior order")
+    for field in ("company", "currency", "accounting_basis", "consolidation_scope"):
+        if getattr(current_revenue, field) != getattr(prior_revenue, field):
+            raise FinanceError(f"INCOMPARABLE_FACTS: {field} differs")
+    with localcontext(decimal_context()) as context:
+        # Exact cross-products under the bounded input/scale contract avoid cancellation
+        # between rounded ratios. 100 digits also retain display-rounding boundaries.
+        context.prec = 100
+        cg, cr, pg, pr = (fact.normalized_value for fact in inputs)
+        points = ((cg * pr - pg * cr) * 100) / (cr * pr)
+        display = points.quantize(Decimal("0.01"))
+        if not display:
+            display = abs(display)
+    policy = {"version": "gross_margin_change_v1", "precision": 100,
+              "rounding": "ROUND_HALF_EVEN", "display_decimal_places": 2,
+              "period": "adjacent_calendar_years", "revenue": "positive_in_both_years",
+              "method": "normalized_cross_products", "component_ratio_precision": 50}
+    identity = json.dumps({"inputs": [asdict(fact) for fact in inputs], "policy": policy},
+                          sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    names = ("current_gross_profit", "current_revenue", "prior_gross_profit", "prior_revenue")
+    return {
+        "calc_id": "calc_" + hashlib.sha256(identity.encode("utf-8")).hexdigest()[:24],
+        "operation": "gross_margin_change",
+        "formula": "(current_gross_profit / current_revenue - prior_gross_profit / prior_revenue) * 100",
+        "input_fact_ids": dict(zip(names, (fact.fact_id for fact in inputs))),
+        "normalized_inputs": dict(zip(names, (format(value, "f") for value in (cg, cr, pg, pr)))),
+        "component_margins": {
+            period: {key: result[key] for key in ("value", "unit", "display")}
+            for period, result in (("current", current), ("prior", prior))
+        },
+        "value": format(points, "f"), "unit": "percentage_points", "display": f"{display:.2f} pp",
+        "numeric_policy": policy,
+    }
