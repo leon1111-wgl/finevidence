@@ -5,7 +5,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from .documents import Document, make_chunks, load_verified_documents
-from .retrieval import QueryError, SearchHit, search
+from .retrieval import QueryError, SearchHit, search, validate_query_text
 from .facts import FinancialFact, FinanceError, load_fixture_facts, load_fixture_periods
 from .finance import gross_margin, revenue_growth
 
@@ -65,8 +65,14 @@ def retrieve(
     company: str | None = None, year: int | None = None,
     trace_id: str | None = None,
 ) -> RetrievalResult:
+    validate_query_text(query)
     if company is not None and (not isinstance(company, str) or not company.strip()):
         raise QueryError("INVALID_COMPANY: company must be a nonempty exact metadata value")
+    if company is not None:
+        try:
+            company.encode("utf-8")
+        except UnicodeEncodeError as exc:
+            raise QueryError("INVALID_COMPANY: company must contain valid Unicode scalar values") from exc
     if year is not None and (type(year) is not int or not 1000 <= year <= 9999):
         raise QueryError("INVALID_YEAR: year must be a four-digit integer")
     documents = load_verified_documents(index_path, data_dir)

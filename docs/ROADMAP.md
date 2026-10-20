@@ -46,3 +46,7 @@ FE-004 reproduced retrieval drift is now fixed with seven regressions. Revenue g
 ## Local import concurrency, 2026-10-20
 
 FE-005 cooperating-writer lost update is fixed with a full-operation POSIX lock and explicit INDEX_BUSY retry contract. Fourteen new tests bring the suite to 105; they include real process interruption before/after replacement. This is local file coordination, not the planned read-only SQLite fact store or Agent state recovery. Next continue E1 percentage-point calculations and parameterized fact storage; no new UI or E7 acceptance is claimed. See IMPORT_CONCURRENCY.
+
+## Query input correction, 2026-10-20
+
+Independent review of af20584 found a remaining FE-010 query/company Unicode boundary. Shared entry validation and seven new regression methods now fix that observed failure (112 tests total), while keeping the original source/finance/import behavior. Continue E1 percentage-point calculations and read-only fact storage next; this input correction does not complete E1 or begin E7.

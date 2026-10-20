@@ -65,3 +65,22 @@ Executed on macOS 14.6.1 arm64 / Python 3.12.2:
 ```
 
 Before the production fix, the targeted suite ran 29 methods in 2.807s with 20 failing subtests across three newly added methods: 14 constructor checks, four CLI crashes and two verifier-validation status checks. Two added controls already passed. After the fix, 29 targeted tests passed in 3.045s and all 70 passed in 8.803s. The previous 65 tests, including source-file INVALID_PATH checks, remain unchanged. The new CLI tests cover JSON and text error output, no partial result, old-index preservation and valid Unicode replay. This is one local-input correction, not twenty separate defects or a financial accuracy measurement.
+
+## Query argument follow-up after af20584
+
+The next review found that document/fact text validation did not cover query parameters. A real POSIX argument such as `b"revenue\xff"` became a string containing U+DCFF. English tokenization accepted the remaining words, while the response echoed the original argument. With default stdout this could exit 0 and emit a non-UTF-8 byte; with `PYTHONIOENCODING=utf-8:strict` it raised UnicodeEncodeError and exited 1. The company filter had the same output problem even for a NO_MATCH response. Direct cli.main calls with U+D800, U+DC00 or U+DCFF reproduced it without raw argv bytes.
+
+`retrieval.validate_query_text` now rejects non-string, blank and non-UTF-8-encodable query values. `workflow.retrieve` calls it before reading the index, then checks an optional company's type, nonblank text and strict UTF-8 encoding. The company is still an exact metadata filter: it is not trimmed, normalized or interpreted as authorization. `search` also calls the query validator so direct callers cannot bypass this contract. Its existing English lexical policy is unchanged.
+
+Invalid text produces INVALID_QUERY or INVALID_COMPANY, with static messages that do not echo the bad input. The CLI's existing error handling returns exit 2, empty evidence/answer fields and valid UTF-8 JSON, or a plain-text stderr error. There is no serializer-only escaping workaround or character replacement. Text validation now precedes index/source errors; valid requests still perform full source verification before metadata filtering.
+
+```sh
+.venv/bin/python -m unittest discover -s tests -p test_query_text.py -v
+.venv/bin/python -m unittest discover -s tests -v
+```
+
+Seven new methods first produced 27 failed assertions/subtests, with no harness errors, across six methods; a valid non-BMP/exact-match control already passed. After the fix, the seven pass in 1.080s and the complete 112 pass in 16.249s on macOS / Python 3.12.2. The previous 105 tests are unchanged. Tests use real subprocess byte streams, both default UTF-8-mode and strict stdout, JSON/text CLI output, direct search/workflow/CLI calls and unchanged-index checks. Raw argv tests are POSIX-specific; both supported CI platforms run them.
+
+The prior independent 30-scenario script was rerun without edits. Its ten malformed query/company cases now return exit 2, parseable JSON and the intended error code; legal emoji controls, financial calculations and local import contention/retry still behave as expected. The script's collection exit is not itself acceptance: the ten response payloads and index preservation were separately asserted.
+
+This correction does not add multilingual retrieval, terminal control-character rendering, support for arbitrary stdout codecs, validation of every internal caller-supplied field or an API authorization layer. It does not establish real-data quality or UI acceptance.

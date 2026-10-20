@@ -36,7 +36,7 @@ The second query returns `NO_MATCH`, an empty citations list and `answer: null`.
 - English BM25 retrieval with exact company/year metadata filters; source/snapshot equality checked before filtering and deterministic ranking.
 - A shared workflow and JSON response contract with request ID, status, original excerpts, citations and limitations.
 - Eight typed synthetic facts, explicit units/period/currency/basis/scope, original-source rechecks and deterministic Decimal gross margin/revenue growth.
-- 105 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
+- 112 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
 
 All companies, amounts and statements in the sample corpus are fictional. `page_kind=synthetic` is **not** a PDF physical page. Engineering tests do not establish real financial question-answering quality.
 
@@ -85,6 +85,8 @@ The generated `data/index.json` and stable `data/index.json.lock` are ignored by
 The offline JSON index has a **1 MiB (1,048,576-byte) UTF-8 storage limit**, including formatting and its final newline. Both reading and writing enforce this limit: oversized input or a batch that would exceed it returns `INDEX_LIMIT` without replacing the existing index. Nonregular index files and broken index links return `INDEX_INVALID`; a genuinely absent index retains `INDEX_MISSING` for queries and can be created by import. On POSIX, nonblocking open followed by descriptor type validation rejects a FIFO without waiting for a writer.
 
 Isolated Unicode surrogate characters in source text, stored document metadata and financial fact text are rejected; valid non-BMP characters are preserved. Financial text validation returns `INVALID_FACT` before calculation or serialization. Invalid source filenames retain `INVALID_PATH`, as do source link cycles. These input checks preserve the original text rather than dropping bad characters. See [input boundaries and regression evidence](docs/INPUT_BOUNDARIES.md).
+
+Query text and optional company filters must also contain valid Unicode scalar values. The shared retrieval entry rejects invalid text before reading sources, with `INVALID_QUERY` or `INVALID_COMPANY`; direct `search` calls validate query text too. This prevents malformed POSIX argument bytes from producing invalid UTF-8 JSON or a serialization crash. Error messages do not echo the rejected value. Valid text is preserved, including non-BMP symbols; English lexical-query rules and exact company matching still apply.
 
 Queries now re-read every indexed original before applying company/year filters. They compare complete documents, including metadata, pages and byte hash, and use those same validated objects for retrieval. Changing only snapshot text, year, company, page order or hash returns `SOURCE_MISMATCH`, even if the changed metadata would otherwise hide all hits. Missing/nonregular sources return `SOURCE_ERROR`; escaping source links return `INVALID_PATH`. No stale-answer fallback or automatic index repair occurs. See [retrieval integrity](docs/RETRIEVAL_INTEGRITY.md).
 

@@ -22,9 +22,20 @@ def tokenize(text: str) -> list[str]:
     return re.findall(r"[a-z0-9]+", text.lower())
 
 
+def validate_query_text(query: str) -> None:
+    """Reject invalid text before tokenization or response serialization."""
+    if not isinstance(query, str) or not query.strip():
+        raise QueryError("INVALID_QUERY: query must be a nonempty string")
+    try:
+        query.encode("utf-8")
+    except UnicodeEncodeError as exc:
+        raise QueryError("INVALID_QUERY: query must contain valid Unicode scalar values") from exc
+
+
 def search(chunks: list[Chunk], query: str, top_k: int = 3) -> list[SearchHit]:
     if type(top_k) is not int or top_k < 1:
         raise QueryError("INVALID_TOP_K: top_k must be a positive integer")
+    validate_query_text(query)
     terms = sorted(set(tokenize(query)))
     if not terms or any(character.isalpha() and not character.isascii() for character in query):
         raise QueryError("INVALID_QUERY: use a nonempty English query; M1 has no translation")
