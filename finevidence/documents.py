@@ -212,6 +212,17 @@ def write_index(index_path: Path, documents: list[Document]) -> None:
             temporary.unlink(missing_ok=True)
 
 
+def load_verified_documents(index_path: Path, data_dir: Path) -> list[Document]:
+    """Recheck every indexed source before metadata filtering can hide drift."""
+    originals = []
+    for snapshot in read_index(index_path):
+        original = load_document(data_dir, snapshot.filename)
+        if original != snapshot:
+            raise DocumentError("SOURCE_MISMATCH: original source and imported snapshot must agree")
+        originals.append(original)
+    return originals
+
+
 def import_documents(data_dir: Path, index_path: Path, filenames: list[str]) -> ImportResult:
     documents = read_index(index_path, missing_ok=True)
     by_id = {document.doc_id: document for document in documents}

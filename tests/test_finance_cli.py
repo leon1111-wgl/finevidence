@@ -85,7 +85,8 @@ class FinanceCommandTests(unittest.TestCase):
         self.assert_refusal(self.calculate(), "INDEX_MISSING")
         self.import_examples()
         self.assert_refusal(self.calculate("Unknown Company"), "FACTS_NOT_FOUND")
-        self.assert_refusal(self.calculate(year="2023"), "FACTS_NOT_FOUND")
+        self.assert_refusal(self.calculate(year="2022"), "FACTS_NOT_FOUND")
+        self.assert_refusal(self.calculate(year="2023"), "SOURCE_MISMATCH")
 
     def edit_manifest(self, edit):
         manifest = json.loads(self.manifest.read_text())
@@ -159,7 +160,8 @@ class FinanceCommandTests(unittest.TestCase):
         self.import_examples()
         def relabel(manifest):
             for fact in manifest["facts"]:
-                fact.update(period_start="2025-01-01", period_end="2025-12-31")
+                if fact["period_start"] == "2024-01-01":
+                    fact.update(period_start="2025-01-01", period_end="2025-12-31")
         self.edit_manifest(relabel)
         self.assert_refusal(self.calculate(year="2025"), "SOURCE_MISMATCH")
 

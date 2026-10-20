@@ -99,7 +99,16 @@ class FinancialFact:
 def load_fixture_facts(
     manifest_path: Path, data_dir: Path, index_path: Path, company: str, year: int,
 ) -> tuple[list[FinancialFact], list[dict]]:
-    """Select calendar-year fixture facts, then recheck original files and snapshots.
+    """Load one complete calendar-year margin pair."""
+    return load_fixture_periods(manifest_path, data_dir, index_path, company, (year,),
+                                metrics=("gross_profit", "revenue"))
+
+
+def load_fixture_periods(
+    manifest_path: Path, data_dir: Path, index_path: Path, company: str, years: tuple[int, ...], *,
+    metrics: tuple[str, ...],
+) -> tuple[list[FinancialFact], list[dict]]:
+    """Select from one manifest/index read, then check each selected source once.
 
     The version-controlled fixture manifest is trusted for the numeric transcription.
     Hash/excerpt checks detect drift, not a malicious rewrite of all trusted artifacts.
@@ -107,8 +116,11 @@ def load_fixture_facts(
     """
     if not isinstance(company, str) or not company.strip():
         raise FinanceError("INVALID_COMPANY: nonempty company required")
-    if type(year) is not int or not 1000 <= year <= 9999:
-        raise FinanceError("INVALID_YEAR: four-digit calendar year required")
+    if (not years or len(years) > 2 or any(type(year) is not int or not 1000 <= year <= 9999
+                                         for year in years) or len(set(years)) != len(years)):
+        raise FinanceError("INVALID_YEAR: one or two distinct four-digit calendar years required")
+    if not metrics or len(set(metrics)) != len(metrics) or not set(metrics) <= {"gross_profit", "revenue"}:
+        raise FinanceError("INVALID_OPERANDS: explicit supported metrics required")
     documents = {document.doc_id: document for document in read_index(index_path)}
     if not manifest_path.is_file():
         raise FinanceError("FACTS_INVALID: fixture manifest must be a regular file")
@@ -136,16 +148,22 @@ def load_fixture_facts(
     selectors = [(f.company, f.period_start, f.period_end, f.report_type, f.metric) for f in facts]
     if len(set(identities)) != len(identities) or len(set(selectors)) != len(selectors):
         raise FinanceError("FACT_CONFLICT: ambiguous or duplicate facts")
-    selected = [fact for fact in facts if fact.company == company
-                and fact.period_start == f"{year}-01-01" and fact.period_end == f"{year}-12-31"
-                and fact.report_type == "annual"]
-    if {fact.metric for fact in selected} != {"gross_profit", "revenue"}:
-        raise FinanceError("FACTS_NOT_FOUND: no complete calendar-year fixture pair; not a disclosure conclusion")
+    selected = []
+    for year in years:
+        annual = [fact for fact in facts if fact.company == company
+                  and fact.period_start == f"{year}-01-01" and fact.period_end == f"{year}-12-31"
+                  and fact.report_type == "annual" and fact.metric in metrics]
+        if {fact.metric for fact in annual} != set(metrics):
+            raise FinanceError("FACTS_NOT_FOUND: incomplete calendar-year fixtures; not a disclosure conclusion")
+        selected.extend(annual)
     citations = {}
+    originals = {}
     for fact in selected:
         if fact.verification_status != "synthetic_fixture" or fact.verified_by is not None:
             raise FinanceError("FACT_UNVERIFIED: only explicitly synthetic fixtures are enabled")
-        original = load_document(data_dir, fact.source_file)
+        if fact.source_file not in originals:
+            originals[fact.source_file] = load_document(data_dir, fact.source_file)
+        original = originals[fact.source_file]
         if (original != documents.get(fact.doc_id) or original.sha256 != fact.source_sha256
                 or original.company != fact.company or str(original.year) != fact.period_end[:4]):
             raise FinanceError("SOURCE_MISMATCH: fact, original source and imported snapshot must agree")

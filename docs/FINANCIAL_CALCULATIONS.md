@@ -1,12 +1,12 @@
-# Gross-margin contract and trust model
+# Financial calculation contract and trust model
 
-Implemented 2026-10-20: one E1 vertical slice, entirely synthetic. It does not complete E1 or establish real-report quality.
+Implemented 2026-10-20: gross margin and adjacent-calendar-year revenue growth, entirely synthetic. This does not complete E1 or establish real-report quality.
 
 ## Data flow
 
 `cli.main` → `workflow.calculate_margin` → `facts.load_fixture_facts` → `finance.gross_margin` → response with facts, calculation and original citations.
 
-`data/facts/synthetic.json` contains four authored facts. The loader reads at most 64 KiB of UTF-8 JSON and at most 32 facts. It validates shape, unique identities/selectors, fixed-point values, dates and explicit metadata; selects one calendar-year revenue/gross-profit pair; re-reads the original documents; compares them with the imported snapshots and recorded hashes; and matches each full paragraph on its synthetic page. A missing or inconsistent pair cannot fall back to a different company/year. No input is interpreted as SQL, code or a formula.
+`data/facts/synthetic.json` contains eight authored facts across two companies and 2023/2024. The loader reads at most 64 KiB of UTF-8 JSON and at most 32 facts. It validates shape, unique identities/selectors, fixed-point values, dates and explicit metadata; selects the required calendar-year facts; re-reads each selected original once; compares it with the imported snapshot and recorded hashes; and matches each full paragraph on its synthetic page. A missing or inconsistent input cannot fall back to a different company/year. No input is interpreted as SQL, code or a formula.
 
 For Aurora Orchard, revenue `120 × 1000000 = 120000000 USD` and gross profit `36 × 1000000 = 36000000 USD` produce `36000000 / 120000000 = 0.3`. `30.00%` is a display value; the ratio string and policy remain in the calculation. A content-derived calculation ID covers both fact records and numeric policy. It is a reproducibility identifier, not a signature or authorization token.
 
@@ -14,10 +14,20 @@ For Aurora Orchard, revenue `120 × 1000000 = 120000000 USD` and gross profit `3
 
 - Decimal input: at most 18 integral digits and 12 fractional digits. No float, boolean, missing value, exponent, nonfinite value or implicit separator parsing.
 - Scale: explicit multiplier `1`, `1000`, `1000000` or `1000000000`. Normalize before dividing; preserve the raw value and scale.
-- Equality required: company, period start/end, report type, currency, accounting basis and consolidation scope. Currency codes have a three-uppercase-letter syntax check, not an ISO registry lookup. No currency conversion.
+- Equality for gross margin: company, period start/end, report type, currency, accounting basis and consolidation scope. Growth instead requires adjacent complete calendar years; company, currency, basis and scope still match. Currency codes have a three-uppercase-letter syntax check, not an ISO registry lookup. No currency conversion.
 - Zero revenue: refuse. Negative revenue: refuse under this initial policy. Negative gross profit: retain the negative ratio. Do not clamp unusual ratios into 0–100%.
 - Arithmetic: isolated Decimal context, 50 significant digits, half-even rounding. Display: percentage with two fractional digits. No early input rounding. This precision exceeds the exact normalized input length under the declared bounds, but division can still recur.
-- Current CLI: same-report-year calendar-year annual facts only. Comparative columns, non-calendar financial years and prior-year negative-base interpretation require a separate extension and tests.
+- Each fact must come from its own report year. Prior-year comparative columns inside a newer report, restatement selection and non-calendar financial years remain unsupported.
+
+## Annual revenue growth
+
+`cli.main` → `workflow.calculate_revenue_growth` → `facts.load_fixture_periods` → `finance.revenue_growth` → shared result formatting. `--year` is the current year, and the prior year is exactly one year earlier. Current years 1001–9999 keep both years within the four-digit source contract.
+
+The loader reads one manifest and one index for the entire comparison, requires revenue in both periods, and validates each source before returning any result. Gross-profit facts are not required. The single-year `load_fixture_facts` wrapper still requires both revenue and gross profit for margin.
+
+After explicit unit normalization, `(current - prior) / prior` returns a ratio; `absolute_change` remains in the displayed `currency`. Aurora's 2024 versus 2023 fixture is `(120000000 - 100000000) / 100000000 = 0.2`, displayed as `20.00%`. Harbor's result is `-20.00%`. The calculation identity binds both complete fact records and `revenue_growth_v1` policy; both original citations are returned.
+
+Prior revenue must be positive: zero (including negative zero) is `ZERO_DENOMINATOR`; a negative prior is `NEGATIVE_BASE`. Current revenue must be nonnegative; zero against a positive prior gives -100%. This is an explicit support policy, not a claim that negative revenue can never occur. Complete adjacent years accept leap years without requiring equal day counts. Quarterly, partial, fiscal and nonadjacent periods are refused, not annualized.
 
 ## Evidence boundary
 
@@ -25,7 +35,7 @@ The fixture manifest and checked-out code are trusted local development artifact
 
 `synthetic_fixture` is deliberately distinct from `human_verified`; no reviewer identity is invented. `verified_by` is null, and candidate/real/human-verified statuses are refused in this workflow. Real fact calculations will require an actual review process and storage/permission design. Changing the label is not an implementation of that process.
 
-The pure `gross_margin` function validates arithmetic and comparable metadata. It expects already source-checked facts; application callers must use the workflow, not treat constructing a dataclass as source verification. Ordinary retrieval still reads its local snapshot without the new calculation-specific original-byte recheck (FE-004 remains open for retrieval).
+The pure finance functions validate arithmetic and comparable metadata. They expect already source-checked facts; application callers must use the workflow, not treat constructing a dataclass as source verification. Retrieval now also checks source/snapshot equality before filtering; see [RETRIEVAL_INTEGRITY](RETRIEVAL_INTEGRITY.md).
 
 ## Observed failures and regression evidence
 
@@ -37,4 +47,8 @@ A further context-isolation test set the process-wide Decimal DefaultContext Ine
 
 Publication follow-up: a 600-level list in a scalar fact field could pass JSON parsing and then fail during recursive dataclass serialization before type validation. Validation now inspects fields without serialization and bounds verifier identities before any asdict call. `test_nested_wrong_types_refuse_before_recursive_dataclass_copy` reproduces the old RecursionError and now receives INVALID_FACT. That release's complete suite was 51 tests.
 
-The later bebb865 review found malformed Unicode in basis/scope could survive source checks and crash calculation-ID encoding. Fact construction now rejects invalid Unicode scalar text before serialization, including optional verifier text; valid non-BMP characters are preserved. Financial text errors use INVALID_FACT, while source filenames retain INVALID_PATH. Five added regressions bring the current full suite to 70. See INPUT_BOUNDARIES for the red/green observations; this fix does not change arithmetic or establish semantic fact verification.
+The later bebb865 review found malformed Unicode in basis/scope could survive source checks and crash calculation-ID encoding. Fact construction now rejects invalid Unicode scalar text before serialization, including optional verifier text; valid non-BMP characters are preserved. Financial text errors use INVALID_FACT, while source filenames retain INVALID_PATH. Five added regressions brought that release to 70 tests. See INPUT_BOUNDARIES for the red/green observations.
+
+The revenue-growth extension adds 14 test methods. Before implementation they failed on the absent function, CLI operation and prior-year fixtures. The first implemented run exposed a test-fixture overlap: a same-year test also reused an ID, so identity conflict correctly preceded period refusal. Giving the period test a distinct ID isolates its intended boundary. The old year-relabel test now alters only its original 2024 records; relabelling the new 2023 records as well created duplicate selectors and hid the original source-year check. Its SOURCE_MISMATCH assertion is retained. The missing-fact test uses 2022, while 2023 without its import explicitly checks SOURCE_MISMATCH. No old test methods or error assertions were removed.
+
+Targeted growth: 14 passed in 1.431s. Full suite, including seven retrieval integrity regressions: 91 passed in 12.540s on macOS/Python 3.12.2. These are engineering tests, not financial-quality metrics; exact remote CI must be checked separately.

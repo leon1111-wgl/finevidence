@@ -1,1 +1,1 @@
-"""FinEvidence M1: offline retrieval over explicitly synthetic documents."""
+"""Offline evidence retrieval and deterministic synthetic financial calculations."""

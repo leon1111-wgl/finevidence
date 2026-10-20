@@ -46,7 +46,7 @@ flowchart LR
 
 | Dimension | Required demonstrable evidence | Present state |
 |---|---|---|
-| Correctness | Source-linked results; arithmetic edge cases; explicit failures | Synthetic retrieval plus source-linked Decimal gross margin; real review remains pending |
+| Correctness | Source-linked results; arithmetic edge cases; explicit failures | Source-checked synthetic retrieval, Decimal gross margin and annual revenue growth; real review remains pending |
 | Access boundaries | Authentication + server-side document authorization + negative tests | Not implemented; no hosted upload service |
 | Reliability | Timeouts, bounded retry, idempotency, restart recovery tests | File import idempotency only |
 | Observability | Redacted tool spans, versioned corpus/config, categorized failures | Request identifier is an initial step, not full tracing |

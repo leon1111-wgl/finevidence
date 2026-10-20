@@ -29,12 +29,16 @@ E7 visual direction: a restrained enterprise research workspace with a neutral p
 
 2026-10-20: source-linked calendar-year gross margin is implemented through CLI and shared workflow, with four explicitly synthetic facts, typed comparability checks, Decimal normalization and 24 added tests. This is a partial E1 delivery. No SQLite or human verification is claimed.
 
-Next: comparable-period revenue change and percentage-point change with literal numeric oracles, zero/negative-prior semantics, calendar/fiscal period alignment and source lineage. Then integrate parameterized read-only lookup when used by the workflow. Do not let an LLM choose arbitrary formulas or infer currency/unit scales from prose. See FINANCIAL_CALCULATIONS for the current limits and source trust model.
+Originally next: comparable-period revenue change and percentage-point change with literal numeric oracles, zero/negative-prior semantics, calendar/fiscal period alignment and source lineage. Then integrate parameterized read-only lookup when used by the workflow. Do not let an LLM choose arbitrary formulas or infer currency/unit scales from prose. See FINANCIAL_CALCULATIONS for the current limits and source trust model.
 
-Review-driven work takes precedence: the 2026-10-20 input-boundary increment fixes FE-009/010/011 with 14 added regression tests (65 total). FE-004 retrieval source consistency is next; FE-005 concurrent writes remain unsupported and need a complete transaction/lock design. This reliability work does not complete E1 or start the final UI acceptance gate.
+Review-driven work takes precedence: the 2026-10-20 input-boundary increment fixes FE-009/010/011 with 14 added regression tests (65 total). FE-004 was next at that release; FE-005 concurrent writes remain unsupported and need a complete transaction/lock design. This reliability work does not complete E1 or start the final UI acceptance gate.
 
-The subsequent bebb865 review reopened FE-010 for financial fact text. That follow-up now validates all supplied fact strings, with five additional tests (70 total). The original document fix and source-path error contract remain intact. Next priority remains FE-004; do not infer progress on E1 arithmetic extensions or E7 from this boundary fix.
+The subsequent bebb865 review reopened FE-010 for financial fact text. That follow-up now validates all supplied fact strings, with five additional tests (70 total). The original document fix and source-path error contract remain intact. At that release the next priority remained FE-004; do not infer progress on E1 arithmetic extensions or E7 from this boundary fix.
 
 ## Review procedure
 
 Review a specific remote commit, read actual implementation and run reproducible checks. Classify defects separately from missing target capabilities. Record P0/P1/P2/P3, file/function, input, observed result, expected result, impact and minimal fix. A roadmap gap must not masquerade as a reproduced bug. The review cycle writes findings and suggestions, not competing production changes.
+
+## Source-checked annual comparison, 2026-10-20
+
+FE-004 reproduced retrieval drift is now fixed with seven regressions. Revenue growth is implemented with two additional synthetic 2023 reports, eight total facts and fourteen growth tests. Both years are checked from a single manifest/index read; results contain both sources and literal growth/decline examples. The full suite is 91 tests. E1 remains partial: percentage-point change and read-only storage are next; fiscal-year/restatement support and human review remain explicit gaps. FE-005 concurrent import is still open. No real model, API or UI was added, and E7 has not begun.

@@ -4,10 +4,10 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from uuid import uuid4
 
-from .documents import Document, make_chunks, read_index
+from .documents import Document, make_chunks, load_verified_documents
 from .retrieval import QueryError, SearchHit, search
-from .facts import load_fixture_facts
-from .finance import gross_margin
+from .facts import FinancialFact, FinanceError, load_fixture_facts, load_fixture_periods
+from .finance import gross_margin, revenue_growth
 
 
 LIMITATIONS = [
@@ -61,7 +61,7 @@ class RetrievalResult:
 
 
 def retrieve(
-    index_path: Path, query: str, top_k: int = 3, *,
+    index_path: Path, query: str, top_k: int = 3, *, data_dir: Path,
     company: str | None = None, year: int | None = None,
     trace_id: str | None = None,
 ) -> RetrievalResult:
@@ -69,7 +69,7 @@ def retrieve(
         raise QueryError("INVALID_COMPANY: company must be a nonempty exact metadata value")
     if year is not None and (type(year) is not int or not 1000 <= year <= 9999):
         raise QueryError("INVALID_YEAR: year must be a four-digit integer")
-    documents = read_index(index_path)
+    documents = load_verified_documents(index_path, data_dir)
     candidates = [
         chunk for document in documents
         if (company is None or document.company == company)
@@ -86,7 +86,7 @@ def calculation_envelope(trace_id: str, status: str) -> dict:
         "SYNTHETIC fixture calculation only; not real financial data or human-verified facts.",
         "The version-controlled fixture manifest is trusted for numeric transcription and metadata.",
         "Source hashes/excerpts detect drift, not semantic correctness or malicious replacement of all artifacts.",
-        "Only calendar-year gross margin is exposed; no currency conversion or missing-value inference.",
+        "Only calendar-year gross margin and adjacent-year revenue growth are exposed; no currency conversion or missing-value inference.",
         "Decimal division uses 50 significant digits; displayed percent uses two decimals, half-even rounding.",
         "No model, database, authorization system or persistent trace is involved.",
     ])
@@ -100,8 +100,38 @@ def calculate_margin(
     facts, citations = load_fixture_facts(manifest_path, data_dir, index_path, company, year)
     by_metric = {fact.metric: fact for fact in facts}
     calculation = gross_margin(by_metric["gross_profit"], by_metric["revenue"])
+    return _calculation_result(
+        facts, citations, calculation,
+        {"company": company, "year": year, "report_type": "annual"},
+        f"SYNTHETIC: {company} {year} gross margin = {calculation['display']}",
+        trace_id,
+    )
+
+
+def calculate_revenue_growth(
+    index_path: Path, manifest_path: Path, data_dir: Path, company: str, year: int, *,
+    trace_id: str | None = None,
+) -> dict:
+    if type(year) is not int or not 1001 <= year <= 9999:
+        raise FinanceError("INVALID_YEAR: growth needs a current year and four-digit prior year")
+    facts, citations = load_fixture_periods(
+        manifest_path, data_dir, index_path, company, (year, year - 1), metrics=("revenue",))
+    by_year = {int(fact.period_start[:4]): fact for fact in facts}
+    calculation = revenue_growth(by_year[year], by_year[year - 1])
+    return _calculation_result(
+        facts, citations, calculation,
+        {"company": company, "year": year, "prior_year": year - 1, "report_type": "annual"},
+        f"SYNTHETIC: {company} {year} vs {year - 1} revenue growth = {calculation['display']}",
+        trace_id,
+    )
+
+
+def _calculation_result(
+    facts: list[FinancialFact], citations: list[dict], calculation: dict,
+    filters: dict, answer: str, trace_id: str | None,
+) -> dict:
     payload = calculation_envelope(trace_id or uuid4().hex, "CALCULATED")
-    payload["filters"] = {"company": company, "year": year, "report_type": "annual"}
+    payload["filters"] = filters
     payload["citations"] = citations
     for fact in facts:
         record = asdict(fact)
@@ -113,7 +143,7 @@ def calculate_margin(
         payload["facts"].append(record)
     calculation["citation_ids"] = [c["citation_id"] for c in citations]
     payload["calculations"] = [calculation]
-    payload["answer"] = f"SYNTHETIC: {company} {year} gross margin = {calculation['display']}"
+    payload["answer"] = answer
     payload["claims"] = [{"text": payload["answer"], "calc_id": calculation["calc_id"],
                            "citation_ids": calculation["citation_ids"]}]
     return payload

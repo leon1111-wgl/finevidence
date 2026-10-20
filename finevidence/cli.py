@@ -9,7 +9,9 @@ from uuid import uuid4
 from .documents import DocumentError, import_documents
 from .facts import FinanceError
 from .retrieval import QueryError, SearchHit
-from .workflow import calculation_envelope, calculate_margin, response_envelope, retrieve
+from .workflow import (
+    calculation_envelope, calculate_margin, calculate_revenue_growth, response_envelope, retrieve,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,10 +31,10 @@ def build_parser() -> argparse.ArgumentParser:
     query.add_argument("--company", help="精确匹配公司元数据（区分大小写）")
     query.add_argument("--year", type=int, help="筛选报告年度")
     query.add_argument("--json", action="store_true", dest="as_json", help="输出结构化证据和状态")
-    calculator = commands.add_parser("calculate", help="计算虚构事实的毛利率并核对来源")
-    calculator.add_argument("operation", choices=("gross-margin",))
+    calculator = commands.add_parser("calculate", help="计算虚构事实的毛利率或收入同比，并核对来源")
+    calculator.add_argument("operation", choices=("gross-margin", "revenue-growth"))
     calculator.add_argument("--company", required=True, help="精确匹配虚构公司")
-    calculator.add_argument("--year", type=int, required=True, help="完整公历年度")
+    calculator.add_argument("--year", type=int, required=True, help="完整公历年度；收入同比自动比较上一年")
     calculator.add_argument("--json", action="store_true", dest="as_json")
     return parser
 
@@ -65,8 +67,9 @@ def main(argv: list[str] | None = None) -> int:
                 f"documents={result.documents} chunks={result.chunks}"
             )
         elif args.command == "calculate":
-            payload = calculate_margin(INDEX_PATH, FACTS_PATH, DATA_DIR, args.company, args.year,
-                                       trace_id=trace_id)
+            calculate = calculate_margin if args.operation == "gross-margin" else calculate_revenue_growth
+            payload = calculate(INDEX_PATH, FACTS_PATH, DATA_DIR, args.company, args.year,
+                                trace_id=trace_id)
             if args.as_json:
                 print(json.dumps(payload, ensure_ascii=False, indent=2))
             else:
@@ -82,7 +85,7 @@ def main(argv: list[str] | None = None) -> int:
                 print("SYNTHETIC — 仅工程测试夹具；未经人工核验，不代表真实财务结果。")
         else:
             result = retrieve(
-                INDEX_PATH, args.question, args.top_k,
+                INDEX_PATH, args.question, args.top_k, data_dir=DATA_DIR,
                 company=args.company, year=args.year, trace_id=trace_id,
             )
             if args.as_json:

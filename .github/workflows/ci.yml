@@ -28,3 +28,7 @@ jobs:
         run: python -m finevidence query "revenue" --company "Aurora Orchard" --year 2024 --top-k 1 --json
       - name: Source-linked synthetic calculation smoke
         run: python -m finevidence calculate gross-margin --company "Aurora Orchard" --year 2024 --json
+      - name: Import prior-year fixtures
+        run: python -m finevidence import aurora_2023.json harbor_2023.json
+      - name: Source-linked annual growth smoke
+        run: python -m finevidence calculate revenue-growth --company "Aurora Orchard" --year 2024 --json
