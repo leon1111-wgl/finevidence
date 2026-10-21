@@ -38,7 +38,7 @@ The second query returns `NO_MATCH`, an empty citations list and `answer: null`.
 - A shared workflow and JSON response contract with request ID, status, original excerpts, citations and limitations.
 - Eight typed synthetic facts, explicit units/period/currency/basis/scope, original-source rechecks and deterministic Decimal gross margin, revenue growth and margin percentage-point change.
 - An explicit synthetic SQLite snapshot builder and parameterized, read-only lookup used by all three calculations; JSON remains the reference backend.
-- 150 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
+- 155 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
 
 All companies, amounts and statements in the sample corpus are fictional. `page_kind=synthetic` is **not** a PDF physical page. Engineering tests do not establish real financial question-answering quality.
 
@@ -78,6 +78,8 @@ After importing all four sources, build a new snapshot and select it explicitly:
     .venv/bin/python -m finevidence calculate gross-margin-change --company "Aurora Orchard" --year 2024 --fact-store sqlite --json
 
 The default is --fact-store manifest. Both backends preserve facts, source checks, Decimal results and calculation IDs; the response identifies which backend was used. SQLite lookup uses bound values and a read-only connection. Database failure never falls back to JSON. The build validates every synthetic fact/source and refuses to overwrite an existing data/facts.sqlite; preserve and move an old snapshot before explicitly rebuilding. A later manifest edit does not silently update the snapshot.
+
+Build JSON responses retain `mode=synthetic_store_build` and `fact_store=sqlite_snapshot` on both success and runtime failure. For example, repeating the build returns `FACT_STORE_EXISTS` with exit 2 and no financial result; it is still a build operation. `mode` identifies the operation, while `status` identifies its outcome.
 
 This is a small local snapshot (1 MiB / 32 facts), not human fact review, a SQL Agent or a live multi-user database. Missing/corrupt snapshots, unsupported schemas, lock contention and source drift fail explicitly. See [snapshot lifecycle, failure contract and tests](docs/FACT_STORE.md).
 

@@ -51,6 +51,8 @@ The connection mechanism and binding APIs follow [Python 3.12 sqlite3](https://d
 
 Structured runtime failures exit 2 with null answer and empty facts, claims, calculations and citations. Build filesystem failures retain IO_ERROR through the existing CLI. Invalid command syntax remains argparse's stderr usage error. No database path, SQL statement or database error details are echoed by the reader's typed error messages.
 
+Build responses use `mode=synthetic_store_build` and `fact_store=sqlite_snapshot` for successful builds, input refusals and filesystem failures alike. These fields identify the requested operation/backend; they do not assert that publication succeeded. `status` and the exit code carry that outcome. Build statistics such as fact_count and store_schema_version are returned only after a successful build. The API schema_version remains "1.0" on errors as well.
+
 ## Executed engineering evidence
 
 The initial 20 test methods failed on the absent module/CLI (24 assertions/subtests). After integration, tests exposed an accidentally removed property body and a missing result-helper parameter; those were corrected without weakening assertions.
@@ -60,3 +62,9 @@ Three additional regressions reproduced pre-release issues: a connection remaine
 Final targeted suite: 23 passed in 2.298s. Full suite: 150 passed in 18.563s on macOS/Python 3.12.2. The prior 127 test methods are unchanged. Tests include six literal result/parity pairs, source drift, missing/corrupt schemas, malformed stored values, exact parameter selection, read-only execution, failed publication/connection cleanup, actual competing builders and lock refusal/recovery. Sixteen actual startup/query/build/calculation commands also passed, including all six backend comparisons and text output. These are synthetic engineering results, not real financial accuracy or model evaluation. Verify exact-commit CI separately.
 
 Remaining work: real-report rights/ingestion and actual fact review, model/Agent boundaries, authorization, persistent traces, API/UI and E7 browser acceptance. Existing JSON and source limits are unchanged.
+
+## FE-012 build response correction
+
+Independent review of f1b3c1c found that a repeated build returned the correct FACT_STORE_EXISTS refusal but mislabeled mode as synthetic_calculation. The success branch alone had overridden the calculation envelope. A dedicated store_build_envelope now supplies the same build identity for success and both runtime error handlers, with storage-specific limitations.
+
+Five new test methods cover existing targets, missing/bad index, invalid/unreviewed fixtures, an injected publication OSError with real SQLite staging/cleanup, and unchanged calculation modes. After correcting a new test's mistaken spelling of the existing CALCULATED status, the pre-fix run had six failed assertions/subtests across four methods; the calculation control passed. All five now pass (0.885s), and all 155 tests pass (19.239s) on macOS/Python 3.12.2. The prior 150 tests were not modified. The original independent review scripts also ran unchanged: 123 subprocess records plus the previously failing mode assertion now pass. This is a response-contract fix, not a change to arithmetic, publication or source verification.

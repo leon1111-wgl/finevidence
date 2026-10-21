@@ -15,6 +15,7 @@ Baseline review: 2026-10-19, before first public repository commit. These are ob
 | FE-009 | P2 | Fixed input defect | At caafb75, FIFO index blocked query/calculation/import; input read was unbounded | Now reject nonregular descriptors, read at most 1 MiB + 1 byte, enforce the same write cap. FIFO, directory, broken links, exact cap, over-cap read and batch-write tests pass |
 | FE-010 | P2 | Fixed observed document, fact and query text defects | Document/fact fixes held, but af20584 accepted invalid query/company text and could emit non-UTF-8 JSON or exit 1 | Shared retrieval and direct search now reject invalid text; seven new tests cover real argv bytes, direct calls, both output modes and valid Unicode. All 112 tests pass; original ten query-review failures return typed errors. Source filenames retain INVALID_PATH |
 | FE-011 | P2 | Fixed input defect | At caafb75, a source symlink cycle raised uncaught RuntimeError | Resolve errors become INVALID_PATH; self/two-node cycles, dangling/external links and valid internal link controls pass |
+| FE-012 | P3 | Fixed response-contract defect | At f1b3c1c, build-facts failures used synthetic_calculation despite the correct refusal status | Dedicated build envelope for success and both error handlers; five added tests, six pre-fix failing assertions/subtests, original mode reproduction now passes; no change to snapshot protection |
 
 Do not mark FE-001/002/003 closed merely because an interface or stub exists. Each closure needs a commit and executed acceptance evidence.
 
@@ -65,3 +66,9 @@ FE-001 remains partial. Fifteen new tests first produced 59 failed assertions/su
 The latest independent review of b8822d7 reported no new defects. This implementation adds explicit snapshot build and read-only parameterized lookup to all three financial workflows, keeping manifest mode as the reference. Twenty-three additional tests bring the full suite to 150. Read-only connection enforcement, schema/file rejection, source checks after build, failed publication/cleanup, real competing builds, busy reads and six-result backend parity were executed.
 
 Before release, extra regressions found an unclosed connection on an injected insert failure, a LIKE underscore wildcard that hid an unsupported user table, and the database version overwriting the response version. These were fixed; prior tests were not weakened. See FACT_STORE for complete scope and observed integration failures. FE-001 remains open for actual review; FE-002/003/008 and E7 are unchanged.
+
+## FE-012 response identity, 2026-10-21
+
+Review of f1b3c1c reproduced FACT_STORE_EXISTS with mode=synthetic_calculation after a repeated build. This P3 issue misclassified the operation; the refusal and old snapshot were already correct. cli.main now selects store_build_envelope once for the command and uses it for successful output and both runtime exception branches. Build errors keep an empty financial result and exit 2.
+
+The original independent scripts and their mode assertion were rerun without changes. Five new methods cover document/finance failures, publication OSError cleanup/retry and calculation controls; all 155 tests pass locally. The initial new test mistakenly expected CALCULATION_COMPLETE; the existing API is CALCULATED, and that test error was corrected before the production fix. No original assertions were weakened. This closes the observed response defect only; real fact review, reports, models and E7 remain open.

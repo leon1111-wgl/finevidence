@@ -99,6 +99,18 @@ def calculation_envelope(trace_id: str, status: str) -> dict:
     return payload
 
 
+def store_build_envelope(trace_id: str, status: str) -> dict:
+    """Identify the build operation consistently, including rejected builds."""
+    payload = response_envelope(trace_id, status)
+    payload.update(mode="synthetic_store_build", fact_store="sqlite_snapshot", facts=[], limitations=[
+        "SYNTHETIC fixture snapshot only; building storage is not human fact verification.",
+        "Source hashes/excerpts check consistency; numeric transcription remains trusted input.",
+        "Existing snapshots are never overwritten; rebuilding requires an explicit operator action.",
+        "No financial calculation, model call or persistent tool trace is produced by this operation.",
+    ])
+    return payload
+
+
 def calculate_margin(
     index_path: Path, manifest_path: Path, data_dir: Path, company: str, year: int, *,
     trace_id: str | None = None, database_path: Path | None = None,

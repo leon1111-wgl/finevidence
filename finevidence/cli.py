@@ -12,7 +12,7 @@ from .fact_store import build_fact_store
 from .retrieval import QueryError, SearchHit
 from .workflow import (
     calculation_envelope, calculate_margin, calculate_margin_change, calculate_revenue_growth,
-    response_envelope, retrieve,
+    response_envelope, retrieve, store_build_envelope,
 )
 
 
@@ -65,7 +65,9 @@ def print_hits(hits: list[SearchHit]) -> None:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     trace_id = uuid4().hex
-    envelope = calculation_envelope if args.command in {"calculate", "build-facts"} else response_envelope
+    envelope = {"calculate": calculation_envelope, "build-facts": store_build_envelope}.get(
+        args.command, response_envelope,
+    )
     try:
         if args.command == "import":
             result = import_documents(DATA_DIR, INDEX_PATH, args.filenames)
@@ -75,8 +77,8 @@ def main(argv: list[str] | None = None) -> int:
             )
         elif args.command == "build-facts":
             result = build_fact_store(FACTS_PATH, DATA_DIR, INDEX_PATH, DATABASE_PATH)
-            payload = calculation_envelope(trace_id, "FACT_STORE_BUILT")
-            payload.update(result, mode="synthetic_store_build", fact_store="sqlite_snapshot")
+            payload = envelope(trace_id, "FACT_STORE_BUILT")
+            payload.update(result)
             if args.as_json:
                 print(json.dumps(payload, ensure_ascii=False, indent=2))
             else:
