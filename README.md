@@ -1,8 +1,35 @@
-# FinEvidence
+# FinEvidence · 金融证据工作台
+
+**[打开在线工作台](https://leon1111-wgl.github.io/finevidence/)** · [完整本地运行／模型配置](docs/WORKBENCH_RUNBOOK.md) · [深圳／香港企业调研与两轮设计检查](docs/ENTERPRISE_RESEARCH.md)
+
+选择公司与年度 → 检索证据／复核财务指标 → 打开原文核对 → 导出审查记录。在线版本直接在浏览器工作；本地版本使用共享 Python 逻辑并可调用真实模型选择受限工具。
+
+```sh
+git clone https://github.com/leon1111-wgl/finevidence.git
+cd finevidence
+python3 -m finevidence.server
+# 本地模型版：python3 scripts/start_model.py（终端隐藏输入密钥）
+```
+
+打开 http://127.0.0.1:8765。仅需 Python 3.12，macOS/Linux；核心运行无第三方 Python 包。公开语料为四份明确标识的虚构报告；模型接入成功也不意味着真实财报质量已验证。
+
+| 可实际体验 | 交付边界 |
+|---|---|
+| 原文检索、公司／年度筛选、来源指纹 | 英文 BM25，合成页 |
+| 毛利率、收入同比、百分点变化及逐项输入 | Python Decimal；浏览器 BigInt 对照，非模型口算 |
+| 本机模型选工具、调用轨迹、失败拒绝 | 晨涧云 DeepSeek 已完成两条真实任务；密钥只在后端进程 |
+| 原文核对、备注、刷新恢复、JSON 导出 | 浏览器个人记录，非认证审批签名 |
+| GitHub Pages 和完整本地界面 | 公网页不包含模型密钥；本地 API 不开放公网 |
+
+企业工程是验收方向。本项目未宣称银行生产使用、真实报告准确率、组织级访问控制或服务 SLA。具体已运行证据和未完成边界见 [STATUS](docs/STATUS.md)。
+
+---
+
+## Python CLI 与既有能力
 
 [![Offline regression](https://github.com/leon1111-wgl/finevidence/actions/workflows/ci.yml/badge.svg)](https://github.com/leon1111-wgl/finevidence/actions/workflows/ci.yml)
 
-An enterprise-oriented financial evidence application: trace source passages, review facts and build bounded AI workflows. **Currently implemented: source-checked offline retrieval, synthetic gross margin, annual revenue growth and margin percentage-point change, with optional read-only SQLite facts.** Real-report ingestion, human fact review, a model-driven Agent and the reviewer interface remain tracked work.
+An enterprise-oriented financial evidence application: trace source passages, review facts and build bounded AI workflows. **Currently implemented: source-checked offline retrieval, synthetic gross margin, annual revenue growth and margin percentage-point change, with optional read-only SQLite facts.** The workbench and bounded model-selected tools are available as described above. Real-report ingestion and authenticated human fact review remain tracked work.
 
 ## Run the current version
 
@@ -38,7 +65,7 @@ The second query returns `NO_MATCH`, an empty citations list and `answer: null`.
 - A shared workflow and JSON response contract with request ID, status, original excerpts, citations and limitations.
 - Eight typed synthetic facts, explicit units/period/currency/basis/scope, original-source rechecks and deterministic Decimal gross margin, revenue growth and margin percentage-point change.
 - An explicit synthetic SQLite snapshot builder and parameterized, read-only lookup used by all three calculations; JSON remains the reference backend.
-- 155 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
+- 172 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
 
 All companies, amounts and statements in the sample corpus are fictional. `page_kind=synthetic` is **not** a PDF physical page. Engineering tests do not establish real financial question-answering quality.
 

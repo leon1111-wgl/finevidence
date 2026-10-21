@@ -33,10 +33,20 @@ FE-012 is fixed locally: failed build-facts responses now retain the build mode 
 
 ## Not yet implemented / validated
 
-Human-verified financial facts, real PDF ingestion, a live model adapter or bounded Agent, authentication/document authorization, API/UI, persistent traces, distributed writes and full workflow recovery, embeddings, real-data evaluation, containers and load/operational validation. E7 visual refinement remains scheduled after the complete business workflow.
+Human-verified financial facts, real PDF ingestion, authentication/document authorization, persistent server audit and checkpoint recovery, distributed writes, embeddings, real-data evaluation, containers and load/operational validation. The released sample UI has actual browser checks; this does not close the final E7 gate for future real-report and authorization flows.
 
 The fixture manifest is trusted for numeric transcription. Structural source checks are not semantic verification or protection from coordinated edits of all trusted artifacts. Retrieval checks indexed originals, but cannot detect an entirely removed index entry or coordinated edits of every trusted artifact. No real-data accuracy or business-impact claims are available.
 
 ## Next work
 
 FE-004 and FE-005 reproduced cases are fixed within their documented local boundaries. Local cooperative imports now contend explicitly; this is not full workflow checkpointing or distributed storage. The synthetic E1 arithmetic and parameterized read-only storage now work end to end. Next develop real-source ingestion and an actual fact review boundary; do not relabel fixtures as reviewed. Keep FE-001 open until the broader fact/finance path is complete. Public-report source permission and real-model service authorization remain separate prerequisites.
+
+## 2026-10-21 workbench and live model increment
+
+The same reviewer UI now runs as a public static sample application and a loopback Python application. It supports task/scope selection, source viewing, fixed-formula calculations, browser review notes, deterministic draft replay and JSON export. Static BM25/BigInt results match 24 generated Python workflow oracles. Public Pages never contains model credentials.
+
+The local model loop uses the user-authorized MornAI endpoint and strict tool schemas. Actual browser requests completed Aurora revenue growth (20.00%, 2 calls, 1029 tokens, 4.407s) and Harbor margin change (-5.00 pp, 2 calls, 1051 tokens, 3.181s). A prior live request exposed a later search overwriting a calculation; a regression now preserves the calculation and all tool results. These are synthetic-data integration checks, not an accuracy benchmark. See WORKBENCH_RUNBOOK and validation evidence.
+
+Local desktop/narrow screenshots and keyboard, loading, empty, error, retry, scope invalidation, source checks, export and replay were executed in real Chrome. Both static and Python modes passed 14 browser workflow checks. CI independently reruns Python, JS and Chromium before Pages deployment; inspect the exact published SHA and run before claiming remote verification.
+
+Remaining scope: real-report rights/ingestion/review, explicit nonfinancial claim support, model holdout evaluation, organization permissions, persistent audit, true workflow recovery and hardened public backend deployment. Model timeout is socket timeout plus cumulative checkpoints, not remote cancellation or a spend guarantee.

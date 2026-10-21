@@ -1,0 +1,55 @@
+{
+  "checked_at": "2026-10-21T15:25:50.256127+00:00",
+  "method": "GitHub repository API; star count is popularity, not quality",
+  "repositories": [
+    {
+      "full_name": "langgenius/dify",
+      "stargazers_count": 159137,
+      "pushed_at": "2026-10-21T15:08:50Z",
+      "description": "Build Agentic workflows, RAG pipelines, with rich AI model and tool support on one collaborative workspace. Deploy on cloud, VPC, or self-hosted, so teams move from prototype to production without rebuilding the stack.",
+      "html_url": "https://github.com/langgenius/dify",
+      "default_branch": "main",
+      "license": {
+        "key": "other",
+        "name": "Other",
+        "spdx_id": "NOASSERTION",
+        "url": null,
+        "node_id": "MDc6TGljZW5zZTA="
+      }
+    },
+    {
+      "full_name": "langchain-ai/langgraph",
+      "stargazers_count": 43650,
+      "pushed_at": "2026-10-21T14:16:51Z",
+      "description": "Build resilient agents.",
+      "html_url": "https://github.com/langchain-ai/langgraph",
+      "default_branch": "main",
+      "license": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT",
+        "url": "https://api.github.com/licenses/mit",
+        "node_id": "MDc6TGljZW5zZTEz"
+      }
+    },
+    {
+      "full_name": "AI4Finance-Foundation/FinGPT",
+      "stargazers_count": 21442,
+      "pushed_at": "2026-09-23T01:59:08Z",
+      "description": "FinGPT: Open-Source Financial Large Language Models!  Revolutionize 🔥    We release the trained model on HuggingFace.",
+      "html_url": "https://github.com/AI4Finance-Foundation/FinGPT",
+      "default_branch": "master",
+      "license": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT",
+        "url": "https://api.github.com/licenses/mit",
+        "node_id": "MDc6TGljZW5zZTEz"
+      }
+    },
+    {
+      "repo": "Tencent/FinWorld",
+      "accessible": false
+    }
+  ]
+}

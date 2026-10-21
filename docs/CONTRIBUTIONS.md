@@ -17,3 +17,7 @@
 2026-10-20 import-concurrency increment: Codex reproduced FE-005 with real overlapping imports, added a stable full-operation POSIX lock and fourteen process/failure tests, and documented the retry/platform/durability limits. The prior 91 tests are unchanged. No user-authored fix, personal mastery or production incident response is inferred.
 
 2026-10-20 query-text correction: Codex reproduced the af20584 review's FE-010 argument failures, added seven regression methods and shared text validation, and reran the unchanged independent review script. The prior 105 tests are unchanged. No user-authored fix or independent walkthrough has been verified for this increment.
+
+## 2026-10-21 workbench
+
+The user chose the enterprise portfolio direction, Shenzhen/Hong Kong financial research emphasis, complete GitHub application delivery and MornAI model service, and authorized integration testing. Codex researched, designed, implemented and tested this increment. No new claim is made that the user independently wrote, debugged or explained these modules; the local learning materials include exercises for that verification.

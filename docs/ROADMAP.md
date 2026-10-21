@@ -62,3 +62,7 @@ Synthetic E1 storage is now consumed by all three existing workflows. The build 
 The broader real fact review boundary remains open; storage is not evidence of human review. Next move toward E2 approved report ingestion and real verification records. No live model, authorization, UI, E7 screenshot or production acceptance is claimed. See FACT_STORE for lifecycle and limitations.
 
 The subsequent FE-012 correction keeps build identity consistent on refusals and filesystem errors, with five regression methods (155 total). This completes one observed response-contract fix; the next feature increment remains E2 source ingestion and actual fact review, not another storage abstraction or a premature E7 completion claim.
+
+## User-prioritized complete sample workbench, 2026-10-21
+
+The user requested a GitHub-visible application after two enterprise research/design rounds, changed both cycles to three hours and authorized a specific MornAI integration. E3 now has real model-selected tool calls and protocol tests; E4 now has a loopback API/shared reviewer UI plus client-only public Pages. Source review/export/replay and an actual visual/keyboard/responsive pass work for the synthetic scope. These increments do not close organization permissions, real-report review or final production/real-data E7 acceptance. See ENTERPRISE_RESEARCH and WORKBENCH_RUNBOOK.

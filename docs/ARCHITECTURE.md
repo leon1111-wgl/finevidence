@@ -63,3 +63,7 @@ The portfolio release needs a working report-to-evidence-to-calculation workflow
 ## Current synthetic storage boundary (2026-10-21)
 
 The CLI can explicitly build a local SQLite snapshot from source-checked synthetic facts. Three financial workflows select either the original JSON manifest or this snapshot, then share the same selected-source checks and Decimal functions. The reader accepts only the supported bounded schema through a mode=ro connection and parameterized internal queries. Builds create new snapshots; calculations neither update nor silently regenerate them. This implements a storage boundary, not the target human review, authorization or tracing systems. See FACT_STORE for failure/rebuild semantics.
+
+## Released workbench boundary, 2026-10-21
+
+The GitHub Pages client executes a validated, public synthetic bundle and has no server credential. The loopback server reuses Workspace/workflow and exposes only fixed static paths and one CSRF-checked operation endpoint. A bounded model loop selects allowlisted tools within the UI-selected scope. Financial answers originate in Decimal tools. Per-request tool results can be exported; browser checks are not signed verification. Read WORKBENCH_DESIGN and WORKBENCH_RUNBOOK before extending this boundary.

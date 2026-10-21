@@ -10,3 +10,9 @@ data/index.*.tmp
 data/facts.sqlite
 data/facts.sqlite-*
 data/facts.*.tmp
+node_modules/
+browser-artifacts/
+web/bundle.json
+web/manifest.json
+web/runtime.json
+tests/web-oracles.json

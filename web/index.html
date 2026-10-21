@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="FinEvidence 金融证据工作台：检索原文、复核财务计算并导出审查记录。"
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; object-src 'none'; base-uri 'none'"
+    />
+    <title>FinEvidence · 金融证据工作台</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./app.mjs"></script>
+  </head>
+  <body>
+    <a class="skip" href="#workspace">跳到工作区</a>
+    <header class="topbar">
+      <a class="brand" href="./">FinEvidence</a
+      ><span class="product-name">金融证据工作台</span>
+      <nav aria-label="项目">
+        <a href="https://github.com/leon1111-wgl/finevidence">GitHub ↗</a
+        ><a
+          href="https://github.com/leon1111-wgl/finevidence/blob/main/docs/ENTERPRISE_RESEARCH.md"
+          >场景与设计 ↗</a
+        >
+      </nav>
+    </header>
+    <div class="shell">
+      <aside class="sidebar" aria-label="资料范围">
+        <h2>研究资料</h2>
+        <p class="small">选择公司与报告年度，建立本次核查范围。</p>
+        <label for="company">公司</label
+        ><select id="company" form="query-form">
+          <option>Aurora Orchard</option>
+          <option>Harbor Lantern</option>
+        </select>
+        <label for="year">报告年度</label
+        ><select id="year" form="query-form">
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+        </select>
+        <div class="source-list">
+          <h3>可用报告</h3>
+          <ul id="documents">
+            <li>正在读取资料…</li>
+          </ul>
+        </div>
+        <p class="scope-note">
+          公开演示使用四份虚构报告。公司、金额与页码均为合成样本，便于复现和检查。
+        </p>
+        <div class="runtime">
+          <strong id="runtime">正在连接工作区</strong>
+          <p id="runtime-detail">准备证据与计算工具…</p>
+        </div>
+      </aside>
+      <main id="workspace">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">RESEARCH / EVIDENCE REVIEW</p>
+            <h1>把结论核对到原文</h1>
+            <p>
+              检索资料、复算指标，留下可交接的核查记录。当前资料均为虚构样本。
+            </p>
+          </div>
+          <button id="export" class="secondary" disabled>导出审查记录</button>
+        </div>
+        <section class="query-area" aria-label="核查任务">
+          <form id="query-form">
+            <div class="query-controls">
+              <div>
+                <label for="operation">核查任务</label
+                ><select id="operation">
+                  <option value="gross-margin">毛利率</option>
+                  <option value="revenue-growth">收入同比</option>
+                  <option value="gross-margin-change">毛利率变化</option>
+                  <option value="search">原文检索</option>
+                  <option value="agent" disabled>
+                    模型辅助 · 需要本地服务
+                  </option>
+                </select>
+              </div>
+              <div class="query-field">
+                <label for="query">问题或检索词</label
+                ><input
+                  id="query"
+                  maxlength="1000"
+                  value="revenue"
+                  aria-describedby="query-help"
+                  autocomplete="off"
+                />
+              </div>
+              <button id="run" type="submit" disabled>运行核查</button>
+            </div>
+            <p id="query-help" class="small">
+              指标使用固定公式；无需输入问题。对比指标会同时读取上一年度。
+            </p>
+          </form>
+          <div id="status" role="status" aria-live="polite">正在校验资料…</div>
+          <button id="retry" class="secondary" hidden>重新加载资料</button>
+        </section>
+        <div class="work-grid">
+          <section class="results" aria-labelledby="result-heading">
+            <div class="section-heading">
+              <h2 id="result-heading">核查结果</h2>
+              <span id="result-meta" class="small">等待运行</span>
+            </div>
+            <div id="result-content">
+              <div class="empty">
+                <h3>先完成一次核查</h3>
+                <p>
+                  试试 Aurora Orchard 2024
+                  年收入同比，再打开原文核对两个年度的收入。
+                </p>
+              </div>
+            </div>
+            <div id="evidence"></div>
+          </section>
+          <section class="source-panel" aria-labelledby="source-heading">
+            <div class="section-heading">
+              <h2 id="source-heading" tabindex="-1">原文核对</h2>
+              <span id="review-count" class="small">0 项已核对</span>
+            </div>
+            <div id="source-content" class="empty">
+              <p>选择一条证据，在这里核对上下文、来源与报告年度。</p>
+            </div>
+          </section>
+        </div>
+        <section class="review-section">
+          <div>
+            <h2>审查备注</h2>
+            <p class="small">
+              记录口径、疑点或交接事项。核对状态仅为本次浏览器记录，不代表财报已由独立人员核验。
+            </p>
+          </div>
+          <label class="visually-hidden" for="notes">审查备注</label
+          ><textarea
+            id="notes"
+            rows="3"
+            maxlength="3000"
+            placeholder="例如：已核对两个年度的收入单位一致；还需确认真实报告中的重述口径。"
+            disabled
+          ></textarea>
+          <p id="save-state" class="small">
+            记录保存在当前浏览器；导出文件后可自行留存。
+          </p>
+        </section>
+        <details class="help">
+          <summary>如何运行真实模型与复现结果</summary>
+          <p>
+            公开页面在浏览器中执行检索和精确计算。真实模型由本机 Python
+            服务调用，密钥从环境变量读取。运行后选择「模型辅助」，输入中文问题。
+          </p>
+          <pre>
+git clone https://github.com/leon1111-wgl/finevidence.git
+cd finevidence
+python3 -m finevidence.server</pre
+          >
+          <p>
+            在本机打开 http://127.0.0.1:8765。模型配置、边界及验收命令见
+            <a
+              href="https://github.com/leon1111-wgl/finevidence/blob/main/docs/WORKBENCH_RUNBOOK.md"
+              >运行说明</a
+            >。合成样本用于展示工程能力，尚不能证明真实财报准确率。
+          </p>
+        </details>
+        <footer>
+          <span>FinEvidence · 证据优先，可复算，可交接</span
+          ><span id="version">版本读取中</span>
+        </footer>
+      </main>
+    </div>
+    <noscript
+      >此工作台需要 JavaScript。源码与 Python CLI 可在 GitHub
+      仓库查看。</noscript
+    >
+  </body>
+</html>

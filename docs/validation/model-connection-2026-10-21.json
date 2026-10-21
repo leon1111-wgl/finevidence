@@ -1,0 +1,19 @@
+{
+  "event": "chat",
+  "requested_model": "deepseek-v4-1-flash",
+  "returned_model": "deepseek-ai/DeepSeek-V4.1-Flash-1017",
+  "content": "CONNECTION_OK",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 12,
+    "completion_tokens": 5,
+    "total_tokens": 17,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    }
+  },
+  "seconds": 2.398
+}
