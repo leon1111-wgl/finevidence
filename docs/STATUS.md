@@ -54,3 +54,5 @@ Remaining scope: real-report rights/ingestion/review, explicit nonfinancial clai
 ## Quantified development-task result
 
 176 local Python tests passed (21.380s), separate from business-task metrics. The first frozen eight-task live run completed 7/8, with 6/6 numeric and citation checks, 1/2 expected refusals, 15 requests and 7,471 reported tokens. A missing-prior-year request was blocked by the tool validator but failed the intended business refusal contract. Deterministic structured input completed 8/8. See [EVALUATION](EVALUATION.md) for denominators, exact evidence, unequal input modes, latency and limitations. No best-of-N result is reported.
+
+The workbench release at 83ccc21 passed exact-commit GitHub CI and deployed-byte/browser verification. See [RELEASE_VALIDATION](RELEASE_VALIDATION.md); this is release evidence, separate from the 7/8 model-task result.
