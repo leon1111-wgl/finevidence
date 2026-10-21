@@ -34,3 +34,7 @@ jobs:
         run: python -m finevidence calculate revenue-growth --company "Aurora Orchard" --year 2024 --json
       - name: Source-linked margin percentage-point smoke
         run: python -m finevidence calculate gross-margin-change --company "Aurora Orchard" --year 2024 --json
+      - name: Build synthetic fact snapshot
+        run: python -m finevidence build-facts --json
+      - name: Read-only SQLite calculation smoke
+        run: python -m finevidence calculate gross-margin-change --company "Aurora Orchard" --year 2024 --fact-store sqlite --json

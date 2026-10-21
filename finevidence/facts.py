@@ -3,6 +3,7 @@
 from dataclasses import dataclass, fields
 from datetime import date
 from decimal import Context, Decimal, DivisionByZero, InvalidOperation, Overflow, ROUND_HALF_EVEN, localcontext
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -97,31 +98,39 @@ class FinancialFact:
 
 
 def load_fixture_facts(
-    manifest_path: Path, data_dir: Path, index_path: Path, company: str, year: int,
+    manifest_path: Path, data_dir: Path, index_path: Path, company: str, year: int, *,
+    database_path: Path | None = None,
 ) -> tuple[list[FinancialFact], list[dict]]:
     """Load one complete calendar-year margin pair."""
     return load_fixture_periods(manifest_path, data_dir, index_path, company, (year,),
-                                metrics=("gross_profit", "revenue"))
+                                metrics=("gross_profit", "revenue"), database_path=database_path)
 
 
-def load_fixture_periods(
-    manifest_path: Path, data_dir: Path, index_path: Path, company: str, years: tuple[int, ...], *,
-    metrics: tuple[str, ...],
-) -> tuple[list[FinancialFact], list[dict]]:
-    """Select from one manifest/index read, then check each selected source once.
-
-    The version-controlled fixture manifest is trusted for the numeric transcription.
-    Hash/excerpt checks detect drift, not a malicious rewrite of all trusted artifacts.
-    No caller-supplied status can enable a real-data/human-verified calculation here.
-    """
+def validate_fact_request(company: str, years: tuple[int, ...], metrics: tuple[str, ...]) -> None:
     if not isinstance(company, str) or not company.strip():
         raise FinanceError("INVALID_COMPANY: nonempty company required")
+    try:
+        company.encode("utf-8")
+    except UnicodeEncodeError as exc:
+        raise FinanceError("INVALID_COMPANY: company must contain valid Unicode scalar values") from exc
     if (not years or len(years) > 2 or any(type(year) is not int or not 1000 <= year <= 9999
                                          for year in years) or len(set(years)) != len(years)):
         raise FinanceError("INVALID_YEAR: one or two distinct four-digit calendar years required")
     if not metrics or len(set(metrics)) != len(metrics) or not set(metrics) <= {"gross_profit", "revenue"}:
         raise FinanceError("INVALID_OPERANDS: explicit supported metrics required")
-    documents = {document.doc_id: document for document in read_index(index_path)}
+
+
+def validate_fact_set(facts: list[FinancialFact]) -> None:
+    if not 1 <= len(facts) <= 32:
+        raise FinanceError("FACTS_INVALID: require 1 to 32 synthetic facts")
+    identities = [fact.fact_id for fact in facts]
+    selectors = [(f.company, f.period_start, f.period_end, f.report_type, f.metric) for f in facts]
+    if len(set(identities)) != len(identities) or len(set(selectors)) != len(selectors):
+        raise FinanceError("FACT_CONFLICT: ambiguous or duplicate facts")
+
+
+def read_fixture_manifest(manifest_path: Path) -> tuple[list[FinancialFact], str]:
+    """Read one bounded manifest and return its exact byte fingerprint."""
     if not manifest_path.is_file():
         raise FinanceError("FACTS_INVALID: fixture manifest must be a regular file")
     with manifest_path.open("rb") as stream:
@@ -144,18 +153,14 @@ def load_fixture_periods(
             facts.append(FinancialFact(**record))
         except TypeError as exc:
             raise FinanceError("FACTS_INVALID: unexpected or missing fact fields") from exc
-    identities = [fact.fact_id for fact in facts]
-    selectors = [(f.company, f.period_start, f.period_end, f.report_type, f.metric) for f in facts]
-    if len(set(identities)) != len(identities) or len(set(selectors)) != len(selectors):
-        raise FinanceError("FACT_CONFLICT: ambiguous or duplicate facts")
-    selected = []
-    for year in years:
-        annual = [fact for fact in facts if fact.company == company
-                  and fact.period_start == f"{year}-01-01" and fact.period_end == f"{year}-12-31"
-                  and fact.report_type == "annual" and fact.metric in metrics]
-        if {fact.metric for fact in annual} != set(metrics):
-            raise FinanceError("FACTS_NOT_FOUND: incomplete calendar-year fixtures; not a disclosure conclusion")
-        selected.extend(annual)
+    validate_fact_set(facts)
+    return facts, hashlib.sha256(raw).hexdigest()
+
+
+def verify_fact_sources(
+    selected: list[FinancialFact], data_dir: Path, documents: dict,
+) -> list[dict]:
+    """Check selected fixture status and sources, including after a database read."""
     citations = {}
     originals = {}
     for fact in selected:
@@ -179,4 +184,31 @@ def load_fixture_periods(
             "year": original.year, "page": chunk.page, "page_kind": "synthetic",
             "classification": "SYNTHETIC", "excerpt": chunk.text,
         }
-    return selected, list(citations.values())
+    return list(citations.values())
+
+
+def load_fixture_periods(
+    manifest_path: Path, data_dir: Path, index_path: Path, company: str, years: tuple[int, ...], *,
+    metrics: tuple[str, ...], database_path: Path | None = None,
+) -> tuple[list[FinancialFact], list[dict]]:
+    """Select from the explicit backend, then check each selected original once.
+
+    Both backends trust authored numeric transcription, not human verification.
+    An explicitly chosen SQLite snapshot never falls back to the JSON manifest.
+    """
+    validate_fact_request(company, years, metrics)
+    documents = {document.doc_id: document for document in read_index(index_path)}
+    if database_path is None:
+        facts, _ = read_fixture_manifest(manifest_path)
+    else:
+        from .fact_store import load_store_facts
+        facts = load_store_facts(database_path, company, years, metrics=metrics)
+    selected = []
+    for year in years:
+        annual = [fact for fact in facts if fact.company == company
+                  and fact.period_start == f"{year}-01-01" and fact.period_end == f"{year}-12-31"
+                  and fact.report_type == "annual" and fact.metric in metrics]
+        if {fact.metric for fact in annual} != set(metrics):
+            raise FinanceError("FACTS_NOT_FOUND: incomplete calendar-year fixtures; not a disclosure conclusion")
+        selected.extend(annual)
+    return selected, verify_fact_sources(selected, data_dir, documents)

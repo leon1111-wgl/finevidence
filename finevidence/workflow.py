@@ -94,53 +94,55 @@ def calculation_envelope(trace_id: str, status: str) -> dict:
         "Source hashes/excerpts detect drift, not semantic correctness or malicious replacement of all artifacts.",
         "Only calendar-year gross margin, adjacent-year revenue growth and margin percentage-point change are exposed; no currency conversion or missing-value inference.",
         "Decimal ratios use 50 significant digits; margin change uses 100-digit cross-product arithmetic. Displays use two decimals, half-even rounding.",
-        "No model, database, authorization system or persistent trace is involved.",
+        "No model, authorization system or persistent trace is involved. Fact storage does not establish human review.",
     ])
     return payload
 
 
 def calculate_margin(
     index_path: Path, manifest_path: Path, data_dir: Path, company: str, year: int, *,
-    trace_id: str | None = None,
+    trace_id: str | None = None, database_path: Path | None = None,
 ) -> dict:
-    facts, citations = load_fixture_facts(manifest_path, data_dir, index_path, company, year)
+    facts, citations = load_fixture_facts(manifest_path, data_dir, index_path, company, year,
+                                         database_path=database_path)
     by_metric = {fact.metric: fact for fact in facts}
     calculation = gross_margin(by_metric["gross_profit"], by_metric["revenue"])
     return _calculation_result(
         facts, citations, calculation,
         {"company": company, "year": year, "report_type": "annual"},
         f"SYNTHETIC: {company} {year} gross margin = {calculation['display']}",
-        trace_id,
+        trace_id, database_path,
     )
 
 
 def calculate_revenue_growth(
     index_path: Path, manifest_path: Path, data_dir: Path, company: str, year: int, *,
-    trace_id: str | None = None,
+    trace_id: str | None = None, database_path: Path | None = None,
 ) -> dict:
     if type(year) is not int or not 1001 <= year <= 9999:
         raise FinanceError("INVALID_YEAR: growth needs a current year and four-digit prior year")
     facts, citations = load_fixture_periods(
-        manifest_path, data_dir, index_path, company, (year, year - 1), metrics=("revenue",))
+        manifest_path, data_dir, index_path, company, (year, year - 1),
+        metrics=("revenue",), database_path=database_path)
     by_year = {int(fact.period_start[:4]): fact for fact in facts}
     calculation = revenue_growth(by_year[year], by_year[year - 1])
     return _calculation_result(
         facts, citations, calculation,
         {"company": company, "year": year, "prior_year": year - 1, "report_type": "annual"},
         f"SYNTHETIC: {company} {year} vs {year - 1} revenue growth = {calculation['display']}",
-        trace_id,
+        trace_id, database_path,
     )
 
 
 def calculate_margin_change(
     index_path: Path, manifest_path: Path, data_dir: Path, company: str, year: int, *,
-    trace_id: str | None = None,
+    trace_id: str | None = None, database_path: Path | None = None,
 ) -> dict:
     if type(year) is not int or not 1001 <= year <= 9999:
         raise FinanceError("INVALID_YEAR: margin change needs a current year and four-digit prior year")
     facts, citations = load_fixture_periods(
         manifest_path, data_dir, index_path, company, (year, year - 1),
-        metrics=("gross_profit", "revenue"))
+        metrics=("gross_profit", "revenue"), database_path=database_path)
     selected = {(int(fact.period_start[:4]), fact.metric): fact for fact in facts}
     calculation = gross_margin_change(
         selected[(year, "gross_profit")], selected[(year, "revenue")],
@@ -152,15 +154,16 @@ def calculate_margin_change(
         {"company": company, "year": year, "prior_year": year - 1, "report_type": "annual"},
         f"SYNTHETIC: {company} {year} vs {year - 1} gross margin change = {calculation['display']} "
         f"(current {current}; prior {prior})",
-        trace_id,
+        trace_id, database_path,
     )
 
 
 def _calculation_result(
     facts: list[FinancialFact], citations: list[dict], calculation: dict,
-    filters: dict, answer: str, trace_id: str | None,
+    filters: dict, answer: str, trace_id: str | None, database_path: Path | None = None,
 ) -> dict:
     payload = calculation_envelope(trace_id or uuid4().hex, "CALCULATED")
+    payload["fact_store"] = "sqlite_snapshot" if database_path is not None else "json_manifest"
     payload["filters"] = filters
     payload["citations"] = citations
     for fact in facts:

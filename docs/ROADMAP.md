@@ -54,3 +54,9 @@ Independent review of af20584 found a remaining FE-010 query/company Unicode bou
 ## Margin percentage-point change, 2026-10-21
 
 The adjacent-calendar-year margin comparison is implemented through the shared workflow and CLI, with four explicit facts, both original citations and a percentage_points unit. Fifteen added tests and a separate numeric oracle validate the bounded arithmetic and failure contract. E1 remains partial; parameterized read-only fact storage is next, followed by the real-source/review work. The existing synthetic manifest trust boundary is unchanged. No E7 or model completion is claimed.
+
+## Explicit read-only fact snapshots, 2026-10-21
+
+Synthetic E1 storage is now consumed by all three existing workflows. The build command validates all authored inputs/sources, publishes a new snapshot without replacement, and preserves the manifest as an explicit reference backend. Reader failures do not fall back to JSON. Twenty-three new tests include connection-level read-only checks, parameter values, schema failures, source drift, concurrency and six-result parity (150 total).
+
+The broader real fact review boundary remains open; storage is not evidence of human review. Next move toward E2 approved report ingestion and real verification records. No live model, authorization, UI, E7 screenshot or production acceptance is claimed. See FACT_STORE for lifecycle and limitations.

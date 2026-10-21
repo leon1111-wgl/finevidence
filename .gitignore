@@ -7,3 +7,6 @@ __pycache__/
 data/index.json
 data/index.json.lock
 data/index.*.tmp
+data/facts.sqlite
+data/facts.sqlite-*
+data/facts.*.tmp

@@ -8,6 +8,7 @@ from uuid import uuid4
 
 from .documents import DocumentError, import_documents
 from .facts import FinanceError
+from .fact_store import build_fact_store
 from .retrieval import QueryError, SearchHit
 from .workflow import (
     calculation_envelope, calculate_margin, calculate_margin_change, calculate_revenue_growth,
@@ -19,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data" / "synthetic"
 INDEX_PATH = ROOT / "data" / "index.json"
 FACTS_PATH = ROOT / "data" / "facts" / "synthetic.json"
+DATABASE_PATH = ROOT / "data" / "facts.sqlite"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -32,10 +34,14 @@ def build_parser() -> argparse.ArgumentParser:
     query.add_argument("--company", help="精确匹配公司元数据（区分大小写）")
     query.add_argument("--year", type=int, help="筛选报告年度")
     query.add_argument("--json", action="store_true", dest="as_json", help="输出结构化证据和状态")
+    builder = commands.add_parser("build-facts", help="校验合成事实并新建 SQLite 快照，不覆盖已有文件")
+    builder.add_argument("--json", action="store_true", dest="as_json")
     calculator = commands.add_parser("calculate", help="计算虚构事实的毛利率、收入同比或毛利率百分点变化")
     calculator.add_argument("operation", choices=("gross-margin", "revenue-growth", "gross-margin-change"))
     calculator.add_argument("--company", required=True, help="精确匹配虚构公司")
     calculator.add_argument("--year", type=int, required=True, help="完整公历年度；跨年计算自动比较上一年")
+    calculator.add_argument("--fact-store", choices=("manifest", "sqlite"), default="manifest",
+                            help="明确选择 JSON 清单或只读 SQLite 快照（默认 manifest）")
     calculator.add_argument("--json", action="store_true", dest="as_json")
     return parser
 
@@ -59,7 +65,7 @@ def print_hits(hits: list[SearchHit]) -> None:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     trace_id = uuid4().hex
-    envelope = calculation_envelope if args.command == "calculate" else response_envelope
+    envelope = calculation_envelope if args.command in {"calculate", "build-facts"} else response_envelope
     try:
         if args.command == "import":
             result = import_documents(DATA_DIR, INDEX_PATH, args.filenames)
@@ -67,11 +73,20 @@ def main(argv: list[str] | None = None) -> int:
                 f"SYNTHETIC imported={result.imported} skipped={result.skipped} "
                 f"documents={result.documents} chunks={result.chunks}"
             )
+        elif args.command == "build-facts":
+            result = build_fact_store(FACTS_PATH, DATA_DIR, INDEX_PATH, DATABASE_PATH)
+            payload = calculation_envelope(trace_id, "FACT_STORE_BUILT")
+            payload.update(result, mode="synthetic_store_build", fact_store="sqlite_snapshot")
+            if args.as_json:
+                print(json.dumps(payload, ensure_ascii=False, indent=2))
+            else:
+                print(f"SYNTHETIC FACT_STORE_BUILT facts={result['fact_count']} schema=1")
         elif args.command == "calculate":
             calculate = {"gross-margin": calculate_margin, "revenue-growth": calculate_revenue_growth,
                          "gross-margin-change": calculate_margin_change}[args.operation]
             payload = calculate(INDEX_PATH, FACTS_PATH, DATA_DIR, args.company, args.year,
-                                trace_id=trace_id)
+                                trace_id=trace_id,
+                                database_path=DATABASE_PATH if args.fact_store == "sqlite" else None)
             if args.as_json:
                 print(json.dumps(payload, ensure_ascii=False, indent=2))
             else:

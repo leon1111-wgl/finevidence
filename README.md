@@ -2,7 +2,7 @@
 
 [![Offline regression](https://github.com/leon1111-wgl/finevidence/actions/workflows/ci.yml/badge.svg)](https://github.com/leon1111-wgl/finevidence/actions/workflows/ci.yml)
 
-An enterprise-oriented financial evidence application: trace source passages, review facts and build bounded AI workflows. **Currently implemented: source-checked offline retrieval, synthetic gross margin, annual revenue growth and margin percentage-point change.** Real-report ingestion, human fact review, a model-driven Agent and the reviewer interface remain tracked work.
+An enterprise-oriented financial evidence application: trace source passages, review facts and build bounded AI workflows. **Currently implemented: source-checked offline retrieval, synthetic gross margin, annual revenue growth and margin percentage-point change, with optional read-only SQLite facts.** Real-report ingestion, human fact review, a model-driven Agent and the reviewer interface remain tracked work.
 
 ## Run the current version
 
@@ -37,7 +37,8 @@ The second query returns `NO_MATCH`, an empty citations list and `answer: null`.
 - English BM25 retrieval with exact company/year metadata filters; source/snapshot equality checked before filtering and deterministic ranking.
 - A shared workflow and JSON response contract with request ID, status, original excerpts, citations and limitations.
 - Eight typed synthetic facts, explicit units/period/currency/basis/scope, original-source rechecks and deterministic Decimal gross margin, revenue growth and margin percentage-point change.
-- 127 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
+- An explicit synthetic SQLite snapshot builder and parameterized, read-only lookup used by all three calculations; JSON remains the reference backend.
+- 150 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
 
 All companies, amounts and statements in the sample corpus are fictional. `page_kind=synthetic` is **not** a PDF physical page. Engineering tests do not establish real financial question-answering quality.
 
@@ -67,7 +68,18 @@ Growth requires adjacent complete calendar years with matching company, currency
 
 Margin change uses normalized cross-products in an isolated 100-digit Decimal context, then rounds only the final display to two decimals. It does not subtract the two rounded percentage displays or the 50-digit component ratios. This preserves small differences between nearly equal margins. Its policy and all four fact records determine the calculation ID; recurring results remain precision-limited.
 
-Missing operands return `FACTS_NOT_FOUND` rather than falling back to another company/year. Invalid manifests, incompatible facts, unverified facts and source drift have separate error codes and return no answer/calculation (exit 2). Read-only SQLite lookup remains subsequent E1 work. See [the calculation contract](docs/FINANCIAL_CALCULATIONS.md).
+Missing operands return `FACTS_NOT_FOUND` rather than falling back to another company/year. Invalid manifests, incompatible facts, unverified facts and source drift have separate error codes and return no answer/calculation (exit 2). Read-only SQLite lookup is available through the explicit backend below. See [the calculation contract](docs/FINANCIAL_CALCULATIONS.md).
+
+## Read-only SQLite fact snapshot
+
+After importing all four sources, build a new snapshot and select it explicitly:
+
+    .venv/bin/python -m finevidence build-facts --json
+    .venv/bin/python -m finevidence calculate gross-margin-change --company "Aurora Orchard" --year 2024 --fact-store sqlite --json
+
+The default is --fact-store manifest. Both backends preserve facts, source checks, Decimal results and calculation IDs; the response identifies which backend was used. SQLite lookup uses bound values and a read-only connection. Database failure never falls back to JSON. The build validates every synthetic fact/source and refuses to overwrite an existing data/facts.sqlite; preserve and move an old snapshot before explicitly rebuilding. A later manifest edit does not silently update the snapshot.
+
+This is a small local snapshot (1 MiB / 32 facts), not human fact review, a SQL Agent or a live multi-user database. Missing/corrupt snapshots, unsupported schemas, lock contention and source drift fail explicitly. See [snapshot lifecycle, failure contract and tests](docs/FACT_STORE.md).
 
 ## Code map
 
@@ -78,8 +90,10 @@ Missing operands return `FACTS_NOT_FOUND` rather than falling back to another co
 | `finevidence/documents.py` | Source validation, snapshot and page-preserving chunks |
 | `finevidence/retrieval.py` | Tokenization and BM25 scoring |
 | `finevidence/facts.py` | Typed fixture validation, selection and original-source checks |
+| `finevidence/fact_store.py` | Checked snapshot publication and parameterized read-only fact lookup |
 | `finevidence/finance.py` | Comparable-input validation and Decimal financial operations |
 | `tests/test_cli.py` | Real CLI integration and boundary tests |
+| `tests/test_fact_store.py` | Snapshot lifecycle, read-only boundaries, failures and backend parity |
 | `tests/test_finance*.py` | Literal arithmetic oracles and source-linked calculation boundaries |
 | `tests/test_margin_change*.py` | Percentage-point arithmetic, comparability, four-fact and two-source CLI lineage |
 | `tests/test_growth*.py` | Annual-comparison arithmetic, policy boundaries and two-source CLI lineage |

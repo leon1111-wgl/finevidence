@@ -59,3 +59,7 @@ Performance targets are provisional: report p50/p95, sample size, corpus size, c
 ## Completion definition
 
 The portfolio release needs a working report-to-evidence-to-calculation workflow, a separately demonstrated bounded model integration when authorized, reproducible evaluation and failure cases, CI and runnable packaging, an operations runbook, a three-minute demo and honest contribution records. A production deployment would additionally require organization-specific security, data licensing, privacy, capacity and operational review. Neither is established merely by writing this design.
+
+## Current synthetic storage boundary (2026-10-21)
+
+The CLI can explicitly build a local SQLite snapshot from source-checked synthetic facts. Three financial workflows select either the original JSON manifest or this snapshot, then share the same selected-source checks and Decimal functions. The reader accepts only the supported bounded schema through a mode=ro connection and parameterized internal queries. Builds create new snapshots; calculations neither update nor silently regenerate them. This implements a storage boundary, not the target human review, authorization or tracing systems. See FACT_STORE for failure/rebuild semantics.
