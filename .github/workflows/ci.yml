@@ -42,6 +42,9 @@ jobs:
       - name: Read-only SQLite calculation smoke
         run: python -m finevidence calculate gross-margin-change --company "Aurora Orchard" --year 2024 --fact-store sqlite --json
 
+      - name: Synthetic task evaluation (no model credentials)
+        run: python scripts/evaluate.py --output /tmp/finevidence-evaluation.json
+
       - name: Browser corpus and Python parity oracles
         run: python scripts/build_web.py
       - name: Deterministic browser engine and draft tests

@@ -66,6 +66,14 @@ class WorkbenchTests(unittest.TestCase):
         with self.assertRaisesRegex(ProviderError,'AGENT_TIMEOUT'):
             run_agent(self.w,'毛利率','Aurora Orchard',2024,provider=p,clock=lambda:next(times))
 
+    def test_failed_agent_reports_actual_provider_usage(self):
+        p=Decisions([action('shell',{'cmd':'ignored'})])
+        with self.assertRaises(ProviderError) as caught:
+            run_agent(self.w,'无效任务','Aurora Orchard',2024,provider=p)
+        self.assertEqual(caught.exception.model_audit['calls'],1)
+        self.assertEqual(caught.exception.model_audit['usage']['total_tokens'],0)
+        self.assertTrue(caught.exception.model_audit['usage_complete'])
+
     def test_missing_key_is_explicit(self):
         with patch.dict('os.environ',{'FINEVIDENCE_API_KEY':''}),self.assertRaisesRegex(ProviderError,'MODEL_NOT_CONFIGURED'):
             run_agent(self.w,'毛利率','Aurora Orchard',2024)

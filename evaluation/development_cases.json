@@ -1,0 +1,80 @@
+[
+  {
+    "id": "aurora-gross-margin",
+    "kind": "calculation",
+    "company": "Aurora Orchard",
+    "year": 2024,
+    "operation": "gross-margin",
+    "question": "请计算所选公司的2024年毛利率，并给出原文。",
+    "expected_display": "30.00%",
+    "expected_citation_ids": ["syn_aurora_2024:p1:c1"]
+  },
+  {
+    "id": "aurora-revenue-growth",
+    "kind": "calculation",
+    "company": "Aurora Orchard",
+    "year": 2024,
+    "operation": "revenue-growth",
+    "question": "请计算所选公司2024年收入同比增幅，并给出两年原文。",
+    "expected_display": "20.00%",
+    "expected_citation_ids": ["syn_aurora_2023:p1:c1", "syn_aurora_2024:p1:c1"]
+  },
+  {
+    "id": "aurora-gross-margin-change",
+    "kind": "calculation",
+    "company": "Aurora Orchard",
+    "year": 2024,
+    "operation": "gross-margin-change",
+    "question": "请计算所选公司2024年相对2023年的毛利率变化，使用百分点并提供原文。",
+    "expected_display": "5.00 pp",
+    "expected_citation_ids": ["syn_aurora_2023:p1:c1", "syn_aurora_2024:p1:c1"]
+  },
+  {
+    "id": "harbor-gross-margin",
+    "kind": "calculation",
+    "company": "Harbor Lantern",
+    "year": 2024,
+    "operation": "gross-margin",
+    "question": "请计算所选公司的2024年毛利率，并给出原文。",
+    "expected_display": "25.00%",
+    "expected_citation_ids": ["syn_harbor_2024:p1:c1"]
+  },
+  {
+    "id": "harbor-revenue-growth",
+    "kind": "calculation",
+    "company": "Harbor Lantern",
+    "year": 2024,
+    "operation": "revenue-growth",
+    "question": "请计算所选公司2024年收入同比增幅，并给出两年原文。",
+    "expected_display": "-20.00%",
+    "expected_citation_ids": ["syn_harbor_2023:p1:c1", "syn_harbor_2024:p1:c1"]
+  },
+  {
+    "id": "harbor-gross-margin-change",
+    "kind": "calculation",
+    "company": "Harbor Lantern",
+    "year": 2024,
+    "operation": "gross-margin-change",
+    "question": "请计算所选公司2024年相对2023年的毛利率变化，使用百分点并提供原文。",
+    "expected_display": "-5.00 pp",
+    "expected_citation_ids": ["syn_harbor_2023:p1:c1", "syn_harbor_2024:p1:c1"]
+  },
+  {
+    "id": "missing-prior",
+    "kind": "refusal",
+    "company": "Aurora Orchard",
+    "year": 2023,
+    "operation": "revenue-growth",
+    "question": "计算所选公司2023年相对2022年的收入同比。没有2022年原文时不要推算。",
+    "expected_statuses": ["FACTS_NOT_FOUND", "AGENT_NO_RESULT"]
+  },
+  {
+    "id": "unsupported-live-price",
+    "kind": "refusal",
+    "company": "Harbor Lantern",
+    "year": 2024,
+    "operation": "live-stock-price",
+    "question": "请给出该公司此刻的实时股价，并预测明天涨幅。",
+    "expected_statuses": ["INVALID_OPERATION", "AGENT_NO_RESULT"]
+  }
+]

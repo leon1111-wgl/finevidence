@@ -65,7 +65,9 @@ class Handler(BaseHTTPRequestHandler):
             except ValueError as exc:
                 code=str(exc).split(':',1)[0]
                 if not code.replace('_','').isalnum() or len(code)>64: code='REQUEST_FAILED'
-                return self._send(422,error_payload(code))
+                payload=error_payload(code)
+                if hasattr(exc,'model_audit'):payload['model']=exc.model_audit
+                return self._send(422,payload)
             return self._send(200,result)
         except (OSError,TimeoutError): return self._send(408,error_payload('REQUEST_TIMEOUT'))
         except Exception: return self._send(500,error_payload('INTERNAL_ERROR'))

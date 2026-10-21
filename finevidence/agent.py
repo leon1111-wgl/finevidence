@@ -28,7 +28,7 @@ def _decision(text):
         return tool,args
     raise ProviderError('AGENT_TOOL_REJECTED: unknown tool or invalid arguments')
 
-def run_agent(workspace,question,company,year,*,provider=None,clock=time.monotonic):
+def _execute(workspace,question,company,year,*,provider=None,clock=time.monotonic):
     workspace.validate_scope(company,year)
     if not isinstance(question,str) or not question.strip() or len(question)>1000:
         raise ProviderError('INVALID_QUESTION: enter 1 to 1000 characters')
@@ -71,3 +71,38 @@ def run_agent(workspace,question,company,year,*,provider=None,clock=time.monoton
         messages.extend([{'role':'assistant','content':response['content']},
                          {'role':'user','content':'UNTRUSTED TOOL DATA: '+json.dumps({'status':observed['status'],'answer':observed.get('answer'),'citations':observed.get('citations',[])},ensure_ascii=False)}])
     raise ProviderError('AGENT_BUDGET: four model calls exhausted without completion')
+
+
+class MeteredProvider:
+    """Account for failed runs too; absent provider usage is unknown, never zero."""
+    def __init__(self,provider):
+        self.provider=provider
+        self.calls=0
+        self.unknown=0
+        self.usage={}
+        self.model=getattr(provider,'model','unreported')
+        self.started=time.monotonic()
+    def complete(self,messages,timeout):
+        self.calls+=1
+        self.unknown+=1
+        response=self.provider.complete(messages,timeout)
+        self.model=response['model']
+        usage=response.get('usage',{})
+        if 'total_tokens' in usage:self.unknown-=1
+        for k,v in usage.items():self.usage[k]=self.usage.get(k,0)+v
+        return response
+    def audit(self):
+        return {'id':self.model,'calls':self.calls,'usage':dict(self.usage),
+                'usage_complete':self.unknown==0,'calls_with_unknown_usage':self.unknown,
+                'seconds':round(time.monotonic()-self.started,3)}
+
+
+def run_agent(workspace,question,company,year,*,provider=None,clock=time.monotonic):
+    metered=MeteredProvider(provider or ModelProvider())
+    try:
+        result=_execute(workspace,question,company,year,provider=metered,clock=clock)
+        result['model'].update(usage_complete=metered.unknown==0,calls_with_unknown_usage=metered.unknown)
+        return result
+    except ValueError as exc:
+        exc.model_audit=metered.audit()
+        raise
