@@ -60,3 +60,7 @@ The workbench release at 83ccc21 passed exact-commit GitHub CI and deployed-byte
 ## 2026-10-22 decision-diagnostic increment
 
 Safe fixed failure categories and model-call ordinals now survive one format repair, later transport failure and the local HTTP boundary. Twelve offline failure inputs have categorized output (0/12 on the previous version, 12/12 now), with no rejected content echoed. A 349-combination protocol comparison preserves acceptance and outer status codes. Full local suite: 181 tests, 20.523s. No paid model request was made. FE-013 remains open and the first live task result remains 7/8; this is observability improvement, not a measured quality increase. See [AGENT_DIAGNOSTICS](AGENT_DIAGNOSTICS.md).
+
+## 2026-10-22 retry-state correction
+
+FE-014 input edits now revoke the previous failure retry and hide its button. Seven browser state-transition checks first reproduced five failures, then passed locally; unchanged-request retries remain available. CI runs these checks in addition to the original fourteen workflow checks for static and Python modes. This is a UI reliability correction with no paid calls, model-policy change or new real-data claim. See [RETRY_STATE](RETRY_STATE.md); final release verification is separate from local results.

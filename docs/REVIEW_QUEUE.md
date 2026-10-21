@@ -16,6 +16,7 @@ Baseline review: 2026-10-19, before first public repository commit. These are ob
 | FE-010 | P2 | Fixed observed document, fact and query text defects | Document/fact fixes held, but af20584 accepted invalid query/company text and could emit non-UTF-8 JSON or exit 1 | Shared retrieval and direct search now reject invalid text; seven new tests cover real argv bytes, direct calls, both output modes and valid Unicode. All 112 tests pass; original ten query-review failures return typed errors. Source filenames retain INVALID_PATH |
 | FE-011 | P2 | Fixed input defect | At caafb75, a source symlink cycle raised uncaught RuntimeError | Resolve errors become INVALID_PATH; self/two-node cycles, dangling/external links and valid internal link controls pass |
 | FE-012 | P3 | Fixed response-contract defect | At f1b3c1c, build-facts failures used synthetic_calculation despite the correct refusal status | Dedicated build envelope for success and both error handlers; five added tests, six pre-fix failing assertions/subtests, original mode reproduction now passes; no change to snapshot protection |
+| FE-014 | P2 | Reproduced stale retry fixed locally | At 3df0b55, editing company/year/operation/query left the old failure callback active | clearResult revokes and hides the old retry; seven browser scenarios include unchanged retry controls and offline model-to-fixed transition. Verify exact release and independent review; see RETRY_STATE |
 
 Do not mark FE-001/002/003 closed merely because an interface or stub exists. Each closure needs a commit and executed acceptance evidence.
 
@@ -86,3 +87,7 @@ Location: agent._decision / run_agent. Raw invalid content was intentionally not
 ### FE-013 diagnostic prerequisite, 2026-10-22
 
 Implemented fixed non-content categories INVALID_JSON, DECISION_SCHEMA, UNKNOWN_TOOL, ARGUMENT_KEYS and ARGUMENT_VALUE with call ordinals. Raw rejected content remains absent. Twelve offline protocol and twelve real loopback HTTP scenarios now expose the expected category without echoing a private canary; 349 decisions preserve acceptance/status versus c718947. Five added test methods first produced 26 failing assertions, then passed. Full local suite 181 passes. This completes the diagnostic prerequisite only: no new live call, no inferred original rejected field, no change to the 7/8 benchmark and no FE-013 closure. Next authorized observation can distinguish schema failure before proposing a behavioral fix.
+
+## FE-014 — input changes revoke stale retries
+
+The independent review reproduced the same stale callback in the public and Python workbenches. New browser tests first failed five of seven scenarios on both unmodified surfaces; unchanged-refusal and network-retry controls already passed. clearResult now clears retryAction and hides the button along with the stale financial result. No automatic request is added. Local seven-scenario verification passes. See RETRY_STATE for the protocol and release evidence; FE-013 and its original 7/8 result remain open.

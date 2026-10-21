@@ -73,6 +73,8 @@ function updateHelp() {
         : "指标使用固定公式；无需输入问题。对比指标会同时读取上一年度。";
 }
 function clearResult() {
+  retryAction = null;
+  $("retry").hidden = true;
   result = null;
   selected = "";
   reviewed.clear();
