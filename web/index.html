@@ -151,6 +151,24 @@
           </p>
         </section>
         <details class="help">
+          <summary>量化验证：真实模型首轮 7 / 8 项通过</summary>
+          <p>
+            8 个公开合成开发任务，一次顺序执行。6 个计算的数值与来源均正确；2
+            个拒绝任务中 1
+            个符合预期。缺前期任务被工具校验拦截，未输出数字，但仍计为失败。
+          </p>
+          <p>
+            固定流程 8 / 8；模型组 15 次调用、7,471 tokens，中位耗时 3.55
+            秒。这里验证工程流程，不代表真实财报准确率或人工节时。
+          </p>
+          <p>
+            <a
+              href="https://github.com/leon1111-wgl/finevidence/blob/main/docs/EVALUATION.md"
+              >查看题目、判定规则、完整结果与复跑命令 ↗</a
+            >
+          </p>
+        </details>
+        <details class="help">
           <summary>如何运行真实模型与复现结果</summary>
           <p>
             公开页面在浏览器中执行检索和精确计算。真实模型由本机 Python

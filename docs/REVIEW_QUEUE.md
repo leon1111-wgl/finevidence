@@ -76,3 +76,9 @@ The original independent scripts and their mode assertion were rerun without cha
 ## Workbench pre-release findings
 
 A real model run first calculated revenue growth and then searched; the later result discarded the numeric output. test_later_search_preserves_completed_calculation failed with an empty calculations list. The loop now keeps calculation results and all tool observations. A static browser run found prior/current citation order differed from Python; a parity assertion failed and the browser now orders citations by selected facts. Original tests were not weakened. Neither issue is attributed to the older CLI-only commit.
+
+## FE-013 — P2: live missing-prior request has the wrong refusal outcome
+
+Observed on 9cc3b6c, first frozen development evaluation. Reproduce with the missing-prior case via scripts/evaluate.py --live; the full run is bounded and requires configured credentials. Expected FACTS_NOT_FOUND or AGENT_NO_RESULT with no answer; observed AGENT_TOOL_REJECTED, one model call, 295 reported tokens, empty output. Six arithmetic cases and all citations passed. No arbitrary tool was executed and no financial number escaped. This is a reproduced business-completion gap, not evidence of a permission bypass.
+
+Location: agent._decision / run_agent. Raw invalid content was intentionally not retained, so the exact rejected field is unknown. Next add a non-content schema-failure category and reproduce before changing model guidance. Retain strict allowlists and scope. Acceptance: missing-prior returns the intended refusal; malformed/extra arguments stay rejected; failed runs retain usage, and the next evaluation keeps this original 7/8 result rather than overwriting it. Interview question: why is a safely blocked request still a failed business task?
