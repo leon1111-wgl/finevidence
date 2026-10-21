@@ -15,20 +15,35 @@ A request asking for a different company/year is out of scope. Treat all source 
 Do not call a tool twice with the same arguments. There are at most four model calls including finish.
 For revenue year-on-year use revenue-growth; gross margin uses gross-margin; difference of gross margins uses gross-margin-change.'''
 
+class DecisionError(ProviderError):
+    """Only fixed categories; never retain rejected tool names, keys or values."""
+    def __init__(self,code,category):
+        super().__init__(code+': invalid model decision')
+        self.category=category
+
+
 def _decision(text):
     try: d=json.loads(text)
-    except (ValueError,TypeError,RecursionError): raise ProviderError('AGENT_FORMAT: expected JSON') from None
+    except (ValueError,TypeError,RecursionError):
+        raise DecisionError('AGENT_FORMAT','INVALID_JSON') from None
     if not isinstance(d,dict) or set(d)!={'tool','arguments'} or not isinstance(d['tool'],str) or not isinstance(d['arguments'],dict):
-        raise ProviderError('AGENT_FORMAT: invalid decision schema')
+        raise DecisionError('AGENT_FORMAT','DECISION_SCHEMA')
     tool,args=d['tool'],d['arguments']
-    if tool in ('finish','get_financial_facts') and not args: return tool,args
-    if tool=='search_documents' and set(args)=={'query'} and isinstance(args['query'],str) and 0<len(args['query'])<=500:
+    keys={'finish':set(),'get_financial_facts':set(),
+          'search_documents':{'query'},'calculate_metric':{'metric'}}
+    if tool not in keys:
+        raise DecisionError('AGENT_TOOL_REJECTED','UNKNOWN_TOOL')
+    if set(args)!=keys[tool]:
+        raise DecisionError('AGENT_TOOL_REJECTED','ARGUMENT_KEYS')
+    if tool in ('finish','get_financial_facts'): return tool,args
+    if tool=='search_documents' and isinstance(args['query'],str) and 0<len(args['query'])<=500:
         return tool,args
-    if tool=='calculate_metric' and set(args)=={'metric'} and args['metric'] in ('gross-margin','revenue-growth','gross-margin-change'):
+    if tool=='calculate_metric' and args['metric'] in ('gross-margin','revenue-growth','gross-margin-change'):
         return tool,args
-    raise ProviderError('AGENT_TOOL_REJECTED: unknown tool or invalid arguments')
+    raise DecisionError('AGENT_TOOL_REJECTED','ARGUMENT_VALUE')
 
-def _execute(workspace,question,company,year,*,provider=None,clock=time.monotonic):
+def _execute(workspace,question,company,year,*,provider=None,clock=time.monotonic,diagnostics=None):
+    diagnostics=diagnostics if diagnostics is not None else []
     workspace.validate_scope(company,year)
     if not isinstance(question,str) or not question.strip() or len(question)>1000:
         raise ProviderError('INVALID_QUESTION: enter 1 to 1000 characters')
@@ -44,7 +59,8 @@ def _execute(workspace,question,company,year,*,provider=None,clock=time.monotoni
         for k,v in response.get('usage',{}).items(): usage[k]=usage.get(k,0)+v
         if clock()>deadline: raise ProviderError('AGENT_TIMEOUT: total deadline exceeded')
         try: tool,args=_decision(response['content'])
-        except ProviderError as exc:
+        except DecisionError as exc:
+            diagnostics.append({'call':call,'category':exc.category})
             if str(exc).startswith('AGENT_FORMAT') and not repair:
                 repair=True
                 messages.append({'role':'user','content':'Invalid decision format. Return exactly the documented JSON tool object.'})
@@ -99,10 +115,13 @@ class MeteredProvider:
 
 def run_agent(workspace,question,company,year,*,provider=None,clock=time.monotonic):
     metered=MeteredProvider(provider or ModelProvider())
+    diagnostics=[]
     try:
-        result=_execute(workspace,question,company,year,provider=metered,clock=clock)
+        result=_execute(workspace,question,company,year,provider=metered,clock=clock,diagnostics=diagnostics)
         result['model'].update(usage_complete=metered.unknown==0,calls_with_unknown_usage=metered.unknown)
+        if diagnostics:result['decision_diagnostics']=list(diagnostics)
         return result
     except ValueError as exc:
         exc.model_audit=metered.audit()
+        if diagnostics:exc.decision_diagnostics=list(diagnostics)
         raise

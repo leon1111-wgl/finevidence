@@ -67,6 +67,7 @@ class Handler(BaseHTTPRequestHandler):
                 if not code.replace('_','').isalnum() or len(code)>64: code='REQUEST_FAILED'
                 payload=error_payload(code)
                 if hasattr(exc,'model_audit'):payload['model']=exc.model_audit
+                if hasattr(exc,'decision_diagnostics'):payload['decision_diagnostics']=exc.decision_diagnostics
                 return self._send(422,payload)
             return self._send(200,result)
         except (OSError,TimeoutError): return self._send(408,error_payload('REQUEST_TIMEOUT'))

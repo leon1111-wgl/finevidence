@@ -56,3 +56,7 @@ Remaining scope: real-report rights/ingestion/review, explicit nonfinancial clai
 176 local Python tests passed (21.380s), separate from business-task metrics. The first frozen eight-task live run completed 7/8, with 6/6 numeric and citation checks, 1/2 expected refusals, 15 requests and 7,471 reported tokens. A missing-prior-year request was blocked by the tool validator but failed the intended business refusal contract. Deterministic structured input completed 8/8. See [EVALUATION](EVALUATION.md) for denominators, exact evidence, unequal input modes, latency and limitations. No best-of-N result is reported.
 
 The workbench release at 83ccc21 passed exact-commit GitHub CI and deployed-byte/browser verification. See [RELEASE_VALIDATION](RELEASE_VALIDATION.md); this is release evidence, separate from the 7/8 model-task result.
+
+## 2026-10-22 decision-diagnostic increment
+
+Safe fixed failure categories and model-call ordinals now survive one format repair, later transport failure and the local HTTP boundary. Twelve offline failure inputs have categorized output (0/12 on the previous version, 12/12 now), with no rejected content echoed. A 349-combination protocol comparison preserves acceptance and outer status codes. Full local suite: 181 tests, 20.523s. No paid model request was made. FE-013 remains open and the first live task result remains 7/8; this is observability improvement, not a measured quality increase. See [AGENT_DIAGNOSTICS](AGENT_DIAGNOSTICS.md).

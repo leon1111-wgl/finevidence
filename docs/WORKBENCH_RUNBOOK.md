@@ -78,3 +78,5 @@ pnpm test:browser
 GitHub Actions 中 Python/Linux/macOS、JS 和浏览器检查均通过后，才上传 web 静态产物并部署 Pages。manifest.json 记录发布 SHA 和 bundle SHA256，生产页面不含凭据。
 
 回滚用 `git revert <bad-commit>` 创建新提交，再通过相同 CI／部署。不要 force-push 或手动覆盖已核验产物。来源／schema 变化使旧草稿不恢复勾选；请先导出重要记录。故障排查先看页面状态码、Actions 的确切 SHA 和 manifest，不把旧页面截图当新发布证据。
+
+模型调用失败可在本地HTTP响应或评测JSON中查看可选的 decision_diagnostics。它仅含调用序号和固定校验类别，不含被拒绝的内容。格式修复后成功也保留类别；网络用量缺失仍标为unknown。详见 [脱敏诊断](AGENT_DIAGNOSTICS.md)，不能依据此增量声称首轮7/8已提高。

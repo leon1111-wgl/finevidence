@@ -67,3 +67,5 @@ The CLI can explicitly build a local SQLite snapshot from source-checked synthet
 ## Released workbench boundary, 2026-10-21
 
 The GitHub Pages client executes a validated, public synthetic bundle and has no server credential. The loopback server reuses Workspace/workflow and exposes only fixed static paths and one CSRF-checked operation endpoint. A bounded model loop selects allowlisted tools within the UI-selected scope. Financial answers originate in Decimal tools. Per-request tool results can be exported; browser checks are not signed verification. Read WORKBENCH_DESIGN and WORKBENCH_RUNBOOK before extending this boundary.
+
+Local model decision failures expose only fixed category codes and call ordinals; the request owns its diagnostic list. Records survive a permitted format repair or subsequent provider failure, but raw rejected content is never copied into diagnostics. This is request-response observability, not persistent enterprise audit. See AGENT_DIAGNOSTICS.

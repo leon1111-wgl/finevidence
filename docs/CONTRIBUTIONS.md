@@ -23,3 +23,5 @@
 The user chose the enterprise portfolio direction, Shenzhen/Hong Kong financial research emphasis, complete GitHub application delivery and MornAI model service, and authorized integration testing. Codex researched, designed, implemented and tested this increment. No new claim is made that the user independently wrote, debugged or explained these modules; the local learning materials include exercises for that verification.
 
 2026-10-21: Codex implemented the workbench, provider/tool boundaries and evaluation runner; the user specified enterprise scope, API source and quantitative acceptance. Live provider calls were executed with authorization. No new user-written code or independent human financial verification has been observed. Frozen first-run evaluation is 7/8 and remains published with its failure.
+
+2026-10-22: Codex added request-local, content-free decision diagnostics and offline/HTTP regressions. No paid model calls or newly verified user code contributions; FE-013 and the original live result remain unchanged.
