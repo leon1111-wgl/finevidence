@@ -60,6 +60,7 @@ pnpm install --frozen-lockfile --ignore-scripts
 pnpm exec playwright install chromium
 # 另开终端运行 python3 -m finevidence.server
 pnpm test:browser
+pnpm test:restore
 ```
 
 浏览器脚本默认 127.0.0.1:8765；通过 BASE_URL 可验证静态预览或公开 Pages。BROWSER_ARTIFACTS 指定截图／结果目录，CHROME_PATH 可指定已有 Chromium/Chrome。使用测试浏览器全新上下文；不覆盖个人浏览器状态。CI 没有密钥，只运行离线回归；本地实际模型结果单独记录。
@@ -82,3 +83,5 @@ GitHub Actions 中 Python/Linux/macOS、JS 和浏览器检查均通过后，才�
 模型调用失败可在本地HTTP响应或评测JSON中查看可选的 decision_diagnostics。它仅含调用序号和固定校验类别，不含被拒绝的内容。格式修复后成功也保留类别；网络用量缺失仍标为unknown。详见 [脱敏诊断](AGENT_DIAGNOSTICS.md)，不能依据此增量声称首轮7/8已提高。
 
 输入修改与重试状态的回归、实际失败及离线夹具边界见 [RETRY_STATE](RETRY_STATE.md)。`pnpm test:browser`执行原14项流程及7项重试场景，不进行真实模型调用。
+
+草稿重算遇到网络失败时，手动重试会保留同一份备注、选中原文和仍在当前结果中的核对ID；连续失败不覆盖已保存草稿。修改输入会撤销旧恢复重试，新范围不会继承旧核对记录。`pnpm test:restore`必须连接本地Python服务，执行6项恢复／故障／导出检查；公开静态页不执行该网络故障专项。实现与测试边界见 [DRAFT_RECOVERY](DRAFT_RECOVERY.md)。

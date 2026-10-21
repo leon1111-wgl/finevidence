@@ -331,7 +331,7 @@ async function execute(data, { restore = null } = {}) {
         ` [${code}]`,
       true,
     );
-    retryAction = () => execute(data);
+    retryAction = () => execute(data, { restore });
     $("retry").textContent = "重试本次核查";
     $("retry").hidden = false;
   } finally {

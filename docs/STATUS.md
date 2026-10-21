@@ -64,3 +64,15 @@ Safe fixed failure categories and model-call ordinals now survive one format rep
 ## 2026-10-22 retry-state correction
 
 FE-014 input edits now revoke the previous failure retry and hide its button. Seven browser state-transition checks first reproduced five failures, then passed locally; unchanged-request retries remain available. CI runs these checks in addition to the original fourteen workflow checks for static and Python modes. This is a UI reliability correction with no paid calls, model-policy change or new real-data claim. See [RETRY_STATE](RETRY_STATE.md); final release verification is separate from local results.
+
+## 2026-10-22 draft-replay correction
+
+Independent review verified FE-014's observed scope and found FE-015: a failed
+draft replay followed by Retry dropped the restoration context and overwrote
+notes/checked citations despite a correct calculation. Retry now carries that
+context; input edits still revoke it. Six real-browser/local-Python scenarios
+changed from 3/6 to 6/6, and the unchanged independent review script from 2/3 to
+3/3. CI includes the six-case suite in the Python workbench job. Network faults
+are injected offline; no model call, data change or real-data accuracy claim is
+included. See [DRAFT_RECOVERY](DRAFT_RECOVERY.md). Independent closure and exact
+release verification must be recorded separately; FE-013 remains open.

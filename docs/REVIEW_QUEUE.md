@@ -16,7 +16,8 @@ Baseline review: 2026-10-19, before first public repository commit. These are ob
 | FE-010 | P2 | Fixed observed document, fact and query text defects | Document/fact fixes held, but af20584 accepted invalid query/company text and could emit non-UTF-8 JSON or exit 1 | Shared retrieval and direct search now reject invalid text; seven new tests cover real argv bytes, direct calls, both output modes and valid Unicode. All 112 tests pass; original ten query-review failures return typed errors. Source filenames retain INVALID_PATH |
 | FE-011 | P2 | Fixed input defect | At caafb75, a source symlink cycle raised uncaught RuntimeError | Resolve errors become INVALID_PATH; self/two-node cycles, dangling/external links and valid internal link controls pass |
 | FE-012 | P3 | Fixed response-contract defect | At f1b3c1c, build-facts failures used synthetic_calculation despite the correct refusal status | Dedicated build envelope for success and both error handlers; five added tests, six pre-fix failing assertions/subtests, original mode reproduction now passes; no change to snapshot protection |
-| FE-014 | P2 | Reproduced stale retry fixed locally | At 3df0b55, editing company/year/operation/query left the old failure callback active | clearResult revokes and hides the old retry; seven browser scenarios include unchanged retry controls and offline model-to-fixed transition. Verify exact release and independent review; see RETRY_STATE |
+| FE-014 | P2 | Fixed, independently verified observed scope | At 3df0b55, editing inputs left the old failure callback active | Independent review of 6d8efe3 passed seven retry cases on public and Python workbenches; draft restoration is separately tracked as FE-015 |
+| FE-015 | P2 | Reproduced draft loss fixed locally | At 6d8efe3, Retry after failed draft replay dropped restore and overwrote notes/checked IDs | Keep restoration context across explicit retries; six browser/Python cases 3/6 to 6/6, original review script 2/3 to 3/3; editing still revokes. Await independent closure; see DRAFT_RECOVERY |
 
 Do not mark FE-001/002/003 closed merely because an interface or stub exists. Each closure needs a commit and executed acceptance evidence.
 
@@ -91,3 +92,20 @@ Implemented fixed non-content categories INVALID_JSON, DECISION_SCHEMA, UNKNOWN_
 ## FE-014 — input changes revoke stale retries
 
 The independent review reproduced the same stale callback in the public and Python workbenches. New browser tests first failed five of seven scenarios on both unmodified surfaces; unchanged-refusal and network-retry controls already passed. clearResult now clears retryAction and hides the button along with the stale financial result. No automatic request is added. Local seven-scenario verification passes. See RETRY_STATE for the protocol and release evidence; FE-013 and its original 7/8 result remain open.
+
+## FE-015 — restore metadata across a failed replay and retry
+
+Independent review on 6d8efe3 observed correct 20.00% but empty notes, 0/2
+checked sources and overwritten storage/export after one failed local HTTP
+replay followed by Retry. Normal reload and fault-then-reload controls retained
+the review. Location: app.mjs execute's failure callback omitted the restore
+option; the subsequent successful save persisted empty review metadata.
+
+The callback now retains restore with the same request. Six browser cases
+first failed three expected note-preservation assertions, then all passed;
+the original independent script also passes all three cases unchanged. Failed
+attempts preserve saved bytes, repeated retries retain metadata, invalid IDs
+are filtered, scope edits revoke restoration, and no model operation occurs.
+This does not establish server persistence or authenticated review. Verify
+release and independently rerun before closing. Interview question: which
+state besides a correct financial value must survive recovery?
