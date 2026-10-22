@@ -1,5 +1,6 @@
 import { validateBundle, run, sha256 } from "./engine.mjs";
 import { readDraft, writeDraft } from "./state.mjs";
+import { bindHandoff } from "./handoff.mjs";
 const $ = (id) => document.getElementById(id),
   el = (tag, content, cls) => {
     const n = document.createElement(tag);
@@ -79,6 +80,7 @@ function clearResult() {
   selected = "";
   reviewed.clear();
   $("export").disabled = true;
+  $("replay-export").disabled = true;
   $("notes").disabled = true;
   $("notes").value = "";
   $("result-meta").textContent = "等待运行";
@@ -256,6 +258,7 @@ function render() {
     content.append(detail);
   }
   $("export").disabled = false;
+  $("replay-export").disabled = false;
   $("notes").disabled = false;
   renderEvidence();
   if (result.citations.length) {
@@ -372,6 +375,18 @@ async function initialize() {
       throw Error("SOURCE_MISMATCH");
     corpus = await validateBundle(
       JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(raw)),
+    );
+    bindHandoff(
+      corpus,
+      manifest,
+      () =>
+        result && {
+          request,
+          review: {
+            notes: $("notes").value,
+            checked_citation_ids: [...reviewed],
+          },
+        },
     );
     $("runtime").textContent =
       runtime.runtime === "python_local"

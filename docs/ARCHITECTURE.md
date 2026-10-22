@@ -69,3 +69,7 @@ The CLI can explicitly build a local SQLite snapshot from source-checked synthet
 The GitHub Pages client executes a validated, public synthetic bundle and has no server credential. The loopback server reuses Workspace/workflow and exposes only fixed static paths and one CSRF-checked operation endpoint. A bounded model loop selects allowlisted tools within the UI-selected scope. Financial answers originate in Decimal tools. Per-request tool results can be exported; browser checks are not signed verification. Read WORKBENCH_DESIGN and WORKBENCH_RUNBOOK before extending this boundary.
 
 Local model decision failures expose only fixed category codes and call ordinals; the request owns its diagnostic list. Records survive a permitted format repair or subsequent provider failure, but raw rejected content is never copied into diagnostics. This is request-response observability, not persistent enterprise audit. See AGENT_DIAGNOSTICS.
+
+## Bounded evidence handoff
+
+`web/replay.mjs` owns the versioned deterministic package and verifier. `web/handoff.mjs` owns local File/Download UI only; `app.mjs` supplies current resolved request/review state. Both public and local pages recompute with the already-validated browser engine, preserving its Python parity contract. This avoids conflating native model execution logs with normalized deterministic snapshots. No upload endpoint, provider call, imported-state write or new dependency is introduced. HANDOFF_REPLAY documents version/data trust, refusal, size/depth bounds, preview truncation and unsigned annotations.

@@ -66,6 +66,7 @@
             <h1>把结论核对到原文</h1>
             <p>
               检索资料、复算指标，留下可交接的核查记录。当前资料均为虚构样本。
+              <a href="#handoff">复算收到的交接包</a>
             </p>
           </div>
           <button id="export" class="secondary" disabled>导出审查记录</button>
@@ -150,8 +151,60 @@
             记录保存在当前浏览器；导出文件后可自行留存。
           </p>
         </section>
+        <section
+          id="handoff"
+          class="handoff"
+          aria-labelledby="handoff-heading"
+          aria-busy="false"
+        >
+          <div class="section-heading">
+            <h2 id="handoff-heading">复算交接</h2>
+            <button id="replay-export" type="button" class="secondary" disabled>
+              导出复算包
+            </button>
+          </div>
+          <p class="small">
+            把本次任务、事实与原文交给下一位核查者。选入复算包后，用当前受信样本重新核对金额、单位、年份和完整引用。
+          </p>
+          <label for="replay-file"
+            >选择收到的复算包（JSON，最多 256 KiB）</label
+          >
+          <input
+            id="replay-file"
+            type="file"
+            accept=".json,application/json"
+            aria-describedby="replay-help"
+            disabled
+          />
+          <p id="replay-help" class="small">
+            文件仅在本机浏览器读取，不上传、不调用模型，也不覆盖当前草稿。页首的原始审查记录与复算包格式不同。
+          </p>
+          <p id="replay-status" class="small" role="status" aria-live="polite">
+            尚未选入文件。先完成核查，再导出复算包；接收者可直接选入。
+          </p>
+          <ul id="replay-checks" class="replay-checks"></ul>
+          <p id="replay-detail" class="small replay-detail"></p>
+          <button id="replay-report" type="button" class="secondary" disabled>
+            下载复核结果
+          </button>
+          <p class="small handoff-limit">
+            复核证明文件与当前合成样本是否一致，不证明真实财报、人审或作者身份。<a
+              href="https://github.com/leon1111-wgl/finevidence/blob/main/docs/HANDOFF_REPLAY.md"
+              >协议与验证方法 ↗</a
+            >
+          </p>
+        </section>
         <details class="help">
-          <summary>量化验证：真实模型首轮 7 / 8 项通过</summary>
+          <summary>量化验证：交接核验与模型首轮结果</summary>
+          <p>
+            交接核验：18 / 18 种人为改动被识别，10 / 10 个正常控制通过。
+            对照是仅检查 JSON 能否解析（识别 0 / 18），并非竞品实测。
+            这些是公开合成开发案例，不代表真实财报准确率。
+            <a
+              href="https://github.com/leon1111-wgl/finevidence/blob/main/docs/HANDOFF_REPLAY.md"
+              >查看差异集合与复跑方法 ↗</a
+            >
+          </p>
           <p>
             8 个公开合成开发任务，一次顺序执行。6 个计算的数值与来源均正确；2
             个拒绝任务中 1

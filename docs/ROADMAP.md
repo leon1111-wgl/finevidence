@@ -66,3 +66,7 @@ The subsequent FE-012 correction keeps build identity consistent on refusals and
 ## User-prioritized complete sample workbench, 2026-10-21
 
 The user requested a GitHub-visible application after two enterprise research/design rounds, changed both cycles to three hours and authorized a specific MornAI integration. E3 now has real model-selected tool calls and protocol tests; E4 now has a loopback API/shared reviewer UI plus client-only public Pages. Source review/export/replay and an actual visual/keyboard/responsive pass work for the synthetic scope. These increments do not close organization permissions, real-report review or final production/real-data E7 acceptance. See ENTERPRISE_RESEARCH and WORKBENCH_RUNBOOK.
+
+## User-requested auditable handoff, 2026-10-22
+
+The existing review/export workflow now has local deterministic replay packages and per-field comparison, selected after two official-source research/design rounds (HANDOFF_RESEARCH). This is a complete bounded synthetic workflow extension. It does not complete real-source ingestion, authenticated approval, signed artifacts or persistent audit; these remain the next important enterprise gaps.

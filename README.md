@@ -2,7 +2,7 @@
 
 **[打开在线工作台](https://leon1111-wgl.github.io/finevidence/)** · [量化验证与首轮失败](docs/EVALUATION.md) · [完整本地运行／模型配置](docs/WORKBENCH_RUNBOOK.md) · [深圳／香港企业调研与两轮设计检查](docs/ENTERPRISE_RESEARCH.md)
 
-选择公司与年度 → 检索证据／复核财务指标 → 打开原文核对 → 导出审查记录。在线版本直接在浏览器工作；本地版本使用共享 Python 逻辑并可调用真实模型选择受限工具。
+选择公司与年度 → 检索证据／复核财务指标 → 打开原文核对 → 导出审查记录／复算交接包 → 接收者重新核验。在线版本直接在浏览器工作；本地版本使用共享 Python 逻辑并可调用真实模型选择受限工具。
 
 ```sh
 git clone https://github.com/leon1111-wgl/finevidence.git
@@ -19,7 +19,10 @@ python3 -m finevidence.server
 | 毛利率、收入同比、百分点变化及逐项输入 | Python Decimal；浏览器 BigInt 对照，非模型口算 |
 | 本机模型选工具、调用轨迹、失败拒绝 | 晨涧云 DeepSeek 首轮 7/8 合成任务通过；密钥只在后端进程 |
 | 原文核对、备注、刷新恢复、JSON 导出 | 浏览器个人记录，非认证审批签名 |
+| 复算交接包、选入文件核验、具体字段差异与报告下载 | 18/18 合成单点差异识别，10/10 正常控制；不认证作者／审批 |
 | GitHub Pages 和完整本地界面 | 公网页不包含模型密钥；本地 API 不开放公网 |
+
+新增：[金融证据交接的两轮竞品取舍](docs/HANDOFF_RESEARCH.md) · [复算协议、实际数据流与量化复跑](docs/HANDOFF_REPLAY.md)。
 
 企业工程是验收方向。本项目未宣称银行生产使用、真实报告准确率、组织级访问控制或服务 SLA。具体已运行证据和未完成边界见 [STATUS](docs/STATUS.md)。
 

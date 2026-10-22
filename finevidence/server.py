@@ -8,7 +8,7 @@ from .agent import run_agent
 
 ASSETS={'/':('index.html','text/html'),'/index.html':('index.html','text/html'),
  '/styles.css':('styles.css','text/css'),'/app.mjs':('app.mjs','text/javascript'),
- '/engine.mjs':('engine.mjs','text/javascript'),'/state.mjs':('state.mjs','text/javascript'),
+ '/engine.mjs':('engine.mjs','text/javascript'),'/replay.mjs':('replay.mjs','text/javascript'),'/handoff.mjs':('handoff.mjs','text/javascript'),'/state.mjs':('state.mjs','text/javascript'),
  '/bundle.json':('bundle.json','application/json'),'/manifest.json':('manifest.json','application/json')}
 
 def error_payload(code):
@@ -43,7 +43,8 @@ class Handler(BaseHTTPRequestHandler):
         except OSError: return self._send(503,error_payload('ASSET_MISSING'))
         return self._send(200,raw,kind)
     def do_POST(self):
-        if not self._trusted() or not secrets.compare_digest(self.headers.get('X-FinEvidence-CSRF',''),self.server.csrf):
+        csrf = self.headers.get('X-FinEvidence-CSRF', '')
+        if not self._trusted() or not csrf.isascii() or not secrets.compare_digest(csrf,self.server.csrf):
             return self._send(403,error_payload('ORIGIN_REJECTED'))
         if self.path!='/api/run': return self._send(404,error_payload('NOT_FOUND'))
         if self.headers.get('Content-Type','').split(';')[0]!='application/json' or self.headers.get('Transfer-Encoding'):

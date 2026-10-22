@@ -61,3 +61,7 @@ python3 scripts/evaluate.py --live --output evaluation-result.json
 ## 工程验证与业务效果分开
 
 当前本地 Python 176 项通过，JS 7 项（含 24 个 Python 对照），真实浏览器静态与 Python 模式各 14 个流程检查。它们证明特定边界与流程可复现，**不并入上述 8 题效果分母**。当前未测真实资料提取质量、人工节时、金融决策收益、组织权限或生产 SLA。最终发布以精确提交的 CI 和公开站点实测为准。
+
+## Evidence handoff evaluation (2026-10-22)
+
+Run `python3 scripts/build_web.py` then `node scripts/evaluate_replay.mjs --output replay-evaluation.json`. The authored synthetic development set contains 18 single corruptions and 10 valid controls (8 literal financial results plus NO_MATCH/facts). Observed detection: 18/18, compared with 0/18 for accepting any parseable JSON; valid acceptance plus expected display: 10/10. This deliberately weak baseline is not a competitor benchmark. Script reports per-case outcomes/timing and denominators. No hidden/real-report or human-time-saving claim; zero model calls. Original live model 7/8 remains unchanged. See HANDOFF_REPLAY for first failures, contract and limitations.

@@ -1,0 +1,61 @@
+# 复算交接包 v1
+
+从首页完成核查，点击「导出复算包」，再由接收者在「复算交接」选择 JSON 文件。接收者无需先运行查询，文件也不会覆盖其当前查询、备注或草稿。普通「导出审查记录」仍保留原始执行记录；两个文件格式明确分开。
+
+本功能在公开静态页及本地 Python 工作台都使用浏览器的确定性引擎复算。它不是模型重跑，也不是 Python 在公网页运行。浏览器精确有理数计算与 Python Decimal 的 24 组现有对照继续验证。
+
+## 一条任务的数据流
+
+1. Aurora Orchard / 2024 / 收入同比执行后，界面有 `20.00%`、120 与 100 两条收入事实、两年度引用。勾选 2024 的原文，备注前期仍需复核。
+2. `handoff.mjs::bindHandoff` 获取当前已解析工具请求和个人核对信息。`replay.mjs::createReplay` 用当前受信资料调用 `engine.mjs::run`，制作不含随机 trace ID 的确定性快照，并保留部分核对状态。它不会把任意原始模型字段当作已验证快照。
+3. 接收者选择文件：检查文件字节上限、严格 UTF-8 解码，然后 `verifyReplay` 检查协议、资料版本和工具白名单，再调用同一个确定性 runner。实际输入来自当前受信资料，不来自导入文件。
+4. 比较任务摘要、计算、事实、完整引用、来源原文；检查勾选 ID 是否属于本次引用。对象键顺序不影响结果，数组顺序属于 v1 的保守契约。没有引用的合法 NO_MATCH 仍能通过。
+5. 数值改成 `999.00%` 时，报告 `CALCULATION_MISMATCH`，显示字段路径、文件值和当前样本 `20.00%`。每组最多列 5 个差异，值预览最多 160 字符；判定比较完整字段，不只比较预览。错误格式、超限和非 UTF-8 文件被明确拒绝，可重新选文件。
+6. 下载复核结果包含核验者版本、资料指纹、原文件 SHA-256、检查项、差异与未认证备注。原文件 hash 用于识别被检查的字节，不是身份签名。原始 JSON 的词法形式（例如空白）不作为语义一致性要求。
+
+## 协议与信任边界
+
+- `finevidence.replay.v1`：`classification=SYNTHETIC`、导出时间、源代码提交、资料指纹、request、snapshot、review。顶层/request/snapshot/review 的键集合固定。snapshot 包含 status、filters、answer、calculations、facts、citations、sources；其他计算/事实/引用/来源字段通过完整内容比较约束。
+- request 只允许 search、facts、gross-margin、revenue-growth、gross-margin-change。没有 Agent、任意公式、路径、URL、SQL 或代码执行。查询最长 500 字符，备注最长 3000 字符，勾选项最多 32 个且不得重复或伪造。
+- 文件最大 256 KiB，解析树深度最多 40 层，拒绝解析后溢出的非有限数字。HTML 样式的备注只以 textContent 显示。不写入 localStorage、不上传、不重试付费调用。文件读取失败/编码失败/超限只显示错误，不提供一个伪成功报告。
+- 资料指纹不同即拒绝；同资料、不同代码提交可复算但显示版本警告，不自动下载/执行历史代码。缺前期事实也拒绝，不能回退到文件提供的数字。
+- 返回的是与当前受信合成语料的一致性，**不证明真实财报准确、作者身份、签名、审批或人审**。备注修改可正常通过，始终带 AUTHORSHIP_NOT_VERIFIED。整体替换为另一份合法且自洽的包不会被认定为篡改；需要身份/签名系统才能建立那类保证。部署代码和语料被一起恶意替换不在此功能保护范围。
+- 首轮真实模型任务仍为 7/8，FE-013 仍开放。本功能没有增加真实模型准确率证据。
+
+## 实际开发验证与复跑
+
+```sh
+python3 scripts/build_web.py
+node --test tests/web.test.mjs tests/state.test.mjs tests/replay.test.mjs
+node scripts/evaluate_replay.mjs --output replay-evaluation.json
+python3 -m unittest discover -s tests -v
+python3 -m finevidence.server
+# 另一终端，安装锁定的测试依赖与 Chromium 后：
+pnpm install --frozen-lockfile --ignore-scripts
+pnpm exec playwright install chromium
+pnpm test:browser
+pnpm test:restore
+# 静态模式另启动 python3 -m http.server 8776 --bind 127.0.0.1 --directory web
+# BASE_URL=http://127.0.0.1:8776/ pnpm test:browser
+```
+
+2026-10-22 本地 macOS / Python 3.12.2、Node 24、Chrome 实测：Python 182 项通过（23.104 秒）；JS 30 项通过，含原 24 组 Python 对照。这里的测试数是工程回归数，不是业务效果。浏览器新交接检查在静态与 Python 两模式各 18/18 通过，原工作流各 14 项、重试各 7 项和 Python 恢复专项 6 项通过。新检查覆盖桌面 1440 和窄屏 390、键盘下载和文件选择、可观察读取状态、数值差异、错误格式、超限、编码失败、重新选择恢复、文本不执行、零网络请求及不覆盖草稿。读取延迟由离线测试人为延迟 File.arrayBuffer，文件字节、页面处理函数与复核保持真实。
+
+首轮 replay 测试因模块不存在失败，UI 测试因按钮不存在超时；实现后通过。发布前自查还复现 `1e400` 解析为 Infinity 后被 JSON 序列化为 null，可能冒充空答案；新增测试先失败，再在树校验中拒绝非有限数字后通过。增加字段差异展示时，测试先因 differences 不存在失败，再实现并通过。`source-sha` 测试草稿最初误用了 source_sha256，执行前按原文对象的实际 sha256 字段纠正，没有把错误字段当作覆盖证据。格式化第一次因本机无 npm/node PATH 失败，随后用已有 pnpm 和显式 Node PATH 完成；未改变依赖版本。
+
+### 有分母的效果检查
+
+`evaluate_replay.mjs` 使用公开、人工构造的合成开发案例，不是隐藏集。
+
+| 对象 | JSON 能解析即可接受的对照 | 本实现 |
+|---|---:|---:|
+| 18 种单点差异被识别 | 0 / 18 | 18 / 18 |
+| 10 个正常控制（8 个已知财务结果、1 个 NO_MATCH、1 个事实列表）被接受且数值符合字面预期 | 未用该弱对照证明数值 | 10 / 10 |
+
+差异集合含金额/符号/单位/公式、事实原值/缩放/币种/时期、引用页码/年份/摘录/缺失/重复、原文/来源缺失/hash、公司请求及伪造核对 ID。逐项期望码、观察结果及本机耗时由脚本输出。计时从准备各包开始，包含创建和核验、排除资料初始加载；不是用户实际节时。
+
+JSON 解析对照故意很弱，不是 AlphaSense、腾讯或 RAGFlow 的实测。18/18 不表示能识别所有改动，10/10 不表示真实报告准确率。本轮 0 次付费调用，模型用量为不适用；不选最好的一轮覆盖首次失败。发布、CI、精确部署 SHA 与公开浏览器结果需另行核验，不从本地成功推断。
+
+## 同轮修复 FE-016
+
+`server.py::do_POST` 在 compare_digest 前拒绝非 ASCII CSRF 值，仍保留原有 Host/Origin 校验与常量时间比较。两个实际 HTTP 请求首先复现 RemoteDisconnected，再返回 403 / ORIGIN_REJECTED，正常请求仍返回 30.00%。新增一个测试方法含两个失败子例；原独立 11 项 HTTP 脚本从 9/11 到 11/11。未观察到权限绕过；这是错误响应契约修复。独立审查关闭需另行记录。

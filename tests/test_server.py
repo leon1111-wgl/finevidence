@@ -36,3 +36,16 @@ class ServerTests(unittest.TestCase):
     def test_missing_prior_year_is_structured_failure(self):
         code,_,raw=self.post({'operation':'revenue-growth','company':'Aurora Orchard','year':2023,'query':''})
         r=json.loads(raw);self.assertEqual(code,422);self.assertIsNone(r['answer']);self.assertEqual(r['citations'],[])
+
+    def test_non_ascii_csrf_is_structured_rejection_and_server_remains_usable(self):
+        for value in ['é', 'badÿtoken']:
+            with self.subTest(value=value):
+                code, _, raw = self.post({'operation':'gross-margin','company':'Aurora Orchard','year':2024,'query':''}, {'X-FinEvidence-CSRF':value})
+                self.assertEqual(code, 403)
+                payload = json.loads(raw)
+                self.assertEqual(payload['status'], 'ORIGIN_REJECTED')
+                self.assertIsNone(payload['answer'])
+                self.assertEqual(payload['calculations'], [])
+        code, _, raw = self.post({'operation':'gross-margin','company':'Aurora Orchard','year':2024,'query':''})
+        self.assertEqual(code, 200)
+        self.assertEqual(json.loads(raw)['calculations'][0]['display'], '30.00%')

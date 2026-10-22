@@ -109,3 +109,10 @@ are filtered, scope edits revoke restoration, and no model operation occurs.
 This does not establish server persistence or authenticated review. Verify
 release and independently rerun before closing. Interview question: which
 state besides a correct financial value must survive recovery?
+
+## 2026-10-22 user-requested handoff implementation
+
+- FE-015: independent review of 3adb203 closed the observed restoration-loss scope (original audit 3/3, six-scenario suite 6/6); broader state/recovery gaps remain.
+- FE-016 / P3: review of 3adb203 reproduced non-ASCII CSRF values causing a dropped connection. `Handler.do_POST` now rejects them before string compare; local regression and unchanged original audit pass (9/11 to 11/11). Implemented, pending independent review; not an observed auth bypass.
+- New handoff capability: review local-only file handling, exact data/version boundary, unsigned notes, mismatches and non-destructive import using HANDOFF_REPLAY and browser-replay.cjs. No new defect is claimed just to populate the queue.
+- FE-013 remains open, with 7/8 original live-model result preserved; no paid rerun.

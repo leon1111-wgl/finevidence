@@ -76,3 +76,9 @@ changed from 3/6 to 6/6, and the unchanged independent review script from 2/3 to
 are injected offline; no model call, data change or real-data accuracy claim is
 included. See [DRAFT_RECOVERY](DRAFT_RECOVERY.md). Independent closure and exact
 release verification must be recorded separately; FE-013 remains open.
+
+## 2026-10-22 evidence handoff increment
+
+Public and local workbenches now expose a separate deterministic replay package, local file verification and downloadable field differences. The existing raw execution export is preserved. Verification recomputes from the current trusted synthetic corpus; imported facts cannot become trusted input. Authorship, approvals, real financial truth and model traces are explicitly unverified. See HANDOFF_RESEARCH for two-round official-source comparison and HANDOFF_REPLAY for the executable contract.
+
+Local checks: 182 Python tests (23.104s), 30 JS tests including 24 Python parity oracles; 18/18 authored synthetic corruptions detected versus 0/18 by JSON parsing alone, and 10/10 valid controls accepted. This is not a competitor, hidden-set or real-data benchmark. FE-016 now returns structured 403 for non-ASCII CSRF headers (original audit 9/11 to 11/11), pending independent closure. FE-013 remains open; no paid inference, first live model result still 7/8. Verify exact remote CI/deployed commit separately.
