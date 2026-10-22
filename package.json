@@ -4,7 +4,7 @@
   "version": "0.2.0",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "test:browser": "node tests/browser.cjs && node tests/browser-retry.cjs && node tests/browser-replay.cjs && node tests/browser-handoff-identity.cjs",
+    "test:browser": "node tests/browser.cjs && node tests/browser-retry.cjs && node tests/browser-replay.cjs && node tests/browser-handoff-identity.cjs && node tests/browser-pdf.cjs && node tests/browser-pdf-faults.cjs",
     "test:restore": "node tests/browser-restore.cjs"
   },
   "devDependencies": {

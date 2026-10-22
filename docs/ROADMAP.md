@@ -73,3 +73,7 @@ The existing review/export workflow now has local deterministic replay packages 
 
 
 2026-10-22 bounded reviewer-flow increment: FE-017 file identity and export/import feedback separation are implemented and locally tested. This makes an existing handoff inspectable; it does not advance real-report E2 or organization authorization. Next major work remains an authorized real-source and actual human-verification boundary, with physical-page provenance and separately reported quality evidence.
+
+## E2 preflight increment, 2026-10-23
+
+A complete bounded local-file-to-page-inventory workflow now precedes actual corpus admission. E2 remains partial: approved real-source manifests, visual/table/OCR handling and authenticated fact verification are still pending. The preflight does not add a public upload service or enable unverified real-data calculations. Next extend source/verification with explicit authority and fresh quality evidence, not automatic approval based on extracted text.

@@ -667,3 +667,50 @@ footer {
   color: var(--muted);
   overflow-wrap: anywhere;
 }
+
+.pdf-intake {
+  margin: 28px 0;
+  border-top: 1px solid #d6dce0;
+  padding-top: 20px;
+}
+.pdf-intake > p {
+  max-width: 78ch;
+}
+.pdf-intake input[type="file"] {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  margin: 8px 0 12px;
+}
+.pdf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.pdf-identity {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 8px 12px;
+}
+.pdf-identity dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.pdf-intake select {
+  display: block;
+  width: min(100%, 320px);
+  margin: 8px 0 12px;
+}
+#pdf-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 360px;
+  overflow: auto;
+  padding: 16px;
+  border: 1px solid #d6dce0;
+  background: #fff;
+  line-height: 1.65;
+  font-family: inherit;
+  font-size: 14px;
+}

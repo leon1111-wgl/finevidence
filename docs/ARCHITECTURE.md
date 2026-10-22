@@ -73,3 +73,7 @@ Local model decision failures expose only fixed category codes and call ordinals
 ## Bounded evidence handoff
 
 `web/replay.mjs` owns the versioned deterministic package and verifier. `web/handoff.mjs` owns local File/Download UI only; `app.mjs` supplies current resolved request/review state. Both public and local pages recompute with the already-validated browser engine, preserving its Python parity contract. This avoids conflating native model execution logs with normalized deterministic snapshots. No upload endpoint, provider call, imported-state write or new dependency is introduced. HANDOFF_REPLAY documents version/data trust, refusal, size/depth bounds, preview truncation and unsigned annotations.
+
+## Unverified PDF intake boundary
+
+The public/loopback browser can locally inspect PDF files using pinned PDF.js in a dedicated Worker. Byte identity and physical-page text are exported as a separate unverified inventory. No user PDF is sent to the Python server, model, synthetic bundle, fact store or replay verifier. File reads, parser tasks and display/download state belong to one attempt; cancellation/deadline destroys its Worker. Byte/page/text caps are acceptance controls, not a hard process-memory guarantee. See PDF_INTAKE.

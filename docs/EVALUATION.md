@@ -70,3 +70,7 @@ Run `python3 scripts/build_web.py` then `node scripts/evaluate_replay.mjs --outp
 ### File identity usability contract (2026-10-22)
 
 `node tests/browser-handoff-identity.cjs` checks three file-identification sequences at two widths: first file, changed name/bytes and same name/different bytes. Baseline 9c469be satisfies 0/6 visible name/digest/report contracts; the new local build satisfies 6/6 on both static and Python workbenches. The full suite has 20 checks per mode, including 14 boundary checks (20/20 locally). These are authored synthetic UI acceptance cases, not human usability scores, financial accuracy or a model benchmark. Hash expectations use Node crypto over actual input bytes; browser and downloaded reports must agree. First failed test fixtures and limits are recorded in HANDOFF_REPLAY. No paid calls or live evaluation rerun.
+
+## PDF preflight acceptance (2026-10-23)
+
+Run the two browser-pdf scripts via pnpm test:browser. 17 authored scenarios × 2 widths = 34/34 locally; 3/3 injected resource-failure cases pass after preserving the initial 2/3 failure. Twelve generated PDF fixtures plus a byte-limit File exercise extraction/page mapping and refusals; real-report quality, OCR/table accuracy and human time saved are unmeasured. The separate fixed workflow remains 8/8; the original real-model development run remains 7/8 with FE-013 open and no paid rerun. See PDF_INTAKE for test-fixture errors and parser recovery limits.

@@ -125,3 +125,7 @@ Independent review at 9c469be found that file input resets for reselection, but 
 The corrected unchanged 20-scenario browser suite fails 20 checks against 9c469be and passes 20 locally in each runtime. Six identify files/bytes; fourteen cover failure/loading/retry/text/keyboard/state boundaries. Initial invalid timestamp fixtures were corrected to the existing protocol, not accepted by weakening it. See HANDOFF_REPLAY. Implementation complete locally, release/independent closure separate. Interview question: why can a correct hash in a downloaded report still leave a handoff object ambiguous in the UI?
 
 FE-016 is independently closed in the observed scope on 9c469be: original 11 HTTP cases and four real loopback business-entry probes pass; malformed CSRF values perform zero business calls. No authentication/production-security guarantee is implied. FE-013 remains open; no live-model rerun.
+
+## PDF preflight release scope, 2026-10-23
+
+FE-017 independently closed at83d1989 in observed scope (original identity checks and20 independent browser checks); no authentication claim. E2/FE-002 remains partial after local PDF preflight. Review page numbering, unknown/textless outcomes, byte/page/text caps, deadline and cancellation termination, module-failure retry, data-request isolation and report invalidation. Prerelease fault test2/3→3/3 fixed cached module-fetch failure. Do not count an empty extracted page as scanned-file detection or human-approved facts. FE-013 remains open.

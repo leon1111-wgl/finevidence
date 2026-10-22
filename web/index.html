@@ -47,6 +47,7 @@
         </select>
         <div class="source-list">
           <h3>可用报告</h3>
+          <p class="small"><a href="#pdf-intake">预检本机 PDF ↓</a></p>
           <ul id="documents">
             <li>正在读取资料…</li>
           </ul>
@@ -218,6 +219,57 @@
               >协议与验证方法 ↗</a
             >
           </p>
+        </section>
+        <section
+          id="pdf-intake"
+          class="pdf-intake"
+          aria-labelledby="pdf-heading"
+          aria-busy="false"
+        >
+          <div class="section-heading">
+            <h2 id="pdf-heading">PDF 资料预检</h2>
+          </div>
+          <p class="small">
+            先检查本机报告能否提取文字、页序是否完整。文件留在浏览器，不上传，不调用模型。预检完成后仍需人工核对与许可确认。
+          </p>
+          <label for="pdf-file">选择 PDF（最多 5 MiB、120 个物理页）</label>
+          <input
+            id="pdf-file"
+            type="file"
+            accept="application/pdf,.pdf"
+            aria-describedby="pdf-status"
+          />
+          <div class="pdf-actions">
+            <button class="secondary" id="pdf-demo" type="button">
+              试用虚构 PDF</button
+            ><button class="secondary" id="pdf-cancel" type="button" hidden>
+              取消预检</button
+            ><button class="secondary" id="pdf-clear" type="button">
+              清除本次资料</button
+            ><button id="pdf-download" type="button" disabled>
+              导出待核验页记录
+            </button>
+          </div>
+          <p id="pdf-status" class="small" role="status" aria-live="polite">
+            选择本机 PDF，或先使用虚构样本试一遍。
+          </p>
+          <div id="pdf-result" hidden>
+            <dl class="pdf-identity">
+              <dt>本次文件</dt>
+              <dd><bdi id="pdf-name"></bdi></dd>
+              <dt>字节指纹</dt>
+              <dd><code id="pdf-hash"></code></dd>
+            </dl>
+            <p id="pdf-summary" class="small"></p>
+            <label for="pdf-page"
+              >提取页（按 PDF 内物理顺序，可能不同于印刷页码）</label
+            ><select id="pdf-page"></select>
+            <pre id="pdf-text" tabindex="0" aria-label="本页自动提取文字"></pre>
+            <p class="small">
+              自动提取文字可能丢失表格结构或阅读顺序；本页未渲染原始版面，也未执行
+              OCR。导出包含提取文字，请自行妥善保存。此记录不进入合成资料库、财务计算或复算交接。
+            </p>
+          </div>
         </section>
         <details class="help">
           <summary>量化验证：交接核验与模型首轮结果</summary>

@@ -1,0 +1,18 @@
+{
+  "classification": "SYNTHETIC_GENERATED_TEST_FILES",
+  "generator": "pypdf 6.18.1",
+  "files": {
+    "blank.pdf": "d80e9a188bc0bc1b0c999846790506a12ff5ba2dbe59fc80ccffc0a32a6c9c88",
+    "corrupt.pdf": "f70840a235cce6272a044a1c9f1c6f67eb17cf428cd2425865c150e382ec7b3a",
+    "encrypted.pdf": "b9878d2e7bfa2be27f988c6dc5d86dd7ab3ae5d5f96c96e4c66ca40ef943434d",
+    "mixed.pdf": "4094e587d9bbe983874d10131fa997063178bf0acb377ea1340c5de707e82ad2",
+    "not-pdf.pdf": "a3382094769d65c35cfb8daf3baafe8babb90d19ab0647899fca8e88859ed331",
+    "pages-limit.pdf": "cea606f2fb56469a9c259b3124fce65da02d08d84eecb4ed0852f29e348a18eb",
+    "text.pdf": "d147f626c3bda90a5f74ce87f9ed62512a4329c399cf6ec3c73e4feabbfe555f",
+    "text-limit.pdf": "2618314f81515c525902969ce510898079397fb2f1da1c206a2fc6e2009f99d8",
+    "total-text-limit.pdf": "0ea54b7d0b0be87eb4f3693b42db0b30edca6df7c52dff3cdee428b1f9070558",
+    "page-error.pdf": "076a05f48936c09f07f7c8508e9ec3ca07d8c0dcc28e7a3afdf4112c6190900a",
+    "broken-page-tree.pdf": "09c036caa737f1cd7e06e6be21567ae45bdf5a2c4247c411fd8a0e8664cf869b",
+    "image-only.pdf": "15a450a9696bdeef16cc1c37f62344e09b9064838f9135856ef87b41c563316d"
+  }
+}

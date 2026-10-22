@@ -1,3 +1,4 @@
+import { bindPdfPanel } from './pdf-panel.mjs';
 import { validateBundle, run, sha256 } from "./engine.mjs";
 import { readDraft, writeDraft } from "./state.mjs";
 import { bindHandoff } from "./handoff.mjs";
@@ -491,4 +492,5 @@ $("export").onclick = () => {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   status("审查记录已导出，包含原文、输入、计算与核对状态。");
 };
+bindPdfPanel();
 initialize();
