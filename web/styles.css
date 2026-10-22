@@ -612,6 +612,32 @@ footer {
 .handoff .section-heading {
   flex-wrap: wrap;
 }
+.replay-identity {
+  max-width: 80ch;
+  margin: 16px 0;
+  font-size: 13px;
+}
+.replay-identity > div {
+  display: grid;
+  grid-template-columns: 5em minmax(0, 1fr);
+  gap: 12px;
+  padding: 5px 0;
+}
+.replay-identity dt {
+  color: var(--muted);
+}
+.replay-identity dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.replay-identity summary {
+  cursor: pointer;
+}
+#replay-hash-full {
+  display: block;
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+}
 .replay-checks {
   list-style: none;
   padding: 0;

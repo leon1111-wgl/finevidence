@@ -1,6 +1,6 @@
 # Capability status
 
-Updated 2026-10-21. This is an enterprise-oriented portfolio in progress, not a production deployment.
+Updated 2026-10-22. This is an enterprise-oriented portfolio in progress, not a production deployment.
 
 ## Implemented and locally verified
 
@@ -82,3 +82,10 @@ release verification must be recorded separately; FE-013 remains open.
 Public and local workbenches now expose a separate deterministic replay package, local file verification and downloadable field differences. The existing raw execution export is preserved. Verification recomputes from the current trusted synthetic corpus; imported facts cannot become trusted input. Authorship, approvals, real financial truth and model traces are explicitly unverified. See HANDOFF_RESEARCH for two-round official-source comparison and HANDOFF_REPLAY for the executable contract.
 
 Local checks: 182 Python tests (23.104s), 30 JS tests including 24 Python parity oracles; 18/18 authored synthetic corruptions detected versus 0/18 by JSON parsing alone, and 10/10 valid controls accepted. This is not a competitor, hidden-set or real-data benchmark. FE-016 now returns structured 403 for non-ASCII CSRF headers (original audit 9/11 to 11/11), pending independent closure. FE-013 remains open; no paid inference, first live model result still 7/8. Verify exact remote CI/deployed commit separately.
+
+
+## 2026-10-22 handoff file identity
+
+The receiver now keeps the last attempted filename, a short digest and keyboard-expandable full SHA-256 next to its verdict. Reports carry the same untrusted filename and actual-byte digest. New/failed reads clear old identity results; canceled selection keeps the previous check. Export feedback no longer replaces the imported file verdict. This resolves the FE-017 usability suggestion locally; independent release review is pending. It adds no upload, draft persistence, authorship guarantee or model call.
+
+Twenty real-browser checks per mode pass on static and Python surfaces, including six file-identification sequence/viewport combinations (0/6 to 6/6 against 9c469be). Python 182, JS 30 and fixed synthetic tasks 8/8 pass. Read HANDOFF_REPLAY for the initial fixture failure and exact denominators. FE-016 was independently closed on 9c469be (original HTTP 11/11 plus four business-entry checks). FE-013 remains open with historical live 7/8. Real-source rights/ingestion/human verification and organization permissions remain next major capability gaps, not completed by this UI improvement.

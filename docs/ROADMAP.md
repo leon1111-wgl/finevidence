@@ -70,3 +70,6 @@ The user requested a GitHub-visible application after two enterprise research/de
 ## User-requested auditable handoff, 2026-10-22
 
 The existing review/export workflow now has local deterministic replay packages and per-field comparison, selected after two official-source research/design rounds (HANDOFF_RESEARCH). This is a complete bounded synthetic workflow extension. It does not complete real-source ingestion, authenticated approval, signed artifacts or persistent audit; these remain the next important enterprise gaps.
+
+
+2026-10-22 bounded reviewer-flow increment: FE-017 file identity and export/import feedback separation are implemented and locally tested. This makes an existing handoff inspectable; it does not advance real-report E2 or organization authorization. Next major work remains an authorized real-source and actual human-verification boundary, with physical-page provenance and separately reported quality evidence.

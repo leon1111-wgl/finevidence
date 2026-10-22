@@ -21,6 +21,13 @@ export function bindHandoff(corpus, manifest, getCurrent) {
     n.className = error ? "error" : "small";
     n.setAttribute("role", error ? "alert" : "status");
   };
+  const exportStatus = (message, error = false) => {
+    const n = $("replay-export-status");
+    n.hidden = false;
+    n.textContent = message;
+    n.className = error ? "error" : "small";
+    n.setAttribute("role", error ? "alert" : "status");
+  };
   $("replay-file").disabled = false;
   $("replay-export").onclick = () => {
     const current = getCurrent();
@@ -33,11 +40,11 @@ export function bindHandoff(corpus, manifest, getCurrent) {
         current.review,
       );
       download(record, "finevidence-replay.json");
-      status(
+      exportStatus(
         "复算包已导出。它是确定性工具的重算快照；原始执行记录仍可从页首导出。",
       );
     } catch {
-      status(
+      exportStatus(
         "当前结果不能导出复算包，请重新运行支持的确定性任务。[REQUEST_INVALID]",
         true,
       );
@@ -53,6 +60,15 @@ export function bindHandoff(corpus, manifest, getCurrent) {
     $("replay-report").disabled = true;
     $("replay-checks").replaceChildren();
     $("replay-detail").textContent = "";
+    // The native picker is cleared for reselection; this identity survives it.
+    // Clear every old digest before any asynchronous work or failure.
+    $("replay-identity").hidden = false;
+    $("replay-name").textContent = file.name;
+    $("replay-hash-short").textContent = "";
+    $("replay-hash-full").textContent = "";
+    $("replay-fingerprint").hidden = true;
+    $("replay-fingerprint").open = false;
+    $("replay-hash-state").textContent = "读取中，尚未生成";
     $("handoff").setAttribute("aria-busy", "true");
     $("replay-file").disabled = true;
     status("正在本机读取文件并重新执行确定性工具…");
@@ -71,9 +87,17 @@ export function bindHandoff(corpus, manifest, getCurrent) {
       }
       verification = {
         ...verifyReplay(raw, corpus, manifest),
+        file_name: file.name,
         file_sha256: await sha256(bytes),
         verified_at: new Date().toISOString(),
       };
+      $("replay-hash-state").textContent = "";
+      $("replay-hash-short").textContent = verification.file_sha256.slice(
+        0,
+        12,
+      );
+      $("replay-hash-full").textContent = verification.file_sha256;
+      $("replay-fingerprint").hidden = false;
       for (const check of verification.checks) {
         const li = document.createElement("li");
         li.textContent = `${check.passed ? "一致" : "未通过"} · ${check.label}${check.passed ? "" : ` [${check.code}]`}`;
@@ -111,6 +135,7 @@ export function bindHandoff(corpus, manifest, getCurrent) {
       $("replay-detail").textContent = detail.join("\n");
       $("replay-report").disabled = false;
     } catch (e) {
+      $("replay-hash-state").textContent = "未完成复核，未生成指纹";
       const code = ["FILE_LIMIT", "UTF8_INVALID"].includes(e.message)
         ? e.message
         : "FILE_READ_FAILED";

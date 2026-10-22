@@ -116,3 +116,12 @@ state besides a correct financial value must survive recovery?
 - FE-016 / P3: review of 3adb203 reproduced non-ASCII CSRF values causing a dropped connection. `Handler.do_POST` now rejects them before string compare; local regression and unchanged original audit pass (9/11 to 11/11). Implemented, pending independent review; not an observed auth bypass.
 - New handoff capability: review local-only file handling, exact data/version boundary, unsigned notes, mismatches and non-destructive import using HANDOFF_REPLAY and browser-replay.cjs. No new defect is claimed just to populate the queue.
 - FE-013 remains open, with 7/8 original live-model result preserved; no paid rerun.
+
+
+## FE-017 — P3 usability suggestion: show the currently checked file
+
+Independent review at 9c469be found that file input resets for reselection, but no persistent filename/digest identified the current report. Downloaded hashes were already correct; this was not a numeric defect or signature bypass. `handoff.mjs::bindHandoff` now displays the current attempt's safe-text name, a short digest and expandable full hash; reports include the same name. Old hashes/reports clear before async reads. Failed reads and export feedback cannot masquerade as the previous import's success. Same-file reselection and cancel behavior remain.
+
+The corrected unchanged 20-scenario browser suite fails 20 checks against 9c469be and passes 20 locally in each runtime. Six identify files/bytes; fourteen cover failure/loading/retry/text/keyboard/state boundaries. Initial invalid timestamp fixtures were corrected to the existing protocol, not accepted by weakening it. See HANDOFF_REPLAY. Implementation complete locally, release/independent closure separate. Interview question: why can a correct hash in a downloaded report still leave a handoff object ambiguous in the UI?
+
+FE-016 is independently closed in the observed scope on 9c469be: original 11 HTTP cases and four real loopback business-entry probes pass; malformed CSRF values perform zero business calls. No authentication/production-security guarantee is implied. FE-013 remains open; no live-model rerun.

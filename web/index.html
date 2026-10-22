@@ -166,6 +166,13 @@
           <p class="small">
             把本次任务、事实与原文交给下一位核查者。选入复算包后，用当前受信样本重新核对金额、单位、年份和完整引用。
           </p>
+          <p
+            id="replay-export-status"
+            class="small"
+            role="status"
+            aria-live="polite"
+            hidden
+          ></p>
           <label for="replay-file"
             >选择收到的复算包（JSON，最多 256 KiB）</label
           >
@@ -179,6 +186,24 @@
           <p id="replay-help" class="small">
             文件仅在本机浏览器读取，不上传、不调用模型，也不覆盖当前草稿。页首的原始审查记录与复算包格式不同。
           </p>
+          <dl id="replay-identity" class="replay-identity" hidden>
+            <div>
+              <dt>本次文件</dt>
+              <dd><bdi id="replay-name"></bdi></dd>
+            </div>
+            <div>
+              <dt>内容指纹</dt>
+              <dd>
+                <span id="replay-hash-state"></span>
+                <details id="replay-fingerprint" hidden>
+                  <summary>
+                    <code id="replay-hash-short"></code> · 查看完整 SHA-256
+                  </summary>
+                  <code id="replay-hash-full"></code>
+                </details>
+              </dd>
+            </div>
+          </dl>
           <p id="replay-status" class="small" role="status" aria-live="polite">
             尚未选入文件。先完成核查，再导出复算包；接收者可直接选入。
           </p>
