@@ -19,6 +19,7 @@ const fs = require("node:fs/promises");
   const rows = [];
   try {
     for (const mode of [
+      "demo-resource-retry",
       "library-retry",
       "worker-timeout",
       "worker-cancel-retry",
@@ -50,7 +51,25 @@ const fs = require("node:fs/promises");
             "false",
         );
       try {
-        if (mode === "library-retry") {
+        if (mode === "demo-resource-retry") {
+          await p.route("**/pdf-demo.pdf", async (route) => {
+            await new Promise((resolve) => setTimeout(resolve, 7000));
+            try {
+              await route.abort("failed");
+            } catch {}
+          });
+          await p.click("#pdf-demo");
+          await done();
+          assert.match(
+            await p.locator("#pdf-status").innerText(),
+            /PDF_DEMO_TIMEOUT/,
+          );
+          assert.equal(await p.locator("#pdf-download").isDisabled(), true);
+          await p.unroute("**/pdf-demo.pdf");
+          await p.click("#pdf-demo");
+          await done();
+          assert.equal(await p.locator("#pdf-download").isDisabled(), false);
+        } else if (mode === "library-retry") {
           await p.route("**/vendor/pdf.min.mjs*", (r) => r.abort("failed"));
           await select();
           await done();
@@ -116,7 +135,7 @@ const fs = require("node:fs/promises");
       path.join(out, "result.json"),
       JSON.stringify(result, null, 2),
     );
-    assert.equal(result.passed, 3);
+    assert.equal(result.passed, 4);
   } finally {
     await b.close();
   }

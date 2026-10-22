@@ -114,6 +114,12 @@ export function bindPdfPanel() {
     busy(true);
     status("正在读取虚构 PDF 样本…");
     controller = new AbortController();
+    const loadingController = controller;
+    let timedOut = false;
+    const timer = setTimeout(() => {
+      timedOut = true;
+      loadingController.abort();
+    }, 5000);
     try {
       const response = await fetch(new URL("./pdf-demo.pdf", import.meta.url), {
         signal: controller.signal,
@@ -130,14 +136,18 @@ export function bindPdfPanel() {
     } catch {
       if (sequence === id) {
         status(
-          controller?.signal.aborted
-            ? "已取消。[PDF_CANCELLED]"
-            : "样本读取失败，可重试或选择本机文件。[PDF_READ_FAILED]",
+          timedOut
+            ? "样本下载超过 5 秒，已停止等待；可重试或选择本机文件。[PDF_DEMO_TIMEOUT]"
+            : loadingController.signal.aborted
+              ? "已取消。[PDF_CANCELLED]"
+              : "样本读取失败，可重试或选择本机文件。[PDF_READ_FAILED]",
           true,
         );
         controller = null;
         busy(false);
       }
+    } finally {
+      clearTimeout(timer);
     }
   };
   $("pdf-download").onclick = () => {
