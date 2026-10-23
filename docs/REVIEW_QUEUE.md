@@ -151,3 +151,9 @@ FE-019 / P3 was reproduced at8ee1830 in tests/browser-pdf-faults.cjs: navigation
 FE-019 was independently checked at fe1e56e: original reproduction 1/1, existing report cases 2/2, extra launch/navigation/assertion cases 3/3 and SIGKILL checkpoint 1/1. The first SIGTERM expectation was wrong because Playwright handles the signal; its failed evidence remains in the local review. Close only this observed report-retention scope.
 
 Next independently inspect source-bound drafts: exact excerpt/page ownership, raw numeric token versus substring/sign, string decimal precision, unknown units, user-supplied period/currency/scope, duplicate/count limits, new-file/clear invalidation, saved-versus-unsaved export, replay rejection and HTML text rendering. Real-source rights, semantic support, authenticated approval and FE-013 remain open; no claim of automated extraction quality.
+
+## FE-020: clipped amount context (2026-10-23)
+
+P2, reproduced at f5e06d9 by independent review. `createFactDraft` validated amount boundaries only inside a clipped excerpt:120 could become12, or -120 could become positive120 in an unverified saved/exported row. Financial calculation admission remained blocked.
+
+Implemented: search raw tokens only inside the selected excerpt; inspect boundaries in the full page at its first exact occurrence. Export rebuilds against the same context. Regression includes repeated occurrences, clipped symbols, whitespace, UTF-16 and preserved saved/downloaded rows. New unit tests2/16→16/16; original review string probe13/21→21/21. Wrong page-global search mutation14/16 is rejected by the new scope tests. Publication and independent closure must follow verified release evidence; do not infer them from this note. FE-013 and the original real-model7/8 remain unchanged.

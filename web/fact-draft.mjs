@@ -42,14 +42,17 @@ export function decimalToken(raw, scale) {
   result = result.replace(/(\.\d*?)0+$/, "$1").replace(/\.$/, "");
   return negative && result !== "0" ? "-" + result : result;
 }
-function containsToken(excerpt, raw) {
+function containsToken(pageText, excerptStart, excerpt, raw) {
   for (
     let start = excerpt.indexOf(raw);
     start >= 0;
     start = excerpt.indexOf(raw, start + 1)
   ) {
-    const before = excerpt.slice(0, start),
-      after = excerpt.slice(start + raw.length);
+    // Search only this excerpt; inspect boundaries at its original page position.
+    // Clipping or trimming must not erase a sign, digit, decimal or percent suffix.
+    const absoluteStart = excerptStart + start;
+    const before = pageText.slice(0, absoluteStart),
+      after = pageText.slice(absoluteStart + raw.length);
     if (
       !/[0-9A-Za-z.,()+\-−]$/.test(before) &&
       !/^[0-9A-Za-z.,()%]/.test(after) &&
@@ -79,7 +82,7 @@ export function createFactDraft(report, input) {
   const raw = field(input.raw_value, 64);
   if (!scales.includes(input.scale)) fail("DRAFT_UNIT");
   const normalized = decimalToken(raw, input.scale);
-  if (!containsToken(excerpt, raw)) fail("DRAFT_TOKEN");
+  if (!containsToken(page.text, start, excerpt, raw)) fail("DRAFT_TOKEN");
   if (!["revenue", "gross_profit"].includes(input.metric)) fail("DRAFT_METRIC");
   if (!["CNY", "HKD", "USD", "EUR", "JPY", "unknown"].includes(input.currency))
     fail("DRAFT_CURRENCY");

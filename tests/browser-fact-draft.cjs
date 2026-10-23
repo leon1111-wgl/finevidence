@@ -19,6 +19,7 @@ const { createHash } = require("node:crypto");
     "replacement-error-retry",
     "keyboard-and-layout",
     "isolation",
+    "clipped-amount-keeps-saved-list",
   ];
   const rows = [1440, 390].flatMap((width) =>
     names.map((name) => ({ width, name, passed: null })),
@@ -314,6 +315,30 @@ const { createHash } = require("node:crypto");
         await p.waitForFunction(() => !document.querySelector("#run").disabled);
         assert.equal(await p.locator("#draft-list li").count(), 0);
         assert.equal(await p.locator("#draft-download").isDisabled(), true);
+      });
+      await check("clipped-amount-keeps-saved-list", async () => {
+        await select("text.pdf");
+        await open();
+        await fill();
+        await add();
+        const original = await download();
+        for (const fragment of ["12", "20"]) {
+          await p.fill("#draft-raw_value", fragment);
+          await p.fill("#draft-excerpt", fragment);
+          await add();
+          assert.match(
+            await p.locator("#draft-status").innerText(),
+            /完整金额/,
+          );
+          assert.equal(await p.locator("#draft-list li").count(), 1);
+          if (fragment === "20") {
+            await p.locator("#draft-status").scrollIntoViewIfNeeded();
+            await p.screenshot({
+              path: path.join(out, `clipped-refusal-${width}.png`),
+            });
+          }
+          assert.deepEqual(await download(), original);
+        }
       });
       await c.close();
     }
