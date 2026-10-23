@@ -140,3 +140,10 @@ Local Python185, JS78, fixed synthetic8/8 pass. New synthetic browser contracts
 local static table-cell preparation flows, separate from0/4 earlier page-1 drafts
 refused because their amounts touch RMB. Real financial quality remains unmeasured;
 FE-013/live7/8 unchanged. CI/deployment verification is separate. See SOURCE_CATALOG.
+
+
+## Currency-prefixed pending amounts, 2026-10-24
+
+Pending-draft entry now recognizes six bounded uppercase currency-code contexts and clause commas while preserving signs, grouping, original positions and user assertions. `-RMB 120` cannot silently become positive120; complete `RMB-120` keeps its sign. No automatic currency/scale filling or reviewed-fact admission.
+
+Local Python185, JS118, fixed synthetic8/8 pass. New final40 unit cases24/40→40/40 and28 browser scenarios12/28→28/28 per static/Python; actual same-page official-document preparation0/4→4/4 per surface (2 documents×2 widths). The first prefix-only patch's real0/4 is retained; seeFACT_DRAFTS. FE-021 and the additional FE-020 sign-context variant await exact-release validation and independent closure. E2, FE-013 and original model7/8 remain open; no paid calls.

@@ -318,6 +318,7 @@
                   <label
                     >原文金额<input
                       id="draft-raw_value"
+                      aria-describedby="draft-amount-help"
                       maxlength="64"
                       placeholder="保留负号、括号、小数与逗号"
                       required
@@ -357,6 +358,10 @@
                       required
                   /></label>
                 </div>
+                <p class="small" id="draft-amount-help">
+                  例如原文 RMB120：金额填 120，摘录保留
+                  RMB120。负号和括号不能省略；币种与单位仍需自行核对。
+                </p>
                 <p class="small">
                   不确定的准则和范围保留
                   unknown。字段填写不代表系统确认了口径、来源真实性或使用许可；来源网址不会被访问。

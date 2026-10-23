@@ -108,3 +108,6 @@ Exact-commit CI, public byte matching and deployed browser results are release
 checks, recorded after push. E2 remains partial: four approved source manifests,
 source-rights decisions, independent semantic labels and authenticated human
 approval are not completed by this catalog.
+
+
+Follow-up2026-10-24: FACT_DRAFTS documents the bounded currency-prefix/clause-comma change. The same original page-1 task now completes4/4 per local static/Python surface, retaining the previous0/4 and the first prefix-only patch's0/4. This is preparation of unverified drafts, not four verified sources or financial quality.

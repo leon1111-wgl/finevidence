@@ -182,3 +182,12 @@ while preserving signs, complete tokens and first-excerpt ownership; accept exac
 RMB-prefixed amounts and reject clipped signs/digits/percentages with real PDF and
 synthetic controls. No automatic unit inference. Interview: when is a letter a
 currency prefix rather than part of an identifier? FE-013 remains open.
+
+
+## Currency-prefix implementation, 2026-10-24
+
+FE-021's attached-code and trailing-clause-comma limits are implemented, pending exact-release verification and independent closure. The original page-1 real workflow is0/4 before,4/4 per local static/Python surface after; no alternate page replaces the failed task.
+
+FE-020/P2 has an additional observed sign-context variant on2b981a9: a full/clipped `-RMB 120` can be saved as positive120. It is merged into the same amount-context finding, not a new ID. The prefix rule now examines context before the currency code too;40 unit methods (base24/40) and28 browser checks (base12/28) pass locally. Formal financial admission remains blocked throughout. Review whole/clipped text, embedded codes, signed and accounting amounts, grouping/decimal/percent suffixes, repeated occurrences, export revalidation and preservation of saved rows.
+
+Minimal rule and real diagnostic failures are inFACT_DRAFTS. Do not relax identifier/sign boundaries or infer currency/unit scales. Interview: why did a passing synthetic prefix test still leave both real reports unusable, and what distinguishes a clause comma from a thousands separator? FE-013/live7/8 and E2 rights/human verification remain open.

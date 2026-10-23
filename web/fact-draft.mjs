@@ -56,8 +56,19 @@ function containsToken(pageText, excerptStart, excerpt, raw) {
     // Compatibility forms include fullwidth/small signs and punctuation. Cf
     // characters cannot hide an adjacent numeric marker from this refusal check.
     const boundary = (s) => s.normalize("NFKC").replace(/\p{Cf}/gu, "");
-    const before = boundary(pageText.slice(0, absoluteStart)),
-      after = boundary(pageText.slice(absoluteStart + raw.length));
+    let before = boundary(pageText.slice(0, absoluteStart));
+    let after = boundary(pageText.slice(absoluteStart + raw.length));
+    // A supported currency code may precede the complete raw amount. Inspect
+    // context before that code too: -RMB 120 must not become positive 120.
+    // This identifies notation only; it never sets the draft's currency/scale.
+    const prefix = before.match(/(?:RMB|CNY|HKD|USD|EUR|JPY)\s*$/u);
+    if (prefix) {
+      before = before.slice(0, prefix.index);
+      if (/[\p{L}\p{N}_]$/u.test(before)) continue;
+      // Reports use "RMB120, including ...". Only this clause delimiter is
+      // unambiguous here; ",000", ", 000", ", %" and a bare comma still fail.
+      if (/^,\s+\p{L}/u.test(after)) after = after.slice(1);
+    }
     if (
       !/[\p{N}A-Za-z.,()+\-\u2010-\u2015−٫٬]$/u.test(before) &&
       !/^[\p{N}A-Za-z.,()%٪‰‱؉؊٫٬]/u.test(after) &&

@@ -90,3 +90,6 @@ four approved source manifests or permission to reuse reports. Next resolve
 source-rights decisions and a real human/semantic verification contract. Attached
 currency-token support is a documented usability gap, not a reason to weaken the
 existing numeric boundary. See SOURCE_CATALOG.
+
+
+2026-10-24: the actual catalog reports' page-1 amounts can be prepared through bounded currency-prefix and clause-comma handling. Numeric sign context extends across the code; export rechecks it. This closes neither financial semantics nor real-source approval. After independent FE-021/FE-020 scope review, prioritize source rights and an explicit reviewer/admission contract.

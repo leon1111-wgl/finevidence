@@ -84,3 +84,59 @@ No model was called; first live7/8 and FE-013 remain open. Real-report quality a
 
 
 First fixed browser runs were11/12 on both static/Python: the last rapid download did not emit a download event. A minimal same-origin Blob-download control outside the application reproduced the eleventh-download timeout (the twelfth succeeded after the wait). Initial inline-handler controls were invalid (no downloads); the explicit-listener control and all outputs are retained. The regression now gives each PDF an isolated browser context; its save/refuse/before-after downloads still share the same report. This changes test isolation, not download assertions or application timeouts. The final unchanged harness is also rerun on the old engine. This does not establish unlimited rapid-download support. A formatter-path error was resolved through offline cached dependencies (4 reused,0 downloaded); no application dependency changed.
+
+
+## Currency-prefixed transcription, 2026-10-24
+
+Two checks shaped this bounded change. First, the official reference workflow's
+actual page-1 amounts were unusable: amounts touch RMB and end with a clause
+comma. Supporting those exact tokens makes the existing review handoff useful.
+Second, simply ignoring letters before a number would admit identifiers and hide
+signs. The implementation keeps original-page context on both sides of the amount,
+including before an allowlisted prefix. This is manual transcription support, not
+currency/scale inference, semantic verification or authenticated approval.
+
+The recognized context prefixes are uppercase RMB, CNY, HKD, USD, EUR and JPY,
+with optional whitespace before the complete raw amount. Existing context-only
+NFKC/Cf handling also applies to the prefix; source text, raw value and offsets
+are unchanged. A code embedded in a letter/number/underscore identifier is refused.
+A sign before the code remains significant: `-RMB 120` cannot be registered as
+positive `120`; `RMB-120` can be registered as exact `-120`. Accounting parentheses
+must remain complete. This does not add a general financial-notation parser.
+
+After a recognized prefix, a comma followed by whitespace and a letter can delimit
+a clause, as in `RMB120, including ...`. Comma-plus-digits, comma-plus-percent and
+bare commas remain refused. Without such a recognized prefix, existing conservative
+punctuation behavior remains. Currency and scale remain explicit user assertions;
+unknowns stay null. Source existence does not validate those assertions.
+
+### Retained failures and checks
+
+- On base2b981a9, the initial34 constructed-string methods passed19/34. They also
+  exposed a previously unobserved FE-020 context variant: `-RMB 120` could become
+  positive120 because the code hid the sign. The final expanded40-case suite
+  passes24/40 on that same base and40/40 after the fix.
+- The first prefix-only patch passed the initial24 synthetic browser checks but
+  still failed all4 real document/viewport runs: a following clause comma was a
+  second refusal cause. Inspecting actual PDF.js text identified it; the failing
+  comma unit case was added before extending the rule. Original outputs remain.
+- Final browser suite:7 tokens ×2 excerpt scopes ×2 widths =28. On2b981a9 it
+  passes12/28; after the fix static and Python each pass28/28. Three complete
+  amount controls, four refusal controls, preserved prior rows, actual downloads,
+  hashes, unknown currency, keyboard and layout are checked. CI uses synthetic
+  ToUnicode PDFs, not real documents or a paid model.
+- A deliberately unsafe mutation that discards all context before a prefix passes
+  only30/40 unit cases; ten checks detect identifier/sign/occurrence/export errors.
+- Two official Kingdee PDFs, each at1440/390px, now complete the *same page-1*
+  amount preparation/export path4/4 per local static/Python surface, versus0/4
+  before. Raw amounts are5,679,073,000 and6,255,684,000. Currency/scale remain
+  unknown and normalized_value=null in this workflow test. These are2 distinct
+  documents, not4 independent financial labels, and not extraction accuracy.
+
+Reproduce with `node --test tests/fact-draft-currency.test.mjs` and
+`node tests/browser-fact-currency.cjs` (included in `pnpm test:browser`). For the
+manual real-document check, obtain either official catalog PDF, keep physical
+page1, enter its exact amount without RMB in the amount field, and include RMB
+and the surrounding clause in the excerpt. Inspect the saved row and download;
+no value becomes calculation-eligible. Release verification is separate from
+these local results. Historical live-model7/8 and FE-013 remain unchanged.
