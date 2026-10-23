@@ -93,3 +93,9 @@ existing numeric boundary. See SOURCE_CATALOG.
 
 
 2026-10-24: the actual catalog reports' page-1 amounts can be prepared through bounded currency-prefix and clause-comma handling. Numeric sign context extends across the code; export rechecks it. This closes neither financial semantics nor real-source approval. After independent FE-021/FE-020 scope review, prioritize source rights and an explicit reviewer/admission contract.
+
+
+2026-10-24: follow-up FE-020 currency-symbol sign preservation is implemented
+with source-position, prior-draft/export and browser regression evidence. Keep the
+independent closure gate; then return to E2 source rights and real reviewer/admission
+contracts. This fix does not advance authenticated approval or final real-data E7.

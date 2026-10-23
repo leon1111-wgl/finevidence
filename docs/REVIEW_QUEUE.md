@@ -191,3 +191,18 @@ FE-021's attached-code and trailing-clause-comma limits are implemented, pending
 FE-020/P2 has an additional observed sign-context variant on2b981a9: a full/clipped `-RMB 120` can be saved as positive120. It is merged into the same amount-context finding, not a new ID. The prefix rule now examines context before the currency code too;40 unit methods (base24/40) and28 browser checks (base12/28) pass locally. Formal financial admission remains blocked throughout. Review whole/clipped text, embedded codes, signed and accounting amounts, grouping/decimal/percent suffixes, repeated occurrences, export revalidation and preservation of saved rows.
 
 Minimal rule and real diagnostic failures are inFACT_DRAFTS. Do not relax identifier/sign boundaries or infer currency/unit scales. Interview: why did a passing synthetic prefix test still leave both real reports unusable, and what distinguishes a clause comma from a thousands separator? FE-013/live7/8 and E2 rights/human verification remain open.
+
+
+2026-10-24 independent review of4cad7d0 closed FE-021 only for the two official
+page-1 amount preparation paths (4/4 each public/Python). FE-020 / P2 remains
+open for the additionally reproduced currency-symbol sign gap: `-$120` and
+`-HK$120` could be exported as positive120. Same24 constructed cases16/24 and
+actualPDF16 scenarios8/16 per surface, while16 erroneous exports remained refused
+by replay. No formal-calculation bypass is claimed.
+
+This implementation checks before symbols/qualifiers and preserves source offsets,
+unknown metadata and valid contiguous negatives. New41 unit methods22/41→41/41,
+expanded actualPDF60 cases40/60→60/60 locally; independent strings24/24. Rejecting
+a bad entry keeps prior saved rows and actual download unchanged. Await exact
+release verification and independent closure of this observed scope; the broader
+real-source rights/semantic review/admission gaps and FE-013 remain open.

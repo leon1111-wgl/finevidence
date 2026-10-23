@@ -58,16 +58,25 @@ function containsToken(pageText, excerptStart, excerpt, raw) {
     const boundary = (s) => s.normalize("NFKC").replace(/\p{Cf}/gu, "");
     let before = boundary(pageText.slice(0, absoluteStart));
     let after = boundary(pageText.slice(absoluteStart + raw.length));
-    // A supported currency code may precede the complete raw amount. Inspect
-    // context before that code too: -RMB 120 must not become positive 120.
-    // This identifies notation only; it never sets the draft's currency/scale.
-    const prefix = before.match(/(?:RMB|CNY|HKD|USD|EUR|JPY)\s*$/u);
+    // Inspect context before one currency prefix too: -HK$120 cannot become
+    // positive 120. Symbols/qualifiers identify notation, never currency/scale.
+    const prefix = before.match(
+      /(?:RMB|CNY|HKD|USD|EUR|JPY|(?:HK|US)\s*\$|\p{Sc})\s*$/u,
+    );
     if (prefix) {
       before = before.slice(0, prefix.index);
-      if (/[\p{L}\p{N}_]$/u.test(before)) continue;
+      if (
+        /[\p{L}\p{N}_]$/u.test(before) ||
+        /\p{Sc}\s*$/u.test(before) ||
+        // Refuse a hidden sign even with an unsupported short qualifier, e.g.
+        // -CAD $120. This rejection does not interpret or remove that qualifier.
+        /[+\-\u2010-\u2015−(]\s*(?:[A-Z]{1,3}\s*)?$/u.test(before)
+      )
+        continue;
       // Reports use "RMB120, including ...". Only this clause delimiter is
       // unambiguous here; ",000", ", 000", ", %" and a bare comma still fail.
-      if (/^,\s+\p{L}/u.test(after)) after = after.slice(1);
+      if (!/\p{Sc}/u.test(prefix[0]) && /^,\s+\p{L}/u.test(after))
+        after = after.slice(1);
     }
     if (
       !/[\p{N}A-Za-z.,()+\-\u2010-\u2015−٫٬]$/u.test(before) &&

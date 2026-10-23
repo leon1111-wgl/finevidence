@@ -13,6 +13,14 @@ const fixtures = [
   ["embedded-code", "ARMB120", "120", null],
   ["percent", "RMB120%", "120", null],
   ["clipped-digits", "RMB1200", "120", null],
+  ["dollar-prefix-negative", "-$120", "120", null],
+  ["hk-prefix-negative", "-HK$120", "120", null],
+  ["euro-prefix-negative", "-€120", "120", null],
+  ["fullwidth-prefix-negative", "－ＨＫ＄120", "120", null],
+  ["symbol-accounting-clipped", "($120)", "120", null],
+  ["unknown-code-sign", "-CAD $120", "120", null],
+  ["complete-symbol-negative", "HK$-120", "-120", "-120000000"],
+  ["complete-symbol-decimal", "$1,120.50", "1,120.50", "1120500000"],
 ];
 (async () => {
   const out = path.join(

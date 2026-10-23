@@ -147,3 +147,21 @@ FE-013/live7/8 unchanged. CI/deployment verification is separate. See SOURCE_CAT
 Pending-draft entry now recognizes six bounded uppercase currency-code contexts and clause commas while preserving signs, grouping, original positions and user assertions. `-RMB 120` cannot silently become positive120; complete `RMB-120` keeps its sign. No automatic currency/scale filling or reviewed-fact admission.
 
 Local Python185, JS118, fixed synthetic8/8 pass. New final40 unit cases24/40→40/40 and28 browser scenarios12/28→28/28 per static/Python; actual same-page official-document preparation0/4→4/4 per surface (2 documents×2 widths). The first prefix-only patch's real0/4 is retained; seeFACT_DRAFTS. FE-021 and the additional FE-020 sign-context variant await exact-release validation and independent closure. E2, FE-013 and original model7/8 remain open; no paid calls.
+
+
+## Currency-symbol negative context, 2026-10-24
+
+FE-020's independently reproduced `-$120` / `-HK$120` positive-draft error is
+corrected by checking the original-page context before monetary symbols and the
+bounded HK$/US$ qualifiers. Complete contiguous negative/accounting amounts retain
+their signs; unknown currency/scale, source offsets and pending admission remain.
+The README also distinguishes default offline operation from historical explicitly
+authorized model calls.
+
+Local Python185, JS159 and fixed synthetic8/8 pass. New41 unit methods22/41→41/41;
+original independent strings16/24→24/24; expanded synthetic-PDF browser60 cases
+40/60→60/60 on each static/Python surface. Existing browser suites and Python
+restore6 pass; two real documents×two viewports keep page-1 draft/export4/4 on
+both surfaces. These are transcription and engineering regressions, not financial
+semantic quality. Exact remote CI/deployed bytes and independent closure remain
+separate release gates. No paid calls; historical live7/8 and FE-013 unchanged.

@@ -140,3 +140,34 @@ page1, enter its exact amount without RMB in the amount field, and include RMB
 and the surrounding clause in the excerpt. Inspect the saved row and download;
 no value becomes calculation-eligible. Release verification is separate from
 these local results. Historical live-model7/8 and FE-013 remain unchanged.
+
+
+## Currency-symbol sign context (2026-10-24)
+
+Independent review at4cad7d0 found that `-$120` and `-HK$120` could be saved
+as positive120. This affected unverified drafts and their exports; replay still
+refused those files. The sign was outside the excerpt's adjacent symbol and the
+previous code-only prefix rule did not inspect it.
+
+The same original-page check now looks before a single Unicode currency symbol
+or HK$/US$ prefix (including whitespace within these two qualifiers). Identifier
+characters and another currency symbol immediately before the prefix are refused.
+A preceding sign or accounting parenthesis remains significant, including across
+a short one-to-three-uppercase-letter qualifier such as `-CAD $120`. That latter
+rule only refuses hidden signs; it does not interpret the qualifier or set currency.
+All existing NFKC/Cf handling is context-only; original source, excerpt and offsets
+are untouched. The clause-comma exception remains limited to the six code prefixes.
+
+Exact contiguous `HK$-120` → raw`-120` and `$(120)` → raw`(120)` remain usable.
+A sign separated from the digits by a currency symbol, as in `-$120`, is not a
+supported contiguous raw amount: refuse it instead of rearranging text or saving
+positive120. This bounded check is not a general parser for every currency,
+financial layout or negative-number convention. Unknown currency/scale stay null;
+there is no approval or calculation admission.
+
+Tests include complete/clipped excerpts, signs before symbols, compound prefixes,
+fullwidth forms, hidden format characters, parentheses, grouping/decimal/percent
+truncation, identifiers, repeated occurrences and export revalidation. Unrelated
+negative prose before a valid amount must not trigger unbounded backward scanning.
+See EVALUATION for denominators; original independent review failures are retained
+in the local Chinese evidence. No model calls or new dependencies are required.
