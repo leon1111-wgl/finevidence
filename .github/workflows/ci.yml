@@ -55,7 +55,9 @@ jobs:
   browser:
     needs: test
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # Cold apt dependency downloads took 9m01s on 2026-10-23; leave room for
+    # both real-browser suites without changing application/test deadlines.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
