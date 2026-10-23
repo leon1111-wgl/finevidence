@@ -77,3 +77,7 @@ Local model decision failures expose only fixed category codes and call ordinals
 ## Unverified PDF intake boundary
 
 The public/loopback browser can locally inspect PDF files using pinned PDF.js in a dedicated Worker. Byte identity and physical-page text are exported as a separate unverified inventory. No user PDF is sent to the Python server, model, synthetic bundle, fact store or replay verifier. File reads, parser tasks and display/download state belong to one attempt; cancellation/deadline destroys its Worker. Byte/page/text caps are acceptance controls, not a hard process-memory guarantee. See PDF_INTAKE.
+
+## Source-bound fact drafting
+
+The PDF preflight now exposes an in-memory worksheet and unsigned unverified handoff. `fact-draft.mjs` owns typed/excerpt/decimal-string validation and collection reconstruction; `fact-draft-panel.mjs` owns DOM state. A closure supplies the current preflight report, and file replacement revokes the collection. These drafts cannot enter financial tools, replay or the trusted corpus. See FACT_DRAFTS for exact metadata and trust limits.

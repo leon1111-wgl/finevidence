@@ -49,3 +49,10 @@ class ServerTests(unittest.TestCase):
         code, _, raw = self.post({'operation':'gross-margin','company':'Aurora Orchard','year':2024,'query':''})
         self.assertEqual(code, 200)
         self.assertEqual(json.loads(raw)['calculations'][0]['display'], '30.00%')
+
+    def test_draft_modules_are_served_locally(self):
+        for path in ['/fact-draft.mjs', '/fact-draft-panel.mjs']:
+            code, headers, raw = self.req(path)
+            self.assertEqual(code, 200)
+            self.assertIn('text/javascript', headers['Content-Type'])
+            self.assertGreater(len(raw), 100)

@@ -84,3 +84,9 @@ Eight authored browser scenarios (four resource-lifecycle sequences × desktop/n
 ## Failure-evidence retention (2026-10-23)
 
 `pnpm test:browser-report` checks two authored startup failures against the real PDF fault-runner subprocess. Complete report retention was0/2 at8ee1830 and is2/2 locally after FE-019: fixed4 planned cases, prior-pass retention, initialization phase, explicit not_run, nonzero child exit and no private-content canary in diagnostics. The normal four PDF fault cases are a separate control,4/4 per local static/Python surface. Neither denominator counts as a financial task or real-data metric. No paid call; live-model7/8/FE-013 unchanged. See BROWSER_FAILURE_EVIDENCE; original failed reports/logs remain retained in local review materials.
+
+## 2026-10-23 待核验财务草稿增量
+
+[PDF 财务草稿](FACT_DRAFTS.md) 增加了可实际交接的来源绑定记录。新功能不存在时，两个视口的“PDF→草稿→下载”任务为0/2；实现后本地静态和Python两入口分别2/2。题材只有一份公开虚构双页PDF，不能把两个视口当两份独立真实报告，也不能以此宣称财务抽取准确率提升。
+
+8个场景×2视口=16项浏览器工程验收，两入口最终各16/16；八项新增合同单元测试验证金额精度和错误拒绝。首轮14/16的中文提示断言错误、后续拒绝报告预期错误与键盘12/16失败均保留，见功能说明。原固定业务8/8、真实模型首轮7/8、FE-013开放、真实资料质量样本0不变。本轮不调用模型，不估算人工节时，不提供无依据的收益百分比。

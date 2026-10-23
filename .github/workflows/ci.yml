@@ -50,7 +50,7 @@ jobs:
       - name: Replay corruption evaluation (synthetic, no model)
         run: node scripts/evaluate_replay.mjs
       - name: Deterministic browser engine, draft and handoff tests
-        run: node --test tests/web.test.mjs tests/state.test.mjs tests/replay.test.mjs
+        run: node --test tests/*.test.mjs
 
   browser:
     needs: test

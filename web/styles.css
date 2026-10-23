@@ -714,3 +714,65 @@ footer {
   font-family: inherit;
   font-size: 14px;
 }
+
+.fact-draft {
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+  padding-top: 16px;
+}
+.fact-draft > summary {
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+.draft-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 20px;
+}
+.draft-grid select {
+  width: 100%;
+  margin: 0;
+}
+.draft-grid input,
+.draft-grid select {
+  font-weight: 400;
+}
+#draft-excerpt {
+  display: block;
+  margin-top: 10px;
+}
+#draft-status {
+  margin-top: 12px;
+}
+#draft-count {
+  font-size: 16px;
+  margin-top: 24px;
+}
+#draft-list {
+  list-style: none;
+  padding: 0;
+}
+#draft-list li {
+  border-top: 1px solid var(--border);
+  padding: 12px 0;
+  overflow-wrap: anywhere;
+}
+#draft-list li > p {
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+#draft-list button {
+  margin: 8px 8px 0 0;
+}
+#draft-list blockquote {
+  margin: 12px 0;
+  padding-left: 12px;
+  border-left: 2px solid var(--border);
+  white-space: pre-wrap;
+}
+@media (max-width: 600px) {
+  .draft-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

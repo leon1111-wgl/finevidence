@@ -269,10 +269,141 @@
               自动提取文字可能丢失表格结构或阅读顺序；本页未渲染原始版面，也未执行
               OCR。导出包含提取文字，请自行妥善保存。此记录不进入合成资料库、财务计算或复算交接。
             </p>
+            <details id="fact-draft" class="fact-draft">
+              <summary>登记待核验财务草稿</summary>
+              <p class="small">
+                将本页金额与原文一起交给复核人。所有填写内容仍待核验，不进入正式计算。草稿仅留在本次页面内，换文件或刷新即清除，请及时导出。
+              </p>
+              <form id="draft-form" novalidate>
+                <div class="draft-grid">
+                  <label
+                    >公司名称<input id="draft-company" maxlength="200" required
+                  /></label>
+                  <label
+                    >资料标题<input id="draft-title" maxlength="200" required
+                  /></label>
+                  <label
+                    >来源网址（可留空）<input
+                      id="draft-source_url"
+                      type="url"
+                      maxlength="1000"
+                      placeholder="https://…"
+                  /></label>
+                  <label
+                    >报告期间<input
+                      id="draft-period"
+                      maxlength="120"
+                      placeholder="例如：2024 年度；需对照原报告"
+                      required
+                  /></label>
+                  <label
+                    >指标<select id="draft-metric">
+                      <option value="revenue">收入</option>
+                      <option value="gross_profit">毛利</option>
+                    </select></label
+                  >
+                  <label
+                    >原文金额<input
+                      id="draft-raw_value"
+                      maxlength="64"
+                      placeholder="保留负号、括号、小数与逗号"
+                      required
+                  /></label>
+                  <label
+                    >币种<select id="draft-currency">
+                      <option value="unknown">待核对</option>
+                      <option value="CNY">CNY 人民币</option>
+                      <option value="HKD">HKD 港元</option>
+                      <option value="USD">USD 美元</option>
+                      <option value="EUR">EUR 欧元</option>
+                      <option value="JPY">JPY 日元</option>
+                    </select></label
+                  >
+                  <label
+                    >原文单位倍率<select id="draft-scale">
+                      <option value="unknown">待核对，不换算</option>
+                      <option value="1">1 · 元</option>
+                      <option value="1000">1,000 · 千</option>
+                      <option value="10000">10,000 · 万</option>
+                      <option value="1000000">1,000,000 · 百万</option>
+                      <option value="100000000">100,000,000 · 亿</option>
+                    </select></label
+                  >
+                  <label
+                    >会计准则<input
+                      id="draft-basis"
+                      value="unknown"
+                      maxlength="120"
+                      required
+                  /></label>
+                  <label
+                    >合并范围<input
+                      id="draft-scope"
+                      value="unknown"
+                      maxlength="120"
+                      required
+                  /></label>
+                </div>
+                <p class="small">
+                  不确定的准则和范围保留
+                  unknown。字段填写不代表系统确认了口径、来源真实性或使用许可；来源网址不会被访问。
+                </p>
+                <label for="draft-excerpt" id="draft-page-label"
+                  >摘录来源：当前物理页 —</label
+                >
+                <button
+                  type="button"
+                  class="secondary"
+                  id="draft-use-page"
+                  disabled
+                >
+                  填入本页文字
+                </button>
+                <textarea
+                  id="draft-excerpt"
+                  rows="4"
+                  maxlength="4000"
+                  aria-describedby="draft-excerpt-help"
+                  required
+                ></textarea>
+                <p class="small" id="draft-excerpt-help">
+                  最多 4,000
+                  字符，必须逐字出现在当前页；完整金额也必须出现在摘录中。仍需打开原
+                  PDF 核对表格、年份和口径。
+                </p>
+                <button type="submit" id="draft-add" disabled>
+                  保存待核验草稿
+                </button>
+              </form>
+              <p
+                id="draft-status"
+                class="small"
+                role="status"
+                aria-live="polite"
+              >
+                请先完成 PDF 预检。
+              </p>
+              <h3 id="draft-count" tabindex="-1">已保存 0 / 20 条待核验草稿</h3>
+              <ol id="draft-list"></ol>
+              <button type="button" id="draft-download" disabled>
+                导出已保存草稿（0）
+              </button>
+              <p class="small">
+                只导出列表中已保存的条目，表单内未添加的修改不计入。此 JSON
+                是无签名的待核验交接材料，不能作为复算包或已审核事实导入。
+              </p>
+            </details>
           </div>
         </section>
         <details class="help">
-          <summary>量化验证：交接核验与模型首轮结果</summary>
+          <summary>量化验证：草稿、交接核验与模型首轮结果</summary>
+          <p>
+            PDF 草稿：桌面和窄屏各跑通一次“原文 → 金额草稿 → 下载”，本地验收 2 /
+            2。只使用一份虚构双页 PDF，不代表真实财报抽取准确率。<a
+              href="https://github.com/leon1111-wgl/finevidence/blob/main/docs/FACT_DRAFTS.md"
+              >查看任务、失败与复跑方法 ↗</a
+            >
+          </p>
           <p>
             交接核验：18 / 18 种人为改动被识别，10 / 10 个正常控制通过。
             对照是仅检查 JSON 能否解析（识别 0 / 18），并非竞品实测。

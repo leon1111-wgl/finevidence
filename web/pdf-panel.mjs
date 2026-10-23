@@ -1,4 +1,5 @@
 import { inspectPdf } from "./pdf-intake.mjs";
+import { bindFactDraftPanel } from "./fact-draft-panel.mjs";
 const $ = (id) => document.getElementById(id);
 const messages = {
   PDF_BYTE_LIMIT: "文件超过 5 MiB 上限。",
@@ -25,6 +26,13 @@ export function bindPdfPanel() {
     n.className = error ? "error" : "small";
     n.setAttribute("role", error ? "alert" : "status");
   };
+  const drafts = bindFactDraftPanel(
+    () => report,
+    (page) => {
+      $("pdf-page").value = String(page);
+      showPage();
+    },
+  );
   const clearResult = () => {
     report = null;
     $("pdf-result").hidden = true;
@@ -33,6 +41,7 @@ export function bindPdfPanel() {
     $("pdf-page").replaceChildren();
     $("pdf-name").textContent = "";
     $("pdf-hash").textContent = "";
+    drafts.reset();
   };
   const busy = (value) => {
     $("pdf-intake").setAttribute("aria-busy", String(value));
@@ -42,6 +51,7 @@ export function bindPdfPanel() {
   };
   const showPage = () => {
     if (!report) return;
+    drafts.pageChanged();
     const p = report.pages[Number($("pdf-page").value) - 1];
     $("pdf-text").textContent =
       p.text ||
@@ -165,5 +175,6 @@ export function bindPdfPanel() {
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
+  drafts.reset();
   busy(false);
 }
