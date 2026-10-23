@@ -96,3 +96,6 @@ GitHub Actions 中 Python/Linux/macOS、JS 和浏览器检查均通过后，才�
 
 
 PDF组件加载超时会显示PDF_READER_TIMEOUT：检查网络后重新选择文件即可发起新加载，不必等待旧请求结束。PDF_TIMEOUT仍表示文件处理阶段超时。取消只停止应用等待并清理已创建的Worker，浏览器原生import请求可能继续；它晚到时不会覆盖新报告。`node tests/browser-pdf-loading.cjs`以桌面/窄屏共8个故障时序验证重试与隔离，已加入test:browser；它不测真实财报质量。
+
+
+浏览器PDF故障脚本现在在初始化失败时也保存 `pdf-faults/result.json`。检查 `finished`、固定分母4、phase与not_run，不把已结束的失败测试当成功。`pnpm test:browser-report` 用两个实际子进程故障验证报告留存和脱敏；CI单独执行一次。详细格式与故障证据边界见 [BROWSER_FAILURE_EVIDENCE](BROWSER_FAILURE_EVIDENCE.md)。

@@ -79,3 +79,8 @@ Run the two browser-pdf scripts via pnpm test:browser. 17 authored scenarios × 
 ## FE-018 resource-recovery acceptance (2026-10-23)
 
 Eight authored browser scenarios (four resource-lifecycle sequences × desktop/narrow widths) changed from 0/8 on 82ab62c to 8/8 on each fixed local static/Python build. The missing behavior was a fresh explicit retry while the original module request stayed pending; the same unchanged assertions then also cover late-settlement isolation, real parser/export identity and success-cache reuse. Reproduce with `node tests/browser-pdf-loading.cjs`; BASE_URL selects the surface, BROWSER_ARTIFACTS stores raw per-case outcomes and screenshots. No retry-until-pass selection or model invocation is performed. The independent review's earlier public/Python 0/2 is a separate denominator. Tests and fault timing are synthetic engineering evidence, not real financial quality or saved analyst time; first live model7/8 and FE-013 remain unchanged. See PDF_INTAKE for root cause and dynamic-import cancellation limits.
+
+
+## Failure-evidence retention (2026-10-23)
+
+`pnpm test:browser-report` checks two authored startup failures against the real PDF fault-runner subprocess. Complete report retention was0/2 at8ee1830 and is2/2 locally after FE-019: fixed4 planned cases, prior-pass retention, initialization phase, explicit not_run, nonzero child exit and no private-content canary in diagnostics. The normal four PDF fault cases are a separate control,4/4 per local static/Python surface. Neither denominator counts as a financial task or real-data metric. No paid call; live-model7/8/FE-013 unchanged. See BROWSER_FAILURE_EVIDENCE; original failed reports/logs remain retained in local review materials.

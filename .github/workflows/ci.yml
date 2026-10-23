@@ -79,6 +79,8 @@ jobs:
           python -m finevidence.server > /tmp/finevidence-api.log 2>&1 &
           BROWSER_ARTIFACTS=browser-artifacts/python pnpm test:browser
           BROWSER_ARTIFACTS=browser-artifacts/python pnpm test:restore
+      - name: Failing browser suite retains diagnostic evidence
+        run: pnpm test:browser-report
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:

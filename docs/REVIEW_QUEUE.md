@@ -138,3 +138,10 @@ Observed commit:82ab62c4704ea35f925ad2f958026f801fb410b6. Independent review hel
 Minimal fix in web/pdf-intake.mjs::loadLibrary/inspectPdf: cache active validated successes only, own pending imports per explicit attempt, and never let abandoned settlement write cache/start Worker. pdf-panel.mjs distinguishes component deadline from parse deadline without changing the 12-second total budget. New real-browser regression8 cases first fails0/8 on the observed commit, then passes8/8 per static/Python surface locally; old PDF34/fault4 and broader workflow checks remain release gates. No pending-import network-cancellation claim. Implemented, pending exact release verification and independent closure; see PDF_INTAKE.
 
 Interview question: why does Promise.race stopping a caller not cancel or invalidate the promise it was waiting for? How can an old rejection break a newer successful cache?
+
+
+## FE-018 independent closure and FE-019 reporting correction, 2026-10-23
+
+Independent review of8ee1830 closed the observed FE-018 recovery scope: original held-request contract2/2, existing loading8/8 per public/Python surface and four additional lifecycle cases4/4 per surface. Native import cancellation/memory and real financial quality remain outside that closure.
+
+FE-019 / P3 was reproduced at8ee1830 in tests/browser-pdf-faults.cjs: navigation/readiness occurred outside the case catch, so first/second startup failure exited1 without final JSON and lost structured prior results. The runner now persists a fixed plan and checkpoints, captures initialization separately, retains prior passes/not-run rows and exits nonzero. Two actual-child-suite regressions changed0/2 to2/2 with bounded diagnostics and a content-leak canary; normal4/4 remains. Implemented pending release verification and independent closure. See BROWSER_FAILURE_EVIDENCE. Do not infer a cause or fix for the earlier uncaptured public startup timeout. Interview question: why is a failing CI exit insufficient to explain which checks actually ran?
