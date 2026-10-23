@@ -15,6 +15,7 @@ python3 -m finevidence.server
 
 | 可实际体验 | 交付边界 |
 |---|---|
+| 官方资料目录与本机文件版本识别 | 两份金蝶历史业绩公告；hash/字节一致不等于事实、人审或许可核验 |
 | 本机 PDF 预检、物理页文字、指纹与待核验记录导出 | 5 MiB/120 页；不上传、无 OCR，提取不等于真实事实核验 |
 | PDF 金额草稿、页码/摘录绑定、单位换算与交接导出 | 最多 20 条待核验记录；非自动抽取、非已审核事实，不用于正式计算 |
 | 原文检索、公司／年度筛选、来源指纹 | 英文 BM25，合成页 |
@@ -24,7 +25,7 @@ python3 -m finevidence.server
 | 复算交接包、选入文件核验、具体字段差异与报告下载 | 18/18 合成单点差异识别，10/10 正常控制；不认证作者／审批 |
 | GitHub Pages 和完整本地界面 | 公网页不包含模型密钥；本地 API 不开放公网 |
 
-新增：[PDF 财务草稿工作流](docs/FACT_DRAFTS.md) · [PDF 预检边界与复跑](docs/PDF_INTAKE.md) · [金融证据交接的两轮竞品取舍](docs/HANDOFF_RESEARCH.md) · [复算协议、实际数据流与量化复跑](docs/HANDOFF_REPLAY.md)。
+新增：[官方资料入口与版本识别](docs/SOURCE_CATALOG.md) · [PDF 财务草稿工作流](docs/FACT_DRAFTS.md) · [PDF 预检边界与复跑](docs/PDF_INTAKE.md) · [金融证据交接的两轮竞品取舍](docs/HANDOFF_RESEARCH.md) · [复算协议、实际数据流与量化复跑](docs/HANDOFF_REPLAY.md)。
 
 企业工程是验收方向。本项目未宣称银行生产使用、真实报告准确率、组织级访问控制或服务 SLA。具体已运行证据和未完成边界见 [STATUS](docs/STATUS.md)。
 
@@ -70,7 +71,7 @@ The second query returns `NO_MATCH`, an empty citations list and `answer: null`.
 - A shared workflow and JSON response contract with request ID, status, original excerpts, citations and limitations.
 - Eight typed synthetic facts, explicit units/period/currency/basis/scope, original-source rechecks and deterministic Decimal gross margin, revenue growth and margin percentage-point change.
 - An explicit synthetic SQLite snapshot builder and parameterized, read-only lookup used by all three calculations; JSON remains the reference backend.
-- 181 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
+- 185 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
 
 All companies, amounts and statements in the sample corpus are fictional. `page_kind=synthetic` is **not** a PDF physical page. Engineering tests do not establish real financial question-answering quality.
 

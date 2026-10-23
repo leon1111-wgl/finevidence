@@ -1,3 +1,4 @@
+import { SOURCE_CATALOG } from "./source-catalog.mjs";
 import { inspectPdf } from "./pdf-intake.mjs";
 import { bindFactDraftPanel } from "./fact-draft-panel.mjs";
 const $ = (id) => document.getElementById(id);
@@ -16,7 +17,53 @@ const messages = {
   PDF_TIMEOUT: "预检超过 12 秒，已停止处理。可拆分文件后重试。",
   PDF_CANCELLED: "已取消，可重新选择文件。",
 };
+function sourceLink(url, text) {
+  const a = document.createElement("a");
+  a.href = url;
+  a.textContent = text;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  return a;
+}
+function renderSource(reference) {
+  const container = $("pdf-source");
+  container.replaceChildren();
+  const summary = document.createElement("p");
+  const record = reference.record;
+  summary.textContent = record
+    ? `与目录文件一致 · ${record.company} · ${record.period} 年度`
+    : "未匹配目录 · 目录覆盖有限，这不表示文件无效。请自行确认官方来源与版本。";
+  container.append(summary);
+  if (record) {
+    const description = document.createElement("p");
+    description.className = "small";
+    description.textContent = `${record.title} · 发布 ${record.published_on} · 指纹采集 ${record.accessed_on}。 `;
+    description.append(sourceLink(record.url, "官方原文件 ↗"));
+    const limit = document.createElement("p");
+    limit.className = "small";
+    limit.textContent =
+      "仅 SHA-256 与字节数一致。未核验财务事实、转载许可或人审身份；草稿填写内容仍须逐项核对。";
+    container.append(description, limit);
+  }
+}
 export function bindPdfPanel() {
+  const list = $("source-catalog-list");
+  list.replaceChildren();
+  for (const record of SOURCE_CATALOG) {
+    const li = document.createElement("li");
+    const title = document.createElement("p");
+    title.textContent = `${record.company} · ${record.title}`;
+    const meta = document.createElement("p");
+    meta.className = "small";
+    meta.textContent = `发布 ${record.published_on} · ${record.page_count} 页 · ${(record.bytes / 1024 / 1024).toFixed(2)} MiB · `;
+    meta.append(
+      sourceLink(record.url, "官方 PDF ↗"),
+      " · ",
+      sourceLink(record.index_url, "公告目录 ↗"),
+    );
+    li.append(title, meta);
+    list.append(li);
+  }
   let controller = null,
     report = null,
     sequence = 0;
@@ -41,6 +88,7 @@ export function bindPdfPanel() {
     $("pdf-page").replaceChildren();
     $("pdf-name").textContent = "";
     $("pdf-hash").textContent = "";
+    $("pdf-source").replaceChildren();
     drafts.reset();
   };
   const busy = (value) => {
@@ -75,6 +123,7 @@ export function bindPdfPanel() {
       report = value;
       $("pdf-name").textContent = value.file.name;
       $("pdf-hash").textContent = value.file.sha256;
+      renderSource(value.source_reference);
       $("pdf-summary").textContent =
         `${value.page_count} 个物理页 · ${value.text_pages} 页有提取文字 · ${value.file.bytes.toLocaleString()} 字节 · PDF.js ${value.parser.version}`;
       for (const p of value.pages) {

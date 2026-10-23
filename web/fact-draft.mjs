@@ -1,3 +1,4 @@
+import { identifySource } from "./source-catalog.mjs";
 // Local, untrusted annotations. This module never admits facts to calculations.
 const scales = ["1", "1000", "10000", "1000000", "100000000", "unknown"];
 const fail = (code) => {
@@ -157,6 +158,7 @@ export function exportFactDrafts(report, drafts) {
     licensing_status: "not_verified",
     financial_calculation_eligible: false,
     file: { ...report.file },
+    source_reference: identifySource(report.file),
     drafts: checked,
     limitations: [
       "Exact text membership is not semantic or visual verification.",

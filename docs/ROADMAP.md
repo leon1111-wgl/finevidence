@@ -82,3 +82,11 @@ A complete bounded local-file-to-page-inventory workflow now precedes actual cor
 2026-10-23 review priority: FE-018 stalled component import/manual retry is corrected with independent attempt ownership and successful-module caching. Desktop/narrow resource-failure regression is included in CI. E2 real-source rights and human verification remain next major gaps; this reliability correction does not admit unverified PDFs to financial calculations.
 
 2026-10-23: E2 now includes local source-bound financial drafts and unsigned handoff with unknown metadata preserved. This advances manual preparation, not authenticated human approval or licensed real-report admission. Next establish a permitted real-source set, independent semantic/visual labels and an approval/admission contract before enabling real financial calculations.
+
+2026-10-24: E2 now has a reference-only official catalog (two historical Kingdee
+results PDFs), exact local byte-version identification and lineage in pending
+exports. Two Tencent candidate URLs returned HTML and were excluded. This is not
+four approved source manifests or permission to reuse reports. Next resolve
+source-rights decisions and a real human/semantic verification contract. Attached
+currency-token support is a documented usability gap, not a reason to weaken the
+existing numeric boundary. See SOURCE_CATALOG.

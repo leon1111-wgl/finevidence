@@ -51,7 +51,7 @@ class ServerTests(unittest.TestCase):
         self.assertEqual(json.loads(raw)['calculations'][0]['display'], '30.00%')
 
     def test_draft_modules_are_served_locally(self):
-        for path in ['/fact-draft.mjs', '/fact-draft-panel.mjs']:
+        for path in ['/fact-draft.mjs', '/fact-draft-panel.mjs', '/source-catalog.mjs']:
             code, headers, raw = self.req(path)
             self.assertEqual(code, 200)
             self.assertIn('text/javascript', headers['Content-Type'])

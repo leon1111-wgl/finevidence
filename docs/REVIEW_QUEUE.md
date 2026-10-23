@@ -162,3 +162,23 @@ Implemented: search raw tokens only inside the selected excerpt; inspect boundar
 ## FE-020 Unicode follow-up, 2026-10-23
 
 The independent57b6b7c review confirmed old ASCII behavior but reproduced incorrect positive120 fromFF0D minus,FF05 percent and066A percent (actualPDF public/Python12/18; full excerpt2/8). Same P2 issue, not a new finding. Boundaries now classify compatibility forms and an explicit Unicode numeric-marker repertoire without changing source text, raw amounts or UTF-16 offsets. Save/export revalidation share the check; existing saved rows remain unchanged on refusal. SeeFACT_DRAFTS for the exact repertoire and reproducible tests. Implementation validation and publication are recorded separately; independent closure remains pending. No verified-fact admission or formal-calculation bypass was observed. FE-013/live7/8 unchanged.
+
+## 2026-10-24 observed closure and source-catalog review
+
+FE-020 was independently closed on2ec41ba in the observed ASCII/Unicode clipping
+scope: original string21/21, clipped PDF18/18, full excerpt8/8, plus14 independent
+PDF controls per public/Python surface. This does not close semantic review.
+
+New catalog review: check official metadata, changed/renamed bytes, stale identity
+after failure/clear, local-only requests, unverified exports and catalog trust
+boundary. Do not call metadata matching source-rights or financial approval.
+
+FE-021 / P3 capability limitation, observed on2ec41ba plus catalog working tree:
+`containsToken` rejects amounts attached directly to currency codes (e.g. RMB),
+so the page-1 draft step failed in4/4 real-document/viewport runs. The same documents
+work using separate table cells; this is conservative refusal, not wrong numeric
+acceptance. Proposed follow-up: define an allowlisted currency-prefix grammar
+while preserving signs, complete tokens and first-excerpt ownership; accept exact
+RMB-prefixed amounts and reject clipped signs/digits/percentages with real PDF and
+synthetic controls. No automatic unit inference. Interview: when is a letter a
+currency prefix rather than part of an identifier? FE-013 remains open.

@@ -103,3 +103,12 @@ Eight authored browser scenarios (four resource-lifecycle sequences × desktop/n
 The independent actual-PDF probe on57b6b7c had12/18 passes:3 Unicode markers ×2 widths were incorrectly accepted. This cycle retains those inputs and the full-excerpt8-case probe as separate controls. New19 constructed-string methods change2/19→19/19; the new actual-PDF preservation suite has3 symbols ×2 excerpts ×2 widths=12, with0/12 on the old engine. The first fixed suite's11/12 rapid-download failure and a minimal browser control are retained; seeFACT_DRAFTS for test isolation and final results.
 
 These measure known numeric transcription boundary regressions, not financial semantic accuracy, competitor superiority or human time saved. Fixed synthetic business8/8 and historical live-model7/8 retain their original denominators; FE-013 remains open, no paid calls, real-report/hidden quality sample counts0.
+
+## 2026-10-24 官方资料版本识别
+
+[来源目录验收](SOURCE_CATALOG.md)区分四个分母：候选链接实际取得PDF为2/4；
+收录2份不同官方报告；2份×2视口的本机表格金额准备与来源导出4/4；
+离线合成状态回归2/14→14/14。原首页RMB紧贴金额的草稿尝试0/4保留，
+没有通过重试挑选模型答案。365–449ms是本机四次预检观测，不是SLA。
+这些只验证文件身份与待审交接，不是语义抽取准确率、人审结果或时间收益。
+固定业务8/8、首轮模型7/8、FE-013开放保持；实时付费调用0。

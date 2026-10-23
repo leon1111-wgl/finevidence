@@ -776,3 +776,36 @@ footer {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+.source-catalog {
+  margin: 20px 0;
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.source-catalog summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.source-catalog > p {
+  margin-top: 12px;
+}
+#source-catalog-list {
+  list-style: none;
+  padding: 0;
+}
+#source-catalog-list li {
+  margin: 16px 0;
+}
+#source-catalog-list p {
+  margin: 4px 0;
+}
+.source-match {
+  margin: 16px 0;
+  padding-left: 12px;
+  border-left: 2px solid var(--border);
+  overflow-wrap: anywhere;
+}
+.source-match p {
+  margin: 6px 0;
+}

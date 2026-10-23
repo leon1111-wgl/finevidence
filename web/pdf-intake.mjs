@@ -1,3 +1,4 @@
+import { identifySource } from "./source-catalog.mjs";
 // Untrusted local PDF -> unverified page inventory. Never imports financial facts.
 export const PDF_LIMITS = Object.freeze({
   bytes: 5 * 1024 * 1024,
@@ -157,6 +158,7 @@ export async function inspectPdf(
       status:
         textPages === pages.length ? "NEEDS_REVIEW" : "NEEDS_OCR_OR_REVIEW",
       file: { name: file.name, bytes: file.size, sha256: digest },
+      source_reference: identifySource({ bytes: file.size, sha256: digest }),
       parser: { name: "PDF.js", version: PDFJS_VERSION },
       page_count: pages.length,
       text_pages: textPages,

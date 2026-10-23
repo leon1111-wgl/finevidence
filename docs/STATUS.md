@@ -128,3 +128,15 @@ Source-bound drafts now reject dropping a fullwidth minus/fullwidth or Arabic pe
 Local Python185/185 (21.776s), JS73/73 and fixed synthetic business8/8 pass. New unit19 methods change2/19→19/19. Final static/Python UnicodePDF suites each12/12, including exact extraction, correct300 control, incorrect120 refusal, before-after actual-download equality, source hash and keyboard/layout checks. The initial fixed runs11/12 and standalone rapid-download control remain recorded; each PDF now owns a browser context without weakening assertions. Original18 worksheet checks pass on each, Python restore6/6 passes, and original browser workflow14/retry7/replay18/identity20/PDF34/fault4/loading8 remain passing on both. Independent old-string21/21 and UnicodePDF18/18 plus full-excerpt8/8 pass locally.
 
 Exact commitCI, fresh-clone and public-deployment validation follow publication; do not infer them from local passes. FE-020 awaits independent closure in the expanded scope. Real-source rights, semantic/visual human verification and authorization remain next major gaps. No paid calls; historical live7/8/FE-013 unchanged, real-report quality samples0.
+
+## Official reference catalog, 2026-10-24
+
+The homepage now links two historical Kingdee results PDFs and identifies selected
+local versions by digest plus byte count. Page records and pending draft exports
+retain the catalog reference independently of user assertions. No report text is
+published; unmatched files remain inspectable; failures/clear revoke old identity.
+Local Python185, JS78, fixed synthetic8/8 pass. New synthetic browser contracts
+2/14→14/14 per static/Python surface; two real documents × two widths give4/4
+local static table-cell preparation flows, separate from0/4 earlier page-1 drafts
+refused because their amounts touch RMB. Real financial quality remains unmeasured;
+FE-013/live7/8 unchanged. CI/deployment verification is separate. See SOURCE_CATALOG.

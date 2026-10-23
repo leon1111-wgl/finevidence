@@ -232,6 +232,18 @@
           <p class="small">
             先检查本机报告能否提取文字、页序是否完整。文件留在浏览器，不上传，不调用模型。预检完成后仍需人工核对与许可确认。
           </p>
+          <details id="source-catalog" class="source-catalog">
+            <summary>从官方资料开始</summary>
+            <p class="small">
+              打开官方 PDF
+              并保存，再在下方选择本机文件。目录收录两份历史业绩公告，不代表最新披露，也不提供转载许可。
+            </p>
+            <ul id="source-catalog-list"></ul>
+            <p class="small">
+              指纹采集于
+              2026-10-24（Asia/Taipei）。官方链接若失效，可从公告目录查找；新版文件可能不匹配旧指纹，仍可预检。
+            </p>
+          </details>
           <label for="pdf-file">选择 PDF（最多 5 MiB、120 个物理页）</label>
           <input
             id="pdf-file"
@@ -260,6 +272,7 @@
               <dt>字节指纹</dt>
               <dd><code id="pdf-hash"></code></dd>
             </dl>
+            <div id="pdf-source" class="source-match" aria-live="polite"></div>
             <p id="pdf-summary" class="small"></p>
             <label for="pdf-page"
               >提取页（按 PDF 内物理顺序，可能不同于印刷页码）</label

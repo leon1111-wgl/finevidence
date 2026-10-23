@@ -99,3 +99,12 @@ PDF组件加载超时会显示PDF_READER_TIMEOUT：检查网络后重新选择�
 
 
 浏览器PDF故障脚本现在在初始化失败时也保存 `pdf-faults/result.json`。检查 `finished`、固定分母4、phase与not_run，不把已结束的失败测试当成功。`pnpm test:browser-report` 用两个实际子进程故障验证报告留存和脱敏；CI单独执行一次。详细格式与故障证据边界见 [BROWSER_FAILURE_EVIDENCE](BROWSER_FAILURE_EVIDENCE.md)。
+
+## 官方资料入口与文件版本
+
+在首页“PDF资料预检”展开“从官方资料开始”，打开官方链接并自行保存，
+再选择本机PDF。目录识别只比较已采集版本的SHA-256与字节数。
+换文件、失败和清除会移除旧来源；未匹配不表示文件无效。目录元数据随
+页记录与待核验草稿导出，但不改写用户填报的年份、单位或审核状态。
+[来源与验收](SOURCE_CATALOG.md)包含两份历史公告、可走通的表格页、
+RMB紧贴数字的已知拒绝限制与失败证据。

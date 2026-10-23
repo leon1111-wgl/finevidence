@@ -81,3 +81,13 @@ The public/loopback browser can locally inspect PDF files using pinned PDF.js in
 ## Source-bound fact drafting
 
 The PDF preflight now exposes an in-memory worksheet and unsigned unverified handoff. `fact-draft.mjs` owns typed/excerpt/decimal-string validation and collection reconstruction; `fact-draft-panel.mjs` owns DOM state. A closure supplies the current preflight report, and file replacement revokes the collection. These drafts cannot enter financial tools, replay or the trusted corpus. See FACT_DRAFTS for exact metadata and trust limits.
+
+## Reference catalog boundary (2026-10-24)
+
+`source-catalog.mjs` holds frozen official reference metadata. `inspectPdf` derives
+a catalog match from actual bytes (SHA-256 + size), and `pdf-panel` renders safe-text
+identity alongside physical pages. Draft export recomputes the reference, separate
+from user-supplied company/period/units. Neither catalog membership nor exported
+JSON authorizes calculation or constitutes authenticated approval. No extra
+fetch/upload/model path; the Python static asset allowlist serves the same module.
+See SOURCE_CATALOG for source provenance, first failures and limits.
