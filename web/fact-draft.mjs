@@ -51,13 +51,17 @@ function containsToken(pageText, excerptStart, excerpt, raw) {
     // Search only this excerpt; inspect boundaries at its original page position.
     // Clipping or trimming must not erase a sign, digit, decimal or percent suffix.
     const absoluteStart = excerptStart + start;
-    const before = pageText.slice(0, absoluteStart),
-      after = pageText.slice(absoluteStart + raw.length);
+    // Normalize boundary context only, never the source, amount or its offsets.
+    // Compatibility forms include fullwidth/small signs and punctuation. Cf
+    // characters cannot hide an adjacent numeric marker from this refusal check.
+    const boundary = (s) => s.normalize("NFKC").replace(/\p{Cf}/gu, "");
+    const before = boundary(pageText.slice(0, absoluteStart)),
+      after = boundary(pageText.slice(absoluteStart + raw.length));
     if (
-      !/[0-9A-Za-z.,()+\-−]$/.test(before) &&
-      !/^[0-9A-Za-z.,()%]/.test(after) &&
-      !/[+\-−(]\s*$/.test(before) &&
-      !/^\s*[)%]/.test(after)
+      !/[\p{N}A-Za-z.,()+\-\u2010-\u2015−٫٬]$/u.test(before) &&
+      !/^[\p{N}A-Za-z.,()%٪‰‱؉؊٫٬]/u.test(after) &&
+      !/[+\-\u2010-\u2015−(]\s*$/u.test(before) &&
+      !/^\s*[)%٪‰‱؉؊]/u.test(after)
     )
       return true;
   }

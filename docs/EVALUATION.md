@@ -96,3 +96,10 @@ Eight authored browser scenarios (four resource-lifecycle sequences × desktop/n
 原独立审查21个合成字符串案例13/21：8种裁剪反例错误接受。修复后同样输入与预期21/21；8个完整上下文拒绝控制、5个合法控制保持。新增16个单元方法2/16→16/16；整页任意搜索的错误修复变异14/16，两个范围/出现位置检查发现它。浏览器新增拒绝时保留已保存草稿及实际导出，套件由16扩展为18项，修复前16/18。
 
 指标是已知缺陷的回归防护，不是金融语义准确率或业务收益。真实财报样本0、隐藏集0、付费调用0；原真实模型开发集7/8、FE-013仍开放。首轮测试夹具的偏移/错误类型问题保留，金额边界预期没有放宽。最终本地、精确SHA CI及公开入口结果见STATUS和本地交付证据。
+
+
+## FE-020 Unicode-boundary follow-up (2026-10-23)
+
+The independent actual-PDF probe on57b6b7c had12/18 passes:3 Unicode markers ×2 widths were incorrectly accepted. This cycle retains those inputs and the full-excerpt8-case probe as separate controls. New19 constructed-string methods change2/19→19/19; the new actual-PDF preservation suite has3 symbols ×2 excerpts ×2 widths=12, with0/12 on the old engine. The first fixed suite's11/12 rapid-download failure and a minimal browser control are retained; seeFACT_DRAFTS for test isolation and final results.
+
+These measure known numeric transcription boundary regressions, not financial semantic accuracy, competitor superiority or human time saved. Fixed synthetic business8/8 and historical live-model7/8 retain their original denominators; FE-013 remains open, no paid calls, real-report/hidden quality sample counts0.

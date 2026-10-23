@@ -157,3 +157,8 @@ Next independently inspect source-bound drafts: exact excerpt/page ownership, ra
 P2, reproduced at f5e06d9 by independent review. `createFactDraft` validated amount boundaries only inside a clipped excerpt:120 could become12, or -120 could become positive120 in an unverified saved/exported row. Financial calculation admission remained blocked.
 
 Implemented: search raw tokens only inside the selected excerpt; inspect boundaries in the full page at its first exact occurrence. Export rebuilds against the same context. Regression includes repeated occurrences, clipped symbols, whitespace, UTF-16 and preserved saved/downloaded rows. New unit tests2/16→16/16; original review string probe13/21→21/21. Wrong page-global search mutation14/16 is rejected by the new scope tests. Publication and independent closure must follow verified release evidence; do not infer them from this note. FE-013 and the original real-model7/8 remain unchanged.
+
+
+## FE-020 Unicode follow-up, 2026-10-23
+
+The independent57b6b7c review confirmed old ASCII behavior but reproduced incorrect positive120 fromFF0D minus,FF05 percent and066A percent (actualPDF public/Python12/18; full excerpt2/8). Same P2 issue, not a new finding. Boundaries now classify compatibility forms and an explicit Unicode numeric-marker repertoire without changing source text, raw amounts or UTF-16 offsets. Save/export revalidation share the check; existing saved rows remain unchanged on refusal. SeeFACT_DRAFTS for the exact repertoire and reproducible tests. Implementation validation and publication are recorded separately; independent closure remains pending. No verified-fact admission or formal-calculation bypass was observed. FE-013/live7/8 unchanged.

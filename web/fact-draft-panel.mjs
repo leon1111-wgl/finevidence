@@ -16,7 +16,8 @@ const fields = [
 const messages = {
   DRAFT_EXCERPT: "摘录必须逐字来自当前物理页。",
   DRAFT_PAGE: "当前页没有可用文字，请先核对原 PDF。",
-  DRAFT_TOKEN: "原文中找不到这个完整金额；请保留负号、括号和小数。",
+  DRAFT_TOKEN:
+    "原文中找不到受支持的完整金额。请核对原 PDF 的符号与小数；百分数和特殊数字写法不能登记为普通金额。",
   DRAFT_NUMBER:
     "金额只支持普通小数、三位逗号分组或括号负数，最多 40 位整数和 18 位小数。",
   DRAFT_URL: "来源网址必须是无账号密码的 HTTPS 地址；系统不会访问它。",
