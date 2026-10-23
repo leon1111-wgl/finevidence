@@ -8,21 +8,17 @@ export const PDF_LIMITS = Object.freeze({
 });
 export const PDFJS_VERSION = "6.4.299";
 const failure = (code) => Object.assign(new Error(code), { code });
-let libraryPromise = null,
-  failedLoads = 0;
+let library = null,
+  loadGeneration = 0;
 function loadLibrary() {
-  if (!libraryPromise) {
-    const url = new URL("./vendor/pdf.min.mjs", import.meta.url);
-    // Failed module fetches are cached by URL. Retry only on a new user action;
-    // reuse the successfully loaded module thereafter, never the rejected one.
-    if (failedLoads) url.searchParams.set("retry", String(failedLoads));
-    libraryPromise = import(url.href).catch((error) => {
-      libraryPromise = null;
-      failedLoads++;
-      throw error;
-    });
-  }
-  return libraryPromise;
+  if (library) return Promise.resolve(library);
+  const url = new URL("./vendor/pdf.min.mjs", import.meta.url);
+  // Pending and failed imports are cached by URL by the browser. Each explicit
+  // uncached attempt owns a fresh URL; abandoned imports cannot block a retry.
+  // Native import cannot be aborted. Only an active caller may cache success.
+  if (loadGeneration) url.searchParams.set("retry", String(loadGeneration));
+  loadGeneration++;
+  return import(url.href);
 }
 
 export async function inspectPdf(
@@ -30,6 +26,7 @@ export async function inspectPdf(
   { signal, onProgress = () => {}, sourceKind = "user" } = {},
 ) {
   let port, worker, task, timer, abortListener, reason;
+  let loadingReader = false;
   const stopped = new Promise((_, reject) => {
     const stop = (code) => {
       reason = code;
@@ -38,7 +35,10 @@ export async function inspectPdf(
     abortListener = () => stop("PDF_CANCELLED");
     if (signal?.aborted) abortListener();
     else signal?.addEventListener("abort", abortListener, { once: true });
-    timer = setTimeout(() => stop("PDF_TIMEOUT"), PDF_LIMITS.timeout);
+    timer = setTimeout(
+      () => stop(loadingReader ? "PDF_READER_TIMEOUT" : "PDF_TIMEOUT"),
+      PDF_LIMITS.timeout,
+    );
   });
   const active = () => {
     if (reason) throw failure(reason);
@@ -70,10 +70,14 @@ export async function inspectPdf(
     active();
     let lib;
     try {
+      loadingReader = true;
+      onProgress("正在加载 PDF 读取组件…");
       lib = await loadLibrary();
+      active();
       if (lib.version !== PDFJS_VERSION)
         throw failure("PDF_READER_UNAVAILABLE");
-      active();
+      library = lib;
+      loadingReader = false;
       port = new Worker(
         new URL("./vendor/pdf.worker.min.mjs", import.meta.url),
         { type: "module" },

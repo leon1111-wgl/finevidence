@@ -5,7 +5,7 @@ Baseline review: 2026-10-19, before first public repository commit. These are ob
 | ID | Priority | Kind | Evidence / impact | Next acceptance check |
 |---|---|---|---|---|
 | FE-001 | P1 | Financial capability gap | Partial E1: synthetic gross margin, annual revenue growth and margin percentage-point change implemented; read-only SQLite is now implemented; actual human fact review remains absent | Keep open for the real review boundary; verify snapshot lifecycle and source checks |
-| FE-002 | P1 | Real-evidence gap | Only four synthetic documents; no real PDF extraction or real-report quality denominator | E2 preserves physical pages and records human fact review |
+| FE-002 | P1 | Real-evidence gap, preflight implemented | Four synthetic financial sources; local unverified PDF physical-page extraction exists, but real-report quality and fact review are unmeasured | Approved source intake and actual human fact review remain open |
 | FE-003 | P1 | Agent capability gap, partially implemented | Bounded local model loop and two actual MornAI browser tasks executed on synthetic data | Continue independent holdout and failure evaluation; protocol fixtures remain separate from live results |
 | FE-004 | P2 | Reproduced drift fixed | At 6458207 altered text/company/year/pages/hash or unavailable originals could yield false evidence or false NO_MATCH | Query now validates all indexed originals before filters and uses checked objects. Seven new regressions plus the prior 32-case script were run; see RETRIEVAL_INTEGRITY. Cryptographic authenticity and coordinated edits remain unsupported |
 | FE-005 | P2 | Reproduced cooperating-writer lost update fixed | Reproduced at 19e4627: both imports reported success; final index retained only Aurora | Stable local POSIX lock spans read/validate/merge/replace; contention is INDEX_BUSY, explicit retry retains both. Fourteen concurrency/failure tests pass; distributed/noncooperating writers and power loss remain outside scope |
@@ -129,3 +129,12 @@ FE-016 is independently closed in the observed scope on 9c469be: original 11 HTT
 ## PDF preflight release scope, 2026-10-23
 
 FE-017 independently closed at83d1989 in observed scope (original identity checks and20 independent browser checks); no authentication claim. E2/FE-002 remains partial after local PDF preflight. Review page numbering, unknown/textless outcomes, byte/page/text caps, deadline and cancellation termination, module-failure retry, data-request isolation and report invalidation. Prerelease fault test2/3→3/3 fixed cached module-fetch failure. Do not count an empty extracted page as scanned-file detection or human-approved facts. FE-013 remains open.
+
+
+## FE-018 — P2 stalled PDF component prevents effective manual retry
+
+Observed commit:82ab62c4704ea35f925ad2f958026f801fb410b6. Independent review held the first vendor/pdf.min.mjs request, waited for PDF_TIMEOUT, restored connectivity for new requests and selected the file again. Both public/Python retries still timed out (0/2); a fresh-URL import control succeeded, and ending the original request allowed a later retry. Impact: users could not recover without waiting for the hung request or reloading.
+
+Minimal fix in web/pdf-intake.mjs::loadLibrary/inspectPdf: cache active validated successes only, own pending imports per explicit attempt, and never let abandoned settlement write cache/start Worker. pdf-panel.mjs distinguishes component deadline from parse deadline without changing the 12-second total budget. New real-browser regression8 cases first fails0/8 on the observed commit, then passes8/8 per static/Python surface locally; old PDF34/fault4 and broader workflow checks remain release gates. No pending-import network-cancellation claim. Implemented, pending exact release verification and independent closure; see PDF_INTAKE.
+
+Interview question: why does Promise.race stopping a caller not cancel or invalidate the promise it was waiting for? How can an old rejection break a newer successful cache?

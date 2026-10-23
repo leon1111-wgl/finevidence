@@ -74,3 +74,8 @@ Run `python3 scripts/build_web.py` then `node scripts/evaluate_replay.mjs --outp
 ## PDF preflight acceptance (2026-10-23)
 
 Run the two browser-pdf scripts via pnpm test:browser. 17 authored scenarios × 2 widths = 34/34 locally; 4/4 injected resource-failure cases pass after preserving the initial 2/3 library-retry failure and expanded 3/4 sample-download deadline failure. Twelve generated PDF fixtures plus a byte-limit File exercise extraction/page mapping and refusals; real-report quality, OCR/table accuracy and human time saved are unmeasured. The separate fixed workflow remains 8/8; the original real-model development run remains 7/8 with FE-013 open and no paid rerun. See PDF_INTAKE for test-fixture errors and parser recovery limits.
+
+
+## FE-018 resource-recovery acceptance (2026-10-23)
+
+Eight authored browser scenarios (four resource-lifecycle sequences × desktop/narrow widths) changed from 0/8 on 82ab62c to 8/8 on each fixed local static/Python build. The missing behavior was a fresh explicit retry while the original module request stayed pending; the same unchanged assertions then also cover late-settlement isolation, real parser/export identity and success-cache reuse. Reproduce with `node tests/browser-pdf-loading.cjs`; BASE_URL selects the surface, BROWSER_ARTIFACTS stores raw per-case outcomes and screenshots. No retry-until-pass selection or model invocation is performed. The independent review's earlier public/Python 0/2 is a separate denominator. Tests and fault timing are synthetic engineering evidence, not real financial quality or saved analyst time; first live model7/8 and FE-013 remain unchanged. See PDF_INTAKE for root cause and dynamic-import cancellation limits.

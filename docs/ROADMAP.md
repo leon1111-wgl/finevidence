@@ -77,3 +77,6 @@ The existing review/export workflow now has local deterministic replay packages 
 ## E2 preflight increment, 2026-10-23
 
 A complete bounded local-file-to-page-inventory workflow now precedes actual corpus admission. E2 remains partial: approved real-source manifests, visual/table/OCR handling and authenticated fact verification are still pending. The preflight does not add a public upload service or enable unverified real-data calculations. Next extend source/verification with explicit authority and fresh quality evidence, not automatic approval based on extracted text.
+
+
+2026-10-23 review priority: FE-018 stalled component import/manual retry is corrected with independent attempt ownership and successful-module caching. Desktop/narrow resource-failure regression is included in CI. E2 real-source rights and human verification remain next major gaps; this reliability correction does not admit unverified PDFs to financial calculations.

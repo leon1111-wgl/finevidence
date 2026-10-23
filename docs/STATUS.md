@@ -1,6 +1,6 @@
 # Capability status
 
-Updated 2026-10-22. This is an enterprise-oriented portfolio in progress, not a production deployment.
+Updated 2026-10-23. This is an enterprise-oriented portfolio in progress, not a production deployment.
 
 ## Implemented and locally verified
 
@@ -33,7 +33,7 @@ FE-012 is fixed locally: failed build-facts responses now retain the build mode 
 
 ## Not yet implemented / validated
 
-Human-verified financial facts, real PDF ingestion, authentication/document authorization, persistent server audit and checkpoint recovery, distributed writes, embeddings, real-data evaluation, containers and load/operational validation. The released sample UI has actual browser checks; this does not close the final E7 gate for future real-report and authorization flows.
+Human-verified financial facts, approved real-report ingestion beyond unverified PDF preflight, authentication/document authorization, persistent server audit and checkpoint recovery, distributed writes, embeddings, real-data evaluation, containers and load/operational validation. The released sample UI has actual browser checks; this does not close the final E7 gate for future real-report and authorization flows.
 
 The fixture manifest is trusted for numeric transcription. Structural source checks are not semantic verification or protection from coordinated edits of all trusted artifacts. Retrieval checks indexed originals, but cannot detect an entirely removed index entry or coordinated edits of every trusted artifact. No real-data accuracy or business-impact claims are available.
 
@@ -93,3 +93,10 @@ Twenty real-browser checks per mode pass on static and Python surfaces, includin
 ## Local PDF preflight, 2026-10-23
 
 The homepage can now inspect local PDFs and export unverified physical-page text inventories. Dedicated PDF.js worker, file/page/text/deadline limits, password refusal, cancellation, resource-retry and exact byte hashes are implemented. Local synthetic browser acceptance is 34/34 plus 4/4 injected resource faults; Python184/JS30 and original workflows are release gates. Publication/CI/public verification remains a separate gate. No real financial quality, OCR, source approval or authenticated review is claimed. See PDF_INTAKE.
+
+
+## FE-018 PDF retry correction, 2026-10-23
+
+A stalled component import can now be abandoned without blocking a fresh explicit retry. Only active version-checked successes enter the module cache; late canceled/timed-out attempts cannot replace the new report or start a Worker. The panel distinguishes component-loading timeout from parsing timeout. Eight new desktop/narrow resource-lifecycle regressions first failed0/8 on82ab62c, then passed8/8 per static/Python surface locally. This is synthetic browser fault recovery, not real-report quality or model accuracy. Exact remote CI/public verification and independent closure are separate gates. FE-013 remains open; no paid inference or change to historical live7/8. See PDF_INTAKE.
+
+Local release checks: Python184 (24.201s), JS30 (112.909ms), fixed synthetic8/8; each static/Python browser surface passes original14, retry7, replay18, identity20, PDF34, resource faults4 and new loading8. Python-only draft restoration6/6 passes. These are separate test families, not one financial-quality score.

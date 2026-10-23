@@ -10,6 +10,8 @@ const messages = {
   PDF_EXTRACTION_FAILED: "有页面提取失败，未生成部分成功报告。",
   PDF_READ_FAILED: "无法读取文件，请重新选择。",
   PDF_READER_UNAVAILABLE: "PDF 读取组件未能加载，请检查连接后重新选择。",
+  PDF_READER_TIMEOUT:
+    "PDF 读取组件加载超过 12 秒，已停止等待。请检查连接后重新选择文件。",
   PDF_TIMEOUT: "预检超过 12 秒，已停止处理。可拆分文件后重试。",
   PDF_CANCELLED: "已取消，可重新选择文件。",
 };

@@ -40,3 +40,16 @@ Round 2: adding automatic financial extraction now would combine parsing uncerta
 PDF.js API and vendor provenance: [official examples](https://mozilla.github.io/pdf.js/examples/), [getDocument API](https://mozilla.github.io/pdf.js/api/draft/module-pdfjsLib.html), [6.4.299 release](https://github.com/mozilla/pdf.js/releases/tag/v6.4.299). Only these two runtime modules are vendored; no upstream viewer, PDFs or financial dataset is copied.
 
 Text limits count JavaScript UTF-16 code units. image-only.pdf is a generated image-only proxy, not a real scanned financial report. Its empty extraction is not labeled proof that the input is a scan.
+
+
+## FE-018: manual retry after a stalled module load (2026-10-23)
+
+Independent review of 82ab62c reproduced failed manual retries on both the public and Python surfaces (0/2). A still-pending dynamic import remained in the shared promise cache after the caller timed out. Restored connectivity did not help: retry waited on that original import. Immediate rejection was already covered by the four-case fault suite; an unresolved request was not.
+
+The loader now caches only a successfully loaded, version-checked module accepted by an active attempt. Every uncached explicit attempt has its own import URL and promise; a timed-out or canceled caller cannot populate or clear the successful cache or create a Worker. There is no shared pending slot for an old callback to invalidate. Subsequent files reuse the successful module. There are no automatic retries.
+
+The original 12-second total processing deadline is unchanged. When it expires while awaiting the module, the panel reports PDF_READER_TIMEOUT and suggests checking connectivity and selecting again; PDF_TIMEOUT still covers file processing/parsing. Cancel remains PDF_CANCELLED. Native dynamic import has no AbortSignal: stopping the application wait does **not** physically cancel that network request or remove its module-map entry. Late settlement is ignored by the abandoned attempt. Repeated explicit failures can retain browser module entries until reload; this is not a hard memory bound or an automatic retry budget.
+
+`node tests/browser-pdf-loading.cjs` adds four injected resource sequences at 1440 and 390 px (8 cases): timeout then late rejection, cancellation then late resolution, and old rejection/resolution while the new attempt is pending. The first run against unmodified 82ab62c passed 0/8: all eight failed because a second module request never started. After the fix, local static and Python acceptance each pass 8/8. Tests keep the original request held while allowing the new request; removing the route would release the original and conceal the bug. Actual pinned PDF.js, Worker, synthetic PDF bytes and downloaded JSON remain in use. The tests also assert hash/page identity, no stale Worker, keyboard cancel/export, success-cache reuse, and preserved unverified status. They are included in test:browser and run for both delivery modes in CI.
+
+This is authored synthetic recovery evidence, not a financial-accuracy, competitor-performance, real-report or human-time-saving result. Original PDF34/resource-fault4 suites remain required. Independent closure and precise released-SHA verification are separate from implementation tests.
