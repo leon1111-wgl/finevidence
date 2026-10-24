@@ -46,8 +46,8 @@ const path = require('node:path');
         }
         let injected = 0; let lateCompleted;
         if (row.name === 'dependency-abort') await p.route('**/pdf-preview-panel.mjs', route => {injected++; return route.abort('connectionfailed');});
-        if (row.name === 'entry-404') await p.route('**/app.mjs', route => {injected++; return route.fulfill({status: 404, body: 'SYNTHETIC missing entry'});});
-        if (row.name === 'syntax-error') await p.route('**/app.mjs', route => {injected++; return route.fulfill({contentType: 'text/javascript', body: 'export function {'});});
+        if (row.name === 'entry-404') await p.route('**/workbench.mjs', route => {injected++; return route.fulfill({status: 404, body: 'SYNTHETIC missing entry'});});
+        if (row.name === 'syntax-error') await p.route('**/workbench.mjs', route => {injected++; return route.fulfill({contentType: 'text/javascript', body: 'export function {'});});
         if (row.name === 'late-dependency') {
           const gate = new Promise(resolve => {release = resolve;});
           lateCompleted = new Promise(resolve => {
@@ -87,13 +87,13 @@ const path = require('node:path');
           await p.screenshot({path: path.join(out, `${row.width}-${row.name}-failure.png`)});
           if (row.name === 'late-dependency') {
             release(); await lateCompleted;
-            await p.evaluate(() => import('./app.mjs').then(() => null)); // Wait for actual late evaluation.
+            await p.evaluate(() => import(new URL('./workbench.mjs', document.querySelector('script[type=module]').src).href).then(() => null)); // Wait for actual late evaluation.
             assert.equal(await p.locator('#workbench').getAttribute('inert'), '');
             assert.match(await p.locator('#startup-status').textContent(), /STARTUP_TIMEOUT/);
             assert.equal(await p.locator('#run').isDisabled(), true);
             assert.deepEqual(calls, []);
           }
-          await p.unroute('**/pdf-preview-panel.mjs'); await p.unroute('**/app.mjs'); await p.unroute('**/bootstrap.mjs');
+          await p.unroute('**/pdf-preview-panel.mjs'); await p.unroute('**/workbench.mjs'); await p.unroute('**/bootstrap.mjs');
           const before = navigationCount;
           await Promise.all([p.waitForNavigation({waitUntil: 'load'}), p.keyboard.press('Enter')]);
           assert.equal(navigationCount, before + 1, 'keyboard recovery must navigate once');
@@ -114,7 +114,7 @@ const path = require('node:path');
           assert.equal(data.result.calculations[0].display, '30.00%');
           // A second start call must not reinitialize, restore, or bind duplicate listeners.
           const count = calls.length;
-          await p.evaluate(async () => { const app = await import('./app.mjs'); if (app.startWorkbench) app.startWorkbench(); });
+          await p.evaluate(async () => { const app = await import(new URL('./workbench.mjs', document.querySelector('script[type=module]').src).href); if (app.startWorkbench) app.startWorkbench(); });
           await p.waitForTimeout(150);
           assert.equal(calls.length, count);
           assert.ok(calls.length <= 1, 'only one deterministic restore is permitted');

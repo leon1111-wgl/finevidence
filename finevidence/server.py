@@ -8,6 +8,7 @@ from .agent import run_agent
 
 ASSETS={'/':('index.html','text/html'),'/index.html':('index.html','text/html'),
  '/bootstrap.mjs':('bootstrap.mjs','text/javascript'),
+ '/workbench.mjs':('workbench.mjs','text/javascript'),
  '/styles.css':('styles.css','text/css'),'/app.mjs':('app.mjs','text/javascript'),
  '/engine.mjs':('engine.mjs','text/javascript'),'/replay.mjs':('replay.mjs','text/javascript'),'/handoff.mjs':('handoff.mjs','text/javascript'),'/state.mjs':('state.mjs','text/javascript'),
  '/fact-draft.mjs':('fact-draft.mjs','text/javascript'),'/fact-draft-panel.mjs':('fact-draft-panel.mjs','text/javascript'),
@@ -46,8 +47,14 @@ class Handler(BaseHTTPRequestHandler):
         if not self._trusted(): return self._send(403,error_payload('ORIGIN_REJECTED'))
         path=self.path.split('?',1)[0]
         if path in ('/api/session','/runtime.json'): return self._send(200,{'csrf':self.server.csrf,'runtime':'python_local','model_configured':bool(os.environ.get('FINEVIDENCE_API_KEY'))})
+        prefix = f'/assets/{self.server.asset_version}/'
+        versioned = bool(self.server.asset_version) and path.startswith(prefix)
+        if versioned: path = '/' + path[len(prefix):]
         if path not in ASSETS: return self._send(404,error_payload('NOT_FOUND'))
         name,kind=ASSETS[path]
+        if versioned:
+            if name == 'index.html': return self._send(404,error_payload('NOT_FOUND'))
+            name = prefix.lstrip('/') + name
         try: raw=(self.server.root/'web'/name).read_bytes()
         except OSError: return self._send(503,error_payload('ASSET_MISSING'))
         return self._send(200,raw,kind)
@@ -89,6 +96,8 @@ def make_server(port=8765,root=ROOT):
     try: server.workspace=Workspace(root)
     except Exception: server.server_close();raise
     server.root=Path(root);server.csrf=secrets.token_urlsafe(32);server.slots=threading.BoundedSemaphore(4)
+    try: server.asset_version=json.loads((server.root/'web/manifest.json').read_text()).get('asset_version')
+    except (OSError,ValueError): server.asset_version=None
     return server
 
 def main():

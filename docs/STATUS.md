@@ -1,6 +1,19 @@
 # Capability status
 
-Updated 2026-10-23. This is an enterprise-oriented portfolio in progress, not a production deployment.
+Updated 2026-10-24. This is an enterprise-oriented portfolio in progress, not a production deployment.
+
+## FE-023 release-cache correction, 2026-10-24
+
+Complete versioned asset graphs and compatible legacy entries now preserve
+startup across cached prior app versions. Source HTML is index.template.html;
+build_web generates the public index and asset directory. Python serves only
+allowlisted files for the active release. Native reload stays explicit; no
+model calls or automatic retries. Local cache18/18 and Python189/JS201 pass;
+exact-commit CI/deployment are verified separately by the release procedure.
+The first static startup15/16 is retained (initial readiness timeout).
+See STARTUP_RECOVERY. Independent closure remains pending; E2 licensed sources,
+authenticated semantic review/admission/revocation and final real-business E7
+remain open. Historical live7/8 and FE-013 are unchanged.
 
 ## Implemented and locally verified
 

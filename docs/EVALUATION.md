@@ -175,3 +175,21 @@ p95 0.001024s, in-process only). A first static currency browser invocation time
 out before any of60 business cases; its unchanged diagnostic rerun60/60 and Python
 60/60 are separate records, not replacements for that failure. Transport cause
 was not reproduced. No business timing gain is inferred from these durations.
+
+
+## FE-023 release-cache follow-up (2026-10-24)
+
+Actual local Chrome HTTP-cache probe with max-age=600: the frozen historical
+upgrade reproduced0/2 at0428af8 (normal controls2/2, cached app requests1→1).
+The matching two viewport upgrades pass2/2 with versioned graphs. The separate
+new18-case authored engineering matrix passes18/18; it includes old direct and
+bootstrap entries, missing/invalid metadata, late import, explicit reload,
+saved notes/checks/downloads and real PDF Worker loading. No Playwright routing
+is used in this cache suite. It is not18 independent financial tasks or an
+observed public outage sample. See STARTUP_RECOVERY for commands and limits.
+
+Python189 and JS201 are engineering counts, separate from fixed synthetic8/8,
+historical live-model7/8 and open FE-013. No paid inference, hidden-set labels,
+financial semantic review or measured personnel savings. First static startup
+15/16 and its initial readiness timeout are retained, not replaced by later
+checks. Local, exact-commit CI and public deployment results are separate gates.

@@ -115,3 +115,11 @@ has no DOM/network startup side effects, so timed-out imports cannot later bind
 handlers or dispatch work. Failed entry/dependencies keep the workbench inert;
 explicit document navigation resets the failed module graph. Native import/network
 cancellation and browser real-time scheduling are not guaranteed. See STARTUP_RECOVERY.
+
+
+Release identity: build_web renders the document and freezes its module/data/Worker
+graph under a content-and-commit digest. workbench.mjs is the side-effect-free
+business entry; app.mjs is the old-document compatibility loader. Public corpus
+metadata is graph-relative; Python session metadata and operations remain
+root-relative. Only the current allowlisted graph is served locally. See
+STARTUP_RECOVERY for stale-version recovery and historical-cache limits.

@@ -17,3 +17,6 @@ web/manifest.json
 web/runtime.json
 tests/web-oracles.json
 evaluation-result.json
+
+web/index.html
+web/assets/

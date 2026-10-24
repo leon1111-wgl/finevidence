@@ -260,3 +260,15 @@ remain distinct. Do not count a reload link as repairing unavailable server asse
 Interview: why does catching fetch errors inside initialize not catch an entry's
 static dependency failure, and why is Promise.race alone insufficient to stop a
 late module from starting the application? See STARTUP_RECOVERY.
+
+
+## FE-023 cache branch — implementation handoff
+
+The independent0428af8 mixed-version finding is part of FE-023, not a new issue.
+Versioned graphs and old-entry compatibility are implemented; keep open pending
+independent review. Recheck actual HTTP cache (routing disables it), both frozen
+old HTML/app conventions, full nested/Worker URL isolation, missing graph reload,
+late completion, notes/checks/actual export and Python CSRF/root runtime paths.
+Historical cached artifacts cannot be rewritten; removed versions have explicit
+reload, not silent fallback. Retain earlier natural transport anomalies as
+unexplained observations. See STARTUP_RECOVERY and browser-cache.cjs.

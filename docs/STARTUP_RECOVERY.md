@@ -92,3 +92,83 @@ observation passed60/60; it did not reproduce the timeout, so its cause remains
 unknown. No timeout, case assertion or application code was changed to obtain
 that rerun. Do not report the original full local invocation as all green or
 claim this startup recovery change fixes every transport failure.
+
+
+## Cross-release HTTP cache compatibility (FE-023 follow-up)
+
+The independent review reproduced two incompatible startup conventions at the
+same URL: ec0e6a2 HTML executed app.mjs directly, while 0428af8 HTML expected an
+exported start function. A fresh document could reuse an older cached app. This
+was a controlled Chrome cache reproduction, not a measured public outage rate.
+
+The build now renders index.html from index.template.html and puts the complete
+module graph, CSS, PDF library/Worker, demo, bundle and its manifest in
+assets/<digest>/. The digest covers the commit, template and all asset bytes,
+including dirty child changes; relative module/Worker URLs stay in that graph.
+The business entry is workbench.mjs. Its manifest and bundle resolve relative to
+its own module URL, while runtime.json and api/run still resolve at the document
+root so Python session credentials are never copied into static assets.
+
+app.mjs remains a dependency-free compatibility entry for cached legacy HTML.
+It validates the current manifest's digest and loads only that same-origin graph.
+For direct-entry legacy pages it supplies a bounded inert loading state and
+explicit keyboard recovery; for the previous bootstrap it exports the guarded,
+idempotent business start. The stable bootstrap URL also resolves the graph when
+requested by old HTML. Late imports do not start legacy or modern workbenches.
+There is no automatic navigation, provider retry, cache clearing or model call.
+
+Recovery uses a fresh document query on explicit activation. The static link
+includes the build identity and works even when bootstrap is unavailable; a
+running bootstrap refreshes that link's query. This does not repair an unavailable
+server or revoke already-cached historical bytes. Two historical artifacts that
+remain entirely cached cannot be retroactively changed. Old version directories
+are not retained in a new deployment; an uncached removed child fails visibly
+and requires explicit document reload. Do not rebuild a directory while serving
+it; build before starting the local server or deploy the complete Pages artifact.
+
+Reproduce: python3 scripts/build_web.py, then node tests/browser-cache.cjs.
+This suite needs git history for ec0e6a2 and 0428af8 (CI fetch-depth: 0). It uses a
+local max-age=600 HTTP server and the real browser cache, without Playwright
+routing, with fixed 18 authored cases at 1440/390px. Cases cover both old entries,
+cached-app upgrades, fresh bootstrap on old HTML, absent/invalid manifests,
+actual eight-second late completion, and missing-version keyboard reload.
+It checks saved notes/citation checks/actual export, 30.00% and the real lazy PDF
+library/Worker. It does not contact a provider. The server is intentionally local
+and synthetic: the same suite is not evidence of natural public failure frequency.
+
+The earlier unchanged two-width cache probe was reproduced at 0428af8: controls
+2/2, upgrades 0/2, cached app requests 1→1. The corresponding cached-ec0e6a2
+upgrade cases now pass 2/2. The new full fixed plan passes18/18 locally. These are
+cache/recovery task denominators, not financial quality, hidden tasks, user time
+saved or a competitor comparison. Preserve the original historical live7/8.
+
+First startup regression after this change was static15/16, with one initial
+readiness timeout; Python16/16. That run overlapped other local build/test work,
+so it is not evidence for a specific transport cause. Its logs/screenshots are
+retained. Final validation runs only after the build finishes; no deadlines or
+outcome assertions were loosened. FE-023 remains pending independent closure.
+
+
+Visual review of the legacy failure state found the lower status still said
+loading. Adding a non-contradiction assertion retained the same18 scenarios but
+exposed6 failures (12/18); the compatibility failure handler now resets the
+runtime and data status as well. First results and screenshots remain retained.
+The first full static currency run completed22/60 with38 not_run after a later
+context's initialization timed out; real-source static handoff was3/4, with its
+failed case timing out before file selection. These are separate from the earlier
+startup15/16 and are not described as financial numeric failures.
+
+
+Final affected checks after the status correction: cache18/18; startup16/16 on
+static and Python; Python base14/14. Full Python browser command set and real
+pending handoff4/4 pass. One diagnostic pass of unchanged static currency cases
+with extra startup observations passed60/60; static real pending handoff4/4.
+No failure recurred in those diagnostic passes, so the earlier transport cause
+remains unknown. Final local Python189/189 (21.269s), JS201/201. The initial
+full36-command run had34 successful commands and2 failures; do not call that
+original invocation all green. All failed evidence remains in local materials.
+
+For an already-open historical page whose main modules remain cached but lazy
+PDF assets have been removed, a document reload may also be needed; reselecting
+the same PDF cannot recreate removed deployment files. There is no offline or
+unlimited old-version availability guarantee.

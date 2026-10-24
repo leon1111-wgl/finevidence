@@ -31,7 +31,7 @@ const canary = "PRIVATE_DIAGNOSTIC_CANARY_do_not_record";
         if (pathname === "/") visits++;
         const fail =
           scenario === "first-startup"
-            ? visits === 1 && pathname === "/manifest.json"
+            ? visits === 1 && pathname.endsWith("/manifest.json")
             : visits === 2 && pathname === "/runtime.json";
         if (fail) {
           res.writeHead(scenario === "first-startup" ? 503 : 200, {

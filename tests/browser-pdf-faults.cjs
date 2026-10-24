@@ -114,6 +114,8 @@ async function diagnostics(page, resources, pageErrors) {
           "runtime.json",
           "bundle.json",
           "app.mjs",
+          "workbench.mjs",
+          "bootstrap.mjs",
           "engine.mjs",
           "state.mjs",
           "handoff.mjs",
@@ -129,7 +131,7 @@ async function diagnostics(page, resources, pageErrors) {
           return known.find((name) => {
             const allowed = new URL(name, base);
             return (
-              u.origin === allowed.origin && u.pathname === allowed.pathname
+              u.origin === allowed.origin && u.pathname.replace(/\/assets\/[a-f0-9]{64}\//, "/") === allowed.pathname
             );
           });
         };

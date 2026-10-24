@@ -4,6 +4,8 @@ from finevidence.server import make_server
 class ServerTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        from scripts.build_web import build
+        build()
         cls.server=make_server(port=0)
         cls.thread=threading.Thread(target=cls.server.serve_forever,daemon=True);cls.thread.start()
         cls.port=cls.server.server_address[1]
@@ -64,3 +66,17 @@ class ServerTests(unittest.TestCase):
         self.assertNotIn("unsafe-inline", headers['Content-Security-Policy'])
         self.assertNotIn("unsafe-eval", headers['Content-Security-Policy'])
         self.assertGreater(len(raw), 100)
+
+    def test_versioned_graph_keeps_allowlist_and_runtime_secret_boundary(self):
+        manifest=json.loads(self.req('/manifest.json')[2])
+        version=manifest['asset_version']
+        prefix='/assets/'+version+'/'
+        for name in ['bootstrap.mjs','workbench.mjs','pdf-intake.mjs','vendor/pdf.worker.min.mjs','bundle.json','manifest.json']:
+            code,headers,raw=self.req(prefix+name)
+            self.assertEqual(code,200,name)
+            self.assertEqual(raw,self.req('/'+name)[2])
+            self.assertEqual(headers['Cache-Control'],'no-store')
+        for name in ['runtime.json','api/session','index.html','../../finevidence/provider.py','%2e%2e/manifest.json','index.template.html']:
+            self.assertEqual(self.req(prefix+name)[0],404,name)
+        self.assertEqual(self.req('/assets/'+'0'*64+'/workbench.mjs')[0],404)
+        self.assertEqual(self.req(prefix+'workbench.mjs',headers={'Origin':'https://evil.invalid'})[0],403)
