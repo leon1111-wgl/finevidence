@@ -206,3 +206,7 @@ expanded actualPDF60 cases40/60→60/60 locally; independent strings24/24. Rejec
 a bad entry keeps prior saved rows and actual download unchanged. Await exact
 release verification and independent closure of this observed scope; the broader
 real-source rights/semantic review/admission gaps and FE-013 remain open.
+
+2026-10-24 independent review closed FE-020 on e03369b in the observed currency-symbol scope (original24 string cases; original16 and independent32 PDF scenarios per public/Python surface). No universal numeric-notation guarantee.
+
+New original-page preview awaits independent review: byte digest mismatch, page selection during pending rendering, late completion after cancel/clear, failed Worker/explicit retry, fixed raster size, blank page, keyboard scrolling, actual export equality and no upload/model requests. Rendering must never set verified_by, admit facts, or imply rights approval. See PDF_PREVIEW. FE-001/002/013 remain open.

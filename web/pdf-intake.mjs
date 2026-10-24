@@ -11,7 +11,7 @@ export const PDFJS_VERSION = "6.4.299";
 const failure = (code) => Object.assign(new Error(code), { code });
 let library = null,
   loadGeneration = 0;
-function loadLibrary() {
+export function loadLibrary() {
   if (library) return Promise.resolve(library);
   const url = new URL("./vendor/pdf.min.mjs", import.meta.url);
   // Pending and failed imports are cached by URL by the browser. Each explicit

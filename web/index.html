@@ -279,9 +279,56 @@
             ><select id="pdf-page"></select>
             <pre id="pdf-text" tabindex="0" aria-label="本页自动提取文字"></pre>
             <p class="small">
-              自动提取文字可能丢失表格结构或阅读顺序；本页未渲染原始版面，也未执行
+              自动提取文字可能丢失表格结构或阅读顺序。可查看本页版面对照；未执行
               OCR。导出包含提取文字，请自行妥善保存。此记录不进入合成资料库、财务计算或复算交接。
             </p>
+            <section
+              id="pdf-preview"
+              class="pdf-preview"
+              aria-labelledby="pdf-preview-heading"
+              aria-busy="false"
+            >
+              <h3 id="pdf-preview-heading">原页版面对照</h3>
+              <p class="small">
+                直接绘制本机文件的当前物理页，不上传。字体或复杂图像可能存在差异，请以原文件为准；不自动核验表格、单位或财务事实。
+              </p>
+              <div class="pdf-actions">
+                <button type="button" id="pdf-preview-show" class="secondary">
+                  查看本页版面
+                </button>
+                <button
+                  type="button"
+                  id="pdf-preview-cancel"
+                  class="secondary"
+                  hidden
+                >
+                  取消原页预览
+                </button>
+              </div>
+              <div id="pdf-preview-tools" class="pdf-actions" hidden>
+                <label for="pdf-preview-zoom"
+                  >预览大小<select id="pdf-preview-zoom">
+                    <option value="fit">适应宽度</option>
+                    <option value="actual">放大查看（可滚动）</option>
+                  </select></label
+                >
+                <button type="button" id="pdf-preview-hide" class="secondary">
+                  收起原页
+                </button>
+              </div>
+              <p
+                id="pdf-preview-status"
+                class="small"
+                role="status"
+                aria-live="polite"
+              ></p>
+              <div
+                id="pdf-preview-image"
+                tabindex="0"
+                role="region"
+                aria-label="原页版面，可使用方向键滚动"
+              ></div>
+            </section>
             <details id="fact-draft" class="fact-draft">
               <summary>登记待核验财务草稿</summary>
               <p class="small">

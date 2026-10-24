@@ -99,3 +99,5 @@ existing numeric boundary. See SOURCE_CATALOG.
 with source-position, prior-draft/export and browser regression evidence. Keep the
 independent closure gate; then return to E2 source rights and real reviewer/admission
 contracts. This fix does not advance authenticated approval or final real-data E7.
+
+2026-10-24: E2 adds original physical-page layout inspection with enlarged narrow-screen scrolling, explicit retry/cancel and source-byte ownership. This enables manual comparison but does not complete source rights, authenticated human approval, real fact admission or final E7. Those gates remain next; do not treat a rendered page as a reviewed fact.

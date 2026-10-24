@@ -166,3 +166,5 @@ The final interface pass targets a restrained enterprise research workspace: cle
 ## Contribution transparency
 
 Implementation and documentation have been assisted by Codex. Automated tests show observed program behavior, not the author's independent mastery. See [contributions](docs/CONTRIBUTIONS.md). Personal build/interview notes are maintained separately from this public code repository.
+
+PDF准备流程支持[本机原页版面对照](docs/PDF_PREVIEW.md)：选择物理页、放大核对表格、回到待核验草稿；不上传文件或自动批准财务事实。

@@ -165,3 +165,21 @@ restore6 pass; two real documents×two viewports keep page-1 draft/export4/4 on
 both surfaces. These are transcription and engineering regressions, not financial
 semantic quality. Exact remote CI/deployed bytes and independent closure remain
 separate release gates. No paid calls; historical live7/8 and FE-013 unchanged.
+
+## Original-page layout preview, 2026-10-24
+
+The local PDF preparation workflow can now draw a digest-bound physical page,
+enlarge it in a keyboard-scrollable region and explicitly cancel, retry or collapse.
+Page/file changes revoke old rendering. Previews do not approve facts, change
+metadata or mutate saved drafts/downloads. The same pinned PDF.js is used with
+annotations disabled; resource and fidelity limitations are in PDF_PREVIEW.
+
+Local Python185/185 (27.283s), JS159 and fixed synthetic business8/8 pass. Both
+static and Python full browser suites pass, including the new20/20 preview cases;
+Python restore6/6 passes. Original feature baseline0/16 and first14/16 assertion
+mismatch are retained, as is the18/20 intermediate missing-zoom result. Two real
+catalog documents×two widths give4/4 page1/income-statement layout and unchanged
+pending-draft handoffs on each local surface. These are workflow checks, not
+semantic labels or time saved. Exact CI, fresh-clone and deployed-byte checks
+follow publication separately. No paid call; original live7/8/FE-013 and source
+rights/authenticated approval/real financial admission/finalE7 remain open.

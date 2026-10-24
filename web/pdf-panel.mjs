@@ -1,3 +1,4 @@
+import { bindPdfPreview } from "./pdf-preview-panel.mjs";
 import { SOURCE_CATALOG } from "./source-catalog.mjs";
 import { inspectPdf } from "./pdf-intake.mjs";
 import { bindFactDraftPanel } from "./fact-draft-panel.mjs";
@@ -66,6 +67,7 @@ export function bindPdfPanel() {
   }
   let controller = null,
     report = null,
+    selectedFile = null,
     sequence = 0;
   const status = (message, error = false) => {
     const n = $("pdf-status");
@@ -73,6 +75,7 @@ export function bindPdfPanel() {
     n.className = error ? "error" : "small";
     n.setAttribute("role", error ? "alert" : "status");
   };
+  const preview = bindPdfPreview(() => ({ file: selectedFile, report }));
   const drafts = bindFactDraftPanel(
     () => report,
     (page) => {
@@ -82,6 +85,8 @@ export function bindPdfPanel() {
   );
   const clearResult = () => {
     report = null;
+    selectedFile = null;
+    preview.reset();
     $("pdf-result").hidden = true;
     $("pdf-download").disabled = true;
     $("pdf-text").textContent = "";
@@ -99,6 +104,7 @@ export function bindPdfPanel() {
   };
   const showPage = () => {
     if (!report) return;
+    preview.reset();
     drafts.pageChanged();
     const p = report.pages[Number($("pdf-page").value) - 1];
     $("pdf-text").textContent =
@@ -121,6 +127,7 @@ export function bindPdfPanel() {
       });
       if (sequence !== id) return;
       report = value;
+      selectedFile = file;
       $("pdf-name").textContent = value.file.name;
       $("pdf-hash").textContent = value.file.sha256;
       renderSource(value.source_reference);

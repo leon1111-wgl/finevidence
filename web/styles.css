@@ -809,3 +809,34 @@ footer {
 .source-match p {
   margin: 6px 0;
 }
+
+.pdf-preview {
+  margin: 20px 0;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+#pdf-preview-status {
+  overflow-wrap: anywhere;
+}
+#pdf-preview-image {
+  max-height: 70vh;
+  max-width: 100%;
+  overflow: auto;
+}
+#pdf-preview-image.actual-size canvas {
+  max-width: none;
+}
+#pdf-preview-tools {
+  align-items: end;
+}
+#pdf-preview-image canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  margin-top: 12px;
+}
+#pdf-preview-tools label,
+#pdf-preview-tools select {
+  margin-bottom: 0;
+}

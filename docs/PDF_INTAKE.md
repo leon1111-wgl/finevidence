@@ -29,7 +29,7 @@ Run `python3 -m finevidence.server`; open localhost:8765 and select PDF prefligh
 
 `python3 -m unittest discover -s tests -v` also checks exact vendor and synthetic-fixture hashes. `web/vendor/manifest.json` records the npm version, tarball integrity and per-file digests; the two unmodified upstream modules and license are committed, so deploy/runtime need no CDN. Review dependency advisories and repeat browser checks when upgrading; hashes detect unreviewed drift, not absence of vulnerabilities.
 
-Limits remain: no visual PDF renderer, page-label interpretation, OCR, table reconstruction, source rights validation, trusted source approval, authenticated human verification, automatic factual ingestion or hard process-memory bound. PDFs may contain extractable but wrongly ordered/encoded text, or recoverable errors. The panel does not detect all such errors. Unverified page inventories are intentionally incompatible with financial facts and replay imports.
+Limits remain: no page-label interpretation, OCR, table reconstruction, source rights validation, trusted source approval, authenticated human verification, automatic factual ingestion or hard process-memory bound. PDFs may contain extractable but wrongly ordered/encoded text, or recoverable errors. The panel does not detect all such errors. Unverified page inventories are intentionally incompatible with financial facts and replay imports.
 
 ## Business need and design challenge, accessed 2026-10-23
 
@@ -56,3 +56,5 @@ This is authored synthetic recovery evidence, not a financial-accuracy, competit
 
 
 Release infrastructure evidence: the first fix CI run39882588317 passed Linux/macOS tests but its browser job hit the10-minute job limit. Log timestamps show apt downloaded25.9MB in9min01s (47.9kB/s); the actual browser suites had started, and Pages was skipped. The browser job now permits20minutes for cold dependency setup plus both suites. No application12-second deadline, per-test assertion, browser case or deployment dependency was removed. Preserve this failed release attempt; only a complete exact-commit CI run can verify deployment.
+
+Selected physical pages now have an optional local canvas [layout preview](PDF_PREVIEW.md). This does not change text-inventory or fact-admission trust.

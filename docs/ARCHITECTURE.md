@@ -91,3 +91,10 @@ from user-supplied company/period/units. Neither catalog membership nor exported
 JSON authorizes calculation or constitutes authenticated approval. No extra
 fetch/upload/model path; the Python static asset allowlist serves the same module.
 See SOURCE_CATALOG for source provenance, first failures and limits.
+
+## Original-page inspection (2026-10-24)
+
+The optional preview opens the already selected local File in a separately owned
+PDF.js Worker, verifies the preflight byte digest and renders one bounded canvas.
+Selection/cancel revokes the attempt; successful rendering does not mutate drafts,
+review flags or exports. PDF_PREVIEW documents resource/fidelity limitations.
