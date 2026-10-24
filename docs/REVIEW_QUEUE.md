@@ -214,3 +214,29 @@ New original-page preview awaits independent review: byte digest mismatch, page 
 ## Pending draft receiver review handoff (2026-10-24)
 
 Independently review DRAFT_RECEIVING after publication: whole-envelope trust fields, current-byte identity vs renamed files, parser/catalog drift, duplicate/escaped JSON keys, UTF-8 and structure bounds, stale read/apply after source or list changes, preserved saved-download equality, safe text and keyboard/narrow flow. Check that consistent semantic edits remain explicitly unverified and never enter calculation. This is a feature review request, not a newly invented defect. FE-013 and the actual rights/review/admission gaps remain open.
+
+## FE-022 / P3 source-filename round trip (2026-10-24)
+
+Independent review on c9d1446 reproduced unchanged LF/TAB filename handoffs
+refused as IMPORT_CHANGED: strings10/12 and actual browser16/20. The producer
+and receiver disagreed about supported names; no calculation admission bypass.
+
+The shared source-name contract and escaped presentation are implemented in this
+cycle, pending exact-release verification and independent closure. Preserve old
+version-1 exports and renamed-source behavior, including unknown units and pending
+trust fields. Check actual LF versus literal backslash-n display, directional and
+HTML-like name text, row-name mismatch, invalid-name retry, keyboard apply and
+unchanged actual exports. The original independent probes now12/12 and20/20 on
+local static/Python. New unit14/14 and browser14/14 on static/Python cover added controls.
+
+Interview: why can escaping a display name fix ambiguity without changing source
+identity, and why is a shared input contract different from sanitizing raw data?
+Do not infer authenticated review or financial semantic quality. FE-013 and the
+E2 rights/human review/admission gaps remain open.
+
+Separate environment observation: two local restore invocations had one startup
+timeout each (different scenarios); a diagnostic captured Chrome
+ERR_SOCKET_NOT_CONNECTED on an existing module. An unchanged suite on a new
+loopback server passed6/6. No restore assertion/timeout was weakened and no
+production connection fix is claimed. Retain first failures and independently
+check startup on the actual deployment/runtime before classifying the root cause.

@@ -1,4 +1,5 @@
 import { identifySource } from "./source-catalog.mjs";
+import { sourceFileName } from "./file-name.mjs";
 // Untrusted local PDF -> unverified page inventory. Never imports financial facts.
 export const PDF_LIMITS = Object.freeze({
   bytes: 5 * 1024 * 1024,
@@ -46,6 +47,11 @@ export async function inspectPdf(
   };
   const run = async () => {
     active();
+    try {
+      sourceFileName(file.name);
+    } catch {
+      throw failure("PDF_NAME_INVALID");
+    }
     if (!Number.isSafeInteger(file.size) || file.size > PDF_LIMITS.bytes)
       throw failure("PDF_BYTE_LIMIT");
     if (file.size < 8) throw failure("PDF_SIGNATURE");

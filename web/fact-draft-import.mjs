@@ -1,4 +1,5 @@
 import { createFactDraft, exportFactDrafts } from "./fact-draft.mjs";
+import { sourceFileName } from "./file-name.mjs";
 export const MAX_DRAFT_IMPORT_BYTES = 1024 * 1024;
 const fail = (code) => {
   throw Error(code);
@@ -94,14 +95,8 @@ export function importFactDrafts(raw, report) {
   )
     fail("IMPORT_SOURCE");
   const name = received.file.name;
-  if (
-    typeof name !== "string" ||
-    !name ||
-    name.length > 512 ||
-    /[\u0000-\u001f\u007f]/u.test(name)
-  )
-    fail("IMPORT_CHANGED");
   try {
+    sourceFileName(name);
     // Validate every received field against a reconstruction, including fields
     // that must never grant approval. Ignore only object-key order, not arrays.
     const original = { ...report, file: { ...report.file, name } };

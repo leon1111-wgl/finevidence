@@ -1,4 +1,5 @@
 import { renderPdfPage } from "./pdf-preview.mjs";
+import { displayFileName } from "./file-name.mjs";
 const $ = (id) => document.getElementById(id);
 const messages = {
   PDF_PREVIEW_CHANGED: "文件字节与预检指纹不一致，请重新选择资料。",
@@ -70,12 +71,12 @@ export function bindPdfPreview(getSource) {
       canvas.setAttribute("role", "img");
       canvas.setAttribute(
         "aria-label",
-        `${report.file.name}，物理页 ${page} 原始版面预览；文字内容见本页提取文字。`,
+        `${displayFileName(report.file.name)}，物理页 ${page} 原始版面预览；文字内容见本页提取文字。`,
       );
       $("pdf-preview-image").append(canvas);
       $("pdf-preview-tools").hidden = false;
       status(
-        `物理页 ${result.page} · ${report.file.name} · 指纹 ${result.sha256.slice(0, 12)} · 仅供对照，仍待人工核验。`,
+        `物理页 ${result.page} · ${displayFileName(report.file.name)} · 指纹 ${result.sha256.slice(0, 12)} · 仅供对照，仍待人工核验。`,
       );
     } catch (e) {
       if (sequence === id)

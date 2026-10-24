@@ -1,9 +1,11 @@
 import { bindPdfPreview } from "./pdf-preview-panel.mjs";
+import { displayFileName } from "./file-name.mjs";
 import { SOURCE_CATALOG } from "./source-catalog.mjs";
 import { inspectPdf } from "./pdf-intake.mjs";
 import { bindFactDraftPanel } from "./fact-draft-panel.mjs";
 const $ = (id) => document.getElementById(id);
 const messages = {
+  PDF_NAME_INVALID: "文件名无效或超过 512 字符，请在本机重命名后重新选择。",
   PDF_BYTE_LIMIT: "文件超过 5 MiB 上限。",
   PDF_PAGE_LIMIT: "文件超过 120 个物理页上限。",
   PDF_TEXT_LIMIT: "提取文字超过容量上限，请拆分文档后重试。",
@@ -128,7 +130,7 @@ export function bindPdfPanel() {
       if (sequence !== id) return;
       report = value;
       selectedFile = file;
-      $("pdf-name").textContent = value.file.name;
+      $("pdf-name").textContent = displayFileName(value.file.name);
       $("pdf-hash").textContent = value.file.sha256;
       renderSource(value.source_reference);
       $("pdf-summary").textContent =

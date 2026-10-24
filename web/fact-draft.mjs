@@ -1,4 +1,5 @@
 import { identifySource } from "./source-catalog.mjs";
+import { sourceFileName } from "./file-name.mjs";
 // Local, untrusted annotations. This module never admits facts to calculations.
 const scales = ["1", "1000", "10000", "1000000", "100000000", "unknown"];
 const fail = (code) => {
@@ -97,6 +98,11 @@ export function createFactDraft(report, input) {
     !/^[a-f0-9]{64}$/.test(report.file?.sha256)
   )
     fail("DRAFT_SOURCE");
+  try {
+    sourceFileName(report.file.name);
+  } catch {
+    fail("DRAFT_SOURCE");
+  }
   const page = report.pages.find(
     (p) => p.page === input.page && p.page_kind === "pdf_physical",
   );

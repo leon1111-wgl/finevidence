@@ -191,3 +191,34 @@ The workbench can receive its exported pending financial drafts after the same P
 Local Python185/185 (22.146s), JS187/187 (28 new receiving methods), fixed synthetic workflow8/8, replay corruptions18/18 and controls10/10 pass. Full static/Python browser families pass, including new receiving26/26, original-page20, draft18 and currency60; Python restore6/6 is separate. Original receiving baseline0/2, first implementation22/26 (incorrect test canvas selector) and corrected results are retained. Two official PDFs × two widths complete the receiving/re-export workflow4/4 per static/Python surface; this is two documents and zero independent semantic-quality labels. Unknown conversion remainsnull.
 
 Exact-commit CI, fresh-clone and public deployment verification follow publication; local passes do not establish those. Zero paid calls; historical real-model7/8 and FE-013 remain unchanged. Rights, authenticated human/semantic review, real calculation admission and final real-data E7 remain open. See DRAFT_RECEIVING.
+
+## FE-022 source-filename compatibility, 2026-10-24
+
+LF/TAB filenames previously exported but failed unchanged receiving. Preflight,
+draft production and receiving now share an opaque source-name contract; display
+escapes controls/directional characters while JSON retains the original name.
+Frozen c9d1446 exports and renamed identical PDF bytes remain receivable.
+Source/amount/provenance/trust reconstruction is unchanged, and invalid names
+fail before PDF reading with an explicit retry path. See DRAFT_RECEIVING.
+
+Local Python185/185 (21.015s), JS201/201 and fixed synthetic business8/8 pass.
+New unit14 methods4/14→14/14; original independent strings10/12→12/12 and
+original actual-PDF browser16/20→20/20 on static/Python. New browser7 scenarios
+×2 viewports0/14→14/14 on static/Python. Two real catalog PDFs×2 widths complete
+pending preparation/receiving/re-export4/4 on each local surface; unknowns stay
+null. These are compatibility/workflow checks, not financial-quality labels or
+analyst time saved. First failures and the unchanged legacy artifact are retained.
+
+Exact-commit CI, fresh-clone and public bytes/flows are checked after publication
+separately. FE-022 awaits independent closure. No paid calls; historical live7/8,
+FE-013, E2 rights/authenticated review/admission and final real-data E7 remain open.
+
+All14 browser families pass on local static/Python, including the filename14
+and original receiving26 cases. The separate restore suite first had5/6 on the
+long-running local server. An instrumented unchanged-assertion run again had5/6,
+this time at another case's initial module load: Chrome reported
+ERR_SOCKET_NOT_CONNECTED for pdf-preview-panel.mjs before application startup.
+An unchanged suite against a newly started server passed6/6. Both initial failures
+remain recorded; the underlying connection fault is not claimed fixed or fully
+diagnosed. The failure-report contract passes2/2. CI and fresh-clone results must
+be considered separately, not substituted for these first local observations.

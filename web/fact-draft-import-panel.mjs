@@ -2,6 +2,7 @@ import {
   importFactDrafts,
   MAX_DRAFT_IMPORT_BYTES,
 } from "./fact-draft-import.mjs";
+import { displayFileName } from "./file-name.mjs";
 const $ = (id) => document.getElementById(id);
 const messages = {
   IMPORT_SOURCE:
@@ -82,7 +83,7 @@ export function bindDraftImport(getReport, getCount, replace) {
       const original = JSON.parse(raw).file.name;
       const identity = document.createElement("p");
       identity.className = "small";
-      identity.textContent = `交接文件：${file.name}（${file.size.toLocaleString()} 字节）。交接中的 PDF：${original}；本机 PDF：${report.file.name}。SHA-256：${report.file.sha256}`;
+      identity.textContent = `交接文件：${displayFileName(file.name)}（${file.size.toLocaleString()} 字节）。交接中的 PDF：${displayFileName(original)}；本机 PDF：${displayFileName(report.file.name)}。SHA-256：${report.file.sha256}`;
       const list = document.createElement("ol");
       for (const d of checked.drafts) {
         const li = document.createElement("li");

@@ -148,3 +148,9 @@ One authored synthetic two-page PDF supplies a source-to-export-to-receiver task
 The receiving suite has13 scenarios ×2 widths=26. First implemented result22/26 came from four incorrect canvas-selector assertions after restoration and actual-download equality succeeded. Corrected static/Python suites each26/26;28 new unit methods and file/late-read/overwrite/metadata boundaries are engineering evidence. The initial unit RED is a missing-module startup failure, not28 executed failures. Commands and limits: DRAFT_RECEIVING.
 
 Separate real-source workflow: two official catalog PDFs ×2 widths=4/4 per static/Python surface through preparation, actual export, refresh, local source reselection, restore, page inspection and equal re-export. Count two unique documents; zero independent human semantic labels, no extraction-quality or time-saving estimate. Unknown units staynull. Exact-commit public/CI results are recorded separately. Fixed synthetic8/8, historical live-model7/8 and FE-013 unchanged; no paid calls or hidden-set claim.
+
+## FE-022 文件名交接一致性（2026-10-24）
+
+原独立审查的12项构造字符串保持原输入与断言，10/12→12/12；原20项实际PDF浏览器流程（10场景×2视口）从16/20到本地静态/Python各20/20。已知失败是LF/TAB名称原样导出后无法接回。本轮新增14项单元4/14→14/14，新增7场景×2视口的浏览器0/14→本地静态/Python各14/14，包含冻结旧版下载、重命名原文件、不可见/方向字符的可辨识显示、字面反斜杠区别，以及过长名称拒绝后重试。原始失败全部保留。
+
+这些是公开合成开发/工程回归，分母不能当独立金融题目；它们未测算人工节时或竞品优越性。固定合成业务保持8/8，首轮真实模型保持7/8，FE-013开放。本轮付费调用0、隐藏集0、真实金融语义标签0。两份官方历史PDF的工作流验证另列，不能将两个视口计成四份独立文档。实际本地/远端CI/公开部署分别验收。详见DRAFT_RECEIVING。

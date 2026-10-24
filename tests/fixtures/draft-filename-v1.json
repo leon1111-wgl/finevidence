@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "kind": "unverified_fact_drafts",
+  "classification": "USER_SUPPLIED_UNVERIFIED",
+  "source_metadata_status": "user_supplied_unverified",
+  "licensing_status": "not_verified",
+  "financial_calculation_eligible": false,
+  "file": {
+    "name": "report\n2024.pdf",
+    "bytes": 1204,
+    "sha256": "d147f626c3bda90a5f74ce87f9ed62512a4329c399cf6ec3c73e4feabbfe555f"
+  },
+  "source_reference": {
+    "catalog_version": "2026-10-24",
+    "status": "not_in_catalog",
+    "record": null,
+    "verification_status": "not_reviewed",
+    "licensing_status": "not_verified",
+    "financial_calculation_eligible": false
+  },
+  "drafts": [
+    {
+      "classification": "USER_SUPPLIED_UNVERIFIED",
+      "review_status": "pending_human_review",
+      "verified_by": null,
+      "financial_calculation_eligible": false,
+      "company": "SYNTHETIC Independent",
+      "title": "Original",
+      "source_url": null,
+      "metric": "revenue",
+      "raw_value": "120",
+      "normalized_value": null,
+      "unit_scale": null,
+      "currency": null,
+      "period": "2024",
+      "basis": "unknown",
+      "scope": "unknown",
+      "provenance": {
+        "file_name": "report\n2024.pdf",
+        "file_sha256": "d147f626c3bda90a5f74ce87f9ed62512a4329c399cf6ec3c73e4feabbfe555f",
+        "page": 1,
+        "page_kind": "pdf_physical",
+        "excerpt": "SYNTHETIC - not a real financial report\nPhysical page 1: revenue USD 120 million",
+        "excerpt_start": 0,
+        "excerpt_end": 80,
+        "offset_unit": "utf16_code_unit",
+        "parser": {
+          "name": "PDF.js",
+          "version": "6.4.299"
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Exact text membership is not semantic or visual verification.",
+    "Company, period, currency, scale, basis, scope and URL are user assertions.",
+    "No authenticated approval, source-rights verification or calculation admission.",
+    "Unsigned local handoff; no authenticity or tamper-proof claim."
+  ]
+}
