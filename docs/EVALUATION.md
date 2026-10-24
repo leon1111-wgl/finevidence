@@ -140,3 +140,11 @@ These measure known numeric transcription boundary regressions, not financial se
 新增本机PDF原页预览，原8场景×2视口在旧版0/16；首个实现14/16的两次失败来自超时中文文案断言，与正确的PDF_PREVIEW_TIMEOUT状态码不一致，原始记录保留。改为断言固定错误码后，加上放大/收起与挂起超时场景的中间20项为18/20，缺少的两项放大控件随后实现。最终各入口结果以精确版本实测为准。
 
 这些场景验证可查看原始页序、键盘操作、像素预算、失败重试、取消/旧结果隔离和导出保持，不能当金融准确率或节时收益。真实验证另列2份历史公告×2视口=4条流程，每条查看首页与利润表页并保持同一待审核导出；没有新增人工语义标签、许可审核或模型评测。详见[实现、首轮失败与复跑](PDF_PREVIEW.md)。首轮真实模型7/8、FE-013开放保持，付费调用0。
+
+## Pending-draft receiving, 2026-10-24
+
+One authored synthetic two-page PDF supplies a source-to-export-to-receiver task at1440/390px: base d937c9b 0/2 because there is no receiver; local static/Python builds each2/2. These are two viewport repetitions of one synthetic task, not independent financial examples. The initial baseline executes only these two planned tasks;24 other new engineering scenarios remain not_run.
+
+The receiving suite has13 scenarios ×2 widths=26. First implemented result22/26 came from four incorrect canvas-selector assertions after restoration and actual-download equality succeeded. Corrected static/Python suites each26/26;28 new unit methods and file/late-read/overwrite/metadata boundaries are engineering evidence. The initial unit RED is a missing-module startup failure, not28 executed failures. Commands and limits: DRAFT_RECEIVING.
+
+Separate real-source workflow: two official catalog PDFs ×2 widths=4/4 per static/Python surface through preparation, actual export, refresh, local source reselection, restore, page inspection and equal re-export. Count two unique documents; zero independent human semantic labels, no extraction-quality or time-saving estimate. Unknown units staynull. Exact-commit public/CI results are recorded separately. Fixed synthetic8/8, historical live-model7/8 and FE-013 unchanged; no paid calls or hidden-set claim.

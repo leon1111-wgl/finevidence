@@ -17,7 +17,7 @@ python3 -m finevidence.server
 |---|---|
 | 官方资料目录与本机文件版本识别 | 两份金蝶历史业绩公告；hash/字节一致不等于事实、人审或许可核验 |
 | 本机 PDF 预检、物理页文字、指纹与待核验记录导出 | 5 MiB/120 页；不上传、无 OCR，提取不等于真实事实核验 |
-| PDF 金额草稿、币种前缀识别、页码/摘录绑定与交接导出 | 最多 20 条待核验记录；非自动抽取、非已审核事实，不用于正式计算 |
+| PDF 金额草稿、原页对照、来源绑定导出与接收恢复 | 最多 20 条待核验记录；非自动抽取、非已审核事实，不用于正式计算 |
 | 原文检索、公司／年度筛选、来源指纹 | 英文 BM25，合成页 |
 | 毛利率、收入同比、百分点变化及逐项输入 | Python Decimal；浏览器 BigInt 对照，非模型口算 |
 | 本机模型选工具、调用轨迹、失败拒绝 | 晨涧云 DeepSeek 首轮 7/8 合成任务通过；密钥只在后端进程 |
@@ -168,3 +168,5 @@ The final interface pass targets a restrained enterprise research workspace: cle
 Implementation and documentation have been assisted by Codex. Automated tests show observed program behavior, not the author's independent mastery. See [contributions](docs/CONTRIBUTIONS.md). Personal build/interview notes are maintained separately from this public code repository.
 
 PDF准备流程支持[本机原页版面对照](docs/PDF_PREVIEW.md)：选择物理页、放大核对表格、回到待核验草稿；不上传文件或自动批准财务事实。
+
+已导出的待核验草稿可在重新选择同一 PDF 后[接收并恢复到列表](docs/DRAFT_RECEIVING.md)：先核对指纹、页码、摘录和金额，再显式替换；错误不覆盖旧草稿。同一文件改名可接收，所有记录仍待审核，不进入正式计算。

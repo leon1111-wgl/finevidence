@@ -1,3 +1,4 @@
+import { bindDraftImport } from "./fact-draft-import-panel.mjs";
 import { createFactDraft, exportFactDrafts } from "./fact-draft.mjs";
 const $ = (id) => document.getElementById(id);
 const fields = [
@@ -67,6 +68,7 @@ export function bindFactDraftPanel(getReport, selectPage) {
       remove.dataset.remove = String(i);
       remove.textContent = `删除草稿 ${i + 1}`;
       remove.onclick = () => {
+        receiver.reset("列表已修改，请重新选择交接文件后再替换。");
         drafts.splice(i, 1);
         render();
         status("已删除草稿。");
@@ -76,6 +78,14 @@ export function bindFactDraftPanel(getReport, selectPage) {
       $("draft-list").append(li);
     });
   };
+  const receiver = bindDraftImport(
+    getReport,
+    () => drafts.length,
+    (next) => {
+      drafts = next;
+      render();
+    },
+  );
   const pageChanged = () => {
     $("draft-excerpt").value = "";
     $("draft-raw_value").value = "";
@@ -115,6 +125,7 @@ export function bindFactDraftPanel(getReport, selectPage) {
       });
       const next = [...drafts, d];
       exportFactDrafts(getReport(), next);
+      receiver.reset("列表已修改，请重新选择交接文件后再替换。");
       drafts = next;
       render();
       status(
@@ -152,6 +163,7 @@ export function bindFactDraftPanel(getReport, selectPage) {
   return {
     pageChanged,
     reset: () => {
+      receiver.reset();
       drafts = [];
       $("draft-form").reset();
       $("fact-draft").open = false;

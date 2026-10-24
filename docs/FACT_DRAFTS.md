@@ -28,7 +28,7 @@ Only the explicitly saved rows are exported; subsequent unsaved form edits are n
 - Currency and multiplier default to unknown. An unknown multiplier yields `normalized_value: null`; no guess from nearby text. Selecting a known multiplier merely records the user's asserted conversion.
 - `review_status: pending_human_review`, `verified_by: null`, `financial_calculation_eligible: false` are fixed. The classification remains `SYNTHETIC_DEMO_UNVERIFIED` for the built-in demo, otherwise `USER_SUPPLIED_UNVERIFIED` (including a synthetic test file chosen through the user-file input).
 - At most 20 saved rows; no duplicate identical rows. `exportFactDrafts` reconstructs each row against the current report and rejects drift/tampering. Each row carries its own full provenance. The `unverified_fact_drafts` envelope is distinct from the trusted synthetic replay format; the replay verifier rejects it.
-- No PDF or metadata upload, model call, localStorage write, automatic fact-store admission, authenticated reviewer identity, signature or re-import is implemented. Downloaded JSON is unsigned and editable; hash identity does not prove origin or prevent coordinated edits. Refresh loss is explicitly disclosed, so export before leaving.
+- No PDF or metadata upload, model call, localStorage write, automatic fact-store admission, authenticated reviewer identity or signature is implemented. Source-bound pending re-import is now available; see DRAFT_RECEIVING. Downloaded JSON is unsigned and editable; hash identity does not prove origin or prevent coordinated edits. Refresh loss is explicitly disclosed, so export before leaving.
 
 ## Code path
 

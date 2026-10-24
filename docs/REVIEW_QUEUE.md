@@ -210,3 +210,7 @@ real-source rights/semantic review/admission gaps and FE-013 remain open.
 2026-10-24 independent review closed FE-020 on e03369b in the observed currency-symbol scope (original24 string cases; original16 and independent32 PDF scenarios per public/Python surface). No universal numeric-notation guarantee.
 
 New original-page preview awaits independent review: byte digest mismatch, page selection during pending rendering, late completion after cancel/clear, failed Worker/explicit retry, fixed raster size, blank page, keyboard scrolling, actual export equality and no upload/model requests. Rendering must never set verified_by, admit facts, or imply rights approval. See PDF_PREVIEW. FE-001/002/013 remain open.
+
+## Pending draft receiver review handoff (2026-10-24)
+
+Independently review DRAFT_RECEIVING after publication: whole-envelope trust fields, current-byte identity vs renamed files, parser/catalog drift, duplicate/escaped JSON keys, UTF-8 and structure bounds, stale read/apply after source or list changes, preserved saved-download equality, safe text and keyboard/narrow flow. Check that consistent semantic edits remain explicitly unverified and never enter calculation. This is a feature review request, not a newly invented defect. FE-013 and the actual rights/review/admission gaps remain open.

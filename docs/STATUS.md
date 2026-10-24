@@ -183,3 +183,11 @@ pending-draft handoffs on each local surface. These are workflow checks, not
 semantic labels or time saved. Exact CI, fresh-clone and deployed-byte checks
 follow publication separately. No paid call; original live7/8/FE-013 and source
 rights/authenticated approval/real financial admission/finalE7 remain open.
+
+## Source-bound pending draft receiving, 2026-10-24
+
+The workbench can receive its exported pending financial drafts after the same PDF is selected locally. It stages incoming rows, shows original/current file identity and incoming/existing counts, and explicitly replaces the saved collection. Canonical reconstruction preserves unknowns, requires exact source/amount/provenance and refuses modified trust fields. Renamed identical PDF bytes are rebound; no approval or calculation admission is granted.
+
+Local Python185/185 (22.146s), JS187/187 (28 new receiving methods), fixed synthetic workflow8/8, replay corruptions18/18 and controls10/10 pass. Full static/Python browser families pass, including new receiving26/26, original-page20, draft18 and currency60; Python restore6/6 is separate. Original receiving baseline0/2, first implementation22/26 (incorrect test canvas selector) and corrected results are retained. Two official PDFs × two widths complete the receiving/re-export workflow4/4 per static/Python surface; this is two documents and zero independent semantic-quality labels. Unknown conversion remainsnull.
+
+Exact-commit CI, fresh-clone and public deployment verification follow publication; local passes do not establish those. Zero paid calls; historical real-model7/8 and FE-013 remain unchanged. Rights, authenticated human/semantic review, real calculation admission and final real-data E7 remain open. See DRAFT_RECEIVING.

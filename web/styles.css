@@ -840,3 +840,16 @@ footer {
 #pdf-preview-tools select {
   margin-bottom: 0;
 }
+
+#draft-import {
+  border-bottom: 1px solid var(--line, #d8dce0);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+}
+.draft-import-preview {
+  overflow-wrap: anywhere;
+}
+#draft-import button {
+  max-width: 100%;
+  white-space: normal;
+}

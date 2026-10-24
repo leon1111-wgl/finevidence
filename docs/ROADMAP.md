@@ -101,3 +101,5 @@ independent closure gate; then return to E2 source rights and real reviewer/admi
 contracts. This fix does not advance authenticated approval or final real-data E7.
 
 2026-10-24: E2 adds original physical-page layout inspection with enlarged narrow-screen scrolling, explicit retry/cancel and source-byte ownership. This enables manual comparison but does not complete source rights, authenticated human approval, real fact admission or final E7. Those gates remain next; do not treat a rendered page as a reviewed fact.
+
+2026-10-24: pending financial drafts can now return to a receiver worksheet after reselection of the same PDF and explicit replacement. This closes the bounded preparation/handoff loop, not E2 source rights, human semantic approval or admission. Prioritize those remaining gates and separately labeled real-data evaluation. See DRAFT_RECEIVING.
