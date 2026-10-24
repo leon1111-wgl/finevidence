@@ -442,55 +442,62 @@ async function initialize() {
     busy = false;
   }
 }
-$("query-form").onsubmit = (e) => {
-  e.preventDefault();
-  execute({
-    operation: $("operation").value,
-    company: $("company").value,
-    year: Number($("year").value),
-    query: $("query").value,
-  });
-};
-for (const id of ["company", "year", "operation", "query"])
-  $(id).addEventListener(id === "query" ? "input" : "change", () => {
-    clearResult();
-    updateHelp();
-    if (corpus) listDocuments();
-    status("核查范围已更新，请运行核查。");
-  });
-$("notes").oninput = save;
-$("retry").onclick = () => retryAction?.();
-$("export").onclick = () => {
-  if (!result) return;
-  const payload = {
-    schema_version: 1,
-    classification: "SYNTHETIC",
-    exported_at: new Date().toISOString(),
-    source_commit: manifest.commit,
-    corpus_sha256: manifest.bundle_sha256,
-    request,
-    result,
-    review: {
-      checked_citation_ids: [...reviewed],
-      notes: $("notes").value,
-      verification: "browser_user_check_only_not_authenticated",
-    },
-    sources: corpus.docs.filter((d) =>
-      result.citations.some((c) => c.doc_id === d.doc_id),
-    ),
+// Module evaluation must have no UI/network side effects: an expired bootstrap
+// may still finish importing this module. Only an active bootstrap starts it.
+let started = false;
+export function startWorkbench() {
+  if (started) return;
+  started = true;
+  $("query-form").onsubmit = (e) => {
+    e.preventDefault();
+    execute({
+      operation: $("operation").value,
+      company: $("company").value,
+      year: Number($("year").value),
+      query: $("query").value,
+    });
   };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], {
-      type: "application/json",
-    }),
-    url = URL.createObjectURL(blob),
-    a = el("a");
-  a.href = url;
-  a.download = `finevidence-${request.company.replaceAll(" ", "-")}-${request.year}.json`;
-  document.body.append(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  status("审查记录已导出，包含原文、输入、计算与核对状态。");
-};
-bindPdfPanel();
-initialize();
+  for (const id of ["company", "year", "operation", "query"])
+    $(id).addEventListener(id === "query" ? "input" : "change", () => {
+      clearResult();
+      updateHelp();
+      if (corpus) listDocuments();
+      status("核查范围已更新，请运行核查。");
+    });
+  $("notes").oninput = save;
+  $("retry").onclick = () => retryAction?.();
+  $("export").onclick = () => {
+    if (!result) return;
+    const payload = {
+      schema_version: 1,
+      classification: "SYNTHETIC",
+      exported_at: new Date().toISOString(),
+      source_commit: manifest.commit,
+      corpus_sha256: manifest.bundle_sha256,
+      request,
+      result,
+      review: {
+        checked_citation_ids: [...reviewed],
+        notes: $("notes").value,
+        verification: "browser_user_check_only_not_authenticated",
+      },
+      sources: corpus.docs.filter((d) =>
+        result.citations.some((c) => c.doc_id === d.doc_id),
+      ),
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {
+        type: "application/json",
+      }),
+      url = URL.createObjectURL(blob),
+      a = el("a");
+    a.href = url;
+    a.download = `finevidence-${request.company.replaceAll(" ", "-")}-${request.year}.json`;
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    status("审查记录已导出，包含原文、输入、计算与核对状态。");
+  };
+  bindPdfPanel();
+  initialize();
+}

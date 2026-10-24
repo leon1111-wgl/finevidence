@@ -240,3 +240,23 @@ ERR_SOCKET_NOT_CONNECTED on an existing module. An unchanged suite on a new
 loopback server passed6/6. No restore assertion/timeout was weakened and no
 production connection fix is claimed. Retain first failures and independently
 check startup on the actual deployment/runtime before classifying the root cause.
+
+## FE-023 / P2 module startup failure (2026-10-24)
+
+Independent review on ec0e6a2 reproduced a missing recovery boundary: a failed
+pdf-preview-panel.mjs request prevents the entry module from running, leaving
+loading text and hidden data retry. Four normal controls pass; four controlled
+module failures fail recovery. Manual document reload restores all four saved
+records; the original Chrome transport failure cause remains unknown.
+
+This cycle adds an independent bootstrap, native HTML reload fallback, inert
+pre-start UI and an explicit idempotent business start. Local fixed16-scenario
+contract improves4/16→16/16 per static/Python surface. Exact release verification
+and independent closure remain separate gates. Review rejection, actual timeout,
+late evaluation, missing bootstrap, disabled JavaScript, keyboard reload, saved
+notes/checks/actual exports, and no automatic model calls. Data-only retry must
+remain distinct. Do not count a reload link as repairing unavailable server assets.
+
+Interview: why does catching fetch errors inside initialize not catch an entry's
+static dependency failure, and why is Promise.race alone insufficient to stop a
+late module from starting the application? See STARTUP_RECOVERY.

@@ -56,3 +56,11 @@ class ServerTests(unittest.TestCase):
             self.assertEqual(code, 200)
             self.assertIn('text/javascript', headers['Content-Type'])
             self.assertGreater(len(raw), 100)
+
+    def test_startup_entry_is_served_with_strict_csp_and_script_mime(self):
+        code, headers, raw = self.req('/bootstrap.mjs')
+        self.assertEqual(code, 200)
+        self.assertIn('text/javascript', headers['Content-Type'])
+        self.assertNotIn("unsafe-inline", headers['Content-Security-Policy'])
+        self.assertNotIn("unsafe-eval", headers['Content-Security-Policy'])
+        self.assertGreater(len(raw), 100)

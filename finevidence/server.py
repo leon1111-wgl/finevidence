@@ -7,6 +7,7 @@ from .service import Workspace,ROOT
 from .agent import run_agent
 
 ASSETS={'/':('index.html','text/html'),'/index.html':('index.html','text/html'),
+ '/bootstrap.mjs':('bootstrap.mjs','text/javascript'),
  '/styles.css':('styles.css','text/css'),'/app.mjs':('app.mjs','text/javascript'),
  '/engine.mjs':('engine.mjs','text/javascript'),'/replay.mjs':('replay.mjs','text/javascript'),'/handoff.mjs':('handoff.mjs','text/javascript'),'/state.mjs':('state.mjs','text/javascript'),
  '/fact-draft.mjs':('fact-draft.mjs','text/javascript'),'/fact-draft-panel.mjs':('fact-draft-panel.mjs','text/javascript'),

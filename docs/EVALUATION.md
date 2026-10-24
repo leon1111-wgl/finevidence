@@ -154,3 +154,24 @@ Separate real-source workflow: two official catalog PDFs ×2 widths=4/4 per stat
 原独立审查的12项构造字符串保持原输入与断言，10/12→12/12；原20项实际PDF浏览器流程（10场景×2视口）从16/20到本地静态/Python各20/20。已知失败是LF/TAB名称原样导出后无法接回。本轮新增14项单元4/14→14/14，新增7场景×2视口的浏览器0/14→本地静态/Python各14/14，包含冻结旧版下载、重命名原文件、不可见/方向字符的可辨识显示、字面反斜杠区别，以及过长名称拒绝后重试。原始失败全部保留。
 
 这些是公开合成开发/工程回归，分母不能当独立金融题目；它们未测算人工节时或竞品优越性。固定合成业务保持8/8，首轮真实模型保持7/8，FE-013开放。本轮付费调用0、隐藏集0、真实金融语义标签0。两份官方历史PDF的工作流验证另列，不能将两个视口计成四份独立文档。实际本地/远端CI/公开部署分别验收。详见DRAFT_RECEIVING。
+
+## FE-023 startup recovery (2026-10-24)
+
+Frozen synthetic startup matrix:8 scenarios×2 viewports=16 per surface. Baseline
+ec0e6a2 passes4/16 (healthy and bundle-fetch controls);12/16 fail startup recovery.
+Initial fixed local static and Python each16/16. Saved note, checked citation,
+actual exported result and30.00% sample calculation are compared across document
+navigation; late-import evaluation must leave the timeout intact. The original
+independent review4/8 is retained separately, not pooled with this expanded plan.
+Server regression first6/7 (missing bootstrap404), then7/7. See STARTUP_RECOVERY
+for commands and the full fault plan. Later full-suite/CI/public results are recorded
+separately; no hidden set, human financial labels, quantified staff savings or
+paid inference. Deterministic8/8 and historical real-model7/8 remain separate;
+FE-013 stays open.
+
+Full local engineering: Python186/186 (25.888s), JS201/201; deterministic8/8 with
+numeric6/6, source-complete6/6, expected-refusal2/2 (n=8, p50 0.000561s,
+p95 0.001024s, in-process only). A first static currency browser invocation timed
+out before any of60 business cases; its unchanged diagnostic rerun60/60 and Python
+60/60 are separate records, not replacements for that failure. Transport cause
+was not reproduced. No business timing gain is inferred from these durations.

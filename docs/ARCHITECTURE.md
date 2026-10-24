@@ -108,3 +108,10 @@ unverified draft production and draft receiving (`web/file-name.mjs`). Raw names
 remain in provenance; escaped names are only a UI representation, never a file
 path. Byte digest plus source reconstruction still govern handoff compatibility.
 See DRAFT_RECEIVING for FE-022, limits and version-1 compatibility evidence.
+
+Startup boundary: static HTML recovery link → dependency-free bootstrap → guarded
+`startWorkbench()` → existing data/source validation. Business module evaluation
+has no DOM/network startup side effects, so timed-out imports cannot later bind
+handlers or dispatch work. Failed entry/dependencies keep the workbench inert;
+explicit document navigation resets the failed module graph. Native import/network
+cancellation and browser real-time scheduling are not guaranteed. See STARTUP_RECOVERY.

@@ -853,3 +853,14 @@ footer {
   max-width: 100%;
   white-space: normal;
 }
+
+.startup {
+  margin: 24px auto;
+  padding: 16px 24px;
+  max-width: 920px;
+  border-block: 1px solid var(--border);
+  background: #fff;
+}
+.startup p {
+  margin: 0 0 10px;
+}

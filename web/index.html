@@ -13,7 +13,7 @@
     />
     <title>FinEvidence · 金融证据工作台</title>
     <link rel="stylesheet" href="./styles.css" />
-    <script type="module" src="./app.mjs"></script>
+    <script type="module" src="./bootstrap.mjs"></script>
   </head>
   <body>
     <a class="skip" href="#workspace">跳到工作区</a>
@@ -31,7 +31,16 @@
         >
       </nav>
     </header>
-    <div class="shell">
+    <section id="startup" class="startup" aria-label="工作台启动">
+      <p id="startup-status" role="status" aria-live="polite">正在加载工作台…</p>
+      <p class="small">
+        长时间未就绪时，请检查连接后重新加载。已保存在此浏览器的核查记录不会被清除；
+        未导出的 PDF 草稿需要重新准备。
+      </p>
+      <noscript>此工作台需要启用 JavaScript。也可从 GitHub 获取 Python CLI。</noscript>
+      <a id="startup-reload" href="./">重新加载工作台</a>
+    </section>
+    <div id="workbench" class="shell" inert>
       <aside class="sidebar" aria-label="资料范围">
         <h2>研究资料</h2>
         <p class="small">选择公司与报告年度，建立本次核查范围。</p>
@@ -567,9 +576,5 @@ python3 -m finevidence.server</pre
         </footer>
       </main>
     </div>
-    <noscript
-      >此工作台需要 JavaScript。源码与 Python CLI 可在 GitHub
-      仓库查看。</noscript
-    >
   </body>
 </html>

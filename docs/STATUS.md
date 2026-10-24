@@ -222,3 +222,16 @@ An unchanged suite against a newly started server passed6/6. Both initial failur
 remain recorded; the underlying connection fault is not claimed fixed or fully
 diagnosed. The failure-report contract passes2/2. CI and fresh-clone results must
 be considered separately, not substituted for these first local observations.
+
+## FE-023 startup recovery, 2026-10-24
+
+Entry/dependency failures now expose a native keyboard reload action above an
+inert workbench. A dependency-free bootstrap reports rejection or an8-second wait;
+late imports do not bind or initialize the UI. Saved review records use existing
+fingerprint validation and deterministic restoration; transient PDF lists still
+require re-preparation after reload. Static fallback also exists without bootstrap
+or JavaScript. Initial local browser16/16 per surface versus4/16 on ec0e6a2;
+exact remote CI, deployed browsers and independent closure remain separate gates.
+See STARTUP_RECOVERY. No paid inference; FE-013 and real-source rights/review/
+admission/final E7 remain open. New code is Codex-assisted; no new user-verified
+contribution or authenticated human review is claimed.
