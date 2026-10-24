@@ -55,9 +55,9 @@ jobs:
   browser:
     needs: test
     runs-on: ubuntu-latest
-    # Cold apt dependency downloads took 9m01s on 2026-10-23; leave room for
-    # both real-browser suites without changing application/test deadlines.
-    timeout-minutes: 20
+    # d1f90d1 took 19m25s (8m16s dependency installation). Reserve CI setup
+    # margin; application and individual test deadlines remain unchanged.
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
@@ -72,6 +72,8 @@ jobs:
       - run: pnpm install --frozen-lockfile --ignore-scripts
       - run: pnpm exec playwright install --with-deps chromium
       - run: python scripts/build_web.py
+      - name: Startup wait predicates with delayed DOM and negative controls
+        run: pnpm test:waits
       - name: Public static workbench workflow
         run: |
           python -m http.server 8776 --bind 127.0.0.1 --directory web > /tmp/finevidence-web.log 2>&1 &

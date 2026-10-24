@@ -56,6 +56,7 @@ export function bindFactDraftPanel(getReport, selectPage) {
     class: "small",
     role: "status",
   });
+  control("div", "draft-review-groups", "", "draft-review-policy");
   control("button", "draft-review-download", "导出检查清单", "draft-download", {
     type: "button",
     class: "secondary",
@@ -109,6 +110,43 @@ export function bindFactDraftPanel(getReport, selectPage) {
     $("draft-review-summary").textContent = review
       ? `检查 ${drafts.length} 条：${review.checks.rows_needing_attention} 条有缺项或重复声明需处理。所有记录仍待人工核验，来源使用许可与审核身份尚未核验。`
       : "保存草稿后显示缺项与重复声明检查；不会自动核验事实。";
+    const groupsPanel = $("draft-review-groups");
+    groupsPanel.replaceChildren();
+    groupsPanel.hidden = !review?.checks.groups.length;
+    const groupMessage = (group) =>
+      group.code === "DECLARED_VALUE_CONFLICT"
+        ? "同一声明口径金额不一致"
+        : "同一声明口径金额重复";
+    const jumpLink = (label, target, open = false) => {
+      const link = document.createElement("a");
+      link.textContent = label;
+      link.href = `#${target}`;
+      link.onclick = (event) => {
+        event.preventDefault();
+        const node = $(target);
+        if (!node) return;
+        if (open) node.parentElement.open = true;
+        node.focus();
+        node.scrollIntoView({ block: "center" });
+      };
+      return link;
+    };
+    review?.checks.groups.forEach((group, i) => {
+      const detail = document.createElement("details");
+      const summary = document.createElement("summary");
+      summary.id = `draft-group-${i + 1}`;
+      summary.textContent = `检查组 ${i + 1} · ${groupMessage(group)}（${group.rows.length} 条）`;
+      const help = document.createElement("p");
+      help.className = "small";
+      help.textContent =
+        "定位成员后核对期间、口径与原页；相同声明不代表同一事实。";
+      const members = document.createElement("div");
+      members.className = "draft-group-members";
+      for (const row of group.rows)
+        members.append(jumpLink(`定位草稿 ${row}`, `draft-row-${row}`));
+      detail.append(summary, help, members);
+      groupsPanel.append(detail);
+    });
     const labels = {
       company: "公司",
       title: "标题",
@@ -122,6 +160,8 @@ export function bindFactDraftPanel(getReport, selectPage) {
     drafts.forEach((d, i) => {
       const li = document.createElement("li");
       const heading = document.createElement("p");
+      heading.id = `draft-row-${i + 1}`;
+      heading.tabIndex = -1;
       heading.textContent = `${i + 1}. ${d.company} · ${d.metric === "revenue" ? "收入" : "毛利"} · 原文 ${d.raw_value} × ${d.unit_scale ?? "单位待核对"} ${d.currency ?? "币种待核对"} · 物理页 ${d.provenance.page}`;
       li.append(heading);
       const findings = document.createElement("p");
@@ -131,13 +171,17 @@ export function bindFactDraftPanel(getReport, selectPage) {
       const messages = [];
       if (missing.length)
         messages.push(`待补证：${missing.map((k) => labels[k]).join("、")}`);
-      for (const g of groups)
-        messages.push(
-          `${g.code === "DECLARED_VALUE_CONFLICT" ? "同一声明口径金额不一致" : "同一声明口径金额重复"}（草稿 ${g.rows.join("、")}）；请核对期间、口径与原页`,
-        );
+      for (const group of groups) messages.push(groupMessage(group));
       findings.textContent = messages.length
         ? messages.join("。")
         : "未发现列明的缺项或重复声明；字段含义仍待人工核验。";
+      for (const group of groups) {
+        const number = review.checks.groups.indexOf(group) + 1;
+        findings.append(
+          " · ",
+          jumpLink(`查看检查组 ${number}`, `draft-group-${number}`, true),
+        );
+      }
       li.append(findings);
       const detail = document.createElement("details"),
         summary = document.createElement("summary");

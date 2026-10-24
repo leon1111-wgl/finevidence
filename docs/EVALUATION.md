@@ -220,3 +220,22 @@ real documents and0 human semantic labels, not4 financial labels. All timings
 are serial automated workflow durations, not analyst time; no cost/accuracy claim.
 Historical live7/8, FE-013 and the synthetic fixed-workflow control stay separate.
 Reproduce with node tests/browser-draft-review.cjs; detailed contract in DRAFT_REVIEW.
+
+
+## Draft-group navigation and test waits (2026-10-25)
+
+`node tests/browser-draft-groups.cjs` runs4 authored navigation/state scenarios at
+2 widths, using1 synthetic PDF; local8/8. In the20-member case all20 rows are
+keyboard reachable with a return path and the actual checklist is unchanged.
+The group member list appears once, with concise findings on each row. This is a
+presentation/coverage metric, not measured time saved, real financial accuracy or
+a competitor win. The prior-version first run0/8 is retained:7 absent-capability
+cases and1 initialization timeout, not8 proven navigation defects.
+
+`node tests/browser-waits.cjs` isolates FE-024 with actual streaming HTTP and the
+startup runner's shared predicates: original0/12, corrected12/12, including8
+missing/wrong-state negative controls that must still time out. These are test
+reliability checks, not business outcomes. Full startup16/16 and draft24/24 pass
+locally; exact release CI and deployed browser evidence are recorded separately.
+Historical actual-model7/8, FE-013, unknown real semantic quality and paid-call0
+remain unchanged. No hidden-set claims or rerun-to-select scoring.

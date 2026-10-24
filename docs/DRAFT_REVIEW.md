@@ -110,3 +110,40 @@ suite to the static server; all six cases rejected that wrong runtime as designe
 The proper Python restore invocation passed6/6. Its final new-feature browser
 suite was accidentally invoked twice (both24/24); it is counted once, not as
 additional coverage. These harness mistakes do not change the task denominators.
+
+## Group navigation, 2026-10-25
+
+A comparison group's members are listed once in a native expandable section.
+Every affected row retains its finding and a link back to that group; each member
+link moves keyboard focus to the saved row, where original-page, correction and
+delete actions remain available. Row/group positions are rebuilt after edits,
+deletions and received-list replacement. These are ephemeral navigation anchors,
+not audit identities. The exported drafts/checklists and review rules are unchanged.
+Buttons for the two exports and edit cancellation now have explicit spacing.
+
+Design pass one: reducing repeated row-number lists helps scan a dense worksheet.
+Pass two: hiding the members entirely would remove the path to evidence, so the
+expanded group exposes every member and supports keyboard navigation both ways.
+No badge, confidence score, new approval or data/model path is added. The official
+sources above were rechecked on2026-10-25 and remain workflow references only.
+
+`node tests/browser-draft-groups.cjs` reserves four scenarios at1440/390: all20
+members and return links, deletion/reindex, conflict correction, replacement/empty
+state. One authored synthetic PDF;8/8 locally. Each20-member keyboard pass reaches
+20/20 saved rows and the actual checklist download remains identical. This is
+navigation coverage and reduced repeated presentation, not measured human time,
+financial quality or competitor superiority. The baseline first run was0/8:
+seven cases reached the missing group capability; one failed at initial readiness.
+That natural initialization timeout is retained and not attributed to this change.
+The existing preparation24/24 and cache18/18 also pass locally.
+
+FE-024 is a separate test-wait defect observed in the prior independent audit:
+public startup15/16, null#status after navigation commit. Shared test-only predicates
+now wait for a present enabled#run or alert#status. Delayed-body positive cases and
+absent/wrong-state negative controls use the real predicates in a local streaming
+HTTP document:12/12 versus0/12 with the original predicates. The characterization
+uses a500ms test budget; the consuming startup suite retains12s ready/3s data-error
+waits and the product retains its8s startup boundary. No sleeps or automatic retries.
+Original startup16/16 passes locally. CI reserves25min for installation and both
+browser modes after the prior exact run took19m25s, including8m16s installation;
+this changes only the job ceiling, not product or per-test acceptance deadlines.

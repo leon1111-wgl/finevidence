@@ -2,6 +2,18 @@
 
 Updated 2026-10-25. This is an enterprise-oriented portfolio in progress, not a production deployment.
 
+## Draft-group navigation and FE-024, 2026-10-25
+
+Dense review groups now show one expandable member list with keyboard row/return
+links, keeping per-row findings, original-page actions and export contracts.
+Local group8/8, preparation24/24, cache18/18 and startup16/16 pass. The20-member
+case reaches20/20 saved rows at each width with identical before/after checklist.
+FE-024 test-only DOM waiting now passes12/12 delayed-body/negative-control cases;
+its original predicates passed0/12. Baseline group0/8 includes one natural initial
+readiness timeout and seven absent-capability cases; all first failures retained.
+See DRAFT_REVIEW for evidence boundaries. Exact remote CI/public checks follow
+publication; independent review remains pending. E2, final E7 and FE-013 unchanged.
+
 ## Draft preparation and correction, 2026-10-25
 
 Source-bound saved drafts now show missing declared fields and exact-context

@@ -1,5 +1,23 @@
 # Review queue
 
+## FE-024 and group navigation handoff, 2026-10-25
+
+The independent d1f90d1 review verified draft preparation in its observed scope and
+found FE-024/P3: startup test#status dereferenced before body parsing after commit.
+This release shares presence-aware ready/data-error predicates and adds delayed
+body plus absent/wrong-state controls (12/12 locally; original0/12). Full startup
+still checks actual failure/retry/export and retains existing deadlines. Await
+independent closure; do not reclassify this as an FE-023 product regression or
+explain prior natural transport timeouts with this test-specific root cause.
+
+Also review the dense-group presentation: one native expandable member list,
+keyboard navigation in both directions, deletion/reindex, resolved/empty groups,
+old HTML compatibility and unchanged actual JSON. Local new8/8 and original24/24
+pass. Check390px layout and export-button spacing. No change to provenance,
+financial trust, source rights or authenticated reviewer identity; FE-001/002,
+FE-013 and final real-business E7 remain open. No paid calls.
+
+
 ## Next independent review: draft preparation and correction (2026-10-25)
 
 Check the published SHA, missing-field row locations, exact normalized-value

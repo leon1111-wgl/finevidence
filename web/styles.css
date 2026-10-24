@@ -864,3 +864,32 @@ footer {
 .startup p {
   margin: 0 0 10px;
 }
+
+#draft-review-groups details {
+  border-top: 1px solid var(--border);
+  padding: 12px 0;
+}
+#draft-review-groups summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+#draft-review-groups p {
+  margin: 8px 0;
+}
+.draft-group-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+#draft-list .draft-findings {
+  font-weight: 400;
+}
+#draft-list [tabindex="-1"]:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+#draft-download,
+#draft-review-download,
+#draft-edit-cancel {
+  margin: 8px 8px 0 0;
+}

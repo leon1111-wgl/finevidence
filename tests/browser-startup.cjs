@@ -1,5 +1,6 @@
 // FE-023: real browser startup and recovery; synthetic transport faults only.
 const { chromium } = require('playwright');
+const { ready, dataError } = require('./helpers/browser-waits.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
@@ -16,7 +17,6 @@ const path = require('node:path');
   }, null, 2));
   await save();
   const browser = await chromium.launch({headless: true, ...(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {})});
-  const ready = p => p.waitForFunction(() => !document.getElementById('run').disabled, null, {timeout: 12000});
   const open = p => p.goto(base, { waitUntil: 'commit', timeout: 20000 });
   const key = 'finevidence.review.v1';
   const note = 'SYNTHETIC startup recovery note';
@@ -63,7 +63,7 @@ const path = require('node:path');
         if (row.name === 'healthy') {
           await ready(p);
         } else if (row.name === 'bundle-retry') {
-          await p.waitForFunction(() => document.querySelector('#status').getAttribute('role') === 'alert');
+          await dataError(p);
           assert.equal(await p.locator('#retry').isVisible(), true);
           await p.unroute('**/bundle.json'); await p.focus('#retry'); await p.keyboard.press('Enter'); await ready(p);
           assert.equal(navigationCount, 1, 'data-only retry must not reload the document');
