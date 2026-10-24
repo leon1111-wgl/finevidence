@@ -1,6 +1,26 @@
 # Capability status
 
-Updated 2026-10-24. This is an enterprise-oriented portfolio in progress, not a production deployment.
+Updated 2026-10-25. This is an enterprise-oriented portfolio in progress, not a production deployment.
+
+## Draft preparation and correction, 2026-10-25
+
+Source-bound saved drafts now show missing declared fields and exact-context
+amount conflicts/repetitions, support validated in-place correction/cancel, and
+export an unsigned checklist. Complete fields do not approve facts or source
+rights. Twelve new unit methods pass; Python189 and JS213 passed locally.
+New browser24/24 passed on static/Python, with original-page and JSON checks.
+Two official PDFs × two viewports completed the local preparation/handoff path;
+this is two documents and zero human semantic labels. See DRAFT_REVIEW.
+
+The first implementation's historical-HTML cache plan was8/18 (new DOM controls
+missing); after compatibility initialization the same plan passed18/18. The
+first full static base-flow run hit initialization timeout; one unchanged
+diagnostic run passed14/14, while Python's first base-flow run passed14/14.
+The natural initialization cause remains unknown; failures are retained.
+Exact-commit CI and public checks are release gates, not inferred from local tests.
+The prior independent e58d1ac review closed FE-023 in its observed cache scope.
+E2 rights/authenticated semantic review/admission/revocation, final real-business
+E7 and FE-013 remain open; original live-model7/8 is unchanged, paid calls0.
 
 ## FE-023 release-cache correction, 2026-10-24
 

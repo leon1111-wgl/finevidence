@@ -1,5 +1,17 @@
 # Review queue
 
+## Next independent review: draft preparation and correction (2026-10-25)
+
+Check the published SHA, missing-field row locations, exact normalized-value
+conflicts, original-page edit/cancel, invalid/duplicate replacement preservation,
+list/import/page/file invalidation, legacy HTML control initialization and real
+JSON downloads on desktop/narrow. Checklists must remain unsigned/ineligible and
+be rejected by both formal replay and draft receiving. Do not close FE-001/002
+for these preparation checks. The existing natural startup-timeout observation
+remains unassigned; one diagnostic pass does not resolve its cause.
+Prior e58d1ac independent review closed FE-023 in the observed cache scope (local
+review record2026-10-24); this feature must preserve those regression contracts.
+
 Baseline review: 2026-10-19, before first public repository commit. These are observed limitations / roadmap gaps unless explicitly labeled reproduced defects.
 
 | ID | Priority | Kind | Evidence / impact | Next acceptance check |

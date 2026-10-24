@@ -193,3 +193,30 @@ historical live-model7/8 and open FE-013. No paid inference, hidden-set labels,
 financial semantic review or measured personnel savings. First static startup
 15/16 and its initial readiness timeout are retained, not replaced by later
 checks. Local, exact-commit CI and public deployment results are separate gates.
+
+## Draft preparation and correction (2026-10-25)
+
+Two authored tasks (fill missing declared metadata; resolve an intentional
+same-context amount conflict) ×1440/390px =4 workflow cases on one synthetic PDF.
+On the prior public e58d1ac release,0/4 had the new checklist/correction contract;
+on the local updated static and Python surfaces4/4 complete it. This is new task
+coverage, not a financial accuracy or staff-productivity percentage. The larger
+engineering plan is12 scenarios ×2 widths=24 per surface (24/24 locally), including
+failed/duplicate edits, cancellation, source/list changes, keyboard use and
+rejection of checklists as draft imports or calculation replay packs. Twelve
+new unit methods cover precision, scope and unverified gates.
+
+Retain the original missing-module red run, first unit11/12 fixture error, first
+current-HTML browser20/20, and historical cache8/18 before compatibility correction
+(18/18 afterward). The first full static base workflow timed out at initialization;
+one instrumented run of unchanged assertions passed14/14. The observed diagnostic
+bundle ERR_FAILED is the test's explicit route-abort case, not an explanation of
+the earlier startup timeout. The natural cause is unknown.
+
+Two separately downloaded catalog PDFs matched both known hashes; each passed
+local checklist/metadata-edit/export/re-import/original-page inspection at two
+widths (4/4), with currency/scale/basis/scope left unknown. There are2 independent
+real documents and0 human semantic labels, not4 financial labels. All timings
+are serial automated workflow durations, not analyst time; no cost/accuracy claim.
+Historical live7/8, FE-013 and the synthetic fixed-workflow control stay separate.
+Reproduce with node tests/browser-draft-review.cjs; detailed contract in DRAFT_REVIEW.

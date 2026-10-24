@@ -103,3 +103,12 @@ contracts. This fix does not advance authenticated approval or final real-data E
 2026-10-24: E2 adds original physical-page layout inspection with enlarged narrow-screen scrolling, explicit retry/cancel and source-byte ownership. This enables manual comparison but does not complete source rights, authenticated human approval, real fact admission or final E7. Those gates remain next; do not treat a rendered page as a reviewed fact.
 
 2026-10-24: pending financial drafts can now return to a receiver worksheet after reselection of the same PDF and explicit replacement. This closes the bounded preparation/handoff loop, not E2 source rights, human semantic approval or admission. Prioritize those remaining gates and separately labeled real-data evaluation. See DRAFT_RECEIVING.
+
+## E2 preparation increment, 2026-10-25
+
+Saved unverified rows now carry actionable missing-field and exact-declaration
+conflict checks, in-place correction/cancel and a source-bound checklist export.
+No field completion, URL, matching hash or UI action establishes source rights
+or authenticated approval. Next implement/test actual identity, rights and
+review/revocation admission, using permitted sources and genuine human labels;
+keep E2 and final E7 open. See DRAFT_REVIEW for concrete workflow and limits.

@@ -1,5 +1,6 @@
 import { bindDraftImport } from "./fact-draft-import-panel.mjs";
 import { createFactDraft, exportFactDrafts } from "./fact-draft.mjs";
+import { reviewFactDrafts } from "./draft-review.mjs";
 const $ = (id) => document.getElementById(id);
 const fields = [
   "company",
@@ -26,7 +27,73 @@ const messages = {
   DRAFT_COUNT: "最多保存 20 条草稿，请导出或删除后继续。",
 };
 export function bindFactDraftPanel(getReport, selectPage) {
-  let drafts = [];
+  // Install controls before binding: supported cached HTML predates this feature.
+  const control = (tag, id, text, after, attrs = {}) => {
+    if ($(id)) return;
+    const node = document.createElement(tag);
+    node.id = id;
+    node.textContent = text;
+    for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+    $(after).after(node);
+  };
+  control("p", "draft-edit-state", "", "draft-excerpt-help", {
+    class: "small",
+    role: "status",
+  });
+  control("button", "draft-edit-cancel", "取消修改", "draft-add", {
+    type: "button",
+    class: "secondary",
+    hidden: "",
+  });
+  control(
+    "p",
+    "draft-review-policy",
+    "只比较公司、期间、指标、币种、准则和合并范围均已填写且字面相同的记录；别名、重述及不同口径不自动合并。没有提示不代表内容正确。",
+    "draft-count",
+    { class: "small" },
+  );
+  control("p", "draft-review-summary", "", "draft-count", {
+    class: "small",
+    role: "status",
+  });
+  control("button", "draft-review-download", "导出检查清单", "draft-download", {
+    type: "button",
+    class: "secondary",
+    disabled: "",
+  });
+  control(
+    "p",
+    "draft-review-help",
+    "检查清单含已保存草稿和待办项，供人工核查；接回草稿请使用草稿导出文件。",
+    "draft-review-download",
+    { class: "small" },
+  );
+  let drafts = [],
+    editing = null;
+  const endEdit = () => {
+    editing = null;
+    $("draft-add").textContent = "保存待核验草稿";
+    $("draft-edit-cancel").hidden = true;
+    $("draft-edit-state").textContent = "";
+  };
+  const beginEdit = (d, i) => {
+    selectPage(d.provenance.page);
+    editing = d;
+    const values = {
+      ...d,
+      scale: d.unit_scale ?? "unknown",
+      currency: d.currency ?? "unknown",
+      source_url: d.source_url ?? "",
+      excerpt: d.provenance.excerpt,
+    };
+    for (const k of fields) $("draft-" + k).value = values[k];
+    $("draft-add").textContent = `保存对草稿 ${i + 1} 的修改`;
+    $("draft-edit-cancel").hidden = false;
+    $("draft-edit-state").textContent =
+      `正在修改草稿 ${i + 1} · 物理页 ${d.provenance.page}。保存前原记录不变；切页或替换列表将结束修改。`;
+    $("draft-company").focus();
+    $("draft-company").scrollIntoView({ block: "center" });
+  };
   const status = (text, error = false) => {
     $("draft-status").textContent = text;
     $("draft-status").className = error ? "error" : "small";
@@ -37,11 +104,41 @@ export function bindFactDraftPanel(getReport, selectPage) {
     $("draft-count").textContent = `已保存 ${drafts.length} / 20 条待核验草稿`;
     $("draft-download").disabled = !drafts.length;
     $("draft-download").textContent = `导出已保存草稿（${drafts.length}）`;
+    $("draft-review-download").disabled = !drafts.length;
+    const review = drafts.length ? reviewFactDrafts(getReport(), drafts) : null;
+    $("draft-review-summary").textContent = review
+      ? `检查 ${drafts.length} 条：${review.checks.rows_needing_attention} 条有缺项或重复声明需处理。所有记录仍待人工核验，来源使用许可与审核身份尚未核验。`
+      : "保存草稿后显示缺项与重复声明检查；不会自动核验事实。";
+    const labels = {
+      company: "公司",
+      title: "标题",
+      period: "期间",
+      source_url: "来源网址",
+      currency: "币种",
+      unit_scale: "单位倍率",
+      basis: "会计准则",
+      scope: "合并范围",
+    };
     drafts.forEach((d, i) => {
       const li = document.createElement("li");
       const heading = document.createElement("p");
       heading.textContent = `${i + 1}. ${d.company} · ${d.metric === "revenue" ? "收入" : "毛利"} · 原文 ${d.raw_value} × ${d.unit_scale ?? "单位待核对"} ${d.currency ?? "币种待核对"} · 物理页 ${d.provenance.page}`;
       li.append(heading);
+      const findings = document.createElement("p");
+      findings.className = "small draft-findings";
+      const missing = review.checks.rows[i].missing_fields;
+      const groups = review.checks.groups.filter((g) => g.rows.includes(i + 1));
+      const messages = [];
+      if (missing.length)
+        messages.push(`待补证：${missing.map((k) => labels[k]).join("、")}`);
+      for (const g of groups)
+        messages.push(
+          `${g.code === "DECLARED_VALUE_CONFLICT" ? "同一声明口径金额不一致" : "同一声明口径金额重复"}（草稿 ${g.rows.join("、")}）；请核对期间、口径与原页`,
+        );
+      findings.textContent = messages.length
+        ? messages.join("。")
+        : "未发现列明的缺项或重复声明；字段含义仍待人工核验。";
+      li.append(findings);
       const detail = document.createElement("details"),
         summary = document.createElement("summary");
       summary.textContent = "查看口径与摘录（待人工核验）";
@@ -62,6 +159,11 @@ export function bindFactDraftPanel(getReport, selectPage) {
         $("pdf-text").focus();
         $("pdf-text").scrollIntoView({ block: "center" });
       };
+      const edit = document.createElement("button");
+      edit.type = "button";
+      edit.className = "secondary";
+      edit.textContent = `修改草稿 ${i + 1}`;
+      edit.onclick = () => beginEdit(d, i);
       const remove = document.createElement("button");
       remove.type = "button";
       remove.className = "secondary";
@@ -69,12 +171,13 @@ export function bindFactDraftPanel(getReport, selectPage) {
       remove.textContent = `删除草稿 ${i + 1}`;
       remove.onclick = () => {
         receiver.reset("列表已修改，请重新选择交接文件后再替换。");
+        endEdit();
         drafts.splice(i, 1);
         render();
         status("已删除草稿。");
         $("draft-count").focus();
       };
-      li.append(view, remove);
+      li.append(view, edit, remove);
       $("draft-list").append(li);
     });
   };
@@ -82,11 +185,13 @@ export function bindFactDraftPanel(getReport, selectPage) {
     getReport,
     () => drafts.length,
     (next) => {
+      endEdit();
       drafts = next;
       render();
     },
   );
   const pageChanged = () => {
+    endEdit();
     $("draft-excerpt").value = "";
     $("draft-raw_value").value = "";
     const page = getReport()?.pages.find(
@@ -123,24 +228,48 @@ export function bindFactDraftPanel(getReport, selectPage) {
         ...values,
         page: Number($("pdf-page").value),
       });
-      const next = [...drafts, d];
+      const index = editing ? drafts.indexOf(editing) : -1;
+      if (editing && index < 0) throw Error("DRAFT_CHANGED");
+      const next =
+        index < 0
+          ? [...drafts, d]
+          : drafts.map((old, i) => (i === index ? d : old));
       exportFactDrafts(getReport(), next);
       receiver.reset("列表已修改，请重新选择交接文件后再替换。");
       drafts = next;
+      endEdit();
       render();
+      if (index >= 0) {
+        $("draft-raw_value").value = "";
+        $("draft-excerpt").value = "";
+        $("draft-count").focus();
+      }
       status(
-        `已保存第 ${drafts.length} 条待核验草稿。尚未完成人工审核，未用于计算。`,
+        index < 0
+          ? `已保存第 ${drafts.length} 条待核验草稿。尚未完成人工审核，未用于计算。`
+          : `已替换草稿 ${index + 1}，共 ${drafts.length} 条。检查已更新；仍待人工审核。`,
       );
     } catch (error) {
       status(
-        `${messages[error.message] ?? "请检查必填项、长度和字段格式。"} 未添加；已保存的 ${drafts.length} 条不变。`,
+        `${messages[error.message] ?? "请检查必填项、长度和字段格式。"} ${editing ? "未替换" : "未添加"}；已保存的 ${drafts.length} 条不变。`,
         true,
       );
     }
   };
-  $("draft-download").onclick = () => {
+  $("draft-edit-cancel").onclick = () => {
+    endEdit();
+    $("draft-raw_value").value = "";
+    $("draft-excerpt").value = "";
+    status("已取消修改；已保存草稿不变。");
+    $("draft-count").focus();
+  };
+  $("draft-review-download").onclick = () => download(true);
+  $("draft-download").onclick = () => download(false);
+  const download = (withChecks) => {
     try {
-      const report = exportFactDrafts(getReport(), drafts);
+      const report = withChecks
+        ? reviewFactDrafts(getReport(), drafts)
+        : exportFactDrafts(getReport(), drafts);
       const url = URL.createObjectURL(
         new Blob([JSON.stringify(report, null, 2)], {
           type: "application/json",
@@ -148,13 +277,15 @@ export function bindFactDraftPanel(getReport, selectPage) {
       );
       const a = document.createElement("a");
       a.href = url;
-      a.download = "finevidence-unverified-fact-drafts.json";
+      a.download = withChecks
+        ? "finevidence-unverified-draft-review.json"
+        : "finevidence-unverified-fact-drafts.json";
       document.body.append(a);
       a.click();
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       status(
-        `已请求下载 ${drafts.length} 条已保存草稿；表单内未添加的内容不在导出中。`,
+        `已请求下载 ${drafts.length} 条已保存草稿${withChecks ? "及检查清单" : ""}；表单内未保存的内容不在导出中。`,
       );
     } catch {
       status("草稿校验失败，未导出。请清除资料后重新登记。", true);
