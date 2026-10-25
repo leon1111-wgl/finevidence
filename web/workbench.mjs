@@ -1,3 +1,4 @@
+import { bindReviewLedger, configureReviewLedger } from "./review-ledger-panel.mjs";
 import { bindPdfPanel } from './pdf-panel.mjs';
 import { validateBundle, run, sha256 } from "./engine.mjs";
 import { readDraft, writeDraft } from "./state.mjs";
@@ -365,6 +366,7 @@ async function initialize() {
       fetchJSON(new URL("./manifest.json", import.meta.url)),
       fetchJSON("./runtime.json"),
     ]);
+    configureReviewLedger(runtime);
     const response = await fetch(new URL("./bundle.json", import.meta.url), {
       cache: "no-store",
       signal: AbortSignal.timeout(8000),
@@ -498,6 +500,7 @@ export function startWorkbench() {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     status("审查记录已导出，包含原文、输入、计算与核对状态。");
   };
+  bindReviewLedger();
   bindPdfPanel();
   initialize();
 }

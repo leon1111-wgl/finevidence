@@ -893,3 +893,11 @@ footer {
 #draft-edit-cancel {
   margin: 8px 8px 0 0;
 }
+
+.review-ledger { border-top: 1px solid var(--border); padding: 20px 0; margin: 20px 0; }
+.review-ledger > summary { font-weight: 600; cursor: pointer; }
+.review-ledger label { display: block; margin: 14px 0 6px; }
+.review-ledger textarea, .review-ledger input, .review-ledger select { display: block; width: 100%; max-width: 680px; }
+.review-ledger button { margin: 8px 8px 8px 0; }
+.review-ledger li { border-top: 1px solid var(--border); padding: 12px 0; }
+.ledger-snapshot { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; }

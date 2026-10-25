@@ -239,3 +239,46 @@ reliability checks, not business outcomes. Full startup16/16 and draft24/24 pass
 locally; exact release CI and deployed browser evidence are recorded separately.
 Historical actual-model7/8, FE-013, unknown real semantic quality and paid-call0
 remain unchanged. No hidden-set claims or rerun-to-select scoring.
+
+
+## Local review observation ledger — 2026-10-25
+
+No real financial labels, models or new hidden cases are used. The feature stores
+observations, not approved facts. The frozen deterministic development set remains
+8/8, numeric/source completeness6/6 each and expected refusals2/2. The historical
+live8-task first run remains7/8; FE-013 is not closed by ledger behavior.
+
+| Measurement | Observed local result | Denominator and interpretation |
+|---|---|---|
+| Save → restart → reconnect → export → revoke | 2/2 | One authored synthetic workflow at1440/390; one PDF, not two independent financial samples |
+| Lost record/revocation response → explicit retry | 4/4 | Two request types × two widths; one record and one revocation, same request ID reused |
+| Whole new Chrome scenario matrix | 14/14 | Seven scenario types × two widths; includes auth, source change, loading/disconnect and disabled default |
+| New HTTP/store engineering methods | 18/18 | Permissions, schema, request bounds, normalization, lock recovery, concurrency, capacity and restart; not business accuracy |
+| Initial absent-UI check | 0/10 | Ten original scenarios could not find the new panel; missing capability, not ten reproduced defects |
+
+The final four added browser cases were not part of the ten-case absent-UI run.
+The first implemented original matrix passed10/10; the expanded matrix passed14/14.
+Full Python207 and JS213 passed locally. Each test runner retains its first outcome;
+subsequent validation is separate, not best-of-N selection. Initial local Python
+and browser verification overlapped; release browser verification was then run
+in a separate serial build/server phase. Exact remote/fresh-clone verification is
+recorded with publication, not inferred from these results.
+
+Latency fields in browser result.json measure complete test scenarios including
+fixture server/Chrome work; they are not human time saved or service SLOs. Eight
+fixed workflow cases measured in-process p50=0.000538s/p95=0.000732s in this local
+run; no transport/model performance comparison follows. Model calls/tokens0;
+no monetary price is inferred and no paid calls were made. No superiority over
+commercial products, production usability or real financial quality is measured.
+
+The full release browser phase retained static startup15/16, base initial timeout
+and retry6/7; one instrumented original-plan diagnostic passed16/16,14/14,7/7.
+Both runtime cold-start diagnostics12/12 did not reveal the intermittent cause.
+Python's corresponding original plans passed first-run. These are separate runs,
+not a rewritten success rate; no startup repair is credited to the ledger.
+
+The first Python draft-receiving run also retained25/26: desktop discard-staged
+timed out at a waitForFunction (6000ms). That runner did not capture the failing
+wait location or a failure screenshot, so its phase/cause is unknown. One
+unchanged-assertion/deadline run with network/page-error instrumentation passed
+26/26; no repair is inferred and the first result is preserved.

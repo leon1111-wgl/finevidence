@@ -123,3 +123,13 @@ business entry; app.mjs is the old-document compatibility loader. Public corpus
 metadata is graph-relative; Python session metadata and operations remain
 root-relative. Only the current allowlisted graph is served locally. See
 STARTUP_RECOVERY for stale-version recovery and historical-cache limits.
+
+## Optional local observation ledger
+
+`review_ledger.ReviewLedger` is a separate SQLite observation store, never a fact
+store read by calculation or Agent tools. The opt-in loopback API binds a configured
+operator to a separate bearer secret; private external storage holds immutable
+pending-draft snapshots and appended revocations with transactional idempotency.
+Browser users explicitly select/send only a draft and note. No PDF bytes/model
+request is sent. Local identity, unsigned export and OS-permission limits are in
+LOCAL_REVIEW_LEDGER; source rights, organizational identity and real admission remain open.

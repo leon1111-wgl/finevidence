@@ -1,3 +1,4 @@
+import { stageReview, clearStagedReview } from "./review-ledger-panel.mjs";
 import { bindDraftImport } from "./fact-draft-import-panel.mjs";
 import { createFactDraft, exportFactDrafts } from "./fact-draft.mjs";
 import { reviewFactDrafts } from "./draft-review.mjs";
@@ -101,6 +102,7 @@ export function bindFactDraftPanel(getReport, selectPage) {
     $("draft-status").setAttribute("role", error ? "alert" : "status");
   };
   const render = () => {
+    clearStagedReview();
     $("draft-list").replaceChildren();
     $("draft-count").textContent = `已保存 ${drafts.length} / 20 条待核验草稿`;
     $("draft-download").disabled = !drafts.length;
@@ -221,7 +223,14 @@ export function bindFactDraftPanel(getReport, selectPage) {
         status("已删除草稿。");
         $("draft-count").focus();
       };
-      li.append(view, edit, remove);
+      const record = document.createElement("button");
+      record.type = "button"; record.className = "secondary";
+      record.textContent = `登记草稿 ${i + 1} 审核意见`;
+      record.onclick = () => {
+        try { stageReview(exportFactDrafts(getReport(), drafts).drafts[i], i + 1); }
+        catch { status("草稿与当前来源不一致，请重新登记。", true); }
+      };
+      li.append(view, edit, remove, record);
       $("draft-list").append(li);
     });
   };

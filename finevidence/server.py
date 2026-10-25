@@ -1,5 +1,6 @@
 """Loopback-only reviewer workbench. Not an authenticated public hosting server."""
-import argparse,json,os,secrets,threading
+import argparse,json,os,secrets,threading,sqlite3
+from .review_ledger import ReviewLedger, ReviewError
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from pathlib import Path
 from uuid import uuid4
@@ -14,6 +15,7 @@ ASSETS={'/':('index.html','text/html'),'/index.html':('index.html','text/html'),
  '/fact-draft.mjs':('fact-draft.mjs','text/javascript'),'/fact-draft-panel.mjs':('fact-draft-panel.mjs','text/javascript'),
  '/fact-draft-import.mjs':('fact-draft-import.mjs','text/javascript'),'/fact-draft-import-panel.mjs':('fact-draft-import-panel.mjs','text/javascript'),
  '/draft-review.mjs':('draft-review.mjs','text/javascript'),
+ '/review-ledger-panel.mjs':('review-ledger-panel.mjs','text/javascript'),
  '/file-name.mjs':('file-name.mjs','text/javascript'),
  '/source-catalog.mjs':('source-catalog.mjs','text/javascript'),
  '/pdf-preview.mjs':('pdf-preview.mjs','text/javascript'),'/pdf-preview-panel.mjs':('pdf-preview-panel.mjs','text/javascript'),
@@ -47,7 +49,8 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if not self._trusted(): return self._send(403,error_payload('ORIGIN_REJECTED'))
         path=self.path.split('?',1)[0]
-        if path in ('/api/session','/runtime.json'): return self._send(200,{'csrf':self.server.csrf,'runtime':'python_local','model_configured':bool(os.environ.get('FINEVIDENCE_API_KEY'))})
+        if path in ('/api/session','/runtime.json'): return self._send(200,{'csrf':self.server.csrf,'runtime':'python_local','model_configured':bool(os.environ.get('FINEVIDENCE_API_KEY')),'review_enabled':self.server.review_ledger is not None})
+        if path == '/api/reviews': return self._review(None)
         prefix = f'/assets/{self.server.asset_version}/'
         versioned = bool(self.server.asset_version) and path.startswith(prefix)
         if versioned: path = '/' + path[len(prefix):]
@@ -63,6 +66,8 @@ class Handler(BaseHTTPRequestHandler):
         csrf = self.headers.get('X-FinEvidence-CSRF', '')
         if not self._trusted() or not csrf.isascii() or not secrets.compare_digest(csrf,self.server.csrf):
             return self._send(403,error_payload('ORIGIN_REJECTED'))
+        if self.path in ('/api/reviews','/api/reviews/revoke'):
+            return self._review('record' if self.path=='/api/reviews' else 'revoke')
         if self.path!='/api/run': return self._send(404,error_payload('NOT_FOUND'))
         if self.headers.get('Content-Type','').split(';')[0]!='application/json' or self.headers.get('Transfer-Encoding'):
             return self._send(400,error_payload('INVALID_REQUEST'))
@@ -92,20 +97,66 @@ class Handler(BaseHTTPRequestHandler):
         except Exception: return self._send(500,error_payload('INTERNAL_ERROR'))
         finally: self.server.slots.release()
 
-def make_server(port=8765,root=ROOT):
+    def _review(self, action):
+        if self.server.review_ledger is None: return self._send(503,error_payload('REVIEW_DISABLED'))
+        auth=self.headers.get('Authorization','')
+        if not auth.isascii() or not secrets.compare_digest(auth,'Bearer '+self.server.review_token):
+            return self._send(401,error_payload('REVIEW_AUTH_REQUIRED'))
+        if not self.server.slots.acquire(blocking=False): return self._send(429,error_payload('SERVER_BUSY'))
+        try:
+            if action is None: return self._send(200,self.server.review_ledger.list())
+            if self.headers.get('Content-Type','').split(';')[0]!='application/json' or self.headers.get('Transfer-Encoding'):
+                return self._send(400,error_payload('INVALID_REQUEST'))
+            try: size=int(self.headers.get('Content-Length','-1'))
+            except ValueError: size=-1
+            if not 0<=size<=32768: return self._send(413,error_payload('REQUEST_LIMIT'))
+            raw=self.rfile.read(size)
+            if len(raw)!=size: return self._send(400,error_payload('INVALID_REQUEST'))
+            def unique(pairs):
+                obj={}
+                for k,v in pairs:
+                    if k in obj: raise ValueError()
+                    obj[k]=v
+                return obj
+            try: body=json.loads(raw.decode('utf-8'),object_pairs_hook=unique,parse_constant=lambda _: (_ for _ in ()).throw(ValueError()))
+            except (ValueError,UnicodeError,RecursionError): return self._send(400,error_payload('INVALID_REQUEST'))
+            return self._send(200,self.server.review_ledger.mutate(action,body))
+        except ReviewError as exc: return self._send(exc.status,error_payload(str(exc)))
+        except sqlite3.Error: return self._send(503,error_payload('REVIEW_STORE_UNAVAILABLE'))
+        except (OSError,TimeoutError): return self._send(408,error_payload('REQUEST_TIMEOUT'))
+        except Exception: return self._send(500,error_payload('INTERNAL_ERROR'))
+        finally: self.server.slots.release()
+
+def make_server(port=8765,root=ROOT,*,review_directory=None,reviewer=None,review_token=None):
+    ledger=None
+    if any(v is not None for v in (review_directory,reviewer,review_token)):
+        if (not review_directory or not reviewer or not isinstance(review_token,str)
+            or not 32<=len(review_token)<=256 or not review_token.isascii()
+            or any(ord(c)<33 or ord(c)>126 for c in review_token)):
+            raise ValueError('REVIEW_CONFIG_INVALID')
+        ledger=ReviewLedger(review_directory,reviewer)
     server=ThreadingHTTPServer(('127.0.0.1',port),Handler)
     try: server.workspace=Workspace(root)
     except Exception: server.server_close();raise
+    server.review_ledger=ledger;server.review_token=review_token
     server.root=Path(root);server.csrf=secrets.token_urlsafe(32);server.slots=threading.BoundedSemaphore(4)
     try: server.asset_version=json.loads((server.root/'web/manifest.json').read_text()).get('asset_version')
     except (OSError,ValueError): server.asset_version=None
     return server
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--port',type=int,default=8765);args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--port',type=int,default=8765)
+    parser.add_argument('--review-directory',type=Path)
+    parser.add_argument('--reviewer')
+    args=parser.parse_args()
     from scripts.build_web import build
     build()
-    server=make_server(args.port)
+    config={}
+    if args.review_directory or args.reviewer:
+        import getpass
+        token=os.environ.get('FINEVIDENCE_REVIEW_TOKEN') or getpass.getpass('Local review secret (32+ characters, keep in your password manager): ')
+        config={'review_directory':args.review_directory,'reviewer':args.reviewer,'review_token':token}
+    server=make_server(args.port,**config)
     print(f'FinEvidence: http://127.0.0.1:{server.server_address[1]} (loopback only)',flush=True)
     try: server.serve_forever()
     except KeyboardInterrupt: pass

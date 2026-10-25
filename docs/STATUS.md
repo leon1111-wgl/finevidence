@@ -2,6 +2,29 @@
 
 Updated 2026-10-25. This is an enterprise-oriented portfolio in progress, not a production deployment.
 
+## Optional local review observations, 2026-10-25
+
+A separate loopback-only credential now binds a configured local operator to
+persistent pending-draft snapshots, notes, timestamps and revocations. Explicit
+retries are idempotent; replays return current state. A private external SQLite
+store survives server restart, rejects unsafe directories and keeps original
+history. The browser offers selection, connection, query, export, withdrawal and
+retry; public Pages/default server provide instructions and keep writes disabled.
+
+New local HTTP/store18/18 and Chrome14/14 (1440/390); full Python207/JS213 and
+fixed synthetic8/8. Initial absent feature0/10 remains recorded. The complete
+review lifecycle is one synthetic sequence × two viewports,2/2; response-loss
+recovery4/4. See LOCAL_REVIEW_LEDGER and EVALUATION. Exact CI/public verification
+is a separate release gate. This is local configured-operator authentication,
+not organization identity or actual human labels. E2 rights/semantic approval/
+financial admission and final E7 remain open; original live7/8 and FE-013 unchanged.
+
+The independent6e9dd4e audit closed FE-024 in its observed null-DOM wait scope
+(12/12 original,8/8 extra controls). Prior natural navigation timeout remains
+unexplained; no new startup repair is claimed here. This release retained four
+first-run browser-suite failures (three static, one Python receiving); unchanged
+instrumented follow-ups passed, with root causes unresolved. See EVALUATION.
+
 ## Draft-group navigation and FE-024, 2026-10-25
 
 Dense review groups now show one expandable member list with keyboard row/return

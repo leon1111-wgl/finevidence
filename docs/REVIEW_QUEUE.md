@@ -1,5 +1,29 @@
 # Review queue
 
+## Next independent review: local observation ledger, 2026-10-25
+
+Verify explicit opt-in and same-origin/CSRF/bearer guards, server-bound label,
+private external storage, strict pending schema and absence of calculation
+admission. Reproduce restart, lost-response retry, conflicting IDs, concurrent
+revocations, lock failure and capacity behavior with synthetic identities.
+Confirm stale receipts do not supersede current revocation, browser disconnect
+ignores late reads, source/list changes clear selected snapshots and historical
+HTML remains usable. Public Pages must never accept/send a local review secret.
+The current release first static startup15/16, base initialization timeout and
+retry6/7 remain diagnostic evidence. Original-plan instrumented checks16/16,14/14,
+7/7 and cold-start12/12 per runtime did not explain the earlier failure. Merge
+this with the existing natural startup observation, not FE-024.
+Python draft receiving first25/26 also includes an unlocalized6000ms wait timeout
+in desktop discard-staged; instrumented unchanged-plan26/26 did not reproduce it.
+Keep that evidence separate until its failing phase can be identified.
+No human or organizational identity proof is asserted. FE-001/002/008 and FE-013
+remain open. Exact cases and limits: LOCAL_REVIEW_LEDGER.
+
+Previous independent6e9dd4e audit closed FE-024 for the reproduced null-DOM wait
+defect: original12/12 plus lifecycle8/8. Its initial public navigation6/8 and
+subsequent diagnostic2/2 are retained separately; their natural timeout cause is
+unknown. The historical handoff below is superseded only in that closure scope.
+
 ## FE-024 and group navigation handoff, 2026-10-25
 
 The independent d1f90d1 review verified draft preparation in its observed scope and

@@ -72,6 +72,8 @@ jobs:
       - run: pnpm install --frozen-lockfile --ignore-scripts
       - run: pnpm exec playwright install --with-deps chromium
       - run: python scripts/build_web.py
+      - name: Local review ledger with synthetic operators and durable restart
+        run: pnpm test:review-ledger
       - name: Startup wait predicates with delayed DOM and negative controls
         run: pnpm test:waits
       - name: Public static workbench workflow

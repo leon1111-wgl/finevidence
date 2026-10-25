@@ -112,3 +112,14 @@ No field completion, URL, matching hash or UI action establishes source rights
 or authenticated approval. Next implement/test actual identity, rights and
 review/revocation admission, using permitted sources and genuine human labels;
 keep E2 and final E7 open. See DRAFT_REVIEW for concrete workflow and limits.
+
+
+## E2 local observation accountability, 2026-10-25
+
+The opt-in local ledger binds a configured operator and separate secret to durable
+pending-draft observations and revocations. It implements an accountable local
+recording/recovery mechanism, not organization identity, source-rights clearance
+or semantic financial approval. No unverified real facts enter calculation.
+Next requires a permitted real-source set, genuine independent human labels and
+an admission/revocation contract consumed by calculations. Do not close E2 or
+final real-business E7 based on synthetic ledger checks. See LOCAL_REVIEW_LEDGER.
