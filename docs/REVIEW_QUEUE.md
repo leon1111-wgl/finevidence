@@ -1,5 +1,25 @@
 # Review queue
 
+## FE-026 / P3 correction handoff (2026-10-26 Taipei)
+
+Observed7aa283d: real422 validation refusals keep editing disabled and reuse the
+same invalid payload. New fixed plan12/18→18/18; correction tasks0/4→4/4.
+Review exact HTTP status+known code, preserved note/reason/draft, focused editable
+field, corrected submission with new ID, rejected-source invalidation and late
+disconnect. A prior unknown write outcome, malformed/unknown response, wrong status
+or post-write GET failure must keep the original ID/body and produce no duplicate.
+No automatic retry or financial admission. Independent closure is pending.
+Interview: why does a422 on a retry not establish that a preceding attempt failed?
+
+FE-025 independently closed on7aa283d in the reproduced copy-recovery scope.
+FE-027/P3, found by that review, remains open: normal ReviewLedger construction
+blocks in sqlite3.connect when reviews.sqlite is a private FIFO; directory instead
+raises IsADirectoryError. Reject nonregular paths with a stable error before SQLite,
+preserve original bytes, and retain valid/hot-store recovery regression. A SQLite
+busy timeout does not bound filesystem opening. FE-022 opaque filename API
+compatibility and FE-013/live7/8 remain open; no new paid call.
+
+
 ## FE-025 / P2 hot-journal follow-up, 2026-10-25
 
 Independent585a7e8 review reproduced valid record/revoke crash journals blocking

@@ -67,7 +67,7 @@ async function request(path, body) {
     signal: AbortSignal.any([active.signal, AbortSignal.timeout(8000)]),
   });
   const data = await r.json();
-  if (!r.ok) throw Error(data.status || 'REQUEST_FAILED');
+  if (!r.ok) throw Object.assign(Error(data?.status || 'REQUEST_FAILED'), {httpStatus:r.status});
   return data;
 }
 const dateLabel = value => value.slice(0, 19).replace('T', ' ') + ' UTC';
@@ -108,12 +108,20 @@ const messages={REVIEW_AUTH_REQUIRED:'本机凭据不正确，请重新连接。
 async function perform(task) {
   if (busy) return;
   const mine=epoch;
+  let correctionTarget;
   busy=true;active=new AbortController();controls();status('正在读取或写入本机记录…');
   try { await task(); }
   catch (error) {
     if (mine!==epoch) return;
-    status((messages[error.message] || '请求未完成。请检查本机服务。') + (pending ? ' 写入结果待确认；重试沿用同一编号，不会新增重复记录。' : ''),true);
-  } finally { if (mine===epoch) { busy=false;active=null;controls(); } }
+    correctionTarget=error.correctionTarget;
+    status((correctionTarget ? '内容校验未通过，未写入。输入已保留；请检查意见、撤回原因及草稿内容，修正后重新保存。（REVIEW_INVALID）' : messages[error.message] || '请求未完成。请检查本机服务。') + (pending ? ' 写入结果待确认；重试沿用同一编号，不会新增重复记录。' : ''),true);
+  } finally { if (mine===epoch) {
+    busy=false;active=null;controls();
+    if (correctionTarget) {
+      $(correctionTarget).focus();
+      $(correctionTarget).scrollIntoView({block:'center'});
+    }
+  } }
 }
 async function refresh(mine) {
   const result=await request('./api/reviews');
@@ -123,8 +131,21 @@ async function refresh(mine) {
 function mutate() {
   const mine=epoch;
   return perform(async()=>{
-    await request(pending.path,pending.body);
+    const operation=pending;
+    try {
+      await request(operation.path,operation.body);
+    } catch (error) {
+      if (mine!==epoch) return;
+      // Only this known validation response proves a first attempt did not write.
+      // A later refusal cannot resolve an earlier lost response or failed refresh.
+      if (!operation.uncertain && error.httpStatus===422 && error.message==='REVIEW_INVALID') {
+        pending=null;
+        error.correctionTarget=operation.path.endsWith('/revoke') ? 'ledger-reason' : 'ledger-note';
+      } else operation.uncertain=true;
+      throw error;
+    }
     if (mine!==epoch) return;
+    operation.uncertain=true; // Keep the ID if the following read fails.
     // Read current state, including any intervening revocation; not a stale retry receipt.
     await refresh(mine);
     if (mine!==epoch) return;

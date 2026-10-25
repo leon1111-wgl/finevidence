@@ -133,3 +133,8 @@ ledger defects; do not substitute more ledger UI for E2 rights and genuine revie
 with original-pair preservation and explicit directory selection. This corrects a
 local recovery gap, not real-data admission, automatic failover or production SLA.
 Independent review still owns closure; FE-022/026 remain next bounded defects.
+
+2026-10-26: FE-026 correctable validation refusals restore the local reviewer
+workflow while preserving uncertain-outcome retries. This is E4 reliability and
+usability, not completion of E2 authentic review/admission or the final real-business
+E7. Continue with open reproduced issues; do not add cosmetic feature counts.

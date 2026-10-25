@@ -34,3 +34,13 @@
 5. 只测成功：加载、空结果、无前一年、来源漂移、网络失败、模型拒绝／超时、草稿恢复和窄屏也必须验收。参考 [Anthropic Agent 评测](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)，评测任务与完整轨迹一起保留。
 
 最终选择：金融证据简报工作台。用户是研究助理／审查者；任务是准备可复核材料，不提供交易或授信决策。当前四份虚构来源独立标识，真实模型调用也不使数据变成真实财报。
+
+## 2026-10-26 access check (Taipei)
+
+The [DBS2025 CRO chapter](https://www.dbs.com/annualreports/2025/cro-statement.html)
+was accessible again: extraction/validation assists credit evaluation, and credit
+memos for staff review are described as progressing toward agentic workflows.
+DBS is a regional reference; this is workflow rationale, not a Hong Kong/Shenzhen
+hiring threshold, role level or an independent productivity benchmark. Correctable
+observations support that review workflow; our synthetic UI results do not prove
+the bank's performance or production use. No new hiring claim is made.

@@ -283,3 +283,50 @@ Local base14/14, retry7/7 and startup16/16 pass; restore first5/6 failed in
 repeated-failure-retry with STARTUP_LOAD_FAILED and a30000ms wait. One unchanged
 assertion/deadline diagnostic6/6 did not establish its cause. Keep both results;
 no natural-startup fix is claimed. Exact-release CI/public checks are separate.
+
+## Correct a rejected observation (FE-026, 2026-10-26 Taipei)
+
+A first POST returning HTTP422 with REVIEW_INVALID means the known server
+validator rejected the content before any write. The browser retains the selected
+draft, observation and text, unlocks editing, and focuses the note or revocation
+reason. Correct the text (for example an unsupported pasted control character),
+or correct/reselect the draft, then save explicitly with a new request ID. A
+source/list change still invalidates selection; a refusal cannot restore it.
+
+This exception is deliberately narrow. Malformed/unknown replies, other HTTP
+statuses, network/timeout failures and a failed refresh after POST retain the
+original immutable payload/ID for explicit retry. Once an earlier attempt has an
+unknown outcome, a later422 cannot prove that earlier attempt did not commit.
+Disconnect clears the browser state and ignores late replies; reconnect and query
+before submitting again. No automatic retry, server schema change or fact admission
+is added. Generic422 can concern draft content as well as note/reason: the server
+does not return a field-specific error, so the UI does not invent one.
+
+Implementation: request preserves HTTP status on errors; mutate distinguishes the
+POST refusal from the later GET and remembers uncertainty on the pending operation;
+perform restores controls before focus. The flag is client-only and never enters
+the request body. Existing transactional request IDs remain the deduplication
+authority. FE-022 filename API compatibility remains a separate open issue.
+
+```sh
+python3 scripts/build_web.py
+pnpm test:review-correction
+pnpm test:review-ledger
+```
+
+The new fixed plan uses one synthetic two-page PDF and synthetic local operators,
+with nine scenarios at1440/390px. Unmodified7aa283d passes12/18; six failures are
+four correction flows and two source-change edit controls. The fixed build
+passes18/18. Actual422 responses leave server records unchanged, correction creates
+or revokes exactly one record, and actual downloads retain pending/non-admission
+status. Five uncertainty controls preserve the identical payload and ID across
+retry; lost-response injection first commits on the real server. Unknown/malformed
+HTTP replies and refresh refusal are deliberate transport injection, not observed
+production outages. Disconnect/source-change controls cover late validation replies.
+
+Business-path denominator is two authored correction sequences × two viewports:
+0/4 before,4/4 after. It is not four independent financial examples. Known-defect
+engineering18/18, fixed synthetic financial8/8, hidden labels0 and real semantic
+labels0 remain separate. Original paid-model7/8/FE-013 remains unchanged; this
+cycle makes0 model calls and has0 unknown-usage calls. No time-saving or financial
+quality claim. Exact release CI, fresh clone and public checks are separate gates.

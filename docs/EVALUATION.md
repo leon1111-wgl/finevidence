@@ -340,3 +340,17 @@ and an unchanged-deadline diagnostic6/6 both remain recorded. Diagnostic success
 does not resolve the prior natural startup cause. Test-script preparation first
 used a wrong scratch directory and an unavailable optional formatter; no product
 assertions ran then. A readable dependency-free runner was subsequently executed.
+
+## FE-026 rejected-observation correction, 2026-10-26 Taipei
+
+At fixed7aa283d the two authored correction tasks (record note, revocation reason)
+× two widths complete0/4; the fixed local build completes4/4 with actual receipt
+downloads and unchanged stored history on rejection. New Chrome plan12/18→18/18
+includes fourteen separate engineering controls/viewport repetitions. One synthetic
+PDF, no holdout, no real semantic labels, zero model calls/tokens/unknown-usage calls.
+First failures are retained; no best-of-N selection. Full script reports per-case
+wall time including page/service setup, not analyst time or SLA. Four fixed local
+correction flows: p50=0.944981s, p95=1.286098s (n=4, nearest-rank).
+Original fixed financial8/8 and historical live-model7/8 have their original
+denominators; FE-013 stays open. Reproduce with pnpm test:review-correction; see
+LOCAL_REVIEW_LEDGER for refusal/uncertainty separation and limits.

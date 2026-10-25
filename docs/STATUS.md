@@ -1,5 +1,22 @@
 # Capability status
 
+## FE-026 editable validation refusal (2026-10-26 Taipei)
+
+First known HTTP422/REVIEW_INVALID now preserves input and restores keyboard
+editing for notes and revocation reasons. An ambiguous earlier attempt or failed
+post-write refresh keeps the original ID/payload, even if a later retry refuses.
+Local synthetic correction tasks0/4→4/4; fixed engineering plan12/18→18/18.
+Implementation awaits exact release verification and independent closure. No
+paid calls, financial approval or new semantic labels. FE-022/027, E2/finalE7 and
+historical live-model7/8/FE-013 remain open. See LOCAL_REVIEW_LEDGER.
+
+Independent7aa283d review closed FE-025 in the reproduced copy-recovery scope
+(original pair unchanged, recovery2/2 and browser4/4). It separately reproduced
+FE-027/P3: FIFO reviews.sqlite blocks normal startup; directory paths raise an
+unclassified error. The recovery command already refuses these types; normal
+startup remains open. No remote exploitation or data loss was observed.
+
+
 ## FE-025 hot-journal copy recovery, 2026-10-25
 
 Normal startup now identifies a required rollback without changing the source.
