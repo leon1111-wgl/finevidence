@@ -106,6 +106,12 @@ to127.0.0.1. Model configuration is independent and not needed for these steps.
   does not receive PDF bytes or repeat browser extraction/visual/semantic checks.
   Both draft and receipt remain financial_calculation_eligible=false, source
   verification not performed by server, licensing_status=not_verified.
+- At startup, reviews.sqlite must be an accessible regular file. A nonblocking
+  open and descriptor type check reject FIFO/directory/socket paths with
+  REVIEW_STORE_PATH before SQLite is opened. The CLI exits2 without a traceback
+  and preserves the existing path; choose a new private directory rather than
+  deleting or replacing it automatically. Symlink/privacy refusals keep their
+  existing REVIEW_PRIVATE_DIRECTORY code. See [path regression](REVIEW_STORE_PATH.md).
 - Plaintext local SQLite, OS permissions, no signatures/encryption or tamper-proof
   append-only claim against the machine owner. API records are immutable; local
   owners can change files. Stop the server before making a filesystem backup;

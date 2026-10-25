@@ -1,6 +1,22 @@
 # Review queue
 
-## FE-026 / P3 correction handoff (2026-10-26 Taipei)
+## FE-027 / P3 implementation ready for independent review (2026-10-26 Taipei)
+
+Observed c7f498e baseline: FIFO timeout, directory IsADirectoryError and socket
+OSError. Added nonblocking open + descriptor regular-file check and classified
+CLI refusal. Frozen6cases changed3/6→6/6; all3 expected refusals pass and3 regular
+controls remain accepted. Inspect REVIEW_STORE_PATH and both raw first-run reports.
+Verify original path preservation, no SQLite call for nonregular objects, valid
+v1 history/retry, hot-journal recovery, CLI exit2/no private diagnostic. Do not
+close until independently reproduced on the published SHA. Same-user path swaps
+and broader filesystem failures are outside the claim.
+
+FE-026 independently closed on c7f498e after additional12/12 correction sequences;
+FE-022 opaque filename compatibility remains open. Restore startup first5/6 and
+single diagnostic1/1 are retained separately, root cause unknown. No paid call;
+FE-013/live7/8, E2 and finalE7 remain open.
+
+## Historical FE-026 / P3 correction handoff (2026-10-26 Taipei)
 
 Observed7aa283d: real422 validation refusals keep editing disabled and reuse the
 same invalid payload. New fixed plan12/18→18/18; correction tasks0/4→4/4.

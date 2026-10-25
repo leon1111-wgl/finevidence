@@ -1,6 +1,19 @@
 # Capability status
 
-## FE-026 editable validation refusal (2026-10-26 Taipei)
+## FE-027 bounded local store startup (2026-10-26 Taipei)
+
+Nonregular reviews.sqlite paths now refuse before SQLite with REVIEW_STORE_PATH;
+the CLI preserves the path and exits2 without a traceback. Frozen known-defect
+matrix3/6→6/6 (refusals0/3→3/3, normal controls3/3 unchanged). Full local Python235/235
+passes. Exact release verification and independent closure remain pending.
+See REVIEW_STORE_PATH. No paid calls or new semantic labels.
+
+Independent c7f498e review closed FE-026 in its observed scope: additional
+correction sequences12/12 and real timeout behavior passed. A separate restore
+first-run5/6 remains recorded; one instrumented diagnostic passed1/1 with unknown
+root cause. FE-022, E2/finalE7 and historical real-model7/8/FE-013 remain open.
+
+## Historical FE-026 implementation handoff (2026-10-26 Taipei)
 
 First known HTTP422/REVIEW_INVALID now preserves input and restores keyboard
 editing for notes and revocation reasons. An ambiguous earlier attempt or failed

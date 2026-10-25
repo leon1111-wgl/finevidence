@@ -1,0 +1,67 @@
+{
+  "classification": "KNOWN_DEFECT_SYNTHETIC_DEVELOPMENT",
+  "code_sha": "c7f498eae4259611dc3c13c3cf2a1348d998d2ca",
+  "working_tree_dirty": true,
+  "total": 6,
+  "passed": 6,
+  "expected_refusal_total": 3,
+  "expected_refusal_passed": 3,
+  "regular_control_total": 3,
+  "regular_control_passed": 3,
+  "model_calls": 0,
+  "reported_tokens": 0,
+  "unknown_usage_calls": 0,
+  "hidden_cases": 0,
+  "real_quality_labels": 0,
+  "deadline_seconds": 3,
+  "rows": [
+    {
+      "name": "fifo",
+      "expected_refusal": true,
+      "outcome": "REVIEW_STORE_PATH",
+      "original_preserved": true,
+      "passed": true,
+      "seconds": 0.04277345794253051
+    },
+    {
+      "name": "directory",
+      "expected_refusal": true,
+      "outcome": "REVIEW_STORE_PATH",
+      "original_preserved": true,
+      "passed": true,
+      "seconds": 0.04630383290350437
+    },
+    {
+      "name": "socket",
+      "expected_refusal": true,
+      "outcome": "REVIEW_STORE_PATH",
+      "original_preserved": true,
+      "passed": true,
+      "seconds": 0.04444625019095838
+    },
+    {
+      "name": "new",
+      "expected_refusal": false,
+      "outcome": "accepted",
+      "original_preserved": true,
+      "passed": true,
+      "seconds": 0.04603450000286102
+    },
+    {
+      "name": "empty",
+      "expected_refusal": false,
+      "outcome": "accepted",
+      "original_preserved": true,
+      "passed": true,
+      "seconds": 0.04414766700938344
+    },
+    {
+      "name": "reopen",
+      "expected_refusal": false,
+      "outcome": "accepted",
+      "original_preserved": true,
+      "passed": true,
+      "seconds": 0.04353408305905759
+    }
+  ]
+}

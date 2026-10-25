@@ -354,3 +354,17 @@ correction flows: p50=0.944981s, p95=1.286098s (n=4, nearest-rank).
 Original fixed financial8/8 and historical live-model7/8 have their original
 denominators; FE-013 stays open. Reproduce with pnpm test:review-correction; see
 LOCAL_REVIEW_LEDGER for refusal/uncertainty separation and limits.
+
+
+## FE-027 local store path acceptance (2026-10-26)
+
+The fixed six-case known-defect synthetic plan changes3/6→6/6: expected refusal
+0/3→3/3 (FIFO/directory/socket); normal controls3/3 unchanged (new/empty/reopen).
+A3second subprocess deadline retains the original FIFO timeout and uncategorized
+errors. The fixed refusal timings include interpreter startup and are single
+observations, not an SLA. Reproduce with scripts/evaluate_review_path.py; raw
+reports and limitations are in [REVIEW_STORE_PATH](REVIEW_STORE_PATH.md).
+This maintenance increment prevents a local setup hang and makes recovery
+guidance actionable; it does not measure analyst productivity or financial quality.
+Fixed financial workflow and historical model evaluation remain separate; no paid
+call, hidden case or new human semantic label. FE-013/live7/8 remains open.

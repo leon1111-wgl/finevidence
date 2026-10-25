@@ -162,6 +162,8 @@ def main():
         print(str(error) + ': Keep the original database and journal together.', file=sys.stderr)
         if str(error) == 'REVIEW_RECOVERY_REQUIRED':
             print('Stop all writers, then use python3 -m finevidence.review_recovery --help; see docs/LOCAL_REVIEW_LEDGER.md.', file=sys.stderr)
+        elif str(error) == 'REVIEW_STORE_PATH':
+            print('reviews.sqlite must be an accessible regular file. Preserve the existing path; use a new private directory if needed.', file=sys.stderr)
         return 2
     print(f'FinEvidence: http://127.0.0.1:{server.server_address[1]} (loopback only)',flush=True)
     try: server.serve_forever()

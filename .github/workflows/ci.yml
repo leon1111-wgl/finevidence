@@ -48,6 +48,9 @@ jobs:
       - name: Known-defect store recovery evaluation (synthetic, no model)
         run: python scripts/evaluate_review_store.py --output /tmp/finevidence-store-evaluation.json
 
+      - name: Non-regular review store startup (synthetic, bounded subprocesses)
+        run: python scripts/evaluate_review_path.py --output /tmp/finevidence-path-evaluation.json
+
       - name: Interrupted review transaction recovery (synthetic, no model)
         run: python scripts/evaluate_review_recovery.py --output /tmp/finevidence-crash-recovery.json
 

@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import re
 import sqlite3
+from stat import S_ISREG
 from datetime import datetime, timezone
 from decimal import Decimal, localcontext
 from urllib.parse import urlsplit
@@ -148,9 +149,13 @@ class ReviewLedger:
             fail('REVIEW_RECOVERY_INCOMPLETE')
         self.path=directory/'reviews.sqlite'
         if self.path.is_symlink(): fail('REVIEW_PRIVATE_DIRECTORY')
-        fd=os.open(self.path,os.O_CREAT|os.O_RDWR|os.O_NOFOLLOW,0o600)
+        # Inspect the opened object, without waiting on a FIFO, before SQLite
+        # reopens the path. The private directory remains a trust boundary.
+        try: fd=os.open(self.path,os.O_CREAT|os.O_RDWR|os.O_NOFOLLOW|os.O_NONBLOCK,0o600)
+        except OSError: fail('REVIEW_STORE_PATH')
         try:
             stat=os.fstat(fd)
+            if not S_ISREG(stat.st_mode): fail('REVIEW_STORE_PATH')
             if stat.st_uid != os.getuid() or stat.st_mode & 0o077: fail('REVIEW_PRIVATE_DIRECTORY')
         finally: os.close(fd)
         # Inspect existing bytes in a read transaction. Never repair, claim or
