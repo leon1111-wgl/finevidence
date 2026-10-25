@@ -1,5 +1,30 @@
 # Review queue
 
+## FE-025 / P2 store recovery implementation (2026-10-25)
+
+Observed onbbb94fc: version1 unrelated/malformed databases received new tables;
+original probe3/5. ReviewLedger now validates the entire shipped v1 schema and owner
+in a read-only transaction. Empty-store initialization rechecks under BEGIN
+IMMEDIATE and commits DDL/owner/version together. Original probe5/5 locally,
+refusal+original bytes4/4; nine added engineering methods pass, including published
+v1 record/revocation/idempotency restart and initialization rollback.
+
+Await independent closure on the published SHA. Check extra/missing tables,
+columns, primary/not-null/check/foreign-key/collation changes, indexes/views/triggers,
+foreign application ID, owner loss/mismatch and non-database files. Preserve bytes
+on refusal and restart existing valid stores with no migration. Exact SQL shape is
+a deliberate closed-format contract, not arbitrary equivalent-schema support.
+See LOCAL_REVIEW_LEDGER for commands, first failures and limitations.
+
+FE-022/P3 remains open at the browser-draft → ledger API filename boundary; the
+older producer/receiver fix is retained. FE-026/P3 remains open: definite422 locks
+editing as if outcome were unknown. This cycle does not change those contracts.
+Prior ledger Chrome first13/14 remains with its unexplained6000ms narrow-screen
+revoke wait; diagnostic1/1 does not close it. FE-013/live-model7/8 and E2/finalE7
+remain unchanged. Interview: why do a schema version and CREATE IF NOT EXISTS fail
+to identify a store, and why can executescript defeat rollback expectations?
+
+
 ## Next independent review: local observation ledger, 2026-10-25
 
 Verify explicit opt-in and same-origin/CSRF/bearer guards, server-bound label,

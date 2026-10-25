@@ -133,3 +133,8 @@ pending-draft snapshots and appended revocations with transactional idempotency.
 Browser users explicitly select/send only a draft and note. No PDF bytes/model
 request is sent. Local identity, unsigned export and OS-permission limits are in
 LOCAL_REVIEW_LEDGER; source rights, organizational identity and real admission remain open.
+
+Local ledger recovery uses read-only v1 schema/owner validation before any write.
+New empty stores revalidate under a write lock and initialize transactionally;
+unknown/modified formats never receive automatic tables or owner assignments.
+Schema identity is not authenticity or financial verification. See LOCAL_REVIEW_LEDGER.

@@ -141,3 +141,58 @@ timed out at a waitForFunction (6000ms). That runner did not capture the failing
 wait location or a failure screenshot, so its phase/cause is unknown. One
 unchanged-assertion/deadline run with network/page-error instrumentation passed
 26/26; no repair is inferred and the first result is preserved.
+
+
+## Store recovery validation (FE-025, 2026-10-25)
+
+Reopening a store performs a read-only transaction first. Version1 alone does not
+identify this application: the complete closed v1 schema must match the shipped
+four tables, implicit indexes, columns, constraints and relationships. Unexpected
+objects (including triggers/views/indexes), other application IDs, missing owner,
+unknown versions or malformed database headers reject as REVIEW_STORE_SCHEMA.
+A different configured owner rejects as REVIEW_OWNER_MISMATCH. No table creation,
+owner claim, version rewrite or automatic repair occurs on these rejection paths.
+
+Published bbb94fc v1 stores remain supported without migration. The existing owner,
+records, revocations and request IDs remain intact, and reopening a supported
+store itself performs no database write. This is an exact application-owned schema
+contract, not a general SQLite schema-equivalence parser: manually reformatted or
+extended databases are unsupported even if their SQL could be equivalent. Copying
+the format cannot prove authenticity; the machine owner can still edit the file.
+This check does not certify financial semantics or validate every stored JSON row.
+
+Only an empty version0 database with application_id0 can initialize. After acquiring
+BEGIN IMMEDIATE, the initializer rechecks it, then creates all tables, owner and
+version in one transaction. An interrupted/failed initializer can therefore roll
+back instead of leaving partly created tables. execute is used for each statement;
+[Python executescript](https://docs.python.org/3.12/library/sqlite3.html#sqlite3.Connection.executescript)
+would commit a pending transaction first. Schema comparison includes all entries
+in the [SQLite schema table](https://www.sqlite.org/schematab.html), except rootpage
+locations, which are storage layout rather than schema identity. Documentation
+accessed2026-10-25; no external library is added.
+
+On refusal, stop the server and retain the original private directory. Verify you
+selected the intended backup and its original operator label. Do not delete tables,
+change user_version or remove the owner to force acceptance. There is no automatic
+repair tool. Starting a new store must use a separate new private directory.
+
+Reproduce the boundary and legacy restart contract:
+
+```sh
+python3 scripts/evaluate_review_store.py --output recovery.json
+python3 -m unittest discover -s tests -p test_review_store_schema.py -v
+python3 -m unittest discover -s tests -p test_review_ledger.py -v
+```
+
+The independent original five fixtures changed3/5 to5/5 locally: expected refusal
+with unchanged bytes2/4 to4/4; empty-store acceptance1/1 remains. Nine new engineering
+methods cover20 rejected-file variations, two empty-store paths, published-v1
+lifecycle/replay and injected initialization failure. All9 pass locally; the
+unmodified base had21 failed assertions and one uncaught malformed-file error.
+The first test harness reused failed subcase files; that harness failure was kept
+and isolation corrected before implementation. These are known-defect synthetic
+recovery cases, not hidden cases, real-data quality or saved analyst time.
+
+FE-022 (opaque filename API compatibility) and FE-026 (editing after a definite
+422) remain open. The prior independent browser13/14 and its diagnostic1/1 do not
+become14/14 retroactively; their intermittent wait location/cause is unresolved.

@@ -2,6 +2,22 @@
 
 Updated 2026-10-25. This is an enterprise-oriented portfolio in progress, not a production deployment.
 
+## FE-025 private store recovery, 2026-10-25
+
+Existing local review databases are now validated read-only before any schema or
+owner write. Complete published-v1 schema/owner compatibility is required;
+unknown/malformed stores reject without adoption. Empty-store DDL, owner and
+version initialize in one transaction after revalidation under the write lock.
+No migration or write is needed to reopen a valid published-v1 store.
+
+Original independent recovery cases3/5→5/5, with refusal/byte preservation2/4→4/4.
+Local full Python216, JS213, ledger Chrome14/14 and fixed synthetic8/8 pass. Exact
+remote CI, fresh-clone and public-site checks remain distinct release evidence.
+Implementation awaits independent closure. FE-022 filename API, FE-026 definite
+rejection correction, E2 rights/actual review/admission and finalE7 remain open.
+No UI change, paid call, real semantic label or competitor-performance claim.
+See LOCAL_REVIEW_LEDGER and EVALUATION; historical live-model7/8/FE-013 unchanged.
+
 ## Optional local review observations, 2026-10-25
 
 A separate loopback-only credential now binds a configured local operator to

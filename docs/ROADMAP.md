@@ -123,3 +123,8 @@ or semantic financial approval. No unverified real facts enter calculation.
 Next requires a permitted real-source set, genuine independent human labels and
 an admission/revocation contract consumed by calculations. Do not close E2 or
 final real-business E7 based on synthetic ledger checks. See LOCAL_REVIEW_LEDGER.
+
+2026-10-25: FE-025 known database-adoption defect is corrected with closed-schema,
+owner and atomic-initialization checks. Independent closure follows exact-release
+review. FE-022 API filename and FE-026 definite-rejection editing remain next local
+ledger defects; do not substitute more ledger UI for E2 rights and genuine review.

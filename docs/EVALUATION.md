@@ -282,3 +282,27 @@ timed out at a waitForFunction (6000ms). That runner did not capture the failing
 wait location or a failure screenshot, so its phase/cause is unknown. One
 unchanged-assertion/deadline run with network/page-error instrumentation passed
 26/26; no repair is inferred and the first result is preserved.
+
+
+## FE-025 store recovery, 2026-10-25
+
+Run `python3 scripts/evaluate_review_store.py --output recovery.json`. Five frozen
+synthetic fixtures from the independent bbb94fc audit run once, in order, with no
+model. Original3/5 becomes5/5 locally: reject while preserving original file bytes
+2/4→4/4, empty-store initialization1/1→1/1. Per-case timings are stored separately;
+they measure local initialization/checking only, not analyst time or a service SLO.
+This is known-defect engineering/development evidence, not an unseen business set.
+
+Nine new unittest methods also exercise20 refusal variations, valid published-v1
+restart/revocation/request replay, empty stores and an injected initialization
+failure. Full local Python216/216, JS213/213 and ledger Chrome14/14 pass. The ledger
+workflow is still one synthetic PDF repeated at two widths, lifecycle2/2 and lost
+record/revocation response retry4/4. Original independent13/14 remains a separate
+first run with an unexplained wait timeout; no repair of that timeout is claimed.
+
+The fixed workflow remains8/8, exact numbers/source completeness6/6 each, expected
+refusals2/2. Replay difference detection18/18 and valid controls10/10 remain separate.
+No new real financial labels or hidden cases; model calls/tokens/unknown usage0.
+Historical real-model7/8 and FE-013 remain open. FE-022 API filename and FE-026
+422 correction are intentionally unmodified. See LOCAL_REVIEW_LEDGER for the first
+failing test harness, the unmodified-base failures and the exact schema contract.

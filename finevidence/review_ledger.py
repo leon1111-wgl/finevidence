@@ -13,6 +13,16 @@ from .service import ROOT
 
 MAX_RECORDS = 100
 
+# Closed on-disk v1 format, including constraints and implicit indexes. Preserve
+# the shipped SQL so existing v1 stores need no migration or write on reopening.
+STORE_DDL = (
+    'CREATE TABLE owner (singleton INTEGER PRIMARY KEY CHECK(singleton=1), label TEXT NOT NULL)',
+    'CREATE TABLE records (id TEXT PRIMARY KEY, receipt TEXT NOT NULL)',
+    'CREATE TABLE revocations (id TEXT PRIMARY KEY REFERENCES records(id), event TEXT NOT NULL)',
+    'CREATE TABLE requests (id TEXT PRIMARY KEY, digest TEXT NOT NULL, response TEXT NOT NULL)',
+)
+SCHEMA_QUERY = 'SELECT type, name, tbl_name, sql FROM sqlite_master ORDER BY type, name'
+
 class ReviewError(ValueError):
     def __init__(self, code, status=422):
         super().__init__(code)
@@ -105,26 +115,64 @@ class ReviewLedger:
             stat=os.fstat(fd)
             if stat.st_uid != os.getuid() or stat.st_mode & 0o077: fail('REVIEW_PRIVATE_DIRECTORY')
         finally: os.close(fd)
+        # Inspect existing bytes in a read transaction. Never repair, claim or
+        # migrate a store merely because another application also uses version 1.
+        with self.connection(readonly=True) as db:
+            db.execute('BEGIN')
+            if self._validate_store(db):
+                return
+        # Only an empty, unclaimed v0 database can be initialized. Recheck under
+        # the write lock: a competing initializer may have completed meanwhile.
         with self.connection() as db:
-            version=db.execute('PRAGMA user_version').fetchone()[0]
-            tables=db.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
-            if version != 1 and (version != 0 or tables): fail('REVIEW_STORE_SCHEMA')
-            db.executescript('''
-                PRAGMA user_version=1;
-                CREATE TABLE IF NOT EXISTS owner (singleton INTEGER PRIMARY KEY CHECK(singleton=1), label TEXT NOT NULL);
-                CREATE TABLE IF NOT EXISTS records (id TEXT PRIMARY KEY, receipt TEXT NOT NULL);
-                CREATE TABLE IF NOT EXISTS revocations (id TEXT PRIMARY KEY REFERENCES records(id), event TEXT NOT NULL);
-                CREATE TABLE IF NOT EXISTS requests (id TEXT PRIMARY KEY, digest TEXT NOT NULL, response TEXT NOT NULL);
-            ''')
-            db.execute('INSERT OR IGNORE INTO owner VALUES (1,?)',(self.reviewer,))
-            if db.execute('SELECT label FROM owner WHERE singleton=1').fetchone()[0] != self.reviewer:
+            db.execute('BEGIN IMMEDIATE')
+            if not self._validate_store(db):
+                for statement in STORE_DDL:
+                    db.execute(statement)
+                db.execute('INSERT INTO owner VALUES (1,?)', (self.reviewer,))
+                db.execute('PRAGMA user_version=1')
+                # No executescript: it commits an existing transaction before
+                # running statements. DDL, owner and version must commit together.
+
+    def _validate_store(self, db):
+        try:
+            version = db.execute('PRAGMA user_version').fetchone()[0]
+            application = db.execute('PRAGMA application_id').fetchone()[0]
+            schema = db.execute(SCHEMA_QUERY).fetchall()
+            if application != 0:
+                fail('REVIEW_STORE_SCHEMA')
+            if version == 0 and not schema:
+                return False
+            if version != 1:
+                fail('REVIEW_STORE_SCHEMA')
+            reference = sqlite3.connect(':memory:')
+            try:
+                for statement in STORE_DDL:
+                    reference.execute(statement)
+                expected = reference.execute(SCHEMA_QUERY).fetchall()
+            finally:
+                reference.close()
+            if schema != expected:
+                fail('REVIEW_STORE_SCHEMA')
+            owners = db.execute('SELECT singleton, label FROM owner').fetchall()
+            if len(owners) != 1 or owners[0][0] != 1:
+                fail('REVIEW_STORE_SCHEMA')
+            if owners[0][1] != self.reviewer:
                 fail('REVIEW_OWNER_MISMATCH')
-    def connection(self):
+            return True
+        except sqlite3.DatabaseError as error:
+            # Malformed files have a stable refusal; busy/I/O errors retain
+            # their separate storage-failure meaning, rather than being adopted.
+            if getattr(error, 'sqlite_errorcode', 0) & 0xff in (sqlite3.SQLITE_CORRUPT, sqlite3.SQLITE_NOTADB):
+                fail('REVIEW_STORE_SCHEMA')
+            raise
+
+    def connection(self, readonly=False):
         # One connection per request; context below closes it, not just commits.
         from contextlib import contextmanager
         @contextmanager
         def connect():
-            db=sqlite3.connect(self.path,timeout=1)
+            target = self.path.absolute().as_uri() + '?mode=ro' if readonly else self.path
+            db = sqlite3.connect(target, timeout=1, uri=readonly)
             try:
                 db.execute('PRAGMA foreign_keys=ON')
                 with db: yield db
