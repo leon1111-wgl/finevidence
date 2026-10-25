@@ -48,6 +48,9 @@ jobs:
       - name: Known-defect store recovery evaluation (synthetic, no model)
         run: python scripts/evaluate_review_store.py --output /tmp/finevidence-store-evaluation.json
 
+      - name: Interrupted review transaction recovery (synthetic, no model)
+        run: python scripts/evaluate_review_recovery.py --output /tmp/finevidence-crash-recovery.json
+
       - name: Browser corpus and Python parity oracles
         run: python scripts/build_web.py
       - name: Replay corruption evaluation (synthetic, no model)
@@ -77,6 +80,8 @@ jobs:
       - run: python scripts/build_web.py
       - name: Local review ledger with synthetic operators and durable restart
         run: pnpm test:review-ledger
+      - name: Recovered review history and exports at desktop and narrow widths
+        run: pnpm test:review-recovery
       - name: Startup wait predicates with delayed DOM and negative controls
         run: pnpm test:waits
       - name: Public static workbench workflow

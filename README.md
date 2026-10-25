@@ -172,3 +172,8 @@ Implementation and documentation have been assisted by Codex. Automated tests sh
 PDF准备流程支持[本机原页版面对照](docs/PDF_PREVIEW.md)：选择物理页、放大核对表格、回到待核验草稿；不上传文件或自动批准财务事实。
 
 已导出的待核验草稿可在重新选择同一 PDF 后[接收并恢复到列表](docs/DRAFT_RECEIVING.md)：先核对指纹、页码、摘录和金额，再显式替换；错误不覆盖旧草稿。同一文件改名可接收，所有记录仍待审核，不进入正式计算。
+
+For a stopped private review store with a hot rollback journal, use the
+[copy-only recovery procedure](docs/LOCAL_REVIEW_LEDGER.md#recovering-a-hot-rollback-journal-fe-025-follow-up-2026-10-25).
+The original database/journal stay intact; recovery produces a separate checked
+directory for explicit selection. This is not automatic failover or financial approval.

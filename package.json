@@ -8,7 +8,8 @@
     "test:restore": "node tests/browser-restore.cjs",
     "test:browser-report": "node tests/browser-pdf-report.cjs",
     "test:waits": "node tests/browser-waits.cjs",
-    "test:review-ledger": "node tests/browser-review-ledger.cjs"
+    "test:review-ledger": "node tests/browser-review-ledger.cjs",
+    "test:review-recovery": "node tests/browser-review-recovery.cjs"
   },
   "devDependencies": {
     "playwright": "1.62.1",

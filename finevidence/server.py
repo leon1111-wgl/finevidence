@@ -156,9 +156,15 @@ def main():
         import getpass
         token=os.environ.get('FINEVIDENCE_REVIEW_TOKEN') or getpass.getpass('Local review secret (32+ characters, keep in your password manager): ')
         config={'review_directory':args.review_directory,'reviewer':args.reviewer,'review_token':token}
-    server=make_server(args.port,**config)
+    try: server=make_server(args.port,**config)
+    except ReviewError as error:
+        import sys
+        print(str(error) + ': Keep the original database and journal together.', file=sys.stderr)
+        if str(error) == 'REVIEW_RECOVERY_REQUIRED':
+            print('Stop all writers, then use python3 -m finevidence.review_recovery --help; see docs/LOCAL_REVIEW_LEDGER.md.', file=sys.stderr)
+        return 2
     print(f'FinEvidence: http://127.0.0.1:{server.server_address[1]} (loopback only)',flush=True)
     try: server.serve_forever()
     except KeyboardInterrupt: pass
     finally: server.server_close();server.workspace.close()
-if __name__=='__main__': main()
+if __name__=='__main__': raise SystemExit(main())

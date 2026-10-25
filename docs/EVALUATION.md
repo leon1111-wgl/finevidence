@@ -306,3 +306,37 @@ No new real financial labels or hidden cases; model calls/tokens/unknown usage0.
 Historical real-model7/8 and FE-013 remain open. FE-022 API filename and FE-026
 422 correction are intentionally unmodified. See LOCAL_REVIEW_LEDGER for the first
 failing test harness, the unmodified-base failures and the exact schema contract.
+
+
+## FE-025 hot-journal recovery, 2026-10-25
+
+`python3 scripts/evaluate_review_recovery.py --output crash-recovery.json` runs
+2 known synthetic transaction interruptions once, without models. The prior
+585a7e8 direct-start path restored0/2; the new explicit stopped-source → recovered
+copy → chosen-directory startup workflow passes2/2 locally, retaining original
+DB/journal bytes2/2, committed history2/2, old request replay2/2 and interrupted
+request retry2/2. This adds a recovery action; direct in-place startup deliberately
+still refuses. Do not compare these as identical command paths or automatic SLA.
+
+Initial recovery-only measurements were0.002948/0.004488 seconds (n=2, this host,
+not including synthetic fault creation or operator actions); full per-task times
+were0.093373/0.084512 seconds. Reproduction emits current per-case times. These are
+engineering known-defect/development cases, with0 hidden cases, real semantic
+labels, model calls/tokens and unknown-usage calls. Fixed workflow8/8 and historical
+live-model7/8 retain their own denominators; FE-013 remains open.
+
+The first11 added methods failed against the unchanged base (12 failed assertions,
+not12 independent business tasks). The first implementation passed11/11. Expanded
+15-method checks exposed an uncategorized malformed-journal error and startup
+traceback; after explicit refusal/guidance they passed. A separate unknown-hot-store
+case also passes;16 recovery methods and full Python232/232 pass locally. No test score is a financial or competitor-performance claim.
+Independent closure, E2 and final real-businessE7 remain pending.
+
+Restored-history Chrome acceptance is2 synthetic crash types ×2 widths=4/4,
+with2 actual receipt downloads per flow. It repeats synthetic records, not four
+real reports. Original ledger14/14, JS213/213, base14/14, retry7/7 and startup16/16
+pass locally. Restore first5/6 (repeated-failure-retry,30000ms,STARTUP_LOAD_FAILED)
+and an unchanged-deadline diagnostic6/6 both remain recorded. Diagnostic success
+does not resolve the prior natural startup cause. Test-script preparation first
+used a wrong scratch directory and an unavailable optional formatter; no product
+assertions ran then. A readable dependency-free runner was subsequently executed.

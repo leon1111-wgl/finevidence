@@ -98,6 +98,42 @@ def validate_draft(d):
     text(p['parser']['version'],40)
     return d
 
+def validate_store(db, reviewer):
+    try:
+        version = db.execute('PRAGMA user_version').fetchone()[0]
+        application = db.execute('PRAGMA application_id').fetchone()[0]
+        schema = db.execute(SCHEMA_QUERY).fetchall()
+        if application != 0:
+            fail('REVIEW_STORE_SCHEMA')
+        if version == 0 and not schema:
+            return False
+        if version != 1:
+            fail('REVIEW_STORE_SCHEMA')
+        reference = sqlite3.connect(':memory:')
+        try:
+            for statement in STORE_DDL:
+                reference.execute(statement)
+            expected = reference.execute(SCHEMA_QUERY).fetchall()
+        finally:
+            reference.close()
+        if schema != expected:
+            fail('REVIEW_STORE_SCHEMA')
+        owners = db.execute('SELECT singleton, label FROM owner').fetchall()
+        if len(owners) != 1 or owners[0][0] != 1:
+            fail('REVIEW_STORE_SCHEMA')
+        if owners[0][1] != reviewer:
+            fail('REVIEW_OWNER_MISMATCH')
+        return True
+    except sqlite3.DatabaseError as error:
+        if getattr(error, 'sqlite_errorcode', None) == sqlite3.SQLITE_READONLY_ROLLBACK:
+            fail('REVIEW_RECOVERY_REQUIRED')
+        # Malformed files have a stable refusal; busy/I/O errors retain
+        # their separate storage-failure meaning, rather than being adopted.
+        if getattr(error, 'sqlite_errorcode', 0) & 0xff in (sqlite3.SQLITE_CORRUPT, sqlite3.SQLITE_NOTADB):
+            fail('REVIEW_STORE_SCHEMA')
+        raise
+
+
 class ReviewLedger:
     def __init__(self, directory, reviewer):
         self.reviewer=text(reviewer,120)
@@ -108,6 +144,8 @@ class ReviewLedger:
         stat=directory.stat()
         if not directory.is_dir() or stat.st_uid != os.getuid() or stat.st_mode & 0o077:
             fail('REVIEW_PRIVATE_DIRECTORY')
+        if (directory/'RECOVERY_INCOMPLETE').exists():
+            fail('REVIEW_RECOVERY_INCOMPLETE')
         self.path=directory/'reviews.sqlite'
         if self.path.is_symlink(): fail('REVIEW_PRIVATE_DIRECTORY')
         fd=os.open(self.path,os.O_CREAT|os.O_RDWR|os.O_NOFOLLOW,0o600)
@@ -119,52 +157,19 @@ class ReviewLedger:
         # migrate a store merely because another application also uses version 1.
         with self.connection(readonly=True) as db:
             db.execute('BEGIN')
-            if self._validate_store(db):
+            if validate_store(db, self.reviewer):
                 return
         # Only an empty, unclaimed v0 database can be initialized. Recheck under
         # the write lock: a competing initializer may have completed meanwhile.
         with self.connection() as db:
             db.execute('BEGIN IMMEDIATE')
-            if not self._validate_store(db):
+            if not validate_store(db, self.reviewer):
                 for statement in STORE_DDL:
                     db.execute(statement)
                 db.execute('INSERT INTO owner VALUES (1,?)', (self.reviewer,))
                 db.execute('PRAGMA user_version=1')
                 # No executescript: it commits an existing transaction before
                 # running statements. DDL, owner and version must commit together.
-
-    def _validate_store(self, db):
-        try:
-            version = db.execute('PRAGMA user_version').fetchone()[0]
-            application = db.execute('PRAGMA application_id').fetchone()[0]
-            schema = db.execute(SCHEMA_QUERY).fetchall()
-            if application != 0:
-                fail('REVIEW_STORE_SCHEMA')
-            if version == 0 and not schema:
-                return False
-            if version != 1:
-                fail('REVIEW_STORE_SCHEMA')
-            reference = sqlite3.connect(':memory:')
-            try:
-                for statement in STORE_DDL:
-                    reference.execute(statement)
-                expected = reference.execute(SCHEMA_QUERY).fetchall()
-            finally:
-                reference.close()
-            if schema != expected:
-                fail('REVIEW_STORE_SCHEMA')
-            owners = db.execute('SELECT singleton, label FROM owner').fetchall()
-            if len(owners) != 1 or owners[0][0] != 1:
-                fail('REVIEW_STORE_SCHEMA')
-            if owners[0][1] != self.reviewer:
-                fail('REVIEW_OWNER_MISMATCH')
-            return True
-        except sqlite3.DatabaseError as error:
-            # Malformed files have a stable refusal; busy/I/O errors retain
-            # their separate storage-failure meaning, rather than being adopted.
-            if getattr(error, 'sqlite_errorcode', 0) & 0xff in (sqlite3.SQLITE_CORRUPT, sqlite3.SQLITE_NOTADB):
-                fail('REVIEW_STORE_SCHEMA')
-            raise
 
     def connection(self, readonly=False):
         # One connection per request; context below closes it, not just commits.

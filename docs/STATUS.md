@@ -1,5 +1,18 @@
 # Capability status
 
+## FE-025 hot-journal copy recovery, 2026-10-25
+
+Normal startup now identifies a required rollback without changing the source.
+An explicit stopped-store command recovers into a new private directory, validates
+format/owner/integrity and retains the original pair. An interrupted output is
+marked and cannot start. Record/revoke synthetic recovery tasks2/2 locally;
+Full local Python232/232 passes;16 new recovery methods exercise the recovery
+boundaries; JS213/213, original ledger14/14 and new restored-history Chrome4/4
+also pass locally. Restore first5/6 and diagnostic6/6 remain separate, with
+unresolved natural startup failure. No in-place repair or live backup claim. Independent closure remains pending.
+FE-022/026, E2 rights/actual review/admission, finalE7 and historical model7/8/FE-013
+remain open; no paid call or new real semantic label. See LOCAL_REVIEW_LEDGER.
+
 Updated 2026-10-25. This is an enterprise-oriented portfolio in progress, not a production deployment.
 
 ## FE-025 private store recovery, 2026-10-25

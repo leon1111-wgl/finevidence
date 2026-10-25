@@ -128,3 +128,8 @@ final real-business E7 based on synthetic ledger checks. See LOCAL_REVIEW_LEDGER
 owner and atomic-initialization checks. Independent closure follows exact-release
 review. FE-022 API filename and FE-026 definite-rejection editing remain next local
 ledger defects; do not substitute more ledger UI for E2 rights and genuine review.
+
+2026-10-25: FE-025 hot-journal recovery now has a stopped-source, copy-only workflow
+with original-pair preservation and explicit directory selection. This corrects a
+local recovery gap, not real-data admission, automatic failover or production SLA.
+Independent review still owns closure; FE-022/026 remain next bounded defects.

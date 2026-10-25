@@ -1,5 +1,22 @@
 # Review queue
 
+## FE-025 / P2 hot-journal follow-up, 2026-10-25
+
+Independent585a7e8 review reproduced valid record/revoke crash journals blocking
+startup0/2 (SQLITE_READONLY_ROLLBACK), while previousbbb94fc reopened2/2. Original
+adoption five cases and six added concurrency boundaries passed. Do not close the
+whole issue based only on schema refusal.
+
+The implementation adds typed startup guidance and offline copy recovery. Review
+original pair preservation, old receipts/revocations/request replay, repeated and
+concurrent recovery, source drift, wrong owner/unknown hot schema, symlink/FIFO,
+size/WAL/super-journal refusal and a kill during recovery. Explicitly switch to the
+validated new directory; never clear a journal or incomplete marker. No live backup
+or automatic overwrite. See LOCAL_REVIEW_LEDGER for commands and limits.
+
+Prior local restore first5/6 (STARTUP_LOAD_FAILED,30000ms wait) remains unexplained;
+current passing runs cannot replace it. FE-022/026 and E2/finalE7 remain open.
+
 ## FE-025 / P2 store recovery implementation (2026-10-25)
 
 Observed onbbb94fc: version1 unrelated/malformed databases received new tables;

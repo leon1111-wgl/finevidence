@@ -173,8 +173,8 @@ accessed2026-10-25; no external library is added.
 
 On refusal, stop the server and retain the original private directory. Verify you
 selected the intended backup and its original operator label. Do not delete tables,
-change user_version or remove the owner to force acceptance. There is no automatic
-repair tool. Starting a new store must use a separate new private directory.
+change user_version or remove the owner to force acceptance. There is no in-place automatic repair. Use the copy-only procedure below for a
+stopped store; starting a blank store must use a separate new private directory.
 
 Reproduce the boundary and legacy restart contract:
 
@@ -196,3 +196,90 @@ recovery cases, not hidden cases, real-data quality or saved analyst time.
 FE-022 (opaque filename API compatibility) and FE-026 (editing after a definite
 422) remain open. The prior independent browser13/14 and its diagnostic1/1 do not
 become14/14 retroactively; their intermittent wait location/cause is unresolved.
+
+
+## Recovering a hot rollback journal (FE-025 follow-up, 2026-10-25)
+
+A process killed during an actual record/revocation transaction can leave a hot
+`reviews.sqlite-journal`. SQLite must write rollback pages before it can read
+that database. The normal read-only validation therefore reports
+`REVIEW_RECOVERY_REQUIRED` instead of silently changing the original. Keep both
+files together. Do not delete the journal, clear the store or change its owner.
+
+The supported recovery workflow is explicitly offline and copy-only:
+
+1. Stop **all** servers and other processes using the source directory. Preserve
+   an offline backup of the whole source directory, including journal companions.
+2. Create a separate private parent directory outside this repository, owned by
+   the current user (mode0700). Keep the original configured reviewer label.
+3. Run the command below. `--stopped` is an operator acknowledgement, not proof
+   that a different/older program has stopped. Recovery never opens a SQLite
+   connection against the source and never overwrites a chosen destination.
+4. Read the returned `directory`, then explicitly start the local server with
+   that directory and the original reviewer. Check records and revoked state;
+   retry an interrupted operation with its original request ID. Keep the original
+   backup until this verification is complete. Use only one chosen restored copy
+   as the working store; there is no merge of independently modified copies.
+
+```sh
+mkdir -m 700 ../private-review-recovery
+python3 -m finevidence.review_recovery \
+  --source ../private-review-store \
+  --output-parent ../private-review-recovery \
+  --reviewer 'Your original local operator label' --stopped
+# Use the exact newly generated directory returned above:
+python3 -m finevidence.server --review-directory <returned-directory> \
+  --reviewer 'Your original local operator label'
+```
+
+The command makes a uniquely named mode0700 directory and mode0600 file copies,
+lets SQLite recover **only those copies**, then checks the closed-v1 schema,
+original owner, SQLite integrity and foreign keys. The source pair's bytes and
+file identities are compared before/after; observed changes refuse publication.
+These checks are not a live backup protocol or a lock against noncooperating
+writers. The stop requirement is mandatory. Concurrent recoveries produce separate
+copies without replacing each other. No source file is created, removed or changed.
+
+Each source file is bounded to64MiB and must be a private, singly linked regular
+file, not a symlink/FIFO. WAL mode/companions, super-journal trailers (attached
+transactions), malformed/non-hot journal headers and unsupported schema refuse;
+this is not a general damaged-database salvage tool. SQLite VM checking has a
+5-second progress deadline; filesystem I/O is not a hard wall-clock guarantee.
+SQLite verifies rollback under its normal single-database crash assumptions;
+checksums/schema do not establish authenticity or certify deliberately altered
+journal contents. No semantic or organization approval is added.
+
+`RECOVERY_INCOMPLETE` marks a staging directory until validation and source checks
+finish. A caught error removes only that newly created staging copy. If recovery
+itself is killed, the incomplete directory may remain; the server refuses it as
+`REVIEW_RECOVERY_INCOMPLETE`. Leave the original pair intact and rerun into another
+unique directory. Never remove the marker to force admission. A complete output
+also contains `recovery.json` with source/recovered hashes and the new location;
+no bearer secret or full receipt is printed in the CLI report.
+
+Mechanism: [SQLite hot journals](https://www.sqlite.org/lockingv3.html#hot_journals)
+and [SQLITE_READONLY_ROLLBACK](https://www.sqlite.org/rescode.html#readonly_rollback).
+The [SQLite pager](https://github.com/sqlite/sqlite/blob/master/src/pager.c)
+describes the super-journal trailer. Official sources accessed2026-10-25.
+
+```sh
+python3 -m unittest discover -s tests -p test_review_recovery.py -v
+python3 scripts/evaluate_review_recovery.py --output crash-recovery.json
+```
+
+The evaluator runs two synthetic tasks once: actual record/revoke interrupted
+beforeCOMMIT after forcing page spill with connection-local cache_size=1. After
+copy recovery, committed history (including prior revocation), request replay,
+retry of the interrupted operation and actual server construction must pass;
+original DB/journal hashes must remain unchanged. Old direct startup0/2 remains
+an observation: this change adds a deliberate recovery step, not transparent
+in-place startup. This is known-defect recovery evidence, not real outage frequency,
+financial accuracy or saved analyst time. Independent closure remains pending.
+
+Release validation also runs `pnpm test:review-recovery`: two crash types × two
+viewports=4 checks of restored record/revocation states, keyboard connection and
+actual receipt downloads. Local4/4, original ledger14/14 and JS213/213 pass.
+Local base14/14, retry7/7 and startup16/16 pass; restore first5/6 failed in
+repeated-failure-retry with STARTUP_LOAD_FAILED and a30000ms wait. One unchanged
+assertion/deadline diagnostic6/6 did not establish its cause. Keep both results;
+no natural-startup fix is claimed. Exact-release CI/public checks are separate.
