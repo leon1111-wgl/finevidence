@@ -368,3 +368,23 @@ This maintenance increment prevents a local setup hang and makes recovery
 guidance actionable; it does not measure analyst productivity or financial quality.
 Fixed financial workflow and historical model evaluation remain separate; no paid
 call, hidden case or new human semantic label. FE-013/live7/8 remains open.
+
+## FE-022 local review filename handoff (2026-10-26)
+
+One synthetic PDF, three previously failing filenames (LF/TAB/backslash), two
+viewports: successful save and exact downloaded receipt changes0/6→6/6. The
+fixed original ten-case browser plan changes4/10→10/10; ordinary save2/2 and
+invalid-note rejection/editability2/2 stay intact. Known-defect development
+regression, not a hidden set, six independent financial reports or analyst savings.
+Run pnpm test:review-filename; per-case first results, HTTP outcomes and screenshots
+are retained. Six fixed full-case observations: p50=0.750697s, p95=0.757312s,
+n=6, nearest-rank; local Chrome setup/workflow/download time, not a service SLO.
+
+The shared29-case name fixture and two Python methods are engineering checks,
+separate from those six user flows. Initial methods fail with12 assertions on the
+unmodified validator; fixed methods pass. Full Python237 and JS242 pass locally.
+The unchanged financial baseline is8/8, numeric/source6/6 each, expected refusal2/2;
+n=8 p50=0.000505s/p95=0.000617s in-process. No model calls/tokens/unknown-usage
+calls, hidden labels or new real semantic labels. Historical real-model7/8 and
+FE-013 remain; prior natural startup first failures are not erased by this fix.
+See LOCAL_REVIEW_LEDGER for raw-name identity and path boundaries.

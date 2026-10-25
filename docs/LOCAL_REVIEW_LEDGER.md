@@ -336,3 +336,37 @@ engineering18/18, fixed synthetic financial8/8, hidden labels0 and real semantic
 labels0 remain separate. Original paid-model7/8/FE-013 remains unchanged; this
 cycle makes0 model calls and has0 unknown-usage calls. No time-saving or financial
 quality claim. Exact release CI, fresh clone and public checks are separate gates.
+
+## Opaque source filenames at the API boundary (2026-10-26 Taipei)
+
+`validate_draft` calls `source_file_name` only for provenance.file_name. The shared
+contract matches `web/file-name.mjs`: nonempty string, at most512 UTF-16 code
+units, no NUL or isolated surrogate. LF, TAB, other controls, directional marks,
+slashes, backslashes and whitespace are opaque source metadata. No trimming,
+Unicode normalization, basename extraction or escaping changes the raw snapshot.
+UI-only escaping remains in displayFileName and safe DOM text rendering. This
+contract does not make those values legal filesystem paths; no path is constructed
+from them. Actual database paths retain their separate private/regular-file checks.
+Other draft fields, notes, bearer/CSRF checks and pending-only status are unchanged.
+
+The mismatch came from applying generic single-line text and path rules after the
+browser had already accepted/exported an opaque name. Same-ID/different-name
+submissions still conflict, even when names look similar. SQLite stores the raw
+name inside canonical JSON; reopening and replay preserve it without a migration.
+No receipt is promoted to a verified fact or permitted financial input.
+
+Reproduce after building the web assets:
+
+```sh
+python3 -m unittest discover -s tests -p test_review_ledger.py -k filename -v
+node --test tests/source-file-name.test.mjs
+pnpm test:review-filename
+```
+
+The shared synthetic fixture has19 valid names and10 invalid controls. Two Python
+methods exercise all29 HTTP outcomes, valid receipt/replay/restart equality,
+no filename-derived files, and four identity distinctions. The Chrome plan is the
+independent audit's five scenarios at1440/390px, with actual draft/receipt downloads.
+Baseline41ae1c9 yields4/10; the fixed local build yields10/10. All six known special
+name failures are retained, not replaced with renamed files. No new visual layout
+or finalE7 completion is claimed; public Pages remains read-only for this feature.

@@ -1,5 +1,20 @@
 # Review queue
 
+## FE-022 / P3 API compatibility ready for independent review (2026-10-26 Taipei)
+
+Baseline41ae1c9 rejects six browser-produced special-name submissions with422.
+The fixed ten-case Chrome plan passes10/10 locally, including downloaded receipt
+snapshot equality; known name tasks0/6→6/6, ordinary/refusal controls4/4 unchanged.
+Review raw LF versus literal backslash-n, Unicode normalization distinctions,
+512 UTF-16 units including astral characters, NUL/lone-surrogate refusal, exact
+restart/retry identity and the absence of filename-derived filesystem access.
+Shared29-case fixture covers both validators. Do not close until independently
+reproduced on the published SHA; do not weaken note/path/auth/schema checks.
+
+FE-027 independently closed on41ae1c9 (13/13 reproduced constructor/CLI/control
+checks). Natural startup transport failures remain unresolved and retain first
+failures. FE-013/live7/8, E2 and finalE7 remain open.
+
 ## FE-027 / P3 implementation ready for independent review (2026-10-26 Taipei)
 
 Observed c7f498e baseline: FIFO timeout, directory IsADirectoryError and socket

@@ -1,5 +1,21 @@
 # Capability status
 
+## FE-022 opaque source names reach local observations (2026-10-26 Taipei)
+
+The ledger API now accepts the browser's bounded opaque Unicode filename contract,
+preserves exact provenance in receipts/restart/idempotent replay, and never uses
+that value as a filesystem path. Known LF/TAB/backslash save flows at two widths
+change0/6→6/6; the unchanged ten-case plan changes4/10→10/10, including ordinary
+names and definite invalid-note refusal. Python237/237 and JS242/242 pass locally;
+release CI/Pages verification and independent closure remain separate gates.
+See LOCAL_REVIEW_LEDGER and EVALUATION. Public Pages still has no ledger write API.
+
+Independent41ae1c9 review closed FE-027 in the reproduced13/13 scope. It retained
+natural startup failures, including an unexpected versioned pdf-preview-panel
+ERR_SOCKET_NOT_CONNECTED in a Python restore case. This filename fix does not
+resolve that observation. E2 rights/semantic approval, finalE7 and historical
+live-model7/8/FE-013 remain open. No model call or new human semantic label.
+
 ## FE-027 bounded local store startup (2026-10-26 Taipei)
 
 Nonregular reviews.sqlite paths now refuse before SQLite with REVIEW_STORE_PATH;

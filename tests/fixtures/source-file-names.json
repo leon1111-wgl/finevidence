@@ -1,0 +1,150 @@
+{
+  "classification": "SYNTHETIC_ENGINEERING",
+  "cases": [
+    {
+      "id": "ordinary",
+      "value": "report.pdf",
+      "accepted": true
+    },
+    {
+      "id": "LF",
+      "value": "report\n2024.pdf",
+      "accepted": true
+    },
+    {
+      "id": "TAB",
+      "value": "report\t2024.pdf",
+      "accepted": true
+    },
+    {
+      "id": "CR",
+      "value": "report\r2024.pdf",
+      "accepted": true
+    },
+    {
+      "id": "escape",
+      "value": "report\u001b.pdf",
+      "accepted": true
+    },
+    {
+      "id": "C1",
+      "value": "report\u0085.pdf",
+      "accepted": true
+    },
+    {
+      "id": "bidi",
+      "value": "report\u202e.pdf",
+      "accepted": true
+    },
+    {
+      "id": "literal-backslash",
+      "value": "report\\n2024.pdf",
+      "accepted": true
+    },
+    {
+      "id": "slash",
+      "value": "folder/report.pdf",
+      "accepted": true
+    },
+    {
+      "id": "dot",
+      "value": ".",
+      "accepted": true
+    },
+    {
+      "id": "dotdot",
+      "value": "..",
+      "accepted": true
+    },
+    {
+      "id": "space",
+      "value": " ",
+      "accepted": true
+    },
+    {
+      "id": "html",
+      "value": "<img src=x onerror=alert(1)>.pdf",
+      "accepted": true
+    },
+    {
+      "id": "emoji",
+      "value": "\u6b63\u5e38\ud83d\udcc4\u62a5\u544a.pdf",
+      "accepted": true
+    },
+    {
+      "id": "composed",
+      "value": "\u00e9.pdf",
+      "accepted": true
+    },
+    {
+      "id": "decomposed",
+      "value": "e\u0301.pdf",
+      "accepted": true
+    },
+    {
+      "id": "ascii-limit",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "accepted": true
+    },
+    {
+      "id": "astral-limit",
+      "value": "\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4",
+      "accepted": true
+    },
+    {
+      "id": "mixed-limit",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\ud83d\udcc4",
+      "accepted": true
+    },
+    {
+      "id": "empty",
+      "value": "",
+      "accepted": false
+    },
+    {
+      "id": "null",
+      "value": null,
+      "accepted": false
+    },
+    {
+      "id": "number",
+      "value": 42,
+      "accepted": false
+    },
+    {
+      "id": "array",
+      "value": [],
+      "accepted": false
+    },
+    {
+      "id": "NUL",
+      "value": "a\u0000.pdf",
+      "accepted": false
+    },
+    {
+      "id": "high-surrogate",
+      "value": "a\ud800.pdf",
+      "accepted": false
+    },
+    {
+      "id": "low-surrogate",
+      "value": "a\udfff.pdf",
+      "accepted": false
+    },
+    {
+      "id": "ascii-over",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "accepted": false
+    },
+    {
+      "id": "astral-over",
+      "value": "\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4\ud83d\udcc4",
+      "accepted": false
+    },
+    {
+      "id": "mixed-over",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\ud83d\udcc4",
+      "accepted": false
+    }
+  ]
+}

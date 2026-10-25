@@ -39,6 +39,14 @@ def text(value, maximum, multiline=False):
         fail()
     return value
 
+def source_file_name(value):
+    """Match web/file-name.mjs: opaque metadata, never a filesystem path."""
+    if (not isinstance(value, str) or not value or
+        len(value.encode('utf-16-le', 'surrogatepass')) // 2 > 512 or
+        re.search(r'[\x00\ud800-\udfff]', value)):
+        fail()
+    return value
+
 def keys(value, expected):
     if not isinstance(value, dict) or set(value) != set(expected.split()): fail()
 
@@ -84,8 +92,7 @@ def validate_draft(d):
         except ValueError: fail()
     p=d['provenance']
     keys(p,'file_name file_sha256 page page_kind excerpt excerpt_start excerpt_end offset_unit parser')
-    text(p['file_name'],512)
-    if '/' in p['file_name'] or '\\' in p['file_name'] or p['file_name'] in ('.','..'): fail()
+    source_file_name(p['file_name'])
     if not isinstance(p['file_sha256'],str) or not re.fullmatch('[a-f0-9]{64}',p['file_sha256']): fail()
     if type(p['page']) is not int or not 1<=p['page']<=120 or p['page_kind']!='pdf_physical': fail()
     quote=text(p['excerpt'],4000,True)

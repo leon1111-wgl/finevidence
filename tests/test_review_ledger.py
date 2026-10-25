@@ -47,6 +47,37 @@ class ReviewLedgerTests(unittest.TestCase):
         return r.status,json.loads(raw)
     def create(self,**kw):
         return dict(request_id=str(uuid4()),draft=draft(),observation='needs_changes',note='Check the period',**kw)
+    def test_opaque_filename_contract_and_persistent_roundtrip(self):
+        cases=json.loads((Path(__file__).parent/'fixtures/source-file-names.json').read_text())['cases']
+        receipts=[]
+        for case in cases:
+            with self.subTest(case=case['id']):
+                body=self.create();body['draft']['provenance']['file_name']=case['value']
+                code,result=self.req(body)
+                self.assertEqual(code,200 if case['accepted'] else 422)
+                if case['accepted']:
+                    self.assertEqual(result['draft'],body['draft'])
+                    self.assertFalse(result['financial_calculation_eligible'])
+                    self.assertEqual(self.req(body),(code,result))
+                    receipts.append(result)
+                else:
+                    self.assertEqual(result['status'],'REVIEW_INVALID')
+        self.stop();self.start()
+        self.assertEqual(sorted(self.req()[1]['records'],key=lambda r:r['record_id']),
+                         sorted(receipts,key=lambda r:r['record_id']))
+        # Opaque path-like names create no path or file other than the store.
+        self.assertEqual({p.name for p in self.directory.iterdir()},{'reviews.sqlite'})
+
+    def test_filename_identity_is_not_trimmed_normalized_or_escaped(self):
+        for left,right in [('report\n.pdf','report\\n.pdf'),(' report.pdf','report.pdf'),
+                           ('é.pdf','e\u0301.pdf'),('folder/report.pdf','report.pdf')]:
+            with self.subTest(names=(left,right)):
+                body=self.create();body['draft']['provenance']['file_name']=left
+                self.assertEqual(self.req(body)[0],200)
+                changed=copy.deepcopy(body);changed['draft']['provenance']['file_name']=right
+                self.assertEqual(self.req(changed)[0],409)
+                self.assertEqual(self.req(body)[1]['draft']['provenance']['file_name'],left)
+
     def test_disabled_default_and_no_secret_in_runtime(self):
         status,body=self.req(path='/runtime.json')
         self.assertTrue(body['review_enabled']);self.assertNotIn(TOKEN,json.dumps(body))

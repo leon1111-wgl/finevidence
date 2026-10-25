@@ -104,7 +104,8 @@ review flags or exports. PDF_PREVIEW documents resource/fidelity limitations.
 `fact-draft-import` bounds and reconstructs unsigned incoming JSON against the selected local preflight; its panel owns staged reads and explicit list replacement. Existing source/numeric validators remain authoritative. Failure/cancel/source change never admits or silently applies rows. See DRAFT_RECEIVING; no hosted authorization or financial approval is introduced.
 
 Source filenames use one opaque Unicode-string contract across PDF preflight,
-unverified draft production and draft receiving (`web/file-name.mjs`). Raw names
+unverified draft production, draft receiving (`web/file-name.mjs`) and the local
+observation API (`review_ledger.source_file_name`). Raw names
 remain in provenance; escaped names are only a UI representation, never a file
 path. Byte digest plus source reconstruction still govern handoff compatibility.
 See DRAFT_RECEIVING for FE-022, limits and version-1 compatibility evidence.

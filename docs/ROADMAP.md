@@ -138,3 +138,9 @@ Independent review still owns closure; FE-022/026 remain next bounded defects.
 workflow while preserving uncertain-outcome retries. This is E4 reliability and
 usability, not completion of E2 authentic review/admission or the final real-business
 E7. Continue with open reproduced issues; do not add cosmetic feature counts.
+
+2026-10-26: FE-022 filename metadata now reaches the local observation ledger with
+exact identity, bounded Unicode validation and real browser receipt checks.
+Independent review owns closure. E2 source rights, genuine human semantic review
+and calculation admission remain the next major work; startup transport failures
+and final real-businessE7 remain open. No cosmetic feature count or paid rerun.
