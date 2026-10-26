@@ -2,7 +2,9 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const {randomUUID} = require('node:crypto');
 const errorCode = error => error?.name === 'TimeoutError' ? 'TIMEOUT' : error?.code === 'ERR_ASSERTION' ? 'ASSERTION_FAILED' : 'HARNESS_ERROR';
-const known = new Set(['runtime.json','manifest.json','bundle.json','app.mjs','bootstrap.mjs','workbench.mjs','engine.mjs','state.mjs','handoff.mjs','replay.mjs','pdf-panel.mjs','pdf-intake.mjs','pdf-preview-panel.mjs','pdf-preview.mjs','fact-draft-panel.mjs','review-ledger-panel.mjs','vendor/pdf.min.mjs','vendor/pdf.worker.min.mjs','api/reviews','api/reviews/revoke']);
+// Fixed safe names, never arbitrary request paths. The module coverage test
+// requires an explicit privacy review when a shipped first-party module is added.
+const known = new Set(['runtime.json','manifest.json','bundle.json','app.mjs','bootstrap.mjs','workbench.mjs','engine.mjs','state.mjs','handoff.mjs','replay.mjs','pdf-panel.mjs','pdf-intake.mjs','pdf-preview-panel.mjs','pdf-preview.mjs','fact-draft-panel.mjs','review-ledger-panel.mjs','source-catalog.mjs','file-name.mjs','fact-draft.mjs','draft-review.mjs','fact-draft-import.mjs','fact-draft-import-panel.mjs','vendor/pdf.min.mjs','vendor/pdf.worker.min.mjs','api/reviews','api/reviews/revoke']);
 const failureCodes = new Set(['net::ERR_FAILED','net::ERR_ABORTED','net::ERR_SOCKET_NOT_CONNECTED','net::ERR_CONNECTION_REFUSED','net::ERR_CONNECTION_RESET','net::ERR_CONNECTION_CLOSED','net::ERR_TIMED_OUT','net::ERR_INTERNET_DISCONNECTED']);
 function observe(page, origin) {
   const resources=[];let pageErrors=0;
@@ -20,16 +22,24 @@ function observe(page, origin) {
     let timer;
     try {
       const readiness=await Promise.race([page.evaluate(()=>{
+        const visible=selector=>{
+          const node=document.querySelector(selector);
+          if(!node || node.closest('[hidden]') || !node.getClientRects().length)return false;
+          const visibility=getComputedStyle(node).visibility;
+          return visibility!=='hidden' && visibility!=='collapse';
+        };
         const run=document.querySelector('#run'),ledger=document.querySelector('#review-ledger');
         return {run_present:Boolean(run),run_disabled:run?run.disabled:null,
-          startup_retry_visible:document.querySelector('#retry')?.hidden===false,
+          startup_panel_visible:visible('#startup'),
+          startup_reload_visible:visible('#startup-reload'),
+          data_retry_visible:visible('#retry'),
           ledger_busy:ledger?.getAttribute('aria-busy')==='true',
-          ledger_retry_visible:document.querySelector('#ledger-retry')?.hidden===false,
+          ledger_retry_visible:visible('#ledger-retry'),
           ledger_alert:document.querySelector('#ledger-status')?.getAttribute('role')==='alert',
           records:Math.min(document.querySelectorAll('#ledger-records li').length,1000)};
       }),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error()),1500);})]);
-      return {readiness,resources:[...resources],page_errors:pageErrors};
-    }catch{return {readiness:null,resources:[...resources],page_errors:pageErrors,unavailable:true};}
+      return {schema_version:2,readiness,resources:[...resources],page_errors:pageErrors};
+    }catch{return {schema_version:2,readiness:null,resources:[...resources],page_errors:pageErrors,unavailable:true};}
     finally{clearTimeout(timer);}
   };
 }
@@ -43,7 +53,7 @@ function reporter(out, rows) {
   const runId=randomUUID();
   return async (finished=false,suiteError=null)=>{
     const target=path.join(out,'result.json');
-    await fs.writeFile(target+'.tmp',JSON.stringify({schema_version:1,run_id:runId,classification:'SYNTHETIC_DEVELOPMENT',source_documents:1,model_calls:0,finished,suite_error:suiteError,total:rows.length,
+    await fs.writeFile(target+'.tmp',JSON.stringify({schema_version:2,run_id:runId,classification:'SYNTHETIC_DEVELOPMENT',source_documents:1,model_calls:0,finished,suite_error:suiteError,total:rows.length,
       attempted:rows.filter(r=>r.status!=='not_run').length,passed:rows.filter(r=>r.passed===true).length,failed:rows.filter(r=>r.passed===false).length,not_run:rows.filter(r=>r.status==='not_run').length,rows},null,2));
     await fs.rename(target+'.tmp',target);
   };

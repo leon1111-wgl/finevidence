@@ -1,5 +1,17 @@
 # Capability status
 
+## FE-028 diagnostic recovery controls (2026-10-26 Taipei)
+
+The local review test reporter now distinguishes startup panel/link from data
+retry with explicit version2 fields and ancestor-aware visibility. Frozen
+startup-state observations2/8→8/8; captured fault resources4/6→6/6. New browser
+contracts8/8 plus12/12 visibility boundaries pass locally. The allowlist now covers
+all shipped first-party modules without arbitrary URLs or text. See
+BROWSER_FAILURE_EVIDENCE. Exact-release CI, public verification and independent
+closure remain separate gates. This is incident evidence, not a production UI
+or financial behavior change. Natural startup failures, E2 rights/semantic
+admission, finalE7 and historical model7/8/FE-013 remain open; no model calls.
+
 ## Review failure evidence (2026-10-26 Taipei)
 
 Local review browser failures now retain the exact phase, atomic 14-case plan,

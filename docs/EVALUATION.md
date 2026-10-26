@@ -414,3 +414,31 @@ Financial exact numbers/source completeness6/6 and expected refusals2/2 remain
 unchanged. These test counts are not a claim of analyst time saved. Real-document
 semantic labels0, hidden labels0, model calls0, known tokens0 and calls with unknown
 usage0. The historical live-model first pass stays7/8 with FE-013 open.
+
+## FE-028 recovery-state diagnostics (2026-10-26, offline)
+
+The frozen known-defect plan is four states (healthy/runtime503/workbench503/
+catalog503) at1440/390px. Startup-link accuracy2/8→8/8 and expected fault-resource
+capture4/6→6/6 are separate engineering metrics on the same eight observations.
+No financial task was added. The new version2 browser contract first failed0/8
+and its six layout-boundary controls at two widths failed0/12; after the fix they
+are8/8 and12/12. Preserve the distinction from the historical startup-only oracle.
+The original version1 report and an explicitly version-gated version2 judge
+remain in local evidence. Run pnpm test:review-diagnostics after build_web.
+
+These are public authored synthetic development faults, not a hidden evaluation,
+real-report semantic accuracy or analyst time savings. End-to-end case timings
+include local browser navigation/fault injection/capture and are retained per
+case, not a production SLO. The fixed financial baseline, exact numeric/source
+checks and expected refusals retain their original denominators. No model call,
+known token, unknown-usage call, hidden label or new human semantic label is
+introduced. Historical first live-model7/8 and FE-013 stay open. The known earlier
+natural startup failures remain unexplained; see BROWSER_FAILURE_EVIDENCE.
+
+Local regression: Python237/237 (36.150s), JS245/245, normal local review14/14
+(14.988s), privacy2/2 widths (10 sampled regions), reporting contracts2/2
+(children13/14 and exit1;18.919s/19.995s), and cleanup negative controls3/3.
+Final diagnostic matrix case timing n=8: p50=0.184751s, p95=0.316874s
+(nearest-rank); this includes browser navigation and capture, not financial work.
+All are separate authored engineering denominators. Exact CI/deployed checks
+follow publication and are not inferred from these local results.

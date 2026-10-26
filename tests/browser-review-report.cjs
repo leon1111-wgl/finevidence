@@ -27,6 +27,7 @@ const names = ['lifecycle-restart-revoke','lost-response-retry','auth-and-keyboa
     try {
       assert.equal(timedOut,false);assert.equal(code,1);
       const raw=await fs.readFile(reportPath,'utf8'),report=JSON.parse(raw);
+      assert.equal(report.schema_version,2);
       assert.equal(report.finished,true,'runner must finalize its checkpoint');
       assert.equal(report.total,14);assert.equal(report.attempted,14);
       assert.equal(report.passed,13);assert.equal(report.failed,1);assert.equal(report.not_run,0);
@@ -36,6 +37,9 @@ const names = ['lifecycle-restart-revoke','lost-response-retry','auth-and-keyboa
       assert.equal(failure.status,'failed');assert.equal(failure.phase,scenario);
       assert.equal(failure.error_code,'TIMEOUT');assert.equal('error' in failure,false);
       assert.equal(failure.diagnostics.readiness.run_disabled,scenario==='initial-ready');
+      assert.equal(failure.diagnostics.schema_version,2);
+      assert.equal(failure.diagnostics.readiness.startup_reload_visible,false);
+      assert.equal(failure.diagnostics.readiness.data_retry_visible,scenario==='initial-ready');
       assert.ok(failure.diagnostics.resources.length<=16);
       assert.ok(failure.diagnostics.resources.some(r=>r.resource===(scenario==='initial-ready'?'runtime.json':'api/reviews/revoke')&&r.status===503));
       assert.equal(failure.screenshot.policy,'layout_only');

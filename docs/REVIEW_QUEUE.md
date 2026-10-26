@@ -1,5 +1,19 @@
 # Review queue
 
+## FE-028 / P3 implementation ready for independent review (2026-10-26)
+
+The62e533e audit reproduced misleading startup visibility2/8 and omitted catalog
+failure events (fault capture4/6). Version2 separates panel/link/data controls;
+the same eight observations are8/8 and resources6/6 locally. Review ancestor and
+missing-node controls12/12, schema compatibility, unchanged1.5second capture
+limit, safe module-name coverage and the last16 event cap. Check that version1
+archives retain their original interpretation and injected children still exit1.
+Do not close until independently verified on the published SHA. This does not
+explain or fix prior natural ERR_SOCKET_NOT_CONNECTED/readiness timeouts.
+Interview: why can an element's own hidden attribute disagree with rendered
+visibility, and how do safe-name diagnostics stay current as dependencies grow?
+E2/finalE7, genuine semantic labels and historical model7/8/FE-013 remain open.
+
 ## Local review diagnostics ready for independent review (2026-10-26 Taipei)
 
 The543f4c2 audit's390px revoke-lost-response timeout is still unexplained. Review

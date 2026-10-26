@@ -89,3 +89,45 @@ The original 13/14 and natural startup transport failures remain open. SIGKILL,
 disk failure, a blocked process or unwritable output can still leave an unfinished
 checkpoint; `finished=false` is never a completed run. Use a new artifact directory
 for each attempt and preserve first failures.
+
+## FE-028: distinguish startup recovery from data retry (2026-10-26)
+
+At62e533e, the local-review helper called the data button (`#retry`)
+`startup_retry_visible`. The actual startup recovery link is `#startup-reload`
+inside `#startup`. A runtime data failure and a module-graph failure therefore
+reported opposite recovery states. The frozen eight observations (healthy,
+runtime503, workbench503, catalog503 at two widths) had2/8 correct startup-link
+states. The fixed helper has8/8. This corrects incident evidence, not the
+application's retry behavior, financial output or unexplained transport failures.
+
+Local review reports and their diagnostics now have `schema_version:2`.
+Version2 removes the misleading field and exposes `startup_panel_visible`,
+`startup_reload_visible` and `data_retry_visible` separately. Do not reinterpret
+archived version1 `startup_retry_visible` as a startup link: it measured only the
+data button's own `hidden` attribute. Historical reports are left unchanged;
+the replay judge has an explicit version2 adapter. The PDF fault reporter's
+separate schema is unchanged.
+
+Visibility means a present element with layout rectangles, no `hidden` ancestor
+and computed visibility other than hidden/collapse. It is a diagnostic layout
+observation, not proof of viewport intersection, lack of occlusion, opacity or
+clickability. The ledger retry uses the same rule. Twelve additional browser
+controls cover visible, missing, self-hidden and ancestor hidden/display/visibility
+states at both widths. Detached/closed-page capture remains explicitly unavailable
+with the same1.5second limit; no DOM text is returned.
+
+The fixed resource allowlist includes the six omitted current first-party
+modules, including source-catalog. Fault recording changes4/6→6/6 in the same
+matrix. A unit contract emits failures for every shipped first-party module so
+new modules require an explicit safe-name decision. Runtime recording still
+accepts only exact allowlisted names on the loopback origin, strips versioned
+prefixes/query strings, caps events at16 and maps unknown network errors to a
+fixed code. This is not arbitrary-path logging or a new public-site reporter.
+
+Run `python3 scripts/build_web.py`, `pnpm test:review-diagnostics`, then
+`pnpm test:review-report`. The latter includes the new browser matrix followed
+by the existing privacy and intentional-child-failure contracts. New version2
+contracts first failed0/8 and0/12 on the old helper; those denominators differ
+from the original startup-only2/8 observation. No waits or recovery assertions
+were weakened. These are authored development regressions, not hidden cases,
+financial quality or quantified staff savings.

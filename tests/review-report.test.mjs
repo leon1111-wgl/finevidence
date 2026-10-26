@@ -2,7 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {EventEmitter} from 'node:events';
 import {createRequire} from 'node:module';
+import {readdir} from 'node:fs/promises';
 const {observe,errorCode}=createRequire(import.meta.url)('./helpers/review-report.cjs');
+test('every shipped first-party module failure is captured without its URL or query', async()=>{
+ const p=new EventEmitter();p.evaluate=async()=>({});
+ const capture=observe(p,'http://127.0.0.1:8765');
+ for(const name of (await readdir(new URL('../web/',import.meta.url))).filter(n=>n.endsWith('.mjs'))){
+  p.emit('response',{url:()=>`http://127.0.0.1:8765/assets/${'a'.repeat(64)}/${name}?PRIVATE_CANARY`,status:()=>503});
+  assert.deepEqual((await capture()).resources.at(-1),{resource:name,event:'http_error',status:503});
+ }
+ assert.ok(!JSON.stringify(await capture()).includes('PRIVATE_CANARY'));
+});
 test('review diagnostics only retain bounded known resources and safe network codes', async()=>{
  const p=new EventEmitter();p.evaluate=async()=>({run_present:true,run_disabled:false});
  const capture=observe(p,'http://127.0.0.1:8765');
@@ -18,7 +28,7 @@ test('review diagnostics only retain bounded known resources and safe network co
 });
 test('closed page and private errors produce explicit unavailable state and fixed codes',async()=>{
  const p=new EventEmitter();p.evaluate=async()=>{throw Error('CANARY')};
- assert.deepEqual(await observe(p,'http://127.0.0.1:8765')(),{readiness:null,resources:[],page_errors:0,unavailable:true});
+ assert.deepEqual(await observe(p,'http://127.0.0.1:8765')(),{schema_version:2,readiness:null,resources:[],page_errors:0,unavailable:true});
  assert.equal(errorCode(new Error('CANARY')),'HARNESS_ERROR');
  assert.equal(errorCode({name:'TimeoutError',message:'CANARY'}),'TIMEOUT');
  assert.equal(errorCode({code:'ERR_ASSERTION',message:'CANARY'}),'ASSERTION_FAILED');
