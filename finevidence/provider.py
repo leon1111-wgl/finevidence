@@ -3,6 +3,7 @@ import json
 import os
 import math
 import re
+import signal
 import subprocess
 import sys
 import time
@@ -142,8 +143,17 @@ def _worker():
         raw = sys.stdin.buffer.read(131073)
         if len(raw) > 131072: raise ProviderError('MODEL_INPUT_LIMIT')
         request = json.loads(raw)
+        # The server can exit without running its request-thread finally block.
+        # Arm an OS default-action timer in this disposable worker: it remains
+        # effective during blocking TLS/read work and after the parent dies.
+        # Reset inherited ignored/blocked alarms; never change the server's mask.
+        # Missing Unix timer support fails closed below, before any network I/O.
+        signal.signal(signal.SIGALRM, signal.SIG_DFL)
+        signal.pthread_sigmask(signal.SIG_UNBLOCK, {signal.SIGALRM})
         remaining = request['deadline'] - time.monotonic()
         if remaining <= 0: raise ProviderError('MODEL_TIMEOUT')
+        signal.setitimer(signal.ITIMER_REAL, remaining)
+        # Keep the timer armed through response serialization and process exit.
         transport = _Transport(request['settings'])
         remaining = request['deadline'] - time.monotonic()
         if remaining <= 0: raise ProviderError('MODEL_TIMEOUT')

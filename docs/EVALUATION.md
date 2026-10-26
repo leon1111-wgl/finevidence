@@ -482,3 +482,39 @@ numeric/source6/6 each and refusal2/2 (n=8 p50=0.0005635s, p95=0.000872s).
 Python Chrome base14/14, retry7/7, startup16/16 and recovery6/6 pass; earlier
 natural startup first failures remain recorded, with no claimed repair here.
 These are separate engineering/development denominators.
+
+
+## FE-029 server-exit resource recovery (2026-10-26)
+
+A fixed known-defect synthetic development plan runs actual loopback HTTP → Agent
+→ TLS against the unchanged 3f977c9 checkout and the candidate, once each. Local
+worker/connection expiry within the original budget changes **0/4 to 4/4**:
+SIGINT/SIGKILL/SIGTERM at 15 seconds and SIGKILL during the fourth Agent call at
+the remaining 45-second total. Observed candidate times are 15.029525, 15.026006,
+15.055824 and 45.061731 seconds; tolerance is 0.75 seconds, not an SLA. Each arm
+makes seven local TLS requests. All four terminated clients have unavailable
+returned usage; fixture token fields are synthetic and do not measure billing.
+Zero external/paid/real-model calls, hidden cases or real-report labels.
+
+[Versioned first-run evidence](validation/provider-exit-2026-10-26.json) retains
+0/4 baseline, 4/4 candidate, source/plan hashes, dirty candidate identity and
+individual timing/cleanup/socket states. The original two-case 16-second audit
+and the two failed direct-worker regression conditions remain separately retained
+in local review materials; they are not replaced by this new judge. Run
+`python3 scripts/evaluate_provider_exit.py --output exit.json`, or supply
+`--implementation-root /path/to/baseline` for the same judge. CI runs this plan
+on Linux/macOS; configuration alone is not evidence of a completed CI run.
+
+Separate controls: existing six deadlines 6/6, fixed financial workflow 8/8 with
+exact numeric/source 6/6 and expected refusal 2/2 (n=8, p50 0.0005535s, p95
+0.000801s), and normal two-call synthetic TLS Agent 1/1 with exact 30.00%/source
+parity. Python 251/251 and JS 245/245 are engineering regressions, not extra
+financial tasks or analyst savings. Historical live-model 7/8 and FE-013 remain
+unchanged; no repeated paid evaluation. See PROVIDER_DEADLINE for platform and
+remote-cancellation limits.
+
+Prepublication review also reproduced four negative process-observation assertions
+against judge v1. Judge v2 refuses failed/ambiguous `ps` observations and records
+unverified cleanup instead of claiming success. The v1 baseline/candidate reports
+remain unchanged; the separate v2 run is retained in the same evidence artifact.
+This is a measurement-quality fix, not a second model or financial improvement.

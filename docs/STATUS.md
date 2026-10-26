@@ -1,5 +1,26 @@
 # Capability status
 
+## FE-029 worker deadlines after server exit (2026-10-26 Taipei)
+
+The independent 3f977c9 audit reproduced orphaned transport workers after server
+SIGINT/SIGKILL. Workers now arm their own Unix default-action timer from the
+same absolute deadline before TLS setup, including inherited signal-mask reset.
+Frozen real HTTP/Agent/local TLS exit cases change 0/4 to 4/4: SIGINT, SIGKILL,
+SIGTERM at the 15-second call budget and SIGKILL at the remaining 45-second Agent
+budget. Local observations: 15.030, 15.026, 15.056 and 45.062 seconds; no live
+worker or established connection at those observations. No immediate-on-exit
+cancellation or remote billing guarantee. Missing returned usage remains unknown.
+
+Local Python 251/251, JS 245/245, prior deadline plan 6/6, fixed synthetic finance
+8/8 (exact numbers/sources 6/6, expected refusals 2/2), and normal two-call TLS
+Agent control 1/1 pass. Local Chrome desktop/narrow base 14/14, retry 7/7,
+startup 16/16 and restoration 6/6 pass, including keyboard/source/export checks.
+See PROVIDER_DEADLINE and EVALUATION for first failures
+and denominators. Exact-release CI/public/browser verification and independent
+closure remain separate gates. E2, final E7, historical real-model 7/8 and FE-013
+remain open. No paid or real-model call.
+
+
 ## Local provider deadlines (2026-10-26 Taipei)
 
 E3 now terminates/reaps its local transport worker at the smaller of15 seconds

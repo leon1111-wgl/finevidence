@@ -1,5 +1,26 @@
 # Review queue
 
+## FE-029 / P2 implementation ready for independent review (2026-10-26)
+
+At 3f977c9, actual local server SIGINT/SIGKILL left its worker and TLS connection
+alive after 16 seconds (0/2 original audit). The new fixed four-case exit judge
+also reproduces SIGTERM and the remaining Agent budget: 0/4 baseline, 4/4 local
+candidate. The child now independently arms the same absolute deadline using a
+Unix default-action timer before constructing TLS; ignored/blocked alarm state
+is reset inside that child. Parent kill/wait and bounded output remain unchanged.
+
+Review actual HTTP/Agent/TLS exit on Linux/macOS, original 15-second and remaining
+45-second budgets, inherited signal state, no network on unsupported timers,
+normal two-call financial parity and original six deadlines/four-slot release.
+Distinguish exited orphan zombies from live socket owners on Linux. Retain unknown
+client usage after server exit; do not infer remote cancellation or zero billing.
+See PROVIDER_DEADLINE and its versioned raw evaluation. Independent review owns
+closure; no closure from local implementation results alone.
+Interview: why does a request-thread finally block not guarantee cleanup when
+its server exits, and why must a child inherit an absolute deadline rather than
+restart a relative timeout? E2/final E7 and historical 7/8/FE-013 stay open.
+
+
 ## FE-003 / E3 local transport deadline enhancement (2026-10-26)
 
 The independent60259f8 audit measured the documented socket/checkpoint boundary
