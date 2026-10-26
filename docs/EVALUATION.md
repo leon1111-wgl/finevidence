@@ -558,3 +558,12 @@ No real/paid-model call, hidden case or new human financial label was added.
 The failed handshake has no returned usage audit and remains unknown; fixture
 zero tokens in successful controls are synthetic, not billing evidence.
 Historical live7/8/FE-013 and finalE7 remain open.
+
+## Numeric loopback startup (2026-10-27)
+
+The frozen three-case local availability plan2/3→3/3 measures real HTTP
+startup-to-calculation with native, injected2second and immediate denied name
+service. Exact display/source-year checks stay3/3 in both variants. The slow
+case2.010025s→0.007330s removes an unused startup dependency, not model or financial
+quality error. See LOOPBACK_STARTUP for raw first attempts, timer scope and limits.
+No hidden/real-report labels, no paid calls; historical real-model7/8 unchanged.

@@ -140,3 +140,7 @@ Local ledger recovery uses read-only v1 schema/owner validation before any write
 New empty stores revalidate under a write lock and initialize transactionally;
 unknown/modified formats never receive automatic tables or owner assignments.
 Schema identity is not authenticity or financial verification. See LOCAL_REVIEW_LEDGER.
+
+Local HTTP binding uses numeric-loopback metadata without synchronous reverse
+DNS. Host/Origin/CSRF and provider networking remain separate boundaries.
+See LOOPBACK_STARTUP for the controlled availability evidence and timing scope.

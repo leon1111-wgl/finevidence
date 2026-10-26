@@ -2,6 +2,7 @@
 import argparse,json,os,secrets,threading,sqlite3
 from .review_ledger import ReviewLedger, ReviewError
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
+from socketserver import TCPServer
 from pathlib import Path
 from uuid import uuid4
 from .service import Workspace,ROOT
@@ -127,6 +128,14 @@ class Handler(BaseHTTPRequestHandler):
         except Exception: return self._send(500,error_payload('INTERNAL_ERROR'))
         finally: self.server.slots.release()
 
+class LoopbackHTTPServer(ThreadingHTTPServer):
+    def server_bind(self):
+        # HTTPServer's bind performs synchronous reverse DNS just for metadata.
+        # This numeric-loopback service needs no hostname or external resolver.
+        TCPServer.server_bind(self)
+        self.server_name, self.server_port = self.server_address[:2]
+
+
 def make_server(port=8765,root=ROOT,*,review_directory=None,reviewer=None,review_token=None):
     ledger=None
     if any(v is not None for v in (review_directory,reviewer,review_token)):
@@ -135,7 +144,7 @@ def make_server(port=8765,root=ROOT,*,review_directory=None,reviewer=None,review
             or any(ord(c)<33 or ord(c)>126 for c in review_token)):
             raise ValueError('REVIEW_CONFIG_INVALID')
         ledger=ReviewLedger(review_directory,reviewer)
-    server=ThreadingHTTPServer(('127.0.0.1',port),Handler)
+    server=LoopbackHTTPServer(('127.0.0.1',port),Handler)
     try: server.workspace=Workspace(root)
     except Exception: server.server_close();raise
     server.review_ledger=ledger;server.review_token=review_token

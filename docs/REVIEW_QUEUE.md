@@ -1,5 +1,20 @@
 # Review queue
 
+## Numeric loopback startup — independent review handoff
+
+At9b4cb6a, HTTPServer binding enters synchronous name resolution only to set
+server-name metadata. A controlled2second lookup delays the actual source-linked
+financial request beyond the authored1second local target (fixed plan2/3).
+The candidate binds directly and keeps numeric metadata, reaching3/3 on the same
+plan. Review resolver isolation, actual loopback-only bind, ephemeral/busy ports,
+workspace-failure socket cleanup, Host/Origin/CSRF, source parity and normal
+provider deadlines. Do not infer a cause for historical natural browser failures
+or macOS CI readiness from this controlled probe. See LOOPBACK_STARTUP.
+Independent9b4cb6a review closed FE-030 in the original cleanup scope; its first
+TLS failure remains a failed exit case, and unknown-process cleanup stays
+unverified. Interview: why can a loopback-only app wait on name service before
+its first request, and which startup stages does a timing measurement exclude?
+
 ## FE-030 / P3 implementation ready for independent review (2026-10-27)
 
 At bfc14df, actual handshake failure before HTTP counting returned passed=false

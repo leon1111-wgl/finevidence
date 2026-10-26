@@ -155,3 +155,8 @@ review/admission or finalE7. See PROVIDER_DEADLINE.
 with actual handshake/socket and process-observation controls. It does not add
 business features or complete E2/E7. Preserve the unresolved startup observation
 and historical real-model7/8; independent review still owns FE-030 closure.
+
+2026-10-27: local startup no longer waits for reverse DNS used only for HTTP
+metadata. The controlled startup-to-calculation plan2/3→3/3 leaves financial
+results unchanged. Historical natural startup incidents still need their own
+root-cause evidence. E2 and finalE7 remain open; see LOOPBACK_STARTUP.

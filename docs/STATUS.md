@@ -1,5 +1,20 @@
 # Capability status
 
+## Numeric loopback startup (2026-10-27 Taipei)
+
+The local workbench now binds without reverse DNS for server metadata. The
+frozen three-case startup-to-calculation plan changes2/3→3/3; the injected2second
+lookup case changes2.010025s→0.007330s. All before/after outputs remain20.00%
+with both source years. This is synthetic local availability evidence, not
+financial accuracy, real-report quality or production latency. See LOOPBACK_STARTUP.
+The independent9b4cb6a audit closed FE-030 only in its reproduced cleanup scope
+(original1/1, independent boundaries10/10). Historical natural browser startup
+failures and macOS readiness delays have no confirmed common root cause.
+Local Python265/265, JS245/245, fixed synthetic finance8/8 and actual Chrome
+base14/14, retry7/7, startup16/16 and restoration6/6 pass. Exact-release CI,
+public deployment/browser verification and independent closure remain separate.
+FE-013/real-model7/8, E2 and finalE7 remain open; paid-model calls0.
+
 ## FE-030 exit-judge cleanup (2026-10-27 Taipei)
 
 Judge4 tracks workers before TLS requests arrive, freezes an owned live server

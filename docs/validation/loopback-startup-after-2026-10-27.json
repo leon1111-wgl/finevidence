@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "classification": "synthetic_engineering",
+  "plan": [
+    "native",
+    "slow-name-service",
+    "denied-name-service"
+  ],
+  "total": 3,
+  "passed": 3,
+  "model_calls": 0,
+  "target_seconds": 1.0,
+  "injected_delay_seconds": 2,
+  "source_commit": "9b4cb6a61cdcf8b8ae6245a1ee1c180ac5e7a67a",
+  "dirty_tree": true,
+  "python": "3.12.2",
+  "results": [
+    {
+      "case": "native",
+      "passed": true,
+      "resolver_calls": 0,
+      "startup_seconds": 0.004081,
+      "calculation_seconds": 0.007588,
+      "display": "20.00%",
+      "source_years": [
+        2023,
+        2024
+      ],
+      "failure": null
+    },
+    {
+      "case": "slow-name-service",
+      "passed": true,
+      "resolver_calls": 0,
+      "startup_seconds": 0.003985,
+      "calculation_seconds": 0.00733,
+      "display": "20.00%",
+      "source_years": [
+        2023,
+        2024
+      ],
+      "failure": null
+    },
+    {
+      "case": "denied-name-service",
+      "passed": true,
+      "resolver_calls": 0,
+      "startup_seconds": 0.004759,
+      "calculation_seconds": 0.008279,
+      "display": "20.00%",
+      "source_years": [
+        2023,
+        2024
+      ],
+      "failure": null
+    }
+  ]
+}
