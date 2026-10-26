@@ -1,6 +1,11 @@
 """Bounded OpenAI-compatible transport; credentials stay in process memory."""
 import json
 import os
+import math
+import re
+import subprocess
+import sys
+import time
 from pathlib import Path
 import socket
 import ssl
@@ -12,11 +17,13 @@ class ProviderError(ValueError): pass
 class _NoRedirect(HTTPRedirectHandler):
     def redirect_request(self,*args,**kwargs): return None
 
-class ModelProvider:
-    def __init__(self):
-        self.key=os.environ.get('FINEVIDENCE_API_KEY','')
-        self.base=os.environ.get('FINEVIDENCE_API_BASE','https://apirouter.mornai.cn/v1').rstrip('/')
-        self.model=os.environ.get('FINEVIDENCE_MODEL','deepseek-v4-1-flash')
+class _Transport:
+    """Blocking transport used only inside the disposable worker."""
+    def __init__(self, settings=None):
+        settings = os.environ if settings is None else settings
+        self.key=settings.get('FINEVIDENCE_API_KEY','')
+        self.base=settings.get('FINEVIDENCE_API_BASE','https://apirouter.mornai.cn/v1').rstrip('/')
+        self.model=settings.get('FINEVIDENCE_MODEL','deepseek-v4-1-flash')
         if not self.key: raise ProviderError('MODEL_NOT_CONFIGURED: configure the server environment')
         u=urlsplit(self.base)
         if u.scheme!='https' or not u.hostname or u.username or u.password or u.query or u.fragment:
@@ -24,18 +31,23 @@ class ModelProvider:
         if not self.model or len(self.model)>200: raise ProviderError('MODEL_CONFIGURATION: invalid model')
         # macOS framework Python may have no default CA bundle. Use the system trust bundle,
         # never CERT_NONE. An explicit SSL_CERT_FILE remains authoritative.
-        ca=os.environ.get('SSL_CERT_FILE')
+        ca=settings.get('SSL_CERT_FILE')
         if not ca and ssl.get_default_verify_paths().cafile is None and Path('/etc/ssl/cert.pem').is_file():
             ca='/etc/ssl/cert.pem'
+        self.ca = ca
         try: context=ssl.create_default_context(cafile=ca)
         except (OSError,ssl.SSLError) as exc:
             raise ProviderError('MODEL_TLS: trusted CA bundle unavailable') from exc
         self.opener=build_opener(_NoRedirect(),HTTPSHandler(context=context))
-    def complete(self,messages,timeout=15):
+    def _body(self,messages):
         payload={'model':self.model,'messages':messages,'max_tokens':256,'stream':False,
                  'thinking':{'type':'disabled'},'response_format':{'type':'json_object'}}
         body=json.dumps(payload,ensure_ascii=False).encode('utf-8')
         if len(body)>24000: raise ProviderError('MODEL_INPUT_LIMIT: request too large')
+        return body
+
+    def complete(self,messages,timeout=15):
+        body = self._body(messages)
         request=Request(self.base+'/chat/completions',data=body,headers={
             'Authorization':'Bearer '+self.key,'Content-Type':'application/json'})
         try:
@@ -56,8 +68,93 @@ class ModelProvider:
             raise ProviderError(f'MODEL_HTTP_{exc.code}: provider rejected the request') from None
         except (TimeoutError,socket.timeout): raise ProviderError('MODEL_TIMEOUT: provider deadline exceeded') from None
         except URLError as exc:
-            code='MODEL_TLS' if isinstance(exc.reason,ssl.SSLError) else 'MODEL_NETWORK'
+            code=('MODEL_TIMEOUT' if isinstance(exc.reason,TimeoutError) else
+                  'MODEL_TLS' if isinstance(exc.reason,ssl.SSLError) else 'MODEL_NETWORK')
             raise ProviderError(code+': provider connection failed') from None
         except (UnicodeError,KeyError,IndexError,TypeError,ValueError,RecursionError) as exc:
             if isinstance(exc,ProviderError): raise
             raise ProviderError('MODEL_RESPONSE: invalid provider response') from None
+
+
+_WORKER_CODES = frozenset({
+    'MODEL_NOT_CONFIGURED', 'MODEL_CONFIGURATION', 'MODEL_TLS', 'MODEL_NETWORK',
+    'MODEL_TIMEOUT', 'MODEL_INPUT_LIMIT', 'MODEL_OUTPUT_LIMIT', 'MODEL_RESPONSE', 'MODEL_WORKER',
+})
+
+def _safe_code(code):
+    return isinstance(code, str) and (code in _WORKER_CODES or re.fullmatch(r'MODEL_HTTP_[1-5][0-9]{2}', code))
+
+
+class ModelProvider(_Transport):
+    """One local deadline per call; no retry and no surviving network worker."""
+    def complete(self, messages, timeout=15):
+        started = time.monotonic()
+        if type(timeout) not in (int, float) or (type(timeout) is float and not math.isfinite(timeout)):
+            raise ProviderError('MODEL_CONFIGURATION: invalid timeout')
+        if timeout <= 0:
+            raise ProviderError('MODEL_TIMEOUT: provider deadline exceeded')
+        deadline = started + min(15, timeout)
+        self._body(messages)  # Preserve the request bound before starting a process.
+        envelope = json.dumps({'settings': {
+            'FINEVIDENCE_API_KEY': self.key, 'FINEVIDENCE_API_BASE': self.base,
+            'FINEVIDENCE_MODEL': self.model, 'SSL_CERT_FILE': self.ca,
+        }, 'messages': messages, 'deadline': deadline}, ensure_ascii=False).encode('utf-8')
+        if len(envelope) > 131072:
+            raise ProviderError('MODEL_INPUT_LIMIT: request envelope too large')
+        # Secret and prompt go through the private pipe, never argv or a file.
+        environment = {k: v for k, v in os.environ.items() if not k.startswith('FINEVIDENCE_')}
+        process = None
+        try:
+            process = subprocess.Popen([sys.executable, '-I', str(Path(__file__).resolve())],
+                                       stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                       stderr=subprocess.DEVNULL, env=environment)
+            raw, _ = process.communicate(envelope, timeout=max(0, deadline-time.monotonic()))
+            if time.monotonic() >= deadline:
+                raise ProviderError('MODEL_TIMEOUT: provider deadline exceeded')
+            # IPC JSON may escape 6,000 non-BMP characters to 72,000 ASCII bytes.
+            # The upstream body still has its independent 65,536-byte limit.
+            if process.returncode or len(raw) > 131072:
+                raise ProviderError('MODEL_WORKER: local transport failed')
+            reply = json.loads(raw)
+            if isinstance(reply, dict) and set(reply) == {'error'} and _safe_code(reply['error']):
+                raise ProviderError(reply['error'] + ': provider request failed')
+            if not isinstance(reply, dict) or set(reply) != {'result'} or not isinstance(reply['result'], dict):
+                raise ProviderError('MODEL_WORKER: invalid local response')
+            return reply['result']
+        except subprocess.TimeoutExpired:
+            raise ProviderError('MODEL_TIMEOUT: provider deadline exceeded') from None
+        except OSError:
+            raise ProviderError('MODEL_WORKER: local transport unavailable') from None
+        except (ValueError, UnicodeError) as exc:
+            if isinstance(exc, ProviderError): raise
+            raise ProviderError('MODEL_WORKER: invalid local response') from None
+        finally:
+            if process is not None:
+                if process.poll() is None: process.kill()
+                process.wait()  # Reap before returning/releasing the HTTP request slot.
+                for stream in (process.stdin, process.stdout):
+                    if stream is not None: stream.close()
+
+
+def _worker():
+    """Fixed single-request IPC entry; emits no provider exceptions or diagnostics."""
+    try:
+        raw = sys.stdin.buffer.read(131073)
+        if len(raw) > 131072: raise ProviderError('MODEL_INPUT_LIMIT')
+        request = json.loads(raw)
+        remaining = request['deadline'] - time.monotonic()
+        if remaining <= 0: raise ProviderError('MODEL_TIMEOUT')
+        transport = _Transport(request['settings'])
+        remaining = request['deadline'] - time.monotonic()
+        if remaining <= 0: raise ProviderError('MODEL_TIMEOUT')
+        reply = {'result': transport.complete(request['messages'], remaining)}
+    except ProviderError as exc:
+        code = str(exc).split(':', 1)[0]
+        reply = {'error': code if _safe_code(code) else 'MODEL_WORKER'}
+    except Exception:
+        reply = {'error': 'MODEL_WORKER'}
+    sys.stdout.write(json.dumps(reply, ensure_ascii=True))
+
+
+if __name__ == '__main__':
+    _worker()

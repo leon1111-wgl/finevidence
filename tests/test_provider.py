@@ -1,7 +1,7 @@
 import json,os,ssl,unittest
 from unittest.mock import patch
 from urllib.error import HTTPError,URLError
-from finevidence.provider import ModelProvider,ProviderError,_NoRedirect
+from finevidence.provider import ModelProvider,ProviderError,_NoRedirect,_Transport
 
 class Reply:
     def __init__(self,raw):self.raw=raw
@@ -16,7 +16,7 @@ class Transport:
         return Reply(self.value)
 class ProviderTests(unittest.TestCase):
     def provider(self,value):
-        with patch.dict(os.environ,{'FINEVIDENCE_API_KEY':'test-only','FINEVIDENCE_API_BASE':'https://example.invalid/v1','FINEVIDENCE_MODEL':'test-model'}):p=ModelProvider()
+        with patch.dict(os.environ,{'FINEVIDENCE_API_KEY':'test-only','FINEVIDENCE_API_BASE':'https://example.invalid/v1','FINEVIDENCE_MODEL':'test-model'}):p=_Transport()
         p.opener=Transport(value);return p
     def test_bounded_request_and_filtered_usage(self):
         raw=json.dumps({'model':'test-model','choices':[{'finish_reason':'stop','message':{'content':'{"tool":"finish","arguments":{}}'}}],'usage':{'total_tokens':12,'internal':'private'}}).encode()

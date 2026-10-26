@@ -1,0 +1,151 @@
+{
+  "classification": "OFFLINE_SYNTHETIC_TLS_DEVELOPMENT",
+  "judge_version": 1,
+  "sha": "60259f85c6e211970ee793926688588ad4534bce",
+  "dirty": true,
+  "plan_sha256": "38d011b68c5010bb24aa80c082dd6e7eecd19c36c5730981f2dcfd770613e2a2",
+  "planned": 6,
+  "completed": 6,
+  "passed": 6,
+  "external_requests": 0,
+  "real_model_calls": 0,
+  "hidden_cases": 0,
+  "real_financial_labels": 0,
+  "rows": [
+    {
+      "id": "fast",
+      "timeout": 0.2,
+      "duration": 0,
+      "mode": "fast",
+      "expected": "RETURNED_RESPONSE",
+      "limit": 0.2,
+      "tolerance_seconds": 0.15,
+      "outcome": "RETURNED_RESPONSE",
+      "elapsed_seconds": 0.053152,
+      "tls_requests": 1,
+      "model_audit": {
+        "id": "SYNTHETIC_TLS_FIXTURE",
+        "calls": 1,
+        "usage": {
+          "total_tokens": 0
+        },
+        "usage_complete": true,
+        "calls_with_unknown_usage": 0,
+        "seconds": 0.052
+      },
+      "passed": true
+    },
+    {
+      "id": "silent",
+      "timeout": 0.2,
+      "duration": 0.6,
+      "mode": "silent",
+      "expected": "MODEL_TIMEOUT",
+      "limit": 0.2,
+      "tolerance_seconds": 0.15,
+      "outcome": "MODEL_TIMEOUT",
+      "elapsed_seconds": 0.204494,
+      "tls_requests": 1,
+      "model_audit": {
+        "id": "synthetic-deadline-fixture",
+        "calls": 1,
+        "usage": {},
+        "usage_complete": false,
+        "calls_with_unknown_usage": 1,
+        "seconds": 0.204
+      },
+      "passed": true
+    },
+    {
+      "id": "body-trickle-scaled",
+      "timeout": 0.2,
+      "duration": 0.9,
+      "mode": "body-trickle",
+      "expected": "MODEL_TIMEOUT",
+      "limit": 0.2,
+      "tolerance_seconds": 0.15,
+      "outcome": "MODEL_TIMEOUT",
+      "elapsed_seconds": 0.204403,
+      "tls_requests": 1,
+      "model_audit": {
+        "id": "synthetic-deadline-fixture",
+        "calls": 1,
+        "usage": {},
+        "usage_complete": false,
+        "calls_with_unknown_usage": 1,
+        "seconds": 0.204
+      },
+      "passed": true
+    },
+    {
+      "id": "body-trickle-default15",
+      "timeout": 15,
+      "duration": 18,
+      "mode": "body-trickle",
+      "expected": "MODEL_TIMEOUT",
+      "limit": 15,
+      "tolerance_seconds": 0.75,
+      "outcome": "MODEL_TIMEOUT",
+      "elapsed_seconds": 15.005328,
+      "tls_requests": 1,
+      "model_audit": {
+        "id": "synthetic-deadline-fixture",
+        "calls": 1,
+        "usage": {},
+        "usage_complete": false,
+        "calls_with_unknown_usage": 1,
+        "seconds": 15.005
+      },
+      "passed": true
+    },
+    {
+      "id": "agent-first-call",
+      "timeout": 45,
+      "duration": 50,
+      "mode": "body-trickle",
+      "expected": "MODEL_TIMEOUT",
+      "limit": 15,
+      "tolerance_seconds": 0.75,
+      "outcome": "MODEL_TIMEOUT",
+      "model_audit": {
+        "id": "synthetic-deadline-fixture",
+        "calls": 1,
+        "usage": {},
+        "usage_complete": false,
+        "calls_with_unknown_usage": 1,
+        "seconds": 15.002
+      },
+      "elapsed_seconds": 15.008958,
+      "tls_requests": 1,
+      "passed": true
+    },
+    {
+      "id": "agent-remaining-budget",
+      "timeout": 45,
+      "duration": [
+        14,
+        14,
+        14,
+        10
+      ],
+      "mode": "body-trickle",
+      "expected": "MODEL_TIMEOUT",
+      "limit": 45,
+      "tolerance_seconds": 0.75,
+      "outcome": "MODEL_TIMEOUT",
+      "model_audit": {
+        "id": "SYNTHETIC_TLS_FIXTURE",
+        "calls": 4,
+        "usage": {
+          "total_tokens": 0
+        },
+        "usage_complete": false,
+        "calls_with_unknown_usage": 1,
+        "seconds": 45.004
+      },
+      "elapsed_seconds": 45.008674,
+      "tls_requests": 4,
+      "passed": true
+    }
+  ]
+}

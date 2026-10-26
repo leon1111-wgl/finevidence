@@ -1,5 +1,19 @@
 # Capability status
 
+## Local provider deadlines (2026-10-26 Taipei)
+
+E3 now terminates/reaps its local transport worker at the smaller of15 seconds
+and the Agent remaining45-second budget, before releasing a request slot. Six
+frozen offline TLS scenarios2/6→6/6, including15.005s default and45.009s remaining
+budget; four concurrent timed-out agents release all four HTTP slots. Failed
+usage remains unknown; no retry, late financial answer or remote-cancel claim.
+Local Python245/245 and JS245/245 pass; fixed synthetic finance8/8 retains
+exact numeric/source6/6 and expected refusal2/2. See PROVIDER_DEADLINE and
+EVALUATION. Local Python Chrome base14/14, retry7/7, startup16/16 and
+recovery6/6 pass at desktop/narrow widths with keyboard/export checks. Exact-release CI/Pages/browser verification
+and independent review are separate gates. E2, finalE7, natural browser startup
+failures and historical model7/8/FE-013 remain open; no real model calls.
+
 ## FE-028 diagnostic recovery controls (2026-10-26 Taipei)
 
 The local review test reporter now distinguishes startup panel/link from data
@@ -219,7 +233,7 @@ The local model loop uses the user-authorized MornAI endpoint and strict tool sc
 
 Local desktop/narrow screenshots and keyboard, loading, empty, error, retry, scope invalidation, source checks, export and replay were executed in real Chrome. Both static and Python modes passed 14 browser workflow checks. CI independently reruns Python, JS and Chromium before Pages deployment; inspect the exact published SHA and run before claiming remote verification.
 
-Remaining scope: real-report rights/ingestion/review, explicit nonfinancial claim support, model holdout evaluation, organization permissions, persistent audit, true workflow recovery and hardened public backend deployment. Model timeout is socket timeout plus cumulative checkpoints, not remote cancellation or a spend guarantee.
+Remaining scope: real-report rights/ingestion/review, explicit nonfinancial claim support, model holdout evaluation, organization permissions, persistent audit, true workflow recovery and hardened public backend deployment. Provider transport now has local subprocess deadlines and cleanup (see PROVIDER_DEADLINE); deterministic tools retain cumulative checkpoints. Neither remote cancellation nor a spend guarantee is provided.
 
 ## Quantified development-task result
 

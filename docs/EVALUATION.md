@@ -442,3 +442,43 @@ Final diagnostic matrix case timing n=8: p50=0.184751s, p95=0.316874s
 (nearest-rank); this includes browser navigation and capture, not financial work.
 All are separate authored engineering denominators. Exact CI/deployed checks
 follow publication and are not inferred from these local results.
+
+## Local provider deadlines (2026-10-26, offline)
+
+Six frozen, authored TLS scenarios with the same plan/judge run once on unchanged
+60259f8 and once on the candidate:2/6→6/6. The first5 cases were inspired by the
+earlier independent audit but use this versioned fixture and new explicit judge;
+its original2/5 report is preserved separately. The sixth exercises three14s
+responses followed by the actual remaining45s Agent budget.
+
+| Case | Baseline seconds / outcome | Candidate seconds / outcome |
+|---|---|---|
+| fast | 0.005742 / RETURNED_RESPONSE | 0.053152 / RETURNED_RESPONSE |
+| silent | 0.205488 / MODEL_TIMEOUT | 0.204494 / MODEL_TIMEOUT |
+| body-trickle-scaled | 0.919572 / RETURNED_RESPONSE | 0.204403 / MODEL_TIMEOUT |
+| body-trickle-default15 | 18.037378 / RETURNED_RESPONSE | 15.005328 / MODEL_TIMEOUT |
+| agent-first-call | 50.035960 / AGENT_TIMEOUT | 15.008958 / MODEL_TIMEOUT |
+| agent-remaining-budget | 52.154564 / AGENT_TIMEOUT | 45.008674 / MODEL_TIMEOUT |
+
+These measure local waiting and failure behavior, not financial accuracy, analyst
+time saved or an SLA. The fast control also shows additional process startup
+cost; no ordinary-request speedup is claimed. Each run has9 loopback TLS requests
+across6 scenarios,0 real model calls/external providers, hidden cases or real
+financial labels. Candidate5 failed calls have unknown usage; the fast response
+and first3 remaining-budget responses report fixture total_tokens=0. Those
+synthetic zeros are not a remote billing measurement. Baseline has1 unknown call.
+
+[Baseline first output](validation/provider-deadline-baseline-2026-10-26.json) and
+[candidate first output](validation/provider-deadline-current-2026-10-26.json) retain
+parent Git SHA, dirty flag and plan digest. Candidate measurement preceded commit;
+its provider.py SHA256 is `db5fb9c643a5ef3f51d67873dbcf15410a64c21861767a30c85f85d21f154bf6`.
+The local full regression, exact-commit CI and public/browser checks are separate
+gates. Reproduce with scripts/evaluate_provider_deadline.py; see PROVIDER_DEADLINE
+for process cleanup, first failing regressions, Unicode fix and OS/remote limits.
+The fixed finance8-task control and historical live7/8/FE-013 stay separate.
+
+Local release checks: Python245/245 (47.010s), JS245/245; fixed finance8/8,
+numeric/source6/6 each and refusal2/2 (n=8 p50=0.0005635s, p95=0.000872s).
+Python Chrome base14/14, retry7/7, startup16/16 and recovery6/6 pass; earlier
+natural startup first failures remain recorded, with no claimed repair here.
+These are separate engineering/development denominators.

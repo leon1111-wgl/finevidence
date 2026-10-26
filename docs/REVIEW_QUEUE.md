@@ -1,5 +1,21 @@
 # Review queue
 
+## FE-003 / E3 local transport deadline enhancement (2026-10-26)
+
+The independent60259f8 audit measured the documented socket/checkpoint boundary
+(its first strict-target2/5 is preserved). A disposable process now owns network
+I/O and is killed/reaped on expiry. The versioned six-case plan is2/6→6/6; this
+is an implemented P2 reliability suggestion, not a newly discovered regression.
+Independently review TLS/header/body stalls, actual15/45 budgets, four-slot release,
+worker crash, unknown usage, no automatic retries and late-output refusal. Do not
+close E3 or claim remote cancellation/billing cessation from local process exit.
+Interview: why does socket timeout not bound a slow response, why is a timed-out
+thread insufficient, and how do you prove resource recovery without hiding cost?
+
+FE-028 was independently closed in observed scope at60259f8 on2026-10-26:
+startup state8/8, fault resources6/6 and independent boundaries18/18. Historical
+version1 reports and unexplained natural startup failures remain unchanged.
+
 ## FE-028 / P3 implementation ready for independent review (2026-10-26)
 
 The62e533e audit reproduced misleading startup visibility2/8 and omitted catalog

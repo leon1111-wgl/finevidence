@@ -144,3 +144,9 @@ exact identity, bounded Unicode validation and real browser receipt checks.
 Independent review owns closure. E2 source rights, genuine human semantic review
 and calculation admission remain the next major work; startup transport failures
 and final real-businessE7 remain open. No cosmetic feature count or paid rerun.
+
+2026-10-26: E3 provider calls now use owned local worker deadlines and reaping.
+Six offline TLS cases cover actual per-call and remaining Agent budgets; network
+failure does not retry or become a financial result. This reliability enhancement
+does not complete real-model holdout evaluation, remote cancellation, E2 human
+review/admission or finalE7. See PROVIDER_DEADLINE.

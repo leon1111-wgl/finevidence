@@ -45,6 +45,9 @@ jobs:
       - name: Synthetic task evaluation (no model credentials)
         run: python scripts/evaluate.py --output /tmp/finevidence-evaluation.json
 
+      - name: Offline TLS deadlines including default and remaining Agent budgets
+        run: python scripts/evaluate_provider_deadline.py --output /tmp/finevidence-deadline-evaluation.json
+
       - name: Known-defect store recovery evaluation (synthetic, no model)
         run: python scripts/evaluate_review_store.py --output /tmp/finevidence-store-evaluation.json
 
