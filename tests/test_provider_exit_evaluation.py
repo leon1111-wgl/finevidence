@@ -2,13 +2,51 @@
 import os
 import subprocess
 import sys
+import time
+import threading
 import unittest
 from unittest.mock import patch
 
-from scripts.evaluate_provider_exit import alive, cleanup_workers
+from scripts.evaluate_provider_exit import alive, cleanup_workers, wait_startup
 
 
 class ExitEvaluationTests(unittest.TestCase):
+    def startup_child(self, script):
+        child = subprocess.Popen([sys.executable, '-c', script], stdout=subprocess.PIPE, text=True)
+        def cleanup():
+            if child.poll() is None: child.kill()
+            child.wait(timeout=3); child.stdout.close()
+        self.addCleanup(cleanup)
+        return child
+
+    def test_slow_startup_is_separate_from_provider_deadline(self):
+        child = self.startup_child('import time; time.sleep(8.2); print("FinEvidence: ready", flush=True)')
+        wait_startup(child)
+
+    def test_never_ready_still_has_an_explicit_startup_bound(self):
+        child = self.startup_child('import time; time.sleep(30)')
+        started = time.monotonic()
+        with self.assertRaisesRegex(RuntimeError, 'server_start'): wait_startup(child, timeout=.1)
+        self.assertLess(time.monotonic() - started, .8)
+
+    def test_early_exit_is_not_successful_startup(self):
+        child = self.startup_child('raise SystemExit(1)')
+        with self.assertRaisesRegex(RuntimeError, 'server_exit_before_ready'): wait_startup(child, timeout=1)
+
+    def test_partial_banner_cannot_block_past_startup_deadline(self):
+        child = self.startup_child('import sys,time; sys.stdout.write("FinEvidence:"); sys.stdout.flush(); time.sleep(30)')
+        escape = threading.Timer(1, child.kill)
+        escape.start()
+        try:
+            started = time.monotonic()
+            with self.assertRaisesRegex(RuntimeError, 'server_start'): wait_startup(child, timeout=.2)
+            self.assertLess(time.monotonic() - started, .8, 'escape timer must not make this pass')
+        finally: escape.cancel(); escape.join()
+
+    def test_wrong_banner_is_not_ready(self):
+        child = self.startup_child('print("unrelated output", flush=True)')
+        with self.assertRaisesRegex(RuntimeError, 'server_banner'): wait_startup(child, timeout=1)
+
     def test_actual_live_and_reaped_process_states(self):
         self.assertTrue(alive(os.getpid()))
         child = subprocess.Popen([sys.executable, '-c', 'pass'])

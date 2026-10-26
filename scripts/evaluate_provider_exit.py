@@ -20,6 +20,7 @@ import threading
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
+STARTUP_LIMIT_SECONDS = 60
 PLAN = [
     {'id': 'interrupt-first', 'signal': 'SIGINT', 'calls': 1, 'budget': 15},
     {'id': 'kill-first', 'signal': 'SIGKILL', 'calls': 1, 'budget': 15},
@@ -68,8 +69,25 @@ def cleanup_workers(workers):
     return errors
 
 
+def wait_startup(server, timeout=STARTUP_LIMIT_SECONDS):
+    deadline = time.monotonic() + timeout
+    banner = bytearray()
+    while b'\n' not in banner:
+        remaining = deadline - time.monotonic()
+        if remaining <= 0 or not select.select([server.stdout], [], [], remaining)[0]:
+            raise RuntimeError('server_start')
+        # read only currently available bytes: readline could block forever
+        # after a partial banner, defeating the independent startup bound.
+        chunk = os.read(server.stdout.fileno(), 4096)
+        if not chunk: raise RuntimeError('server_exit_before_ready')
+        banner.extend(chunk)
+        if len(banner) > 4096: raise RuntimeError('server_banner')
+    if not banner.startswith(b'FinEvidence:'): raise RuntimeError('server_banner')
+
+
 def run_case(case, implementation, peer):
     row = dict(case, tolerance_seconds=.75, model_audit=None,
+               startup_limit_seconds=STARTUP_LIMIT_SECONDS,
                usage_status='unknown: server exits before returning an audit')
     peer.mode = 'body-trickle'; peer.duration = 18
     if case['calls'] == 4:
@@ -83,12 +101,15 @@ def run_case(case, implementation, peer):
     try:
         with socket.socket() as sock:
             sock.bind(('127.0.0.1', 0)); port = sock.getsockname()[1]
+        startup_started = time.monotonic()
         with peer.environment():
             server = subprocess.Popen([sys.executable, '-m', 'finevidence.server', '--port', str(port)],
                 cwd=implementation, env=os.environ.copy(), stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL, text=True)
-        if not select.select([server.stdout], [], [], 8)[0]: raise RuntimeError('server_start')
-        if not server.stdout.readline().startswith('FinEvidence:'): raise RuntimeError('server_banner')
+        try: wait_startup(server)
+        finally:
+            row['startup_seconds'] = round(time.monotonic() - startup_started, 6)
+            row['startup_returncode'] = server.poll()  # Before forced cleanup.
         connection = http.client.HTTPConnection('127.0.0.1', port, timeout=3)
         try:
             connection.request('GET', '/runtime.json')
@@ -166,7 +187,7 @@ def main():
     args = parser.parse_args(); implementation = args.implementation_root.resolve()
     sys.path.insert(0, str(ROOT / 'tests'))
     from tls_provider_fixture import TLSPeer
-    result = {'classification': 'OFFLINE_SYNTHETIC_SERVER_EXIT_DEVELOPMENT', 'judge_version': 2,
+    result = {'classification': 'OFFLINE_SYNTHETIC_SERVER_EXIT_DEVELOPMENT', 'judge_version': 3,
         'sha': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=implementation, text=True).strip(),
         'dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=implementation)),
         'provider_sha256': hashlib.sha256((implementation/'finevidence/provider.py').read_bytes()).hexdigest(),

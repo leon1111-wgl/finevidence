@@ -9,6 +9,11 @@ candidate. The child now independently arms the same absolute deadline using a
 Unix default-action timer before constructing TLS; ignored/blocked alarm state
 is reset inside that child. Parent kill/wait and bounded output remain unchanged.
 
+First release ac5dbce failed macOS readiness before any TLS request (four
+cases not exercised); preserve CI40331105323. Judge3 bounds startup separately
+at60s and retains original15/45 request budgets. Do not call that earlier run a
+passing exit test or infer an unproven startup root cause.
+
 Review actual HTTP/Agent/TLS exit on Linux/macOS, original 15-second and remaining
 45-second budgets, inherited signal state, no network on unsupported timers,
 normal two-call financial parity and original six deadlines/four-slot release.

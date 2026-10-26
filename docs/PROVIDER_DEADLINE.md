@@ -139,3 +139,20 @@ cleanup errors are retained and cannot turn into a pass. Four focused evaluator
 contracts pass, including actual owned-worker termination. Historical v1 reports
 remain intact; a separate v2 candidate run and exact-release CI check the hardened
 judge. This change does not alter the production timer or the four-case plan.
+
+
+The first published ac5dbce CI run failed on macOS: all four exit cases timed
+out waiting for server startup at 8 seconds, before any TLS request. That job
+passed Python 251/251 and the existing six deadlines; Ubuntu passed all four
+exit cases. Browser/Pages jobs were skipped. The underlying startup delay is
+unproven; another HTTP test in that macOS job took about 35 seconds.
+
+Judge v3 gives server readiness its own bounded 60-second allowance and records
+startup duration/exit status before cleanup. It reads available banner bytes
+under one absolute deadline, so partial output cannot block indefinitely. The
+15/45-second measurement still starts after readiness/runtime setup immediately
+before POST; no transport budget or tolerance is increased. Five readiness
+contracts cover delayed success, silence, partial output, early exit and a wrong
+banner. The delayed/partial/exit first failures are retained. The first failed
+CI run is not replaced with a successful rerun; the revised judge needs its own
+commit and exact CI evidence.

@@ -11,13 +11,16 @@ budget. Local observations: 15.030, 15.026, 15.056 and 45.062 seconds; no live
 worker or established connection at those observations. No immediate-on-exit
 cancellation or remote billing guarantee. Missing returned usage remains unknown.
 
-Local Python 251/251, JS 245/245, prior deadline plan 6/6, fixed synthetic finance
+Local Python 256/256, JS 245/245, prior deadline plan 6/6, fixed synthetic finance
 8/8 (exact numbers/sources 6/6, expected refusals 2/2), and normal two-call TLS
 Agent control 1/1 pass. Local Chrome desktop/narrow base 14/14, retry 7/7,
 startup 16/16 and restoration 6/6 pass, including keyboard/source/export checks.
 See PROVIDER_DEADLINE and EVALUATION for first failures
 and denominators. Exact-release CI/public/browser verification and independent
-closure remain separate gates. E2, final E7, historical real-model 7/8 and FE-013
+closure remain separate gates. First release ac5dbce CI failed macOS startup
+readiness (zero TLS requests in four planned exit cases); browser/Pages skipped.
+Judge3 separates bounded startup from unchanged request deadlines, and retains
+the first failure. E2, final E7, historical real-model 7/8 and FE-013
 remain open. No paid or real-model call.
 
 

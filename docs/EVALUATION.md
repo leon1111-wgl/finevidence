@@ -508,7 +508,7 @@ on Linux/macOS; configuration alone is not evidence of a completed CI run.
 Separate controls: existing six deadlines 6/6, fixed financial workflow 8/8 with
 exact numeric/source 6/6 and expected refusal 2/2 (n=8, p50 0.0005535s, p95
 0.000801s), and normal two-call synthetic TLS Agent 1/1 with exact 30.00%/source
-parity. Python 251/251 and JS 245/245 are engineering regressions, not extra
+parity. Python 256/256 and JS 245/245 are engineering regressions, not extra
 financial tasks or analyst savings. Historical live-model 7/8 and FE-013 remain
 unchanged; no repeated paid evaluation. See PROVIDER_DEADLINE for platform and
 remote-cancellation limits.
@@ -518,3 +518,12 @@ against judge v1. Judge v2 refuses failed/ambiguous `ps` observations and record
 unverified cleanup instead of claiming success. The v1 baseline/candidate reports
 remain unchanged; the separate v2 run is retained in the same evidence artifact.
 This is a measurement-quality fix, not a second model or financial improvement.
+
+
+First release ac5dbce CI failed: macOS exit judge never reached any of its four
+TLS requests because of the 8-second readiness allowance; Ubuntu exit4/4,
+macOS Python251/251 and original deadlines6/6 passed. Browser/Pages were skipped.
+The raw first CI remains retained. Judge3 measures startup separately (bounded
+60s, including partial-line handling) and preserves the original15/45s request
+budgets and0.75s tolerance. Its five readiness controls are engineering evidence,
+not financial tasks. The underlying CI startup delay remains unknown.
