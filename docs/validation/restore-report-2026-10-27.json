@@ -1,0 +1,198 @@
+{
+  "classification": "SYNTHETIC_RESTORE_REPORT_CONTRACT",
+  "base_commit": "9c975c689f9f179168e68ca01f954d0f60053cae",
+  "candidate": "uncommitted working tree; exact file hashes below",
+  "runs": {
+    "before": {
+      "classification": "SYNTHETIC_RESTORE_REPORT_CONTRACT",
+      "model_calls": 0,
+      "total": 6,
+      "passed": 0,
+      "rows": [
+        {
+          "scenario": "launch",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 0.239761417,
+          "contract_failure": "MISSING_REPORT"
+        },
+        {
+          "scenario": "context",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 3.2103163749999997,
+          "contract_failure": "MISSING_REPORT"
+        },
+        {
+          "scenario": "initial-ready",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 35.127690709,
+          "contract_failure": "REPORT_ASSERTION"
+        },
+        {
+          "scenario": "replay-ready",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 35.498658625000004,
+          "contract_failure": "REPORT_ASSERTION"
+        },
+        {
+          "scenario": "verification-ready",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 65.84999662500002,
+          "contract_failure": "REPORT_ASSERTION"
+        },
+        {
+          "scenario": "kill",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 15.047386375000002,
+          "contract_failure": "NO_CHECKPOINT_WATCHDOG"
+        }
+      ]
+    },
+    "after-first": {
+      "classification": "SYNTHETIC_RESTORE_REPORT_CONTRACT",
+      "model_calls": 0,
+      "total": 6,
+      "passed": 2,
+      "rows": [
+        {
+          "scenario": "launch",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 0.187484
+        },
+        {
+          "scenario": "context",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 34.467390209,
+          "contract_failure": "REPORT_ASSERTION"
+        },
+        {
+          "scenario": "initial-ready",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 95.470488625,
+          "contract_failure": "REPORT_ASSERTION"
+        },
+        {
+          "scenario": "replay-ready",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": true,
+          "seconds": 35.57817425000001,
+          "contract_failure": "REPORT_ASSERTION"
+        },
+        {
+          "scenario": "verification-ready",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": true,
+          "seconds": 35.753582208000005,
+          "contract_failure": "REPORT_ASSERTION"
+        },
+        {
+          "scenario": "kill",
+          "passed": true,
+          "child_exit": null,
+          "signal": "SIGKILL",
+          "checkpoint": true,
+          "seconds": 2.63197775000002
+        }
+      ]
+    },
+    "after": {
+      "classification": "SYNTHETIC_RESTORE_REPORT_CONTRACT",
+      "model_calls": 0,
+      "total": 6,
+      "passed": 6,
+      "rows": [
+        {
+          "scenario": "launch",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 0.24734383399999998
+        },
+        {
+          "scenario": "context",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 5.014148875
+        },
+        {
+          "scenario": "initial-ready",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 35.332061583000005
+        },
+        {
+          "scenario": "replay-ready",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": true,
+          "seconds": 35.637577541000006
+        },
+        {
+          "scenario": "verification-ready",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": true,
+          "seconds": 36.040177125
+        },
+        {
+          "scenario": "kill",
+          "passed": true,
+          "child_exit": null,
+          "signal": "SIGKILL",
+          "checkpoint": true,
+          "seconds": 2.6822944160000044
+        }
+      ]
+    }
+  },
+  "source_sha256": {
+    "tests/browser-restore.cjs": "99f3baee7fdc776b004e15c3a5ac352cdf9d90ced71fd3a7bff771335accddd3",
+    "tests/helpers/review-report.cjs": "203e8b25613cfe7b2d167d9aecf867f54c8b025c8b754d59a1693e8f1801b71e",
+    "tests/browser-restore-report.cjs": "a62db625db91b97cebc0c4c9d0efe9f1c686f40e23ba597850d682a41610b077",
+    "tests/helpers/restore-report-fault.cjs": "b9e2338945a28531e269bf030f25180012893e43a6e575b26b1df872e3a2e7a4"
+  },
+  "limits": [
+    "The first candidate2/6 includes unrelated natural startup failures and an overly strict event-delivery phase assertion.",
+    "Only the event phase assertion was corrected to accept navigation or readiness of the same load; case counts and waits are unchanged.",
+    "Python unit tests overlapped the first candidate run and include build_web; no common cause of the network resets is inferred. Final validation ran sequentially.",
+    "No paid or real-model calls; no real-report/hidden labels or human-time metric.",
+    "Natural transport failures remain unresolved;6/6 measures evidence retention, not repair of transport."
+  ]
+}

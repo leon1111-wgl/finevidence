@@ -1,5 +1,19 @@
 # Capability status
 
+## Restoration failure evidence (2026-10-27 Taipei)
+
+The Python restoration runner now preserves its six planned cases through launch,
+context and loading failures, with atomic checkpoints, exact navigation/readiness
+phases and bounded redacted resource diagnostics. Known reporting contracts0/6→6/6;
+intermediate2/6 with natural transport failures and a corrected event-phase
+assertion remains recorded. No production transport or financial behavior changed.
+Local Python265/265, JS246/246 and fixed synthetic finance8/8 pass. Normal Python
+Chrome base14/14, retry7/7, startup16/16 and restoration6/6 pass; shared diagnostic
+8/8 plus12/12 boundaries, privacy2/2 and review-report2/2 also pass. Exact-release
+CI/deployment and independent closure remain separate checks.
+Natural browser socket errors, E2/finalE7 and historical live7/8/FE-013 stay open.
+See BROWSER_FAILURE_EVIDENCE and EVALUATION; no paid or real-model calls.
+
 ## Numeric loopback startup (2026-10-27 Taipei)
 
 The local workbench now binds without reverse DNS for server metadata. The

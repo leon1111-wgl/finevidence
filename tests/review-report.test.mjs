@@ -33,3 +33,12 @@ test('closed page and private errors produce explicit unavailable state and fixe
  assert.equal(errorCode({name:'TimeoutError',message:'CANARY'}),'TIMEOUT');
  assert.equal(errorCode({code:'ERR_ASSERTION',message:'CANARY'}),'ASSERTION_FAILED');
 });
+test('restore replay errors retain a safe phase and no request content',async()=>{
+ const p=new EventEmitter();p.evaluate=async()=>({});let phase='replay-navigation';
+ const capture=observe(p,'http://127.0.0.1:8765',()=>phase);
+ p.emit('requestfailed',{url:()=> 'http://127.0.0.1:8765/api/run?PRIVATE_CANARY',failure:()=>({errorText:'net::ERR_CONNECTION_RESET'})});
+ phase='verification-ready';
+ const d=await capture();
+ assert.deepEqual(d.resources,[{resource:'api/run',event:'request_failed',code:'net::ERR_CONNECTION_RESET',phase:'replay-navigation'}]);
+ assert.ok(!JSON.stringify(d).includes('PRIVATE_CANARY'));
+});

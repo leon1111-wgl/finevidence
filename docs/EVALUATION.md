@@ -567,3 +567,24 @@ service. Exact display/source-year checks stay3/3 in both variants. The slow
 case2.010025s→0.007330s removes an unused startup dependency, not model or financial
 quality error. See LOOPBACK_STARTUP for raw first attempts, timer scope and limits.
 No hidden/real-report labels, no paid calls; historical real-model7/8 unchanged.
+
+## Restoration failure evidence (2026-10-27)
+
+Six authored subprocess controls measure retention of the original six-case
+restoration plan: launch/context errors, three module-load failures and SIGKILL.
+Report contracts change0/6 on9c975c6 to6/6 after phase/checkpoint reporting. The
+intermediate2/6 remains recorded: natural transport errors affected other cases,
+and the judge initially required a response event during navigation even though
+it can arrive in the matching readiness phase. Only that phase expectation was
+corrected; the same case counts, financial/source assertions and30second waits
+remain. [Before/intermediate/after results and file hashes](validation/restore-report-2026-10-27.json)
+keep these denominators separate from healthy restoration, fixed finance and
+historic live-model evaluation. No repeat-to-select financial/model answers.
+
+This is known-defect diagnostic evidence, not improved financial accuracy or
+analyst productivity. Local Python265/265 and JS246/246 are engineering checks;
+fixed synthetic finance8/8 retains numeric/source6/6 each and refusal2/2
+(n=8,p50=0.000525s,p95=0.000633s). Paid/real-model calls0; hidden/real-report
+quality labels and human-time measurements0. Historical live7/8/FE-013 remain
+unchanged. Natural socket failures, E2 and finalE7 remain open. See
+[BROWSER_FAILURE_EVIDENCE](BROWSER_FAILURE_EVIDENCE.md) for first-run limits.

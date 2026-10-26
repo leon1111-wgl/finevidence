@@ -131,3 +131,50 @@ contracts first failed0/8 and0/12 on the old helper; those denominators differ
 from the original startup-only2/8 observation. No waits or recovery assertions
 were weakened. These are authored development regressions, not hidden cases,
 financial quality or quantified staff savings.
+
+## Restoration runner checkpoints (2026-10-27)
+
+At9c975c6, a natural restoration run first failed5/6 with a module connection
+reset. A separate one-case diagnostic passed; neither identifies the original
+failed navigation nor proves lost saved state. The restoration runner wrote only
+at the end, and browser/context startup outside its case catch could lose all
+structured results. This is the existing failure-evidence gap, not a new claim
+that financial output or restoration metadata is wrong.
+
+`tests/browser-restore.cjs` now uses the existing version2 redacted helper. Its
+fixed six scenarios are checkpointed before browser launch, at each phase, after
+failure and after cleanup. A failure still exits nonzero; independent cases still
+run. `finished=false` with a running row means interruption, never a pass. Launch
+failure leaves six not_run rows. Context failure preserves earlier results. The
+report omits the base URL and raw exception strings. Success exports/screenshots
+still contain only the suite's fixed synthetic fixture; do not run it against
+private documents.
+
+Phases distinguish initial navigation/readiness, calculation, saved review,
+replay navigation/readiness, explicit retry, edited scope, recovery reload, export
+and final verification navigation/readiness. The network observer records the
+phase at event delivery (not request start), the last16 safe resource names and
+fixed HTTP/network error codes, including api/run. Asynchronous responses can
+arrive after goto resolves; both navigation and readiness are valid event phases
+for the same document load. No URL, query, headers, body, notes, IDs or raw errors
+are captured. Unexpected-failure screenshots use the existing layout-only mask;
+unavailable capture remains explicit. Application budgets and assertions are
+unchanged, including the30second readiness wait. This is test evidence, not a
+production telemetry system or a fix for the unexplained socket failures.
+
+Reproduce after build_web with the normal loopback server running:
+
+```sh
+pnpm test:restore
+pnpm test:restore-report
+```
+
+The second command invokes the actual runner in six fresh subprocesses: launch
+failure, third-context failure, module503 during initial/replay/verification
+readiness, and SIGKILL during a persisted replay checkpoint. The three HTTP
+faults occur on the390px case after two prior cases. Tests require the full plan,
+prior-pass retention, exact failing phase, explicit not_run/unfinished states,
+nonzero exit, bounded diagnostics and canary exclusion. The healthy restoration
+control is a separate six-case denominator. CI uploads both reports on failure.
+Disk failure/unwritable output and host loss may prevent a checkpoint; atomic
+rename does not guarantee a final report after interruption.

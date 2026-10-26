@@ -1,5 +1,23 @@
 # Review queue
 
+## Restoration evidence — independent review handoff (2026-10-27)
+
+At9c975c6, browser/context failures could exit without a restoration report, and
+in-case startup timeouts had no exact navigation phase. This extends the existing
+FE-019 failure-evidence work; it does not invent a new financial defect. Review
+actual child faults0/6→6/6, six fixed rows, prior passes, context failure continuation,
+SIGKILL unfinished state, event-delivery phases, safe resource names, raw-content
+exclusion, layout-only failure screenshots and cleanup errors. Preserve the first
+candidate2/6, prior natural restore5/6 and its separate1/1 diagnostic. Do not close
+the underlying transport observation or FE-013 from this diagnostic improvement.
+Interview: how can a correct failing exit code still lose evidence, and why must
+a network event carry its own phase instead of inheriting the final failed wait?
+
+The independent9c975c6 review accepted the numeric-loopback startup scope (19/19
+boundary controls), but also retained natural restoration5/6. The new reporter
+already observed initial-ready and verification-ready transport errors without
+claiming their cause. Exact release and independent review remain separate.
+
 ## Numeric loopback startup — independent review handoff
 
 At9b4cb6a, HTTPServer binding enters synchronous name resolution only to set

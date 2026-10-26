@@ -138,3 +138,8 @@ PDF预检后选择物理页，点击“查看本页版面”。可放大后用�
 本机启动直接绑定数值回环地址，不再为服务器名称做反向解析；不影响模型
 提供商所需的域名解析与TLS。受控慢解析的启动到核查证据见
 [LOOPBACK_STARTUP](LOOPBACK_STARTUP.md)。它不证明此前浏览器异常的根因。
+
+恢复测试使用 `pnpm test:restore`；`pnpm test:restore-report` 需要同一个已启动的
+回环服务，验证注入故障时的阶段与检查点。`restore/result.json` 的
+`finished=false` 或未执行行不能当作完整通过。每次使用新的产物目录，保留
+首次失败；网络事件阶段表示事件到达时刻。详见BROWSER_FAILURE_EVIDENCE。
