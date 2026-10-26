@@ -1,5 +1,20 @@
 # Capability status
 
+## Review failure evidence (2026-10-26 Taipei)
+
+Local review browser failures now retain the exact phase, atomic 14-case plan,
+prior passes and bounded redacted network/UI diagnostics. Failure screenshots
+mask text, inputs and document media. Two actual-child reporting contracts0/2→2/2;
+the injected children still fail13/14 and exit1. Ordinary review14/14, screenshot
+privacy2/2 (ten sampled regions), Python237/237 and JS244/244 pass locally.
+See BROWSER_FAILURE_EVIDENCE and EVALUATION. Exact release CI/Pages verification
+and independent review remain separate gates.
+
+Independent543f4c2 review closed FE-022 in the observed filename scope. Its first
+review run13/14 and earlier natural startup failures remain preserved and unexplained;
+this is evidence collection, not a claimed transport fix. E2, finalE7 and
+historical real-model7/8/FE-013 remain open. No new human labels or model calls.
+
 ## FE-022 opaque source names reach local observations (2026-10-26 Taipei)
 
 The ledger API now accepts the browser's bounded opaque Unicode filename contract,

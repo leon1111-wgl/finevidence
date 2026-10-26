@@ -11,7 +11,8 @@
     "test:review-ledger": "node tests/browser-review-ledger.cjs",
     "test:review-correction": "node tests/browser-review-correction.cjs",
     "test:review-recovery": "node tests/browser-review-recovery.cjs",
-    "test:review-filename": "node tests/browser-review-filename.cjs"
+    "test:review-filename": "node tests/browser-review-filename.cjs",
+    "test:review-report": "node tests/browser-review-redaction.cjs && node tests/browser-review-report.cjs"
   },
   "devDependencies": {
     "playwright": "1.62.1",

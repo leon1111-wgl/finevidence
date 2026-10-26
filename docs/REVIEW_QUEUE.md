@@ -1,5 +1,21 @@
 # Review queue
 
+## Local review diagnostics ready for independent review (2026-10-26 Taipei)
+
+The543f4c2 audit's390px revoke-lost-response timeout is still unexplained. Review
+the14-case checkpoint and phase contract in BROWSER_FAILURE_EVIDENCE, with normal
+suite14/14, actual-child negative controls2/2 and screenshot pixel checks2/2.
+Verify that both intentional failures remain exit1/13-of-14, prior passes survive,
+URLs/body/headers/notes/bearers/raw exceptions cannot enter diagnostics, and
+unavailable capture/cleanup failure never becomes success. The initial ineffective
+style mask and first failed report contracts are retained in implementation evidence.
+Interview: why can a correct nonzero exit still leave an incident untriageable,
+and why is a saved screenshot not proof that redaction worked?
+
+FE-022 was independently closed on543f4c2 in its reproduced filename scope.
+Do not close natural startup observations or FE-013 based on this reporting work.
+E2 rights/semantic admission, finalE7 and historical real-model7/8 remain open.
+
 ## FE-022 / P3 API compatibility ready for independent review (2026-10-26 Taipei)
 
 Baseline41ae1c9 rejects six browser-produced special-name submissions with422.

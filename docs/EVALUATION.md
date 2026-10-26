@@ -388,3 +388,29 @@ n=8 p50=0.000505s/p95=0.000617s in-process. No model calls/tokens/unknown-usage
 calls, hidden labels or new real semantic labels. Historical real-model7/8 and
 FE-013 remain; prior natural startup first failures are not erased by this fix.
 See LOCAL_REVIEW_LEDGER for raw-name identity and path boundaries.
+
+
+## Review incident evidence, 2026-10-26 (offline)
+
+This increment measures synthetic failure-report retention, not new financial
+capability. The original audit's natural review13/14 result is retained; root
+cause remains unknown. Two controlled HTTP503 child runs on baseline543f4c2 each
+returned13/14/exit1 but lacked the required completion, phase and diagnostic
+contract:0/2. After the change the same reporting contracts pass2/2; child results
+remain13/14/exit1, with7 earlier passes preserved in a mid-run checkpoint. Final
+masked runs took19.679s and19.940s end-to-end, one pass each. These are development
+cases and not a hidden set. No repeated candidate selection or deadline increase.
+
+Separate privacy checks: an ineffective style-mask counterfactual0/2; actual
+rectangle-mask screenshot pixels2/2 widths and10/10 sampled regions. The first
+file-existence-only green missed visible text and was rejected after visual
+inspection. A unit assertion also initially misclassified fixed `http_error`
+as a URL (1/2); it now checks actual URL prefixes, without a product change.
+All first outputs remain in local release evidence. See BROWSER_FAILURE_EVIDENCE.
+
+Normal synthetic local-review flow14/14 (14.355s), Python237/237, JS244/244 and the
+unchanged fixed deterministic finance8/8 are separate regression denominators.
+Financial exact numbers/source completeness6/6 and expected refusals2/2 remain
+unchanged. These test counts are not a claim of analyst time saved. Real-document
+semantic labels0, hidden labels0, model calls0, known tokens0 and calls with unknown
+usage0. The historical live-model first pass stays7/8 with FE-013 open.
