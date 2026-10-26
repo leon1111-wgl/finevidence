@@ -527,3 +527,34 @@ The raw first CI remains retained. Judge3 measures startup separately (bounded
 60s, including partial-line handling) and preserves the original15/45s request
 budgets and0.75s tolerance. Its five readiness controls are engineering evidence,
 not financial tasks. The underlying CI startup delay remains unknown.
+
+
+## FE-030 exit-judge failure cleanup (2026-10-27)
+
+One frozen offline TLS-handshake failure measures cleanup truthfulness, separately
+from the expected failed exit case. Before: the judge claimed clean while one
+owned worker and its established socket remained live (5.257171s). After: the
+same failure retains `passed=false/TLS_request_count`, but the worker and socket
+are confirmed gone (5.727075s): cleanup contract **0/1 to 1/1**. This is a
+measurement and resource-cleanup repair, not improved financial accuracy or
+production-request latency. [Raw before/after and source hashes](validation/exit-cleanup-2026-10-27.json)
+identify the uncommitted measured judge4; release CI/Pages verification is separate.
+The genuine HTTP/TLS regression is reproducible with
+`python3 -m unittest discover -s tests -p test_provider_exit_evaluation.py -v`.
+
+The unchanged four server-exit controls pass4/4 (15.046104, 15.046296, 15.056351,
+45.016652s; original0.75s tolerance); six deadline controls pass6/6. Fixed synthetic
+finance remains8/8, numeric/source6/6 each, expected refusal2/2 (n=8,
+p50=0.0006035s, p95=0.000986s). Normal synthetic TLS Agent is1/1, two calls,
+30.00% and exact source/calculation parity,0.1077425s. These are separate plans.
+Python262/262 (64.679s), focused15/15 (15.100s) and JS245/245 are engineering
+regressions; do not add their counts to the financial denominator.
+
+The first red regression9/12, first candidate11/12, review census/race failures,
+and local Chrome startup first15/16 remain retained. A separately instrumented
+single startup diagnostic1/1 does not overwrite the first failure or establish
+its root cause. See [cleanup design and limits](EXIT_EVALUATION_CLEANUP.md).
+No real/paid-model call, hidden case or new human financial label was added.
+The failed handshake has no returned usage audit and remains unknown; fixture
+zero tokens in successful controls are synthetic, not billing evidence.
+Historical live7/8/FE-013 and finalE7 remain open.

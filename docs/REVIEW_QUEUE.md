@@ -1,5 +1,23 @@
 # Review queue
 
+## FE-030 / P3 implementation ready for independent review (2026-10-27)
+
+At bfc14df, actual handshake failure before HTTP counting returned passed=false
+but cleanup=true while a worker/socket remained live. Judge4 now registers owned
+workers early, stops a running server for a final complete census and checks
+start/argument identity before cleanup. Missing/partial observations fail closed.
+Review the original known-defect contract0/1→1/1, preserved failure phase, actual
+socket closure, changed-PID negative control, empty/missing-parent census and
+parent death during final enumeration. Retain original15/45 budgets and all first
+failures; do not claim atomic PID ownership or remote cancellation/billing stop.
+See EXIT_EVALUATION_CLEANUP and EVALUATION. Independent review owns closure.
+
+FE-029 was independently closed atbfc14df in the four actual server-exit scope,
+including original SIGINT/KILL and exact Linux/macOS CI logs. FE-003 overall,
+FE-013 historical7/8, E2, finalE7 and natural browser-startup observations stay open.
+Interview: how do you distinguish an empty owned process tree from a failed
+observation, and how can a failed test still produce misleading cleanup evidence?
+
 ## FE-029 / P2 implementation ready for independent review (2026-10-26)
 
 At 3f977c9, actual local server SIGINT/SIGKILL left its worker and TLS connection

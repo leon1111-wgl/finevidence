@@ -156,3 +156,7 @@ contracts cover delayed success, silence, partial output, early exit and a wrong
 banner. The delayed/partial/exit first failures are retained. The first failed
 CI run is not replaced with a successful rerun; the revised judge needs its own
 commit and exact CI evidence.
+
+Judge4's early worker registry, stopped-server final census and unverified cleanup
+semantics are documented in [EXIT_EVALUATION_CLEANUP](EXIT_EVALUATION_CLEANUP.md).
+This fixes FE-030 measurement/cleanup behavior; the production timer is unchanged.

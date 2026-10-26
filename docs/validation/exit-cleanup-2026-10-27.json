@@ -1,0 +1,266 @@
+{
+  "classification": "OFFLINE_SYNTHETIC_CLEANUP_DEVELOPMENT",
+  "baseline_sha": "bfc14df92187dc3a7febc8af367ba79b05ba7fed",
+  "candidate": {
+    "classification": "INDEPENDENT_SYNTHETIC_JUDGE_FAILURE_PATH",
+    "sha": "bfc14df92187dc3a7febc8af367ba79b05ba7fed",
+    "elapsed_seconds": 5.727075,
+    "judge_row": {
+      "id": "interrupt-first",
+      "signal": "SIGINT",
+      "calls": 1,
+      "budget": 15,
+      "tolerance_seconds": 0.75,
+      "model_audit": null,
+      "startup_limit_seconds": 60,
+      "usage_status": "unknown: server exits before returning an audit",
+      "startup_seconds": 0.114034,
+      "startup_returncode": null,
+      "harness_error_type": "RuntimeError",
+      "harness_phase": "TLS_request_count",
+      "passed": false,
+      "tls_requests": 0,
+      "tracked_worker_pids": [
+        13533
+      ],
+      "client_error_type": "RemoteDisconnected",
+      "cleanup_errors": [],
+      "cleanup_no_live_workers": true
+    },
+    "observed_owned_workers": [
+      {
+        "pid": 13533,
+        "live": false,
+        "established_socket": false,
+        "process_returncode": 1
+      }
+    ],
+    "reproduced": false,
+    "real_model_calls": 0,
+    "hidden_cases": 0,
+    "real_financial_labels": 0,
+    "independent_cleanup_no_live_workers": true,
+    "dirty": true,
+    "judge_version": 4,
+    "judge_sha256": "dbb80365b9cfca587db44f390b8073ed9476b94b4665087aa54682e9f34f7103"
+  },
+  "planned": 1,
+  "baseline_passed": 0,
+  "candidate_passed": 1,
+  "baseline": {
+    "classification": "INDEPENDENT_SYNTHETIC_JUDGE_FAILURE_PATH",
+    "sha": "bfc14df92187dc3a7febc8af367ba79b05ba7fed",
+    "elapsed_seconds": 5.257171,
+    "judge_row": {
+      "id": "interrupt-first",
+      "signal": "SIGINT",
+      "calls": 1,
+      "budget": 15,
+      "tolerance_seconds": 0.75,
+      "model_audit": null,
+      "startup_limit_seconds": 60,
+      "usage_status": "unknown: server exits before returning an audit",
+      "startup_seconds": 0.135615,
+      "startup_returncode": null,
+      "harness_error_type": "RuntimeError",
+      "harness_phase": "TLS_request_count",
+      "passed": false,
+      "tls_requests": 0,
+      "client_error_type": "RemoteDisconnected",
+      "cleanup_errors": [],
+      "cleanup_no_live_workers": true
+    },
+    "observed_owned_workers": [
+      {
+        "pid": 1622,
+        "live": true,
+        "established_socket": true,
+        "process_returncode": 0
+      }
+    ],
+    "reproduced": true,
+    "real_model_calls": 0,
+    "hidden_cases": 0,
+    "real_financial_labels": 0,
+    "independent_cleanup_no_live_workers": true
+  },
+  "limits": "One frozen handshake failure before HTTP count; expected parent judge still fails. The audit probe exit0 means defect reproduced, not application success. Reproduction and cleanup are separate. No real-model or financial-quality score.",
+  "first_failures": {
+    "red_regression": {
+      "total": 12,
+      "passed": 9,
+      "failed": 3
+    },
+    "first_candidate_regression": {
+      "total": 12,
+      "passed": 11,
+      "failed": 1,
+      "reason": "macOS Python exec changes launcher path; identity now retains start time and arguments"
+    },
+    "review_census_fault": "Successful but empty/partial process census was incorrectly accepted; raw first review retained locally.",
+    "review_parent_exit_fault": "Parent dying after STOP but before census was incorrectly accepted; strict required parent census and regression added."
+  },
+  "real_model_calls": 0,
+  "paid_calls": 0,
+  "hidden_cases": 0,
+  "new_human_financial_labels": 0,
+  "baseline_judge_sha256": "88ecb9c0a4ed4b01ad0a44d0f2614d795003c9215f16b4863d94d7a445108a82",
+  "candidate_source": "bfc14df plus uncommitted judge4; source digest identifies the measured candidate, not a committed release",
+  "final_regression": {
+    "focused": {
+      "passed": 15,
+      "planned": 15,
+      "seconds": 15.1
+    },
+    "python": {
+      "passed": 262,
+      "planned": 262,
+      "seconds": 64.679
+    },
+    "javascript": {
+      "passed": 245,
+      "planned": 245
+    }
+  },
+  "unchanged_exit_plan": {
+    "classification": "OFFLINE_SYNTHETIC_SERVER_EXIT_DEVELOPMENT",
+    "judge_version": 4,
+    "sha": "bfc14df92187dc3a7febc8af367ba79b05ba7fed",
+    "dirty": true,
+    "provider_sha256": "758fc70140a7c901e8eda84bdfaf87afe478a8e29048cf29834c60d92d324da9",
+    "plan_sha256": "ed77726f37d34ca50926a8be529f671bebf51de0fb34a543547ba28a90e33b9b",
+    "planned": 4,
+    "completed": 4,
+    "passed": 4,
+    "external_requests": 0,
+    "real_model_calls": 0,
+    "hidden_cases": 0,
+    "real_financial_labels": 0,
+    "rows": [
+      {
+        "id": "interrupt-first",
+        "signal": "SIGINT",
+        "calls": 1,
+        "budget": 15,
+        "tolerance_seconds": 0.75,
+        "model_audit": null,
+        "startup_limit_seconds": 60,
+        "usage_status": "unknown: server exits before returning an audit",
+        "startup_seconds": 0.101538,
+        "startup_returncode": null,
+        "worker_pid": 10468,
+        "signal_seconds": 0.100737,
+        "client_error_type": "RemoteDisconnected",
+        "server_returncode": 0,
+        "observed_seconds": 15.046104,
+        "worker_state": "",
+        "worker_live": false,
+        "established_socket": false,
+        "passed": true,
+        "tls_requests": 1,
+        "tracked_worker_pids": [
+          10468
+        ],
+        "cleanup_errors": [],
+        "cleanup_no_live_workers": true
+      },
+      {
+        "id": "kill-first",
+        "signal": "SIGKILL",
+        "calls": 1,
+        "budget": 15,
+        "tolerance_seconds": 0.75,
+        "model_audit": null,
+        "startup_limit_seconds": 60,
+        "usage_status": "unknown: server exits before returning an audit",
+        "startup_seconds": 0.11707,
+        "startup_returncode": null,
+        "worker_pid": 11072,
+        "signal_seconds": 0.107409,
+        "client_error_type": "RemoteDisconnected",
+        "server_returncode": -9,
+        "observed_seconds": 15.046296,
+        "worker_state": "",
+        "worker_live": false,
+        "established_socket": false,
+        "passed": true,
+        "tls_requests": 1,
+        "tracked_worker_pids": [
+          11072
+        ],
+        "cleanup_errors": [],
+        "cleanup_no_live_workers": true
+      },
+      {
+        "id": "terminate-first",
+        "signal": "SIGTERM",
+        "calls": 1,
+        "budget": 15,
+        "tolerance_seconds": 0.75,
+        "model_audit": null,
+        "startup_limit_seconds": 60,
+        "usage_status": "unknown: server exits before returning an audit",
+        "startup_seconds": 0.1121,
+        "startup_returncode": null,
+        "worker_pid": 11653,
+        "signal_seconds": 0.097441,
+        "client_error_type": "RemoteDisconnected",
+        "server_returncode": -15,
+        "observed_seconds": 15.056351,
+        "worker_state": "",
+        "worker_live": false,
+        "established_socket": false,
+        "passed": true,
+        "tls_requests": 1,
+        "tracked_worker_pids": [
+          11653
+        ],
+        "cleanup_errors": [],
+        "cleanup_no_live_workers": true
+      },
+      {
+        "id": "kill-remaining",
+        "signal": "SIGKILL",
+        "calls": 4,
+        "budget": 45,
+        "tolerance_seconds": 0.75,
+        "model_audit": null,
+        "startup_limit_seconds": 60,
+        "usage_status": "unknown: server exits before returning an audit",
+        "startup_seconds": 0.11248,
+        "startup_returncode": null,
+        "worker_pid": 13459,
+        "signal_seconds": 42.380547,
+        "client_error_type": "RemoteDisconnected",
+        "server_returncode": -9,
+        "observed_seconds": 45.016652,
+        "worker_state": "",
+        "worker_live": false,
+        "established_socket": false,
+        "passed": true,
+        "tls_requests": 4,
+        "tracked_worker_pids": [
+          12244,
+          12663,
+          13075,
+          13459
+        ],
+        "cleanup_errors": [],
+        "cleanup_no_live_workers": true
+      }
+    ]
+  },
+  "browser_first_startup": {
+    "passed": 15,
+    "planned": 16,
+    "failed_case": "1440-healthy",
+    "readiness_bound_ms": 12000,
+    "cause": "unknown",
+    "separate_single_diagnostic": {
+      "passed": 1,
+      "planned": 1,
+      "elapsed_ms": 963,
+      "captured_network_failures": 0
+    }
+  }
+}

@@ -46,27 +46,84 @@ def alive(pid):
     return bool(status) and not status.startswith('Z')
 
 
-def children(pid):
-    rows = subprocess.check_output(['ps', '-axo', 'pid=,ppid='], text=True, timeout=2)
-    return [int(row.split()[0]) for row in rows.splitlines()
-            if len(row.split()) == 2 and int(row.split()[1]) == pid]
+def children(pid, *, require_parent=False):
+    result = subprocess.run(['ps', '-axo', 'pid=,ppid='],
+                            capture_output=True, text=True, timeout=2)
+    rows = [line.split() for line in result.stdout.splitlines()]
+    if (result.returncode != 0 or result.stderr or not rows or
+            any(len(row) != 2 or not all(value.isdigit() for value in row) for row in rows)):
+        raise RuntimeError('process_observation')
+    pairs = [(int(child), int(parent)) for child, parent in rows]
+    if len({child for child, _ in pairs}) != len(pairs):
+        raise RuntimeError('process_observation')
+    if not any(child == pid for child, _ in pairs) and (require_parent or process_identity(pid) is not None):
+        raise RuntimeError('process_observation')  # Truncated live-parent census.
+    return [child for child, parent in pairs if parent == pid]
+
+
+def process_identity(pid):
+    """Observe owner, state and start/command identity without exporting commands."""
+    result = subprocess.run(['ps', '-p', str(pid), '-o', 'ppid=,stat=,lstart=,command='],
+                            capture_output=True, text=True, timeout=2)
+    text = result.stdout.strip()
+    if result.returncode == 1 and not text and not result.stderr: return None
+    fields = text.split(None, 7)
+    if result.returncode != 0 or result.stderr or len(fields) != 8 or not fields[0].isdigit():
+        raise RuntimeError('process_observation')
+    # macOS Python replaces its launcher executable with Python.app after
+    # spawn; the start time and arguments stay the same across that exec.
+    arguments = fields[7].split(None, 1)
+    if len(arguments) != 2: raise RuntimeError('process_observation')
+    identity = ' '.join(fields[2:7]) + ' ' + arguments[1]
+    return int(fields[0]), fields[1], identity
+
+
+def remember_workers(workers, server_pid):
+    active = []
+    for pid in children(server_pid, require_parent=True):
+        observed = process_identity(pid)
+        if observed is None: continue  # Exited between census and identity read.
+        parent, status, identity = observed
+        if parent != server_pid or (pid in workers and workers[pid] != identity):
+            raise RuntimeError('worker_identity')
+        workers[pid] = identity
+        if not status.startswith('Z'): active.append(pid)
+    return active
 
 
 def cleanup_workers(workers):
     errors = []
     for pid in workers:
         try:
-            if alive(pid):
-                try: os.kill(pid, signal.SIGKILL)
-                except ProcessLookupError: pass
+            if not isinstance(workers, dict) or not workers[pid]:
+                raise RuntimeError('worker_identity')
+            observed = process_identity(pid)
+            if observed is None or observed[1].startswith('Z'): continue
+            if observed[2] != workers[pid]: raise RuntimeError('worker_identity')
+            try: os.kill(pid, signal.SIGKILL)
+            except ProcessLookupError: pass
             deadline = time.monotonic() + 3
             while alive(pid) and time.monotonic() < deadline: time.sleep(.05)
             if alive(pid): errors.append('worker_still_live')
         except Exception:
-            # Do not infer death or target an unverified/reused PID. The saved
-            # row retains its worker PID for recovery instead of claiming clean.
+            # No signal to a PID whose captured start/command no longer matches.
             errors.append('worker_cleanup_unverified')
     return errors
+
+
+def final_census(server, workers, intentional_exit):
+    if server is None: return
+    if server.poll() is not None:
+        if intentional_exit: return  # Last active worker captured before signal.
+        raise RuntimeError('worker_census_unverified')
+    # Freeze all server threads before the final census so they cannot create a
+    # new child between enumeration and server termination. Never resume it.
+    server.send_signal(signal.SIGSTOP)
+    limit = time.monotonic() + 2
+    while not state(server.pid).startswith('T'):
+        if time.monotonic() >= limit: raise RuntimeError('worker_census_unverified')
+        time.sleep(.01)
+    remember_workers(workers, server.pid)
 
 
 def wait_startup(server, timeout=STARTUP_LIMIT_SECONDS):
@@ -97,7 +154,7 @@ def run_case(case, implementation, peer):
             'choices': [{'finish_reason': 'stop', 'message': {'content': json.dumps({
                 'tool': tool, 'arguments': arguments})}}], 'usage': {'total_tokens': 0}}).encode())
             for duration, (tool, arguments) in zip((14, 14, 14, 10), decisions)]
-    server = None; workers = []; client = None; started = None
+    server = None; workers = {}; client = None; started = None; intentional_exit = False
     try:
         with socket.socket() as sock:
             sock.bind(('127.0.0.1', 0)); port = sock.getsockname()[1]
@@ -130,22 +187,26 @@ def run_case(case, implementation, peer):
         started = time.monotonic()
         client = threading.Thread(target=query, daemon=True); client.start()
         ready_limit = started + (44 if case['calls'] == 4 else 5)
-        while len(peer.requests) < case['calls'] and time.monotonic() < ready_limit: time.sleep(.01)
+        while len(peer.requests) < case['calls'] and time.monotonic() < ready_limit:
+            remember_workers(workers, server.pid)
+            time.sleep(.05)
         if len(peer.requests) != case['calls']: raise RuntimeError('TLS_request_count')
-        workers = children(server.pid)
-        if len(workers) != 1: raise RuntimeError('worker_count')
-        row['worker_pid'] = workers[0]
+        active = remember_workers(workers, server.pid)
+        if len(active) != 1: raise RuntimeError('worker_count')
+        worker = active[0]
+        row['worker_pid'] = worker
         row['signal_seconds'] = round(time.monotonic() - started, 6)
         server.send_signal(getattr(signal, case['signal']))
+        intentional_exit = True
         row['server_returncode'] = server.wait(timeout=3)
         limit = started + case['budget'] + row['tolerance_seconds']
-        while alive(workers[0]) and time.monotonic() < limit: time.sleep(.05)
+        while alive(worker) and time.monotonic() < limit: time.sleep(.05)
         row['observed_seconds'] = round(time.monotonic() - started, 6)
-        row['worker_state'] = state(workers[0])
-        row['worker_live'] = alive(workers[0])
+        row['worker_state'] = state(worker)
+        row['worker_live'] = alive(worker)
         row['established_socket'] = None
         if shutil.which('lsof'):
-            sockets = subprocess.run(['lsof', '-nP', '-a', '-p', str(workers[0]),
+            sockets = subprocess.run(['lsof', '-nP', '-a', '-p', str(worker),
                 '-iTCP', '-sTCP:ESTABLISHED'], capture_output=True, text=True, timeout=3)
             if sockets.returncode not in (0, 1): raise RuntimeError('socket_observation')
             row['established_socket'] = 'ESTABLISHED' in sockets.stdout
@@ -161,7 +222,11 @@ def run_case(case, implementation, peer):
         row['passed'] = False
     finally:
         row['tls_requests'] = len(peer.requests)
-        errors = cleanup_workers(workers)
+        errors = []
+        try: final_census(server, workers, intentional_exit)
+        except Exception: errors.append('worker_census_unverified')
+        errors.extend(cleanup_workers(workers))
+        row['tracked_worker_pids'] = sorted(workers)
         if server:
             try:
                 if server.poll() is None: server.kill()
@@ -187,7 +252,7 @@ def main():
     args = parser.parse_args(); implementation = args.implementation_root.resolve()
     sys.path.insert(0, str(ROOT / 'tests'))
     from tls_provider_fixture import TLSPeer
-    result = {'classification': 'OFFLINE_SYNTHETIC_SERVER_EXIT_DEVELOPMENT', 'judge_version': 3,
+    result = {'classification': 'OFFLINE_SYNTHETIC_SERVER_EXIT_DEVELOPMENT', 'judge_version': 4,
         'sha': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=implementation, text=True).strip(),
         'dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=implementation)),
         'provider_sha256': hashlib.sha256((implementation/'finevidence/provider.py').read_bytes()).hexdigest(),

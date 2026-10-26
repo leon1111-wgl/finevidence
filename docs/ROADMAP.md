@@ -150,3 +150,8 @@ Six offline TLS cases cover actual per-call and remaining Agent budgets; network
 failure does not retry or become a financial result. This reliability enhancement
 does not complete real-model holdout evaluation, remote cancellation, E2 human
 review/admission or finalE7. See PROVIDER_DEADLINE.
+
+2026-10-27: FE-030 improves failure-cleanup evidence in the server-exit judge,
+with actual handshake/socket and process-observation controls. It does not add
+business features or complete E2/E7. Preserve the unresolved startup observation
+and historical real-model7/8; independent review still owns FE-030 closure.

@@ -1,5 +1,22 @@
 # Capability status
 
+## FE-030 exit-judge cleanup (2026-10-27 Taipei)
+
+Judge4 tracks workers before TLS requests arrive, freezes an owned live server
+before its final census, and refuses unknown/partial process observations or
+changed identities. The known handshake-failure cleanup contract changes0/1→1/1;
+the underlying exit case still reports failed/TLS_request_count. The production
+provider and financial/browser behavior are unchanged. See EXIT_EVALUATION_CLEANUP
+for exact scope, first failures and PID-observation limits. Local Python262/262,
+JS245/245, focused15/15 and unchanged exit4/4/deadline6/6 controls passed;
+prepublication read-only review found no remaining release blocker.
+
+The bfc14df independent audit closed FE-029 in its reproduced scope (four actual
+server exits4/4 plus exact Linux/macOS CI). FE-030 implementation awaits independent
+review on the released SHA. Local browser startup first15/16 and separate
+single-case diagnostic1/1 remain distinct; no natural-startup fix is claimed.
+Historical real-model7/8/FE-013, E2 and finalE7 remain open; no paid-model calls.
+
 ## FE-029 worker deadlines after server exit (2026-10-26 Taipei)
 
 The independent 3f977c9 audit reproduced orphaned transport workers after server
