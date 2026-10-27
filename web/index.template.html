@@ -79,7 +79,6 @@
               <a href="#handoff">复算收到的交接包</a>
             </p>
           </div>
-          <button id="export" class="secondary" disabled>导出审查记录</button>
         </div>
         <section class="query-area" aria-label="核查任务">
           <form id="query-form">
@@ -157,9 +156,14 @@
             placeholder="例如：已核对两个年度的收入单位一致；还需确认真实报告中的重述口径。"
             disabled
           ></textarea>
-          <p id="save-state" class="small">
-            记录保存在当前浏览器；导出文件后可自行留存。
-          </p>
+          <div class="review-actions">
+            <p id="save-state" class="small">
+              记录保存在当前浏览器；导出文件后可自行留存。
+            </p>
+            <button id="export" type="button" class="secondary" disabled>
+              导出审查记录
+            </button>
+          </div>
         </section>
         <section
           id="handoff"

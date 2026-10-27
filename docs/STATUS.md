@@ -1,5 +1,15 @@
 # Capability status
 
+## Review export keyboard path (2026-10-27 Taipei)
+
+The review download action now follows notes, with one forward Tab at1440/390px
+instead of21/20. The frozen <=3-Tab acceptance changes0/2 to2/2; actual synthetic
+downloads and stale-scope disabling remain2/2. This is a known usability-path
+improvement, not a new financial capability or measured analyst time saving.
+See REVIEW_EXPORT for first failures, screenshots and exact scope. Release CI,
+deployed bytes and independent review remain separate checks. Natural module
+resets, native select-arrow coverage, E2/finalE7 and live7/8/FE-013 stay open.
+
 ## Restoration failure evidence (2026-10-27 Taipei)
 
 The Python restoration runner now preserves its six planned cases through launch,

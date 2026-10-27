@@ -1,0 +1,142 @@
+{
+  "classification": "SYNTHETIC_KNOWN_WORKFLOW_DEVELOPMENT",
+  "base_commit": "89ca34a316585f5394d53c95fce8bcda80192c6b",
+  "candidate_is_uncommitted": true,
+  "plan_sha256": "5cf542a9bbf6511b3a8c81c27fc01bf24d1cdd6430cea529a0b3c190794f10a2",
+  "source_sha256": {
+    "web/index.template.html": "801596b9f47f502464c6c63aa0838ac8c993955ebb83f61dc9854a1f4b99a8ba",
+    "web/styles.css": "41b2769e3220488d4e081a8d4e6929ce3e0ba47966a5f5c1a32fb0472b38fd8a"
+  },
+  "source_documents": 1,
+  "hidden_tasks": 0,
+  "real_financial_labels": 0,
+  "model_calls": 0,
+  "known_tokens": 0,
+  "unknown_usage_calls": 0,
+  "baseline": {
+    "schema_version": 2,
+    "run_id": "f891563c-2b7a-4af6-b439-361ffeaa5f8d",
+    "classification": "SYNTHETIC_KEYBOARD_DEVELOPMENT",
+    "source_documents": 1,
+    "model_calls": 0,
+    "max_forward_tabs": 3,
+    "finished": true,
+    "suite_error": null,
+    "total": 2,
+    "attempted": 2,
+    "passed": 0,
+    "failed": 2,
+    "not_run": 0,
+    "rows": [
+      {
+        "name": "notes-to-export",
+        "width": 1440,
+        "status": "failed",
+        "phase": "tab-budget",
+        "passed": false,
+        "model_requests": 0,
+        "forward_tabs": 21,
+        "export_valid": true,
+        "scope_invalidated": true,
+        "error_code": "ASSERTION_FAILED",
+        "diagnostics": {
+          "schema_version": 2,
+          "readiness": {
+            "run_present": true,
+            "run_disabled": false,
+            "startup_panel_visible": false,
+            "startup_reload_visible": false,
+            "data_retry_visible": false,
+            "ledger_busy": false,
+            "ledger_retry_visible": false,
+            "ledger_alert": false,
+            "records": 0
+          },
+          "resources": [],
+          "page_errors": 0
+        },
+        "screenshot": {
+          "policy": "layout_only",
+          "saved": true,
+          "file": "1440-notes-to-export-failure-layout.png"
+        },
+        "seconds": 2.4285847499999993
+      },
+      {
+        "name": "notes-to-export",
+        "width": 390,
+        "status": "failed",
+        "phase": "tab-budget",
+        "passed": false,
+        "model_requests": 0,
+        "forward_tabs": 20,
+        "export_valid": true,
+        "scope_invalidated": true,
+        "error_code": "ASSERTION_FAILED",
+        "diagnostics": {
+          "schema_version": 2,
+          "readiness": {
+            "run_present": true,
+            "run_disabled": false,
+            "startup_panel_visible": false,
+            "startup_reload_visible": false,
+            "data_retry_visible": false,
+            "ledger_busy": false,
+            "ledger_retry_visible": false,
+            "ledger_alert": false,
+            "records": 0
+          },
+          "resources": [],
+          "page_errors": 0
+        },
+        "screenshot": {
+          "policy": "layout_only",
+          "saved": true,
+          "file": "390-notes-to-export-failure-layout.png"
+        },
+        "seconds": 0.6002932500000007
+      }
+    ]
+  },
+  "candidate": {
+    "schema_version": 2,
+    "run_id": "8acaa921-e652-428b-baca-f865d97aac28",
+    "classification": "SYNTHETIC_KEYBOARD_DEVELOPMENT",
+    "source_documents": 1,
+    "model_calls": 0,
+    "max_forward_tabs": 3,
+    "finished": true,
+    "suite_error": null,
+    "total": 2,
+    "attempted": 2,
+    "passed": 2,
+    "failed": 0,
+    "not_run": 0,
+    "rows": [
+      {
+        "name": "notes-to-export",
+        "width": 1440,
+        "status": "passed",
+        "phase": "tab-budget",
+        "passed": true,
+        "model_requests": 0,
+        "forward_tabs": 1,
+        "export_valid": true,
+        "scope_invalidated": true,
+        "seconds": 0.6134682089999999
+      },
+      {
+        "name": "notes-to-export",
+        "width": 390,
+        "status": "passed",
+        "phase": "tab-budget",
+        "passed": true,
+        "model_requests": 0,
+        "forward_tabs": 1,
+        "export_valid": true,
+        "scope_invalidated": true,
+        "seconds": 0.48198849999999993
+      }
+    ]
+  }
+}

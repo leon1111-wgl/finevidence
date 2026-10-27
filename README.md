@@ -75,7 +75,7 @@ The second query returns `NO_MATCH`, an empty citations list and `answer: null`.
 - A shared workflow and JSON response contract with request ID, status, original excerpts, citations and limitations.
 - Eight typed synthetic facts, explicit units/period/currency/basis/scope, original-source rechecks and deterministic Decimal gross margin, revenue growth and margin percentage-point change.
 - An explicit synthetic SQLite snapshot builder and parameterized, read-only lookup used by all three calculations; JSON remains the reference backend.
-- 262 local engineering tests; GitHub Actions checks the same suite on Linux and macOS with Python 3.12.
+- Source-linked regression tests; [GitHub Actions](https://github.com/leon1111-wgl/finevidence/actions) records results for each commit on Linux and macOS with Python 3.12.
 
 All companies, amounts and statements in the sample corpus are fictional. `page_kind=synthetic` is **not** a PDF physical page. Engineering tests do not establish real financial question-answering quality.
 

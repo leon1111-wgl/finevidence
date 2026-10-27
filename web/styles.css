@@ -407,8 +407,19 @@ td.num {
 .review-section textarea {
   margin-top: 12px;
 }
-.review-section #save-state {
-  margin-top: 8px;
+.review-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-top: 12px;
+}
+.review-actions #save-state {
+  margin: 0;
+}
+.review-actions button {
+  flex-shrink: 0;
 }
 .help {
   margin-top: 28px;
@@ -564,9 +575,6 @@ footer {
   }
   h1 {
     font-size: 23px;
-  }
-  .page-heading button {
-    margin-top: 16px;
   }
   .query-controls {
     grid-template-columns: 1fr;

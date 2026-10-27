@@ -1,5 +1,18 @@
 # Review queue
 
+## Review export keyboard path — independent review handoff
+
+The89ca34a independent audit's P3 suggestion is implemented: the same export
+action follows notes instead of requiring a full tab-cycle back to the header.
+Review the <=3-Tab contract0/2→2/2 (21/20→1/1 keypresses), actual JSON source,
+note/checkmark/unsigned-verification fields and stale-result disabling. One
+synthetic source repeated at two widths; no human productivity benchmark.
+See REVIEW_EXPORT. The earlier restoration reporting contracts6/6 were
+independently accepted; first boundary5/6 and separate cleanup diagnostic1/1
+remain retained. Natural module reset and native select-arrow observations
+remain open. Interview: why does keeping one action in workflow order reduce
+keyboard effort without introducing duplicate handlers or divergent permissions?
+
 ## Restoration evidence — independent review handoff (2026-10-27)
 
 At9c975c6, browser/context failures could exit without a restoration report, and

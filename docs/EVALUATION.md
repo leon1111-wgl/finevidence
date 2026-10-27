@@ -1,5 +1,17 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Review-to-export path (2026-10-27)
+
+One synthetic source, two viewport repetitions, a frozen <=3-forward-Tab goal:
+known-path acceptance0/2→2/2; measured keypresses21/20→1/1. Actual JSON export
+and scope-invalidation controls stay2/2 in each arm. Full-case timings and first
+failures are retained in [REVIEW_EXPORT](REVIEW_EXPORT.md); no human-time-saving,
+hidden-set or real-financial-quality claim. Model calls/tokens/unknown-usage
+calls0; historical live-model7/8/FE-013 remains unchanged. This UI measure is
+separate from the fixed eight financial tasks below.
+
+## Historical first live-model evaluation
+
 2026-10-21，**8 个合成开发任务，一次顺序执行**。这是可复现的端到端工程评测，不是隐藏测试集、真实财报准确率或银行生产效果。数字判定不使用模型自评。
 
 | 指标 | 固定工作流 | 晨涧云真实模型选工具 |
