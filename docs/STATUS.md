@@ -1,5 +1,16 @@
 # Capability status
 
+## Compact company selection (2026-10-29 Taipei)
+
+At widths <=360px, company and year now use separate rows so the selected
+company is readable. Frozen synthetic acceptance changes10/12→12/12;
+320px readability0/2→2/2, actual source-linked JSON, Tab order and scope
+invalidation remain12/12 each. See SCOPE_SELECTION_LAYOUT for first harness
+failure, geometry/screenshots, timings and native-control limits. This P3
+improvement does not close finalE7, E2, historical live7/8/FE-013 or natural
+module resets. Exact-release CI, public verification and independent review
+remain distinct checks.
+
 ## Startup failure visibility (2026-10-28)
 
 Anchored pages now reveal and focus the startup error, followed by one Tab to the

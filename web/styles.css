@@ -603,6 +603,24 @@ footer {
     margin-bottom: 5px;
   }
 }
+@media (max-width: 360px) {
+  .sidebar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sidebar label[for="company"] {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .sidebar label[for="year"] {
+    grid-column: 1;
+    grid-row: 3;
+    margin-top: 8px;
+  }
+  .sidebar #year {
+    grid-column: 1;
+    grid-row: 4;
+  }
+}
 
 .handoff {
   border-top: 1px solid var(--border);

@@ -162,3 +162,11 @@ results unchanged. Historical natural startup incidents still need their own
 root-cause evidence. E2 and finalE7 remain open; see LOOPBACK_STARTUP.
 
 2026-10-28: the queued P3 anchored-startup visibility suggestion now has one-shot error focus, viewport recovery and a six-case browser acceptance plan. Normal reading position remains intact. This completes a bounded usability increment, not the final real-business E7 gate; E2 source rights and genuine review/admission remain open.
+
+## Compact scope readability, 2026-10-29 Taipei
+
+The5ec231d P3 selection-width suggestion is implemented with a <=360px
+single-column company/year layout. Known synthetic path10/12→12/12 and
+business/keyboard controls12/12 each are documented in SCOPE_SELECTION_LAYOUT.
+This is an incremental E7 usability correction; complete E2 and final E7 still
+require their separate acceptance evidence. No new model evaluation was run.

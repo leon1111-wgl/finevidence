@@ -1,5 +1,17 @@
 # Review queue
 
+## Compact scope selection — independent review handoff (2026-10-29 Taipei)
+
+The5ec231d P3 suggestion is implemented: at320px, the company select clipped
+both current names. <=360px now stacks company/year without changing controls
+or financial behavior. Review the same two companies at320/360/361/390/768/1440,
+actual screenshot names, one Tab from company to year, source-linked exports
+and stale-scope disabling. Frozen acceptance10/12→12/12; see
+SCOPE_SELECTION_LAYOUT. This merges the existingE7 usability suggestion, with
+no new defect ID or finalE7 closure. Interview: why prefer more vertical space
+over smaller text, and why can a canvas-width assertion not replace observing
+the native control in a real browser?
+
 ## Anchored startup feedback — independent review handoff (2026-10-28)
 
 The existing e58d1ac P3 suggestion is implemented: failing entry/timeout after

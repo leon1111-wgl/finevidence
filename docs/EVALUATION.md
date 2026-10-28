@@ -1,5 +1,18 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Compact scope identification (2026-10-29 Taipei)
+
+Two synthetic companies across six widths form12 known development cases.
+Complete acceptance10/12→12/12; 320px name fit0/2→2/2. Company/year Tab order,
+actual JSON value/source/review and scope invalidation remain12/12 each.
+Canvas width minus a20px arrow reserve is a geometry proxy, supplemented by
+real Chrome screenshots. Initial invalid-selector harness evidence is retained;
+no hidden/real-report tasks, human labels or model calls. See
+[SCOPE_SELECTION_LAYOUT](SCOPE_SELECTION_LAYOUT.md) for protocol and timings,
+and [first runs](validation/scope-layout-2026-10-29.json). Fixed financial8/8,
+exact values/sources6/6 each, expected refusals2/2 are separate. Historical
+live-model7/8/FE-013 and finalE7 remain open.
+
 ## Anchored startup error path (2026-10-28)
 
 The known P3 path uses one synthetic financial source at two viewport widths:
