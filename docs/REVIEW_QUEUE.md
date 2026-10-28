@@ -1,5 +1,10 @@
 # Review queue
 
+## Body deadline: implemented, awaiting independent review (2026-10-28)
+
+Observed on dc426d6: five body chunks at 1.6-second gaps execute calculation/record/revoke after 6.4 seconds; a per-read timeout is not a total body budget. Severity P2 within the authorized loopback workflow. Shared monotonic body deadline now rejects all three without side effects and releases slots. Reproduce and acceptance: [REQUEST_BODY_DEADLINE](REQUEST_BODY_DEADLINE.md). Check default-budget timing, EOF, ordinary fragmented input, delayed Agent input and four-slot recovery on the released SHA before closure. Natural module resets are a different unresolved observation; do not merge their cause with this fix.
+
+
 ## Review export keyboard path — independent review handoff
 
 The89ca34a independent audit's P3 suggestion is implemented: the same export

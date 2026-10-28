@@ -1,5 +1,5 @@
 """Loopback-only reviewer workbench. Not an authenticated public hosting server."""
-import argparse,json,os,secrets,threading,sqlite3
+import argparse,json,os,secrets,threading,sqlite3,time
 from .review_ledger import ReviewLedger, ReviewError
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from socketserver import TCPServer
@@ -7,6 +7,8 @@ from pathlib import Path
 from uuid import uuid4
 from .service import Workspace,ROOT
 from .agent import run_agent
+
+BODY_TIMEOUT_SECONDS = 5
 
 ASSETS={'/':('index.html','text/html'),'/index.html':('index.html','text/html'),
  '/bootstrap.mjs':('bootstrap.mjs','text/javascript'),
@@ -34,6 +36,24 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self,*args): pass  # No prompts, keys, user notes or provider bodies in access logs.
     def setup(self):
         super().setup();self.connection.settimeout(5)
+    def _read_body(self, size):
+        """Bound the whole body read, including clients that keep sending bytes."""
+        deadline = time.monotonic() + BODY_TIMEOUT_SECONDS
+        previous_timeout = self.connection.gettimeout()
+        body = bytearray()
+        try:
+            while len(body) < size:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0: raise TimeoutError('REQUEST_TIMEOUT')
+                self.connection.settimeout(remaining)
+                # read(size) may issue many raw reads, each resetting socket timeout.
+                chunk = self.rfile.read1(size - len(body))
+                if time.monotonic() >= deadline: raise TimeoutError('REQUEST_TIMEOUT')
+                if not chunk: break  # Caller rejects a premature EOF as invalid input.
+                body.extend(chunk)
+            return bytes(body)
+        finally:
+            self.connection.settimeout(previous_timeout)
     def _send(self,status,data,kind='application/json'):
         raw=json.dumps(data,ensure_ascii=False).encode() if kind=='application/json' and not isinstance(data,bytes) else data
         self.send_response(status)
@@ -77,7 +97,7 @@ class Handler(BaseHTTPRequestHandler):
         if size<0 or size>16384: return self._send(413,error_payload('REQUEST_LIMIT'))
         if not self.server.slots.acquire(blocking=False): return self._send(429,error_payload('SERVER_BUSY'))
         try:
-            raw=self.rfile.read(size)
+            raw=self._read_body(size)
             if len(raw)!=size: return self._send(400,error_payload('INVALID_REQUEST'))
             try:
                 d=json.loads(raw.decode('utf-8'))
@@ -111,7 +131,7 @@ class Handler(BaseHTTPRequestHandler):
             try: size=int(self.headers.get('Content-Length','-1'))
             except ValueError: size=-1
             if not 0<=size<=32768: return self._send(413,error_payload('REQUEST_LIMIT'))
-            raw=self.rfile.read(size)
+            raw=self._read_body(size)
             if len(raw)!=size: return self._send(400,error_payload('INVALID_REQUEST'))
             def unique(pairs):
                 obj={}

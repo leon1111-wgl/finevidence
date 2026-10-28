@@ -1,5 +1,10 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Request-body admission budget (2026-10-28)
+
+The fixed five-case synthetic input plan changes 2/5 to 5/5, with three default-budget 408 responses at 5.003012/5.002537/5.002859 seconds and zero business calls. Controls remain 2/2. This measures bounded input and prevention of late mutations, not real financial accuracy. All five before/after rows and the initial fixture error are retained in [REQUEST_BODY_DEADLINE](REQUEST_BODY_DEADLINE.md). Model calls/tokens/unknown-usage calls, hidden tasks, real-report tasks and new human labels are all zero. The historical live-model and fixed financial baselines below are unchanged.
+
+
 ## Review-to-export path (2026-10-27)
 
 One synthetic source, two viewport repetitions, a frozen <=3-forward-Tab goal:

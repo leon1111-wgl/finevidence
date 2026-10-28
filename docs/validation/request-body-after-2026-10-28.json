@@ -1,0 +1,272 @@
+{
+  "protocol": "REQUEST_BODY_V1",
+  "dataset": "SYNTHETIC_KNOWN_DEFECT",
+  "hidden_tasks": 0,
+  "real_report_tasks": 0,
+  "model_calls": 0,
+  "reported_tokens": 0,
+  "calls_with_unknown_usage": 0,
+  "budget_seconds": 5,
+  "observation_tolerance_seconds": 1,
+  "chunk_interval_seconds": 1.6,
+  "planned_complete_body_seconds": 6.4,
+  "code_sha": "dc426d614d8e088f97fcabb601b9c2b2680b1db0",
+  "tracked_diff_sha256": "415549ed5b52c49e4b6de5fa9802036a81031afa8fad10278c06e3242128ba67",
+  "cases": [
+    {
+      "id": "normal-run",
+      "http_status": 200,
+      "result": {
+        "schema_version": "1.0",
+        "trace_id": "2f50c22b8e6b4aadbda3d3d3d0899fcb",
+        "mode": "synthetic_calculation",
+        "status": "CALCULATED",
+        "answer": "SYNTHETIC: Aurora Orchard 2024 gross margin = 30.00%",
+        "claims": [
+          {
+            "text": "SYNTHETIC: Aurora Orchard 2024 gross margin = 30.00%",
+            "calc_id": "calc_95b12ec6ff5dec8af70076ca",
+            "citation_ids": [
+              "syn_aurora_2024:p1:c1"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "citation_id": "syn_aurora_2024:p1:c1",
+            "chunk_id": "syn_aurora_2024:p1:c1",
+            "doc_id": "syn_aurora_2024",
+            "source_file": "aurora_2024.json",
+            "source_sha256": "8fcdd5f8fcf019b8834463cd792def252bcd0a024dbc6df46aa944da7a70308e",
+            "company": "Aurora Orchard",
+            "year": 2024,
+            "page": 1,
+            "page_kind": "synthetic",
+            "classification": "SYNTHETIC",
+            "excerpt": "Aurora Orchard recorded revenue of USD 120 million in 2024. Its gross profit was USD 36 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope."
+          }
+        ],
+        "calculations": [
+          {
+            "calc_id": "calc_95b12ec6ff5dec8af70076ca",
+            "operation": "gross_margin",
+            "formula": "gross_profit / revenue",
+            "input_fact_ids": {
+              "gross_profit": "syn_aurora_2024_gross_profit",
+              "revenue": "syn_aurora_2024_revenue"
+            },
+            "normalized_inputs": {
+              "gross_profit": "36000000",
+              "revenue": "120000000"
+            },
+            "value": "0.3",
+            "unit": "ratio",
+            "display": "30.00%",
+            "numeric_policy": {
+              "version": "gross_margin_v1",
+              "precision": 50,
+              "rounding": "ROUND_HALF_EVEN",
+              "display_decimal_places": 2
+            },
+            "citation_ids": [
+              "syn_aurora_2024:p1:c1"
+            ]
+          }
+        ],
+        "limitations": [
+          "SYNTHETIC fixture calculation only; not real financial data or human-verified facts.",
+          "The version-controlled fixture manifest is trusted for numeric transcription and metadata.",
+          "Source hashes/excerpts detect drift, not semantic correctness or malicious replacement of all artifacts.",
+          "Only calendar-year gross margin, adjacent-year revenue growth and margin percentage-point change are exposed; no currency conversion or missing-value inference.",
+          "Decimal ratios use 50 significant digits; margin change uses 100-digit cross-product arithmetic. Displays use two decimals, half-even rounding.",
+          "No model, authorization system or persistent trace is involved. Fact storage does not establish human review."
+        ],
+        "facts": [
+          {
+            "fact_id": "syn_aurora_2024_revenue",
+            "company": "Aurora Orchard",
+            "metric": "revenue",
+            "period_start": "2024-01-01",
+            "period_end": "2024-12-31",
+            "report_type": "annual",
+            "raw_value": "120",
+            "currency": "USD",
+            "unit_scale": "1000000",
+            "accounting_basis": "synthetic_simplified",
+            "consolidation_scope": "standalone",
+            "doc_id": "syn_aurora_2024",
+            "source_file": "aurora_2024.json",
+            "source_sha256": "8fcdd5f8fcf019b8834463cd792def252bcd0a024dbc6df46aa944da7a70308e",
+            "page": 1,
+            "source_excerpt": "Aurora Orchard recorded revenue of USD 120 million in 2024. Its gross profit was USD 36 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+            "verification_status": "synthetic_fixture",
+            "verified_by": null,
+            "normalized_value": "120000000",
+            "classification": "SYNTHETIC",
+            "citation_id": "syn_aurora_2024:p1:c1"
+          },
+          {
+            "fact_id": "syn_aurora_2024_gross_profit",
+            "company": "Aurora Orchard",
+            "metric": "gross_profit",
+            "period_start": "2024-01-01",
+            "period_end": "2024-12-31",
+            "report_type": "annual",
+            "raw_value": "36",
+            "currency": "USD",
+            "unit_scale": "1000000",
+            "accounting_basis": "synthetic_simplified",
+            "consolidation_scope": "standalone",
+            "doc_id": "syn_aurora_2024",
+            "source_file": "aurora_2024.json",
+            "source_sha256": "8fcdd5f8fcf019b8834463cd792def252bcd0a024dbc6df46aa944da7a70308e",
+            "page": 1,
+            "source_excerpt": "Aurora Orchard recorded revenue of USD 120 million in 2024. Its gross profit was USD 36 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+            "verification_status": "synthetic_fixture",
+            "verified_by": null,
+            "normalized_value": "36000000",
+            "classification": "SYNTHETIC",
+            "citation_id": "syn_aurora_2024:p1:c1"
+          }
+        ],
+        "fact_store": "json_manifest",
+        "filters": {
+          "company": "Aurora Orchard",
+          "year": 2024,
+          "report_type": "annual"
+        },
+        "resolved_operation": "gross-margin"
+      },
+      "seconds": 0.001843,
+      "sender_errors": [],
+      "business_calls": 1,
+      "ledger_unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "normal-record",
+      "http_status": 200,
+      "result": {
+        "schema_version": 1,
+        "kind": "local_review_observation",
+        "record_id": "9ae5f16c-8e20-4d55-836e-e7d61ae299b5",
+        "reviewer": "Synthetic reviewer",
+        "identity_scope": "locally_configured_operator",
+        "recorded_at": "2026-10-28T07:09:13.171879+00:00",
+        "draft": {
+          "classification": "SYNTHETIC_DEMO_UNVERIFIED",
+          "review_status": "pending_human_review",
+          "verified_by": null,
+          "financial_calculation_eligible": false,
+          "company": "SYNTHETIC Example",
+          "title": "Synthetic report",
+          "source_url": null,
+          "metric": "revenue",
+          "raw_value": "120",
+          "normalized_value": "120000000",
+          "unit_scale": "1000000",
+          "currency": "USD",
+          "period": "2024",
+          "basis": "IFRS",
+          "scope": "consolidated",
+          "provenance": {
+            "file_name": "synthetic.pdf",
+            "file_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "page": 1,
+            "page_kind": "pdf_physical",
+            "excerpt": "Revenue 120",
+            "excerpt_start": 0,
+            "excerpt_end": 11,
+            "offset_unit": "utf16_code_unit",
+            "parser": {
+              "name": "PDF.js",
+              "version": "5.4.624"
+            }
+          }
+        },
+        "snapshot_sha256": "760eade85402ecb1f81280e784a7f35460023b11621cf0fa297da943d1c3c844",
+        "observation": "needs_changes",
+        "note": "Synthetic observation",
+        "state": "recorded",
+        "revocation": null,
+        "financial_calculation_eligible": false,
+        "licensing_status": "not_verified",
+        "source_verification": "not_performed_by_server"
+      },
+      "seconds": 0.001777,
+      "sender_errors": [],
+      "business_calls": 1,
+      "ledger_unchanged": false,
+      "passed": true
+    },
+    {
+      "id": "slow-run",
+      "http_status": 408,
+      "result": {
+        "schema_version": "1.0",
+        "trace_id": "7fc4ebd18ea84240beac1ca4bb68733b",
+        "mode": "local_workbench",
+        "status": "REQUEST_TIMEOUT",
+        "answer": null,
+        "facts": [],
+        "citations": [],
+        "calculations": [],
+        "claims": []
+      },
+      "seconds": 5.003012,
+      "sender_errors": [],
+      "business_calls": 0,
+      "ledger_unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "slow-record",
+      "http_status": 408,
+      "result": {
+        "schema_version": "1.0",
+        "trace_id": "c96dad65d7374b7a9890c4ac665dc10a",
+        "mode": "local_workbench",
+        "status": "REQUEST_TIMEOUT",
+        "answer": null,
+        "facts": [],
+        "citations": [],
+        "calculations": [],
+        "claims": []
+      },
+      "seconds": 5.002537,
+      "sender_errors": [],
+      "business_calls": 0,
+      "ledger_unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "slow-revoke",
+      "http_status": 408,
+      "result": {
+        "schema_version": "1.0",
+        "trace_id": "b23fbaf01e254bebb48a499a378ad65f",
+        "mode": "local_workbench",
+        "status": "REQUEST_TIMEOUT",
+        "answer": null,
+        "facts": [],
+        "citations": [],
+        "calculations": [],
+        "claims": []
+      },
+      "seconds": 5.002859,
+      "sender_errors": [],
+      "business_calls": 0,
+      "ledger_unchanged": true,
+      "passed": true
+    }
+  ],
+  "planned_cases": [
+    "normal-run",
+    "normal-record",
+    "slow-run",
+    "slow-record",
+    "slow-revoke"
+  ],
+  "passed": 5,
+  "total": 5
+}

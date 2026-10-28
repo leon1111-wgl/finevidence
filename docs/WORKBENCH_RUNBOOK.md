@@ -1,5 +1,10 @@
 # 工作台运行、模型接入与验收
 
+## Body input failures
+
+The local server allows five seconds in total to receive an admitted calculation or review request body. Body-read expiry returns HTTP 408 / REQUEST_TIMEOUT before business execution. The same status can also originate from other server I/O errors, so it is not universal proof that an action never ran. Preserve review request IDs and the existing unknown-outcome recovery procedure. This limit is separate from model-call deadlines. See [REQUEST_BODY_DEADLINE](REQUEST_BODY_DEADLINE.md) for scope and reproduction.
+
+
 ## 在线与本地
 
 [公开工作台](https://leon1111-wgl.github.io/finevidence/) 可直接检索、计算、核对和导出。所有金额／公司为明确标注的虚构样本。公开页无模型密钥与上传入口，工作在浏览器中。
