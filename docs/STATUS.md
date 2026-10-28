@@ -2,7 +2,7 @@
 
 ## Absolute body input deadline (2026-10-28 Taipei)
 
-Local calculations and review mutations now stop reading at a five-second total body deadline, including continued trickle input. Known synthetic cases change 2/5 to 5/5; expected timeouts 0/3 to 3/3 with no business call or ledger change. Normal controls remain 2/2. See [REQUEST_BODY_DEADLINE](REQUEST_BODY_DEADLINE.md) for timing, first failures and limited scope. This does not resolve natural browser module resets, header/connection limits, E2/final E7 or historical live-model 7/8/FE-013. No model calls. Exact-release CI/deployment and independent review are separate gates.
+Local calculations and review mutations now stop reading at a five-second total body deadline, including continued trickle input. Known synthetic cases change 2/5 to 5/5; expected timeouts 0/3 to 3/3 with no business call or ledger change. Normal controls remain 2/2. See [REQUEST_BODY_DEADLINE](REQUEST_BODY_DEADLINE.md) for timing, first failures and limited scope. This does not resolve natural browser module resets, header/connection limits, E2/final E7 or historical live-model 7/8/FE-013. No model calls. First release0db0f3b failed macOS normal-input controls under a test-only0.3-second budget. Positive controls now use the real5-second budget; production and negative deadline assertions are unchanged. Exact-release CI/deployment and independent review are separate gates.
 
 
 ## Review export keyboard path (2026-10-27 Taipei)

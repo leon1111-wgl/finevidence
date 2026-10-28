@@ -31,12 +31,16 @@ class RequestBodyTests(unittest.TestCase):
                 ('/api/reviews/revoke', dict(request_id=str(uuid4()),
                     record_id=record['record_id'], reason='Synthetic correction'))]
 
+    @patch('finevidence.server.BODY_TIMEOUT_SECONDS', 5)
     def test_buffered_and_fragmented_normal_bodies_execute_exactly_once(self):
+        # Positive network controls use the production budget. sleep(.03) is a
+        # minimum scheduling delay, not a promise to deliver the body in .12s.
         for interval in [0, .03]:
             for path, body in self.paths():
                 with self.subTest(path=path, interval=interval):
                     r = exchange(self.server, path, body, interval)
                     self.assertEqual(r['http_status'], 200)
+                    self.assertLess(r['seconds'], 5)
                     if path == '/api/run':
                         self.assertEqual(r['result']['calculations'][0]['display'], '30.00%')
                     elif path.endswith('/revoke'):

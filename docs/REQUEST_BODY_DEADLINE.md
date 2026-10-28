@@ -65,7 +65,7 @@ python scripts/evaluate_request_body.py --output /tmp/request-body.json
 Eight focused test methods also cover fragmented/buffered success, EOF,
 authentication/size refusal, no Agent invocation, four simultaneous timeouts
 followed by a successful calculation, and a final chunk crossing the deadline.
-Unit tests use accelerated 0.3/0.5-second budgets; the standalone evaluation and
+Negative unit tests use accelerated 0.3/0.5-second budgets; normal network controls, the standalone evaluation and
 Linux/macOS CI step use the unmodified five-second budget. An incomplete Agent
 input reaches only a mocked Agent in the red test, never a live provider.
 
@@ -78,3 +78,20 @@ to this body-input defect and remain open. FE-013/historical live-model 7/8,
 E2 and final E7 are also unchanged. Independent release review is still required.
 
 Local complete regression: Python273/273 in73.455s; JavaScript246/246 in173.41925ms after build. Fixed synthetic financial tasks8/8 (numeric/source6/6 each, refusal2/2). Actual local Chrome desktop/narrow: keyboard export2/2, base14/14, retry7/7, startup16/16, restoration6/6. These are separate denominators. Exact-release CI and deployed verification are recorded by the release run.
+
+
+## First release CI failure
+
+The first release `0db0f3b`, Actions run40649298480, failed the macOS Python suite:
+normal fragmented calculation and record controls returned408 under the test-only
+0.3-second budget; the resulting record count was3 instead of4. All273 methods
+ran in84.908s with three failure entries. Nominal four30ms sleeps do not guarantee
+120ms end-to-end delivery; the log does not establish the exact network or
+scheduler contribution. This is preserved as the first release failure.
+
+Only the successful-input test now uses the real five-second production budget,
+while still requiring200, exact30.00%, and exact ledger counts/revocation. Negative
+accelerated deadlines and the five-case default-budget refusal evaluator are
+unchanged. Production code and its five-second limit are unchanged. This avoids
+claiming that normal network scheduling must fit a test-only300ms limit; it does
+not relax the production deadline or the three expected408 outcomes.
