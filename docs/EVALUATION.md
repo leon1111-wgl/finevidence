@@ -1,5 +1,21 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Anchored startup error path (2026-10-28)
+
+The known P3 path uses one synthetic financial source at two viewport widths:
+healthy/entry503/dependency-timeout, six authored cases. Full path acceptance2/6→6/6;
+fault explanation/link in viewport0/4→4/4, normal anchor/focus2/2 unchanged. Four
+candidate keyboard recoveries and six actual review downloads preserve30.00%,
+source and annotations. Baseline fault cases stop before recovery; no claim that
+the older native link was incapable of recovering. Separate immediate503 controls
+4/4 are engineering observations. [First results and hashes](validation/startup-focus-2026-10-28.json)
+retain the initial fragment-only harness error and fixed-plan first runs. No
+hidden set, new real financial label, human time estimate or model call. Fixed
+finance8/8, numeric/source6/6 each and refusal2/2 remain separate (n=8,
+p50=.000698s,p95=.002704s in-process this run). Historical live7/8/FE-013 stays open.
+See STARTUP_RECOVERY for exact scope; finalE7 is not complete.
+
+
 ## Request-body admission budget (2026-10-28)
 
 The fixed five-case synthetic input plan changes 2/5 to 5/5, with three default-budget 408 responses at 5.003012/5.002537/5.002859 seconds and zero business calls. Controls remain 2/2. This measures bounded input and prevention of late mutations, not real financial accuracy. All five before/after rows and the initial fixture error are retained in [REQUEST_BODY_DEADLINE](REQUEST_BODY_DEADLINE.md). Model calls/tokens/unknown-usage calls, hidden tasks, real-report tasks and new human labels are all zero. The historical live-model and fixed financial baselines below are unchanged.

@@ -1,5 +1,18 @@
 # Review queue
 
+## Anchored startup feedback — independent review handoff (2026-10-28)
+
+The existing e58d1ac P3 suggestion is implemented: failing entry/timeout after
+fragment navigation now focuses the explanation and shows the existing reload
+link. Review1440/390px, actual Tab→Enter recovery, saved notes/checkmarks/JSON,
+healthy anchor/focus retention, immediate failure and late settlement. Valid
+six-case baseline2/6→candidate6/6 and separate immediate controls4/4; first
+fragment-only test error remains recorded. See STARTUP_RECOVERY. Do not close
+natural module transport failures or finalE7 from this focus change. Interview:
+why does DOM-visible not mean viewport-visible, and why should a terminal startup
+error move focus while normal loading preserves the reader's position?
+
+
 ## Body deadline: implemented, awaiting independent review (2026-10-28)
 
 Observed on dc426d6: five body chunks at 1.6-second gaps execute calculation/record/revoke after 6.4 seconds; a per-read timeout is not a total body budget. Severity P2 within the authorized loopback workflow. Shared monotonic body deadline now rejects all three without side effects and releases slots. Reproduce and acceptance: [REQUEST_BODY_DEADLINE](REQUEST_BODY_DEADLINE.md). Check default-budget timing, EOF, ordinary fragmented input, delayed Agent input and four-slot recovery on the released SHA before closure. Natural module resets are a different unresolved observation; do not merge their cause with this fix.

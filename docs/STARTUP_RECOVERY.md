@@ -172,3 +172,55 @@ For an already-open historical page whose main modules remain cached but lazy
 PDF assets have been removed, a document reload may also be needed; reselecting
 the same PDF cannot recreate removed deployment files. There is no offline or
 unlimited old-version availability guarantee.
+
+## Anchored startup failure visibility (2026-10-28)
+
+An existing P3 review suggestion reproduced with `#source-heading`: the document
+scrolls to the original-text area while the failed startup explanation and reload
+link remain above the viewport. The native reload action already worked when
+located. `bootstrap.fail()` now makes its explanation programmatically focusable,
+focuses it once, then brings the startup panel into view without animation. One
+forward Tab reaches the same native reload link. Successful startup does not move
+focus or scroll; the pending guard still prevents late modules from starting or
+repeating this transition. No new navigation handler, automatic retry or storage
+write is introduced.
+
+The frozen six-case plan is healthy/entry503/dependency8s-timeout at1440/390px.
+Known-path acceptance changes2/6 to6/6: failure explanation/link in view0/4→4/4,
+healthy anchor/focus controls2/2 unchanged. The candidate's four explicit keyboard
+recoveries preserve saved notes/checkmarks and actual JSON downloads. Baseline
+failed visibility assertions before attempting recovery, so it does not establish
+that the older link could not recover. All six successful candidate flows export
+30.00% and the original synthetic source. Four separate immediate503 controls at
+source/PDF anchors pass4/4; these are additional engineering controls, not extra
+independent reports. See [first results and source/plan hashes](validation/startup-focus-2026-10-28.json).
+
+The first harness attempt changed only the fragment and never reloaded the
+document; its2/6/timeouts remain recorded as a test error. A distinct query now
+forces document navigation; the valid baseline/candidate use exactly the same
+judge, waits and six cases. Each ran once. This is authored synthetic development
+evidence, not a hidden set or measured analyst-time saving. Timings include
+intentional8s faults, setup and recovery. No paid/model call or human financial label.
+Historical live7/8/FE-013, real-sourceE2, natural transport errors and finalE7 remain
+open. Without bootstrap execution (missing script/disabledJS), the static fallback
+still works but cannot perform this programmatic focus/scroll action. Screen-reader
+speech was not measured; browser DOM focus, viewport and real Tab/Enter were checked.
+
+Reproduce after `python3 scripts/build_web.py` with `pnpm test:startup-focus`.
+Set BASE_URL to a static or Python workbench and BROWSER_ARTIFACTS to a new output
+directory. Results checkpoint all six rows and retain first failures; do not rerun
+to select a passing score. The plan is also part of test:browser on both CI surfaces.
+
+Local verification retained an unrelated first Python run:273 methods, one error
+in test_actual_cleanup_terminates_the_owned_worker, where process_identity
+rejected an incomplete command-argument observation. No Python production/test
+code was changed. A fixed12-child diagnostic observed valid immediate and
+post-readiness identities12/12 each, so it did not reproduce or establish the
+original cause. The first failure is not overwritten or claimed fixed; a separate
+complete verification and exact-release CI are required before publication.
+
+The separately recorded second full local Python run passed273/273 in73.832s;
+the first273-method/one-error result above remains unresolved. JS246/246, existing
+startup16/16, base14/14, retry7/7, restoration6/6, export-keyboard2/2 and cache18/18
+passed. These are engineering regressions, separate from the six-case improvement
+and the fixed financial eight-task baseline. Exact-release CI follows publication.

@@ -1,0 +1,588 @@
+{
+  "classification": "KNOWN_PATH_SYNTHETIC_DEVELOPMENT",
+  "base_sha": "7aa1b694de3aa930dda888eee2e681c5f11574b7",
+  "candidate_uncommitted": true,
+  "bootstrap_before_sha256": "f6b5619d8a571ea001c096a495cb92815026bcd5a15ebcc732015970643361d1",
+  "bootstrap_candidate_sha256": "5e2806b0d5dee0432188505fbbe8c435cc66300a989084a51e65be910b0ce2bb",
+  "test_plan_sha256": "13338e06abbb364fe5743dbbb3ce546dcf609b30746de1382aa2b6869015a66a",
+  "first_harness_error": {
+    "reason": "Fragment-only navigation reused the healthy document; injected module routes were not executed. Not a product failure or a performance score.",
+    "probe_sha256": "3cd9af05395f4eb417ddd78c45c301d9261d8d683b4d674c60698497f3f44291",
+    "result": {
+      "schema_version": 2,
+      "run_id": "543f115d-6186-4115-8679-4fb6327d2225",
+      "classification": "SYNTHETIC_STARTUP_FOCUS_DEVELOPMENT",
+      "source_documents": 1,
+      "model_calls": 0,
+      "finished": true,
+      "suite_error": null,
+      "total": 6,
+      "attempted": 6,
+      "passed": 2,
+      "failed": 4,
+      "not_run": 0,
+      "rows": [
+        {
+          "name": "healthy",
+          "width": 1440,
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "initial_scroll_y": 420,
+          "normal_position_preserved": true,
+          "export_preserved": true,
+          "model_requests": 0,
+          "seconds": 0.651538625
+        },
+        {
+          "name": "entry-failure",
+          "width": 1440,
+          "status": "failed",
+          "phase": "failed-startup",
+          "passed": false,
+          "initial_scroll_y": 420,
+          "error_code": "TIMEOUT",
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": true,
+              "run_disabled": false,
+              "startup_panel_visible": false,
+              "startup_reload_visible": false,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "seconds": 10.422550541
+        },
+        {
+          "name": "dependency-timeout",
+          "width": 1440,
+          "status": "failed",
+          "phase": "failed-startup",
+          "passed": false,
+          "initial_scroll_y": 420,
+          "error_code": "TIMEOUT",
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": true,
+              "run_disabled": false,
+              "startup_panel_visible": false,
+              "startup_reload_visible": false,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "seconds": 10.4110165
+        },
+        {
+          "name": "healthy",
+          "width": 390,
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "initial_scroll_y": 1310,
+          "normal_position_preserved": true,
+          "export_preserved": true,
+          "model_requests": 0,
+          "seconds": 0.5004771250000013
+        },
+        {
+          "name": "entry-failure",
+          "width": 390,
+          "status": "failed",
+          "phase": "failed-startup",
+          "passed": false,
+          "initial_scroll_y": 1310,
+          "error_code": "TIMEOUT",
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": true,
+              "run_disabled": false,
+              "startup_panel_visible": false,
+              "startup_reload_visible": false,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "seconds": 10.415428541999997
+        },
+        {
+          "name": "dependency-timeout",
+          "width": 390,
+          "status": "failed",
+          "phase": "failed-startup",
+          "passed": false,
+          "initial_scroll_y": 1310,
+          "error_code": "TIMEOUT",
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": true,
+              "run_disabled": false,
+              "startup_panel_visible": false,
+              "startup_reload_visible": false,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "seconds": 10.401719041999996
+        }
+      ]
+    }
+  },
+  "baseline": {
+    "schema_version": 2,
+    "run_id": "18656323-1d13-46ba-b1d2-d56a7a62f822",
+    "classification": "SYNTHETIC_STARTUP_FOCUS_DEVELOPMENT",
+    "source_documents": 1,
+    "model_calls": 0,
+    "finished": true,
+    "suite_error": null,
+    "total": 6,
+    "attempted": 6,
+    "passed": 2,
+    "failed": 4,
+    "not_run": 0,
+    "rows": [
+      {
+        "name": "healthy",
+        "width": 1440,
+        "status": "passed",
+        "phase": "complete",
+        "passed": true,
+        "injected_requests": 1,
+        "initial_scroll_y": 591,
+        "normal_position_preserved": true,
+        "export_preserved": true,
+        "model_requests": 0,
+        "seconds": 0.741601083
+      },
+      {
+        "name": "entry-failure",
+        "width": 1440,
+        "status": "failed",
+        "phase": "failed-startup",
+        "passed": false,
+        "injected_requests": 1,
+        "initial_scroll_y": 591,
+        "visibility": {
+          "startup-status": {
+            "top": -486,
+            "bottom": -462,
+            "in_view": false
+          },
+          "startup-reload": {
+            "top": -418.203125,
+            "bottom": -400.203125,
+            "in_view": false
+          }
+        },
+        "error_focused": false,
+        "error_code": "ASSERTION_FAILED",
+        "diagnostics": {
+          "schema_version": 2,
+          "readiness": {
+            "run_present": true,
+            "run_disabled": true,
+            "startup_panel_visible": true,
+            "startup_reload_visible": true,
+            "data_retry_visible": false,
+            "ledger_busy": false,
+            "ledger_retry_visible": false,
+            "ledger_alert": false,
+            "records": 0
+          },
+          "resources": [
+            {
+              "resource": "workbench.mjs",
+              "event": "http_error",
+              "status": 503,
+              "phase": "failed-startup"
+            },
+            {
+              "resource": "workbench.mjs",
+              "event": "request_failed",
+              "code": "net::ERR_ABORTED",
+              "phase": "failed-startup"
+            }
+          ],
+          "page_errors": 0
+        },
+        "seconds": 0.525148917
+      },
+      {
+        "name": "dependency-timeout",
+        "width": 1440,
+        "status": "failed",
+        "phase": "failed-startup",
+        "passed": false,
+        "initial_scroll_y": 591,
+        "injected_requests": 1,
+        "visibility": {
+          "startup-status": {
+            "top": -486,
+            "bottom": -462,
+            "in_view": false
+          },
+          "startup-reload": {
+            "top": -418.203125,
+            "bottom": -400.203125,
+            "in_view": false
+          }
+        },
+        "error_focused": false,
+        "error_code": "ASSERTION_FAILED",
+        "diagnostics": {
+          "schema_version": 2,
+          "readiness": {
+            "run_present": true,
+            "run_disabled": true,
+            "startup_panel_visible": true,
+            "startup_reload_visible": true,
+            "data_retry_visible": false,
+            "ledger_busy": false,
+            "ledger_retry_visible": false,
+            "ledger_alert": false,
+            "records": 0
+          },
+          "resources": [],
+          "page_errors": 0
+        },
+        "seconds": 8.491451584
+      },
+      {
+        "name": "healthy",
+        "width": 390,
+        "status": "passed",
+        "phase": "complete",
+        "passed": true,
+        "injected_requests": 1,
+        "initial_scroll_y": 1196,
+        "normal_position_preserved": true,
+        "export_preserved": true,
+        "model_requests": 0,
+        "seconds": 0.6180087910000002
+      },
+      {
+        "name": "entry-failure",
+        "width": 390,
+        "status": "failed",
+        "phase": "failed-startup",
+        "passed": false,
+        "injected_requests": 1,
+        "initial_scroll_y": 1196,
+        "visibility": {
+          "startup-status": {
+            "top": -1121,
+            "bottom": -1073,
+            "in_view": false
+          },
+          "startup-reload": {
+            "top": -987.609375,
+            "bottom": -969.609375,
+            "in_view": false
+          }
+        },
+        "error_focused": false,
+        "error_code": "ASSERTION_FAILED",
+        "diagnostics": {
+          "schema_version": 2,
+          "readiness": {
+            "run_present": true,
+            "run_disabled": true,
+            "startup_panel_visible": true,
+            "startup_reload_visible": true,
+            "data_retry_visible": false,
+            "ledger_busy": false,
+            "ledger_retry_visible": false,
+            "ledger_alert": false,
+            "records": 0
+          },
+          "resources": [
+            {
+              "resource": "workbench.mjs",
+              "event": "http_error",
+              "status": 503,
+              "phase": "failed-startup"
+            },
+            {
+              "resource": "workbench.mjs",
+              "event": "request_failed",
+              "code": "net::ERR_ABORTED",
+              "phase": "failed-startup"
+            }
+          ],
+          "page_errors": 0
+        },
+        "seconds": 0.5019170830000003
+      },
+      {
+        "name": "dependency-timeout",
+        "width": 390,
+        "status": "failed",
+        "phase": "failed-startup",
+        "passed": false,
+        "initial_scroll_y": 1196,
+        "injected_requests": 1,
+        "visibility": {
+          "startup-status": {
+            "top": -1121,
+            "bottom": -1073,
+            "in_view": false
+          },
+          "startup-reload": {
+            "top": -987.609375,
+            "bottom": -969.609375,
+            "in_view": false
+          }
+        },
+        "error_focused": false,
+        "error_code": "ASSERTION_FAILED",
+        "diagnostics": {
+          "schema_version": 2,
+          "readiness": {
+            "run_present": true,
+            "run_disabled": true,
+            "startup_panel_visible": true,
+            "startup_reload_visible": true,
+            "data_retry_visible": false,
+            "ledger_busy": false,
+            "ledger_retry_visible": false,
+            "ledger_alert": false,
+            "records": 0
+          },
+          "resources": [],
+          "page_errors": 0
+        },
+        "seconds": 8.471299791
+      }
+    ]
+  },
+  "candidate": {
+    "schema_version": 2,
+    "run_id": "bcfa7b01-c48e-44ed-8dcc-cb02cf4a38ce",
+    "classification": "SYNTHETIC_STARTUP_FOCUS_DEVELOPMENT",
+    "source_documents": 1,
+    "model_calls": 0,
+    "finished": true,
+    "suite_error": null,
+    "total": 6,
+    "attempted": 6,
+    "passed": 6,
+    "failed": 0,
+    "not_run": 0,
+    "rows": [
+      {
+        "name": "healthy",
+        "width": 1440,
+        "status": "passed",
+        "phase": "complete",
+        "passed": true,
+        "injected_requests": 1,
+        "initial_scroll_y": 591,
+        "normal_position_preserved": true,
+        "export_preserved": true,
+        "model_requests": 0,
+        "seconds": 0.761882209
+      },
+      {
+        "name": "entry-failure",
+        "width": 1440,
+        "status": "passed",
+        "phase": "complete",
+        "passed": true,
+        "injected_requests": 1,
+        "initial_scroll_y": 591,
+        "visibility": {
+          "startup-status": {
+            "top": 17,
+            "bottom": 41,
+            "in_view": true
+          },
+          "startup-reload": {
+            "top": 84.796875,
+            "bottom": 102.796875,
+            "in_view": true
+          }
+        },
+        "error_focused": true,
+        "tabs_to_recovery": 1,
+        "export_preserved": true,
+        "model_requests": 0,
+        "seconds": 0.8178411250000002
+      },
+      {
+        "name": "dependency-timeout",
+        "width": 1440,
+        "status": "passed",
+        "phase": "complete",
+        "passed": true,
+        "initial_scroll_y": 591,
+        "injected_requests": 1,
+        "visibility": {
+          "startup-status": {
+            "top": 17,
+            "bottom": 41,
+            "in_view": true
+          },
+          "startup-reload": {
+            "top": 84.796875,
+            "bottom": 102.796875,
+            "in_view": true
+          }
+        },
+        "error_focused": true,
+        "tabs_to_recovery": 1,
+        "export_preserved": true,
+        "model_requests": 0,
+        "seconds": 8.767762584
+      },
+      {
+        "name": "healthy",
+        "width": 390,
+        "status": "passed",
+        "phase": "complete",
+        "passed": true,
+        "injected_requests": 1,
+        "initial_scroll_y": 1196,
+        "normal_position_preserved": true,
+        "export_preserved": true,
+        "model_requests": 0,
+        "seconds": 0.623707792000001
+      },
+      {
+        "name": "entry-failure",
+        "width": 390,
+        "status": "passed",
+        "phase": "complete",
+        "passed": true,
+        "injected_requests": 1,
+        "initial_scroll_y": 1196,
+        "visibility": {
+          "startup-status": {
+            "top": 17,
+            "bottom": 65,
+            "in_view": true
+          },
+          "startup-reload": {
+            "top": 150.390625,
+            "bottom": 168.390625,
+            "in_view": true
+          }
+        },
+        "error_focused": true,
+        "tabs_to_recovery": 1,
+        "export_preserved": true,
+        "model_requests": 0,
+        "seconds": 0.7138070419999986
+      },
+      {
+        "name": "dependency-timeout",
+        "width": 390,
+        "status": "passed",
+        "phase": "complete",
+        "passed": true,
+        "initial_scroll_y": 1196,
+        "injected_requests": 1,
+        "visibility": {
+          "startup-status": {
+            "top": 17,
+            "bottom": 65,
+            "in_view": true
+          },
+          "startup-reload": {
+            "top": 150.390625,
+            "bottom": 168.390625,
+            "in_view": true
+          }
+        },
+        "error_focused": true,
+        "tabs_to_recovery": 1,
+        "export_preserved": true,
+        "model_requests": 0,
+        "seconds": 8.712156958
+      }
+    ]
+  },
+  "additional_immediate_controls": {
+    "total": 4,
+    "passed": 4,
+    "rows": [
+      {
+        "width": 1440,
+        "hash": "source-heading",
+        "observation": {
+          "focused": "startup-status",
+          "top": 17,
+          "bottom": 102.796875,
+          "height": 900
+        },
+        "passed": true
+      },
+      {
+        "width": 1440,
+        "hash": "pdf-intake",
+        "observation": {
+          "focused": "startup-status",
+          "top": 17,
+          "bottom": 102.796875,
+          "height": 900
+        },
+        "passed": true
+      },
+      {
+        "width": 390,
+        "hash": "source-heading",
+        "observation": {
+          "focused": "startup-status",
+          "top": 17,
+          "bottom": 168.390625,
+          "height": 900
+        },
+        "passed": true
+      },
+      {
+        "width": 390,
+        "hash": "pdf-intake",
+        "observation": {
+          "focused": "startup-status",
+          "top": 17,
+          "bottom": 168.390625,
+          "height": 900
+        },
+        "passed": true
+      }
+    ]
+  },
+  "limits": {
+    "model_calls": 0,
+    "known_tokens": 0,
+    "unknown_usage_calls": 0,
+    "hidden_cases": 0,
+    "real_financial_labels": 0,
+    "final_e7_complete": false
+  }
+}

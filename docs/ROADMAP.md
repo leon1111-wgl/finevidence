@@ -160,3 +160,5 @@ and historical real-model7/8; independent review still owns FE-030 closure.
 metadata. The controlled startup-to-calculation plan2/3→3/3 leaves financial
 results unchanged. Historical natural startup incidents still need their own
 root-cause evidence. E2 and finalE7 remain open; see LOOPBACK_STARTUP.
+
+2026-10-28: the queued P3 anchored-startup visibility suggestion now has one-shot error focus, viewport recovery and a six-case browser acceptance plan. Normal reading position remains intact. This completes a bounded usability increment, not the final real-business E7 gate; E2 source rights and genuine review/admission remain open.

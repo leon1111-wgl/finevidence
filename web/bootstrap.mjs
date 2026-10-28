@@ -22,6 +22,11 @@ function fail(code) {
     : '程序未能加载，工作台尚未启动。请检查连接后重新加载。 [STARTUP_LOAD_FAILED]';
   document.getElementById('runtime').textContent = '工作台尚未启动';
   document.getElementById('status').textContent = '程序未就绪，请使用上方的重新加载入口。';
+  // Fragment navigation can leave this fatal error above the viewport. Focus
+  // the explanation once; the next Tab reaches the native recovery link.
+  message.tabIndex = -1;
+  message.focus({ preventScroll: true });
+  panel.scrollIntoView({ block: 'start', behavior: 'instant' });
 }
 const timer = setTimeout(() => fail('STARTUP_TIMEOUT'), limitMs);
 async function loadWorkbench() {
