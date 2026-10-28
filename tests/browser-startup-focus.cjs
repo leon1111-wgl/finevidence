@@ -23,7 +23,7 @@ let browser, suiteError = null;
     try {
       context = await browser.newContext({ viewport: { width: row.width, height: 900 }, acceptDownloads: true });
       p = await context.newPage(); p.setDefaultTimeout(10000);
-      diagnostics = observe(p, new URL(base).origin, () => row.phase);
+      diagnostics = observe(p, base, () => row.phase);
       const operations = [];
       await p.route('**/api/run', route => {
         const op = route.request().postDataJSON().operation; operations.push(op);

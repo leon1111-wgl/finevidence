@@ -42,3 +42,39 @@ test('restore replay errors retain a safe phase and no request content',async()=
  assert.deepEqual(d.resources,[{resource:'api/run',event:'request_failed',code:'net::ERR_CONNECTION_RESET',phase:'replay-navigation'}]);
  assert.ok(!JSON.stringify(d).includes('PRIVATE_CANARY'));
 });
+
+test('deployment directory preserves known HTTP and network failures',async()=>{
+ // Dropping the trusted directory (or passing only origin) loses these events.
+ for(const base of ['https://example.test/','https://example.test/finevidence/','https://example.test/finevidence']){
+  const prefix=base.includes('/finevidence')?'/finevidence/':'/';
+  for(const asset of ['workbench.mjs','assets/'+'a'.repeat(64)+'/workbench.mjs']){
+   const p=new EventEmitter();p.evaluate=async()=>({});const capture=observe(p,base,()=> 'loading');
+   const url='https://example.test'+prefix+asset+'?PRIVATE_CANARY#PRIVATE_FRAGMENT';
+   p.emit('response',{url:()=>url,status:()=>503});
+   p.emit('requestfailed',{url:()=>url,failure:()=>({errorText:'net::ERR_FAILED'})});
+   assert.deepEqual((await capture()).resources,[
+    {resource:'workbench.mjs',event:'http_error',status:503,phase:'loading'},
+    {resource:'workbench.mjs',event:'request_failed',code:'net::ERR_FAILED',phase:'loading'},
+   ]);
+  }
+ }
+});
+
+test('deployment directory excludes neighboring, encoded and unknown paths',async()=>{
+ // A basename-only matcher or permissive prefix would admit unrelated data.
+ const p=new EventEmitter();p.evaluate=async()=>({});const capture=observe(p,'https://example.test/finevidence/');
+ const paths=['/workbench.mjs','/finevidence-other/workbench.mjs','/finevidence2/workbench.mjs',
+  '/finevidence','/finevidence//workbench.mjs','/finevidence/%77orkbench.mjs',
+  '/finevidence/%2fworkbench.mjs','/finevidence/%2e%2e/workbench.mjs',
+  '/finevidence/private/workbench.mjs','/finevidence/assets/bad/workbench.mjs',
+  '/finevidence/assets/'+'a'.repeat(63)+'/workbench.mjs',
+  '/finevidence/assets/'+'a'.repeat(64)+'/PRIVATE_CANARY.mjs'];
+ for(const suffix of paths)p.emit('response',{url:()=> 'https://example.test'+suffix+'?PRIVATE_CANARY',status:()=>503});
+ p.emit('response',{url:()=> 'https://outside.test/finevidence/workbench.mjs',status:()=>503});
+ assert.deepEqual((await capture()).resources,[]);
+ // A rejected path must not disable later legitimate observations.
+ for(let i=0;i<20;i++)p.emit('response',{url:()=> 'https://example.test/finevidence/runtime.json?PRIVATE_CANARY',status:()=>503});
+ const d=await capture();assert.equal(d.resources.length,16);
+ assert.ok(d.resources.every(r=>r.resource==='runtime.json'&&r.status===503));
+ assert.ok(!JSON.stringify(d).includes('PRIVATE_CANARY')&&!JSON.stringify(d).includes('example.test'));
+});

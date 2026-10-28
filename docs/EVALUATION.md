@@ -1,5 +1,20 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Deployment-directory diagnostic evidence (2026-10-29 Taipei)
+
+A known synthetic engineering plan measures whether failures remain explainable
+on Pages: root/directory ×two widths ×503/abort/healthy,12 cases with one source.
+Pages fault-event capture0/4→4/4; all twelve financial source/export controls
+already passed and still pass. Full-base API contract4/12→12/12 includes a new
+root URL spelling, so it is not eight newly found deployed defects. Raw first
+runs, timings and the command-environment failure are retained in
+[validation/diagnostic-prefix-2026-10-29.json](validation/diagnostic-prefix-2026-10-29.json).
+This improves test diagnosis, not model accuracy, real-report quality or staff
+productivity. Zero model/token/unknown-use calls, hidden tasks and new human
+labels. Fixed financial eight-task evaluation and historical live7/8 are separate.
+See BROWSER_FAILURE_EVIDENCE; FE-013/E2/finalE7 and natural failures remain open.
+
+
 ## Compact scope identification (2026-10-29 Taipei)
 
 Two synthetic companies across six widths form12 known development cases.

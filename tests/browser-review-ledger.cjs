@@ -30,7 +30,7 @@ async function server(dir,port=0,enabled=true){
    tmp=await fs.mkdtemp(path.join(os.tmpdir(),'fe-ledger-test-'));
    srv=await server(path.join(tmp,'private'),0,row.name!=='disabled-surface');
    ctx=await browser.newContext({viewport:{width:row.width,height:1000},acceptDownloads:true});
-   p=await ctx.newPage();p.setDefaultTimeout(6000);capture=observe(p,new URL(srv.url).origin);
+   p=await ctx.newPage();p.setDefaultTimeout(6000);capture=observe(p,srv.url);
    const errors=[],writes=[];p.on('pageerror',e=>errors.push(e.message));
    p.on('request',r=>{if(r.method()==='POST')writes.push({url:new URL(r.url()).pathname,body:r.postDataJSON()});});
    const ready=async()=>p.waitForFunction(()=>document.querySelector('#run')?.disabled===false);

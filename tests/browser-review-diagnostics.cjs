@@ -40,7 +40,7 @@ const fields = ['startup_panel_visible','startup_reload_visible','data_retry_vis
     try{
      const p=await ctx.newPage();p.setDefaultTimeout(6000);let hits=0;
      if(scenario!=='healthy')await ctx.route('**/'+scenario,r=>{hits++;return r.fulfill({status:503,contentType:'text/javascript',body:'PRIVATE_DIAGNOSTIC_CANARY'});});
-     const capture=observe(p,new URL(base).origin);await p.goto(base);
+     const capture=observe(p,base);await p.goto(base);
      if(scenario==='healthy')await p.waitForFunction(()=>document.querySelector('#run')?.disabled===false);
      else if(scenario==='runtime.json')await p.locator('#retry').waitFor({state:'visible'});
      else await p.waitForFunction(()=>document.querySelector('#startup-status')?.textContent.includes('STARTUP_LOAD_FAILED'));
@@ -59,7 +59,7 @@ const fields = ['startup_panel_visible','startup_reload_visible','data_retry_vis
    }
    const ctx=await browser.newContext({viewport:{width,height:1000}});
    try{
-    const p=await ctx.newPage();const capture=observe(p,new URL(base).origin);
+    const p=await ctx.newPage();const capture=observe(p,base);
     // Literal negative controls exercise missing nodes and ancestor hiding.
     for(const [name,attr,want] of [['visible','',true],['ancestor-hidden','hidden',false],['ancestor-display','style="display:none"',false],['ancestor-visibility','style="visibility:hidden"',false],['self-hidden','',false],['missing','',false]]){
      const row={width,name,passed:false};

@@ -37,7 +37,7 @@ let browser,suiteError=null;
     try {
       context=await browser.newContext({viewport:{width:row.width,height:1000},acceptDownloads:true});
       await phase('page-create');p=await context.newPage();
-      capture=observe(p,new URL(base).origin,()=>row.phase);
+      capture=observe(p,base,()=>row.phase);
       p.on('pageerror',()=>pageErrors.push('PAGE_ERROR'));
       p.on('request',r=>{if(new URL(r.url()).pathname==='/api/run')operations.push(r.postDataJSON().operation);});
       await phase('initial-navigation');await p.goto(base);

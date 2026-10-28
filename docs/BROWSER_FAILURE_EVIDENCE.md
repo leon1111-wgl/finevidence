@@ -120,9 +120,10 @@ The fixed resource allowlist includes the six omitted current first-party
 modules, including source-catalog. Fault recording changes4/6→6/6 in the same
 matrix. A unit contract emits failures for every shipped first-party module so
 new modules require an explicit safe-name decision. Runtime recording still
-accepts only exact allowlisted names on the loopback origin, strips versioned
-prefixes/query strings, caps events at16 and maps unknown network errors to a
-fixed code. This is not arbitrary-path logging or a new public-site reporter.
+accepts only exact allowlisted names within the configured application origin
+and directory, strips versioned prefixes/query strings, caps events at16 and
+maps unknown network errors to a fixed code. It is a test utility, not arbitrary
+path logging or persistent application telemetry.
 
 Run `python3 scripts/build_web.py`, `pnpm test:review-diagnostics`, then
 `pnpm test:review-report`. The latter includes the new browser matrix followed
@@ -178,3 +179,45 @@ nonzero exit, bounded diagnostics and canary exclusion. The healthy restoration
 control is a separate six-case denominator. CI uploads both reports on failure.
 Disk failure/unwritable output and host loss may prevent a checkpoint; atomic
 rename does not guarantee a final report after interruption.
+
+## FE-028: preserve the deployment directory (2026-10-29 Taipei)
+
+Review of43493cc found that Pages failures under /finevidence/ disappeared from
+the resource array. The matcher only stripped a root /assets/<64hex>/ prefix,
+and callers discarded the directory by passing origin. Error UI and recovery
+still worked; this was missing diagnostic evidence, not a financial error.
+
+observe(page, baseUrl, phase) now accepts the trusted application directory.
+It checks exact origin and directory boundary before removing that prefix and
+an optional versioned asset prefix. Bare origins remain valid for root hosting;
+a directory without its final slash is normalized as a directory. Callers pass
+BASE_URL (or their owned server URL), never an observed request URL. Unknown,
+encoded names, neighboring applications and external origins remain excluded.
+The resource allowlist, safe codes, sixteen-event bound and report schema2 stay
+unchanged. A basename-only match would not enforce this boundary.
+
+Two added unit contracts cover plain/versioned resources, HTTP/network events,
+both directory spellings, thirteen rejected paths/origins, subsequent valid
+events, the sixteen-event cap and private query exclusion. The six-test focused
+suite first failed4/6 and then passed6/6.
+
+The fixed real-Chrome plan is root/Pages-like directory ×1440/390px ×
+503/abort/healthy:12 known development rows. Pages fault capture changes0/4→4/4;
+healthy controls4/4 and all source/export flows12/12 remain valid in both arms.
+The new full-base-URL contract changes4/12→12/12 overall. That denominator
+also includes root URLs with a slash that the old origin-only API did not
+accept; it must not be described as eight preexisting deployed failures.
+Both complete first runs and per-case timings are preserved in
+[validation/diagnostic-prefix-2026-10-29.json](validation/diagnostic-prefix-2026-10-29.json).
+Total case time was5.594898s before and5.323683s after; this includes UI, screenshots
+and downloads and is not an application latency or productivity benchmark.
+
+Run pnpm test:review-report for the existing diagnostics, new prefix matrix,
+privacy and intentional-failure reports. CI runs that command. For a live or
+loopback target, set BASE_URL and run node tests/browser-review-prefix.cjs:
+the configured deployment has six cases, actual keyboard recovery and actual
+30.00% synthetic source-linked exports. Screenshots and checkpoints are kept
+under BROWSER_ARTIFACTS/review-prefix. Controlled failures do not identify the
+cause of earlier natural navigation/socket failures or process_observation.
+No paid/model calls, hidden tasks or new real financial labels. Historical
+live-model7/8, FE-013, E2 and finalE7 remain open.

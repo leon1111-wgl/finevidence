@@ -1,5 +1,20 @@
 # Capability status
 
+## Deployment-aware review diagnostics (2026-10-29 Taipei)
+
+FE-028 now retains known module failures under the configured Pages directory.
+The collector and callers preserve the trusted base path while excluding
+neighboring/unknown resources and private parameters. Pages-like fault capture
+0/4→4/4; existing source-linked recovery/export12/12 remains unchanged. The
+full-base contract4/12→12/12 also includes a new root-URL calling convention;
+see BROWSER_FAILURE_EVIDENCE and the first-run validation record. This is
+test evidence reliability, not application telemetry or new financial accuracy.
+Local regression: Python 273/273 (73.828s), JavaScript 248/248; the fixed
+financial development set stays 8/8, numeric/source 6/6 and refusals 2/2.
+Implementation is ready for independent review; natural network/process
+observations, historical live7/8/FE-013, E2 and finalE7 are not closed.
+
+
 ## Compact company selection (2026-10-29 Taipei)
 
 At widths <=360px, company and year now use separate rows so the selected

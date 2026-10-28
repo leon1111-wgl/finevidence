@@ -35,7 +35,7 @@ let browser, suiteError = null;
       await phase("initial-ready");
       context = await browser.newContext({ viewport: { width: row.width, height: 900 }, acceptDownloads: true });
       page = await context.newPage();
-      capture = observe(page, new URL(base).origin, () => row.phase);
+      capture = observe(page, base, () => row.phase);
       page.on("request", req => {
         if (new URL(req.url()).pathname === "/api/run" && req.postDataJSON()?.operation === "agent") row.model_requests++;
       });

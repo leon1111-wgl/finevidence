@@ -1,5 +1,25 @@
 # Review queue
 
+## FE-028 public-directory capture — implementation handoff (2026-10-29 Taipei)
+
+On43493cc, known HTTP503/requestfailed events below /finevidence/ were omitted
+although the error UI and keyboard reload worked. The trusted base directory
+now reaches observe(), and matching checks origin/path boundary before the
+existing safe resource allowlist. Pages-like fault capture0/4→4/4, source/export
+controls12/12 unchanged; complete first runs and the new full-base contract are
+in BROWSER_FAILURE_EVIDENCE. Review actual public SHA, both directory spellings,
+root compatibility, neighboring/encoded/unknown paths, query privacy, event cap,
+real503/abort and keyboard recovery. Do not reinterpret prior reports or close
+natural transport/process_observation incidents. No new issue ID; independent
+closure remains pending. Interview: why is basename matching insufficient, and
+why can one failed module generate both an HTTP and a request-failed event?
+
+The43493cc independent review accepted the compact two-company selection scope
+(4 new flow cases,40 resize observations,16 actual downloads against Python).
+It retained Python1/273 process_observation and public initialization3/12
+failures; these are not superseded by later successes or CI green status.
+
+
 ## Compact scope selection — independent review handoff (2026-10-29 Taipei)
 
 The5ec231d P3 suggestion is implemented: at320px, the company select clipped

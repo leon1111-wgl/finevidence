@@ -6,12 +6,17 @@ const errorCode = error => error?.name === 'TimeoutError' ? 'TIMEOUT' : error?.c
 // requires an explicit privacy review when a shipped first-party module is added.
 const known = new Set(['runtime.json','manifest.json','bundle.json','app.mjs','bootstrap.mjs','workbench.mjs','engine.mjs','state.mjs','handoff.mjs','replay.mjs','pdf-panel.mjs','pdf-intake.mjs','pdf-preview-panel.mjs','pdf-preview.mjs','fact-draft-panel.mjs','review-ledger-panel.mjs','source-catalog.mjs','file-name.mjs','fact-draft.mjs','draft-review.mjs','fact-draft-import.mjs','fact-draft-import-panel.mjs','vendor/pdf.min.mjs','vendor/pdf.worker.min.mjs','api/reviews','api/reviews/revoke','api/run']);
 const failureCodes = new Set(['net::ERR_FAILED','net::ERR_ABORTED','net::ERR_SOCKET_NOT_CONNECTED','net::ERR_CONNECTION_REFUSED','net::ERR_CONNECTION_RESET','net::ERR_CONNECTION_CLOSED','net::ERR_TIMED_OUT','net::ERR_INTERNET_DISCONNECTED']);
-function observe(page, origin, phase) {
+function observe(page, baseUrl, phase) {
+  // The caller supplies the deployment directory, never an observed request URL.
+  const base = new URL(baseUrl);
+  const prefix = base.pathname.endsWith('/') ? base.pathname : base.pathname + '/';
   const resources=[];let pageErrors=0;
   function record(url, event, details) {
     try {
-      const u=new URL(url),name=u.pathname.replace(/^\/assets\/[a-f0-9]{64}\//,'/').slice(1);
-      if(u.origin!==origin || !known.has(name))return;
+      const u=new URL(url);
+      if(u.origin!==base.origin || !u.pathname.startsWith(prefix))return;
+      const name=u.pathname.slice(prefix.length).replace(/^assets\/[a-f0-9]{64}\//,'');
+      if(!known.has(name))return;
       resources.push({resource:name,event,...details,...(phase?{phase:phase()}: {})});if(resources.length>16)resources.shift();
     }catch{}
   }
