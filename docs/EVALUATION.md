@@ -1,5 +1,10 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Main-document diagnosis, 2026-10-29
+
+Known root/Pages-like directories ×two widths ×503/connection-closed/healthy form12 synthetic development cases. First capture acceptance4/12→12/12, fault-event retention0/8→8/8; explicit recovery/value/source/download controls remain12/12 in both arms. Six contracts2/6→6/6. No model, hidden task, real-report label or analyst-time estimate. Fixed finance8/8 (numeric/source6/6, refusal2/2) and historical live7/8 are separate. See BROWSER_FAILURE_EVIDENCE and validation/navigation-diagnostics-2026-10-29.json for unchanged probes, exact timings, first failures and scope. Natural transport causes, FE-013, E2 and finalE7 remain open.
+
+
 ## Transient process observations (2026-10-29)
 
 This is an offline judge-reliability increment. Ten known contracts change6/10

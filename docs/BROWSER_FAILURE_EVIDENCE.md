@@ -1,5 +1,46 @@
 # Browser fault-suite failure evidence
 
+## Main-document failure evidence (2026-10-29)
+
+The24c5d31 review retained natural top-level ERR_CONNECTION_CLOSED failures,
+but the shared collector excluded the trusted workbench document itself. A
+failed/destroyed document could therefore report HARNESS_ERROR with empty
+resources. The network root cause remains unknown. This change addresses only
+the missing diagnostic evidence, within the existing FE-028 investigation.
+
+The collector now accepts the configured workbench path (and its directory
+slash form) only for an actual main-frame navigation on the same origin. It
+exports the fixed resource name main_document, existing HTTP status or safe
+network-code mapping, and the caller's phase. URL, query, fragment and exception
+text are not retained. Fetches, subframes, unrelated paths/origins and missing
+frame identity are excluded. The existing16-event cap and unavailable-document
+result remain; captured events survive page destruction. All existing observe
+callers receive the field without a second error parser or production telemetry.
+
+Six unit contracts change2/6→6/6. The frozen actual Chromium plan uses
+root/Pages-like directories ×1440/390px ×HTTP503/connection-closed/healthy:
+first4/12→12/12; main-document fault capture0/8→8/8, while explicit recovery,
+30.00%, checked source and actual JSON downloads remain12/12 in both arms.
+Closing the failed page before reading diagnostics verifies retention without
+assuming a usable DOM. Recovery is a separate explicit navigation, never a
+retry of a model request or a replacement for the original failure result.
+
+Run python3 scripts/build_web.py, node --test tests/navigation-report.test.mjs,
+and node tests/browser-navigation-report.cjs with installed Playwright/Chromium.
+The browser command starts its own loopback static fixture; BASE_URL optionally
+checks the deployed surface (six cases). It is included in test:review-report
+and therefore the existing CI diagnostic step. Rows/checkpoints retain the
+fixed denominator, not_run and the first failure. This does not retrofit the
+older generic browser.cjs runner into per-case reporting, classify arbitrary
+redirect destinations, or fix browser/OS/TLS transport.
+
+[First results, timings and probe hashes](validation/navigation-diagnostics-2026-10-29.json)
+are engineering evidence, not financial accuracy or staff-time savings. Zero
+model calls, hidden cases or real financial labels. Historical live7/8/FE-013,
+E2 and finalE7 remain open. Exact-release CI/public checks and independent
+closure remain separate gates.
+
+
 FE-019 was reproduced at `8ee1830`: if the PDF fault suite failed during navigation or readiness, it exited 1 before writing its final JSON. A first-case startup failure lost all case records; a second-case startup failure also lost the preceding pass from the structured artifact. CI already rejected the failing run. This was an evidence/reporting defect, not incorrect financial output.
 
 ## Contract

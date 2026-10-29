@@ -1,0 +1,1033 @@
+{
+  "classification": "SYNTHETIC_NAVIGATION_DIAGNOSTICS_DEVELOPMENT",
+  "baseline_sha": "24c5d31390fdcee4e6636e1c4f80487b3317589c",
+  "protocol": "One first pass per arm; same tests and assertions; no best-of-N. Faults injected before main-document navigation. Explicit recovery is measured separately.",
+  "scope": "Shared browser-test diagnostic collector only; not a fix for natural network transport or a new product feature.",
+  "source_documents": 1,
+  "model_calls": 0,
+  "reported_tokens": 0,
+  "unknown_usage_calls": 0,
+  "hidden_cases": 0,
+  "real_report_quality_cases": 0,
+  "new_human_labels": 0,
+  "test_sha256": {
+    "navigation-report.test.mjs": "9fc3217d876b02a7921c612d05d9d0991244bdd1b76e8c0106c30f142cdd6704",
+    "browser-navigation-report.cjs": "bb2d04e59f3ee2e89ebee92cf1e865d3f714eb7c12df2af55fc9bd5908d38571"
+  },
+  "unit_contracts": {
+    "baseline": {
+      "passed": 2,
+      "total": 6
+    },
+    "candidate": {
+      "passed": 6,
+      "total": 6
+    }
+  },
+  "browser_arms": {
+    "baseline": {
+      "total": 12,
+      "passed": 4,
+      "faults_captured": {
+        "passed": 0,
+        "total": 8
+      },
+      "source_export_controls": {
+        "passed": 12,
+        "total": 12
+      },
+      "rows": [
+        {
+          "surface": "root",
+          "width": 1440,
+          "name": "503",
+          "status": "failed",
+          "phase": "source-and-export",
+          "passed": false,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": false,
+              "run_disabled": null,
+              "startup_panel_visible": false,
+              "startup_reload_visible": false,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "resource_captured": false,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "1440-root-503-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "error_code": "ASSERTION_FAILED",
+          "seconds": 0.735004
+        },
+        {
+          "surface": "root",
+          "width": 1440,
+          "name": "abort",
+          "status": "failed",
+          "phase": "source-and-export",
+          "passed": false,
+          "expected_navigation_rejection": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "resource_captured": false,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "1440-root-abort-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "error_code": "ASSERTION_FAILED",
+          "seconds": 0.6541510840000001
+        },
+        {
+          "surface": "root",
+          "width": 1440,
+          "name": "healthy",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": true,
+              "run_disabled": true,
+              "startup_panel_visible": true,
+              "startup_reload_visible": true,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "resource_captured": true,
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.43641470800000004
+        },
+        {
+          "surface": "root",
+          "width": 390,
+          "name": "503",
+          "status": "failed",
+          "phase": "source-and-export",
+          "passed": false,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": false,
+              "run_disabled": null,
+              "startup_panel_visible": false,
+              "startup_reload_visible": false,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "resource_captured": false,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "390-root-503-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "error_code": "ASSERTION_FAILED",
+          "seconds": 0.5886760000000004
+        },
+        {
+          "surface": "root",
+          "width": 390,
+          "name": "abort",
+          "status": "failed",
+          "phase": "source-and-export",
+          "passed": false,
+          "expected_navigation_rejection": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "resource_captured": false,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "390-root-abort-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "error_code": "ASSERTION_FAILED",
+          "seconds": 0.599369792
+        },
+        {
+          "surface": "root",
+          "width": 390,
+          "name": "healthy",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": true,
+              "run_disabled": true,
+              "startup_panel_visible": true,
+              "startup_reload_visible": true,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "resource_captured": true,
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.4136754999999998
+        },
+        {
+          "surface": "pages",
+          "width": 1440,
+          "name": "503",
+          "status": "failed",
+          "phase": "source-and-export",
+          "passed": false,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": false,
+              "run_disabled": null,
+              "startup_panel_visible": false,
+              "startup_reload_visible": false,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "resource_captured": false,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "1440-pages-503-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "error_code": "ASSERTION_FAILED",
+          "seconds": 0.6106627089999997
+        },
+        {
+          "surface": "pages",
+          "width": 1440,
+          "name": "abort",
+          "status": "failed",
+          "phase": "source-and-export",
+          "passed": false,
+          "expected_navigation_rejection": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "resource_captured": false,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "1440-pages-abort-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "error_code": "ASSERTION_FAILED",
+          "seconds": 0.6278627500000002
+        },
+        {
+          "surface": "pages",
+          "width": 1440,
+          "name": "healthy",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": true,
+              "run_disabled": true,
+              "startup_panel_visible": true,
+              "startup_reload_visible": true,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "resource_captured": true,
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.4504591249999994
+        },
+        {
+          "surface": "pages",
+          "width": 390,
+          "name": "503",
+          "status": "failed",
+          "phase": "source-and-export",
+          "passed": false,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": false,
+              "run_disabled": null,
+              "startup_panel_visible": false,
+              "startup_reload_visible": false,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "resource_captured": false,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "390-pages-503-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "error_code": "ASSERTION_FAILED",
+          "seconds": 0.6007591249999996
+        },
+        {
+          "surface": "pages",
+          "width": 390,
+          "name": "abort",
+          "status": "failed",
+          "phase": "source-and-export",
+          "passed": false,
+          "expected_navigation_rejection": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "resource_captured": false,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "390-pages-abort-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "error_code": "ASSERTION_FAILED",
+          "seconds": 0.6457541669999991
+        },
+        {
+          "surface": "pages",
+          "width": 390,
+          "name": "healthy",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": true,
+              "run_disabled": true,
+              "startup_panel_visible": true,
+              "startup_reload_visible": true,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "resource_captured": true,
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.42705308400000014
+        }
+      ]
+    },
+    "candidate": {
+      "total": 12,
+      "passed": 12,
+      "faults_captured": {
+        "passed": 8,
+        "total": 8
+      },
+      "source_export_controls": {
+        "passed": 12,
+        "total": 12
+      },
+      "rows": [
+        {
+          "surface": "root",
+          "width": 1440,
+          "name": "503",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": false,
+              "run_disabled": null,
+              "startup_panel_visible": false,
+              "startup_reload_visible": false,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "http_error",
+                "status": 503,
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0
+          },
+          "resource_captured": true,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "1440-root-503-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "http_error",
+                "status": 503,
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.7383065840000002
+        },
+        {
+          "surface": "root",
+          "width": 1440,
+          "name": "abort",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "expected_navigation_rejection": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "request_failed",
+                "code": "net::ERR_CONNECTION_CLOSED",
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "resource_captured": true,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "1440-root-abort-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "request_failed",
+                "code": "net::ERR_CONNECTION_CLOSED",
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.6534282499999999
+        },
+        {
+          "surface": "root",
+          "width": 1440,
+          "name": "healthy",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": true,
+              "run_disabled": true,
+              "startup_panel_visible": true,
+              "startup_reload_visible": true,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "resource_captured": true,
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.4493399160000001
+        },
+        {
+          "surface": "root",
+          "width": 390,
+          "name": "503",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": false,
+              "run_disabled": null,
+              "startup_panel_visible": false,
+              "startup_reload_visible": false,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "http_error",
+                "status": 503,
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0
+          },
+          "resource_captured": true,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "390-root-503-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "http_error",
+                "status": 503,
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.5902089580000002
+        },
+        {
+          "surface": "root",
+          "width": 390,
+          "name": "abort",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "expected_navigation_rejection": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "request_failed",
+                "code": "net::ERR_CONNECTION_CLOSED",
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "resource_captured": true,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "390-root-abort-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "request_failed",
+                "code": "net::ERR_CONNECTION_CLOSED",
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.6253188329999998
+        },
+        {
+          "surface": "root",
+          "width": 390,
+          "name": "healthy",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": true,
+              "run_disabled": true,
+              "startup_panel_visible": true,
+              "startup_reload_visible": true,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "resource_captured": true,
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.3943127920000002
+        },
+        {
+          "surface": "pages",
+          "width": 1440,
+          "name": "503",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": false,
+              "run_disabled": null,
+              "startup_panel_visible": false,
+              "startup_reload_visible": false,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "http_error",
+                "status": 503,
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0
+          },
+          "resource_captured": true,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "1440-pages-503-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "http_error",
+                "status": 503,
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.6156920839999998
+        },
+        {
+          "surface": "pages",
+          "width": 1440,
+          "name": "abort",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "expected_navigation_rejection": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "request_failed",
+                "code": "net::ERR_CONNECTION_CLOSED",
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "resource_captured": true,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "1440-pages-abort-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "request_failed",
+                "code": "net::ERR_CONNECTION_CLOSED",
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.6374304590000002
+        },
+        {
+          "surface": "pages",
+          "width": 1440,
+          "name": "healthy",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": true,
+              "run_disabled": true,
+              "startup_panel_visible": true,
+              "startup_reload_visible": true,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "resource_captured": true,
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.4531322909999999
+        },
+        {
+          "surface": "pages",
+          "width": 390,
+          "name": "503",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": false,
+              "run_disabled": null,
+              "startup_panel_visible": false,
+              "startup_reload_visible": false,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "http_error",
+                "status": 503,
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0
+          },
+          "resource_captured": true,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "390-pages-503-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "http_error",
+                "status": 503,
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.6007477499999996
+        },
+        {
+          "surface": "pages",
+          "width": 390,
+          "name": "abort",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "expected_navigation_rejection": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "request_failed",
+                "code": "net::ERR_CONNECTION_CLOSED",
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "resource_captured": true,
+          "failure_layout": {
+            "policy": "layout_only",
+            "saved": true,
+            "file": "390-pages-abort-failure-layout.png"
+          },
+          "closed_diagnostics": {
+            "schema_version": 2,
+            "readiness": null,
+            "resources": [
+              {
+                "resource": "main_document",
+                "event": "request_failed",
+                "code": "net::ERR_CONNECTION_CLOSED",
+                "phase": "initial-navigation"
+              }
+            ],
+            "page_errors": 0,
+            "unavailable": true
+          },
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.600663708
+        },
+        {
+          "surface": "pages",
+          "width": 390,
+          "name": "healthy",
+          "status": "passed",
+          "phase": "complete",
+          "passed": true,
+          "diagnostics": {
+            "schema_version": 2,
+            "readiness": {
+              "run_present": true,
+              "run_disabled": true,
+              "startup_panel_visible": true,
+              "startup_reload_visible": true,
+              "data_retry_visible": false,
+              "ledger_busy": false,
+              "ledger_retry_visible": false,
+              "ledger_alert": false,
+              "records": 0
+            },
+            "resources": [],
+            "page_errors": 0
+          },
+          "resource_captured": true,
+          "business_recovery": true,
+          "source_export": true,
+          "model_requests": 0,
+          "seconds": 0.4140434999999998
+        }
+      ]
+    }
+  },
+  "fixed_workflow_finance": {
+    "completion": {
+      "passed": 8,
+      "total": 8
+    },
+    "numeric_correct": {
+      "passed": 6,
+      "total": 6
+    },
+    "sources_complete": {
+      "passed": 6,
+      "total": 6
+    },
+    "safe_refusal": {
+      "passed": 2,
+      "total": 2
+    },
+    "latency_n": 8,
+    "p50_seconds": 0.0007210000000000001,
+    "p95_seconds": 0.000795,
+    "model_calls": 0,
+    "reported_tokens": 0,
+    "usage_complete": true,
+    "calls_with_unknown_usage": 0
+  },
+  "local_environment": {
+    "system": "Darwin",
+    "machine": "arm64",
+    "python": "3.12.2",
+    "node": "v24.19.0",
+    "chrome": "156.0.8078.49"
+  }
+}

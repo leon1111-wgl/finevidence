@@ -1,5 +1,10 @@
 # Review queue
 
+## Main-document diagnostic gap — implementation handoff
+
+The24c5d31 review observed document-level ERR_CONNECTION_CLOSED while another shared report retained only HARNESS_ERROR/unavailable with no resources. This bounded follow-up to FE-028 admits only same-origin configured-path main-frame navigation failures. Review HTTP503/connection closed, root/directory forms, missing/destroyed frame, subframe/fetch/neighbor exclusions, safe unknown-error mapping and16-event cap. First unit2/6→6/6 and browser4/12→12/12;8 fault events now retained,12 source/value/download controls unchanged. Probe/result details: BROWSER_FAILURE_EVIDENCE. Do not claim the natural transport cause is fixed or all runners now have per-case reporting. Independent acceptance is pending. The preceding review closed only the known Python-launch-placeholder P3 scope, with18/18 controls and4/4 actual exits; previous unobserved process errors remain unresolved.
+
+
 ## Launch placeholder in process observation — implementation handoff
 
 On415cdea, a fixed local64-child diagnostic captured four immediate ps command

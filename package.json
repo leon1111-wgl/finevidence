@@ -14,7 +14,7 @@
     "test:review-recovery": "node tests/browser-review-recovery.cjs",
     "test:review-filename": "node tests/browser-review-filename.cjs",
     "test:review-diagnostics": "node tests/browser-review-diagnostics.cjs",
-    "test:review-report": "node tests/browser-review-diagnostics.cjs && node tests/browser-review-prefix.cjs && node tests/browser-review-redaction.cjs && node tests/browser-review-report.cjs",
+    "test:review-report": "node tests/browser-review-diagnostics.cjs && node tests/browser-review-prefix.cjs && node tests/browser-navigation-report.cjs && node tests/browser-review-redaction.cjs && node tests/browser-review-report.cjs",
     "test:review-export": "node tests/browser-review-export.cjs",
     "test:startup-focus": "node tests/browser-startup-focus.cjs",
     "test:scope-layout": "node tests/browser-scope-layout.cjs"

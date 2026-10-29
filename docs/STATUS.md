@@ -1,5 +1,10 @@
 # Capability status
 
+## Main-document failure diagnostics, 2026-10-29
+
+The shared test collector retains trusted main-frame document failures as main_document with fixed error/status and stage, including after page destruction. Known faults0/8→8/8;12-case acceptance4/12→12/12; actual recovery/calculation/source downloads12/12 unchanged. It excludes subframes/fetches/unknown paths and private URL/error text. See BROWSER_FAILURE_EVIDENCE. This is diagnostic reliability, not a natural-network fix or financial feature. CI/public deployment and independent closure remain separate. The24c5d31 independent review accepted the known launcher-placeholderP3 scope (18 controls and4 actual exit faults); old uncaptured process errors, FE-013/history7/8, E2 and finalE7 remain open.
+
+
 ## Bounded launcher-identity observation (2026-10-29)
 
 A known macOS launch transient can omit Python arguments from ps. Judge5 now

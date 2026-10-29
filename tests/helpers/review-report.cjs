@@ -11,17 +11,26 @@ function observe(page, baseUrl, phase) {
   const base = new URL(baseUrl);
   const prefix = base.pathname.endsWith('/') ? base.pathname : base.pathname + '/';
   const resources=[];let pageErrors=0;
-  function record(url, event, details) {
+  function record(url, event, details, request) {
     try {
       const u=new URL(url);
-      if(u.origin!==base.origin || !u.pathname.startsWith(prefix))return;
-      const name=u.pathname.slice(prefix.length).replace(/^assets\/[a-f0-9]{64}\//,'');
-      if(!known.has(name))return;
+      if(u.origin!==base.origin)return;
+      let name;
+      if(u.pathname===base.pathname || u.pathname===prefix){
+        // Only the trusted workbench document in this page's main frame.
+        // Never retain URL/query, exception text, subframes or arbitrary paths.
+        if(request?.isNavigationRequest?.()!==true || request.frame()!==page.mainFrame())return;
+        name='main_document';
+      }else{
+        if(!u.pathname.startsWith(prefix))return;
+        name=u.pathname.slice(prefix.length).replace(/^assets\/[a-f0-9]{64}\//,'');
+        if(!known.has(name))return;
+      }
       resources.push({resource:name,event,...details,...(phase?{phase:phase()}: {})});if(resources.length>16)resources.shift();
     }catch{}
   }
-  page.on('response',r=>{if(r.status()>=400)record(r.url(),'http_error',{status:r.status()});});
-  page.on('requestfailed',r=>{const code=r.failure()?.errorText;record(r.url(),'request_failed',{code:failureCodes.has(code)?code:'OTHER_NETWORK_ERROR'});});
+  page.on('response',r=>{if(r.status()>=400)record(r.url(),'http_error',{status:r.status()},r.request?.());});
+  page.on('requestfailed',r=>{const code=r.failure()?.errorText;record(r.url(),'request_failed',{code:failureCodes.has(code)?code:'OTHER_NETWORK_ERROR'},r);});
   page.on('pageerror',()=>{pageErrors=Math.min(pageErrors+1,1000);});
   return async () => {
     let timer;
