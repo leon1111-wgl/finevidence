@@ -1,5 +1,41 @@
 # Review queue
 
+## FE-019 P3 brief recovery report — implementation handoff (2026-10-30)
+
+The independent `7172a09` review found bare timeout errors and missing launch/cleanup
+reports in the four-row brief recovery runner. Reusing the existing safe reporter
+now preserves phases, masked failure layouts, checkpoints, cleanup errors and
+not-run rows. No production behavior or financial/timeout predicates change.
+
+On the pinned Playwright Chromium environment, the frozen eight reporting
+contracts change0/8→8/8; readiness/download-stage evidence0/2→2/2. Both injected
+children still exit1 with3/4 rows passed, and the six unaffected actual-download
+controls stay6/6. These are known synthetic engineering contracts, not32 financial
+tasks, a hidden set or real-report effectiveness. First installed-Chrome runs
+remain0/8 and2/8, with additional unexpected download timeouts. A separate probe
+observed completed clicks without download events and one resource error; the
+browser version or network is not established as the cause. Pinned-browser
+results do not replace or close those failures.
+
+See BROWSER_FAILURE_EVIDENCE and
+[the first-result record](validation/brief-recovery-report-2026-10-30.json).
+Independent closure and exact-release CI/public verification remain separate.
+Historical live7/8/FE-013, the deadline-stage precondition review, E2 and finalE7
+stay open. Zero paid/real model calls, unknown-usage calls or new human labels.
+
+Review with `pnpm test:brief-report`: retain first failure when cleanup also fails,
+verify nonzero child exits and safe screenshots, and never count `finished=true`
+as success. Interview: how can successful rows coexist with a failed suite cleanup?
+
+Local regression is Python289/289, JS260/260 and fixed synthetic finance8/8
+(numeric/source6/6, expected refusal2/2). First static checks are brief8/8,
+recovery4/4, startup-focus6/6; first Python checks are brief7/8, recovery4/4,
+startup-focus5/6. Python's failures retain `pdf-preview-panel.mjs` connection
+reset before the empty-search task and `handoff.mjs` socket-not-connected during
+anchored navigation. They are not rerun into green results or attributed to this
+test-only change. Existing transport investigations remain open. Production files
+and the shared diagnostic helper are byte-unchanged from the reviewed base.
+
 ## Release gate failure and process diagnostics (2026-10-29)
 
 The first readable-brief commit, `0c809242042dd8cf518557f49349011b8a9684e3`,

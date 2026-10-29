@@ -1,5 +1,58 @@
 # Browser fault-suite failure evidence
 
+## Brief recovery reports (2026-10-30)
+
+The independent review of `7172a09` retained public and Python brief-recovery
+results of 2/4 each. A bare `TimeoutError` did not identify navigation, readiness,
+calculation or download. This P3 follow-up belongs to FE-019; it does not prove
+or repair the cause of those natural failures.
+
+`browser-brief-recovery.cjs` now uses the existing shared reporter, observer and
+layout-only failure screenshot. Its original two boundaries at 1440/390px remain
+four planned rows. Checkpoints precede launch and each phase. Launch failure
+leaves four `not_run` rows; a completed case failure remains a failure while the
+other independent cases run. Context cleanup failure retains the original phase
+and error, records `cleanup_error`, and stops subsequent cases as `not_run`.
+Browser cleanup failure cannot erase the report or produce exit 0. `finished`
+means finalization ran, not all cases passed. A kill can leave `finished=false`;
+output/disk failure cannot promise a report and emits only `REPORT_WRITE_FAILED`.
+
+The download event and click promises are observed together so either rejection
+enters the same catch. The existing 10-second waits and business assertions stay
+intact. No application, provider budget, financial formula or raw error parser
+changes. Diagnostics exclude raw messages, URLs, content and private paths;
+only the existing bounded allowlist and masked failure layout are used.
+
+After `python3 scripts/build_web.py`, run `pnpm test:brief-report`. This starts
+its own loopback static server, regardless of BASE_URL, and executes the actual
+four-case runner eight times: readiness503, suppressed download, launch error,
+context error, context-close error, readiness plus close error, browser-close
+error, and kill during launch. Kill occurs before Chromium is started. Injected
+close errors happen after real resource cleanup. All private canaries are fake.
+The parent verifies the child's nonzero exit, fixed denominator, phases,
+checkpoints, safe evidence and actual HTML from passing controls. Parent contract
+success never converts the expected child failures into application successes.
+CI runs this contract separately and retains its artifacts on failure.
+
+The pinned-browser paired run gives0/8→8/8 reporting contracts, with the two
+primary failed children still3/4 and exit1; their unaffected download controls
+stay6/6. The installed Chrome156 first runs are0/8 then2/8, with unexpected
+download timeouts in normal controls. Chromium151 is the declared CI environment,
+not a retry selected to overwrite those failures. The same immutable probe files
+are used in both paired arms. See [the first-result record](validation/brief-recovery-report-2026-10-30.json)
+for browser versions, times, hashes and all failed rows. Natural causes remain
+open; this is diagnosis, not financial accuracy or measured analyst productivity.
+
+
+Local regression is Python289/289, JS260/260 and fixed synthetic finance8/8
+(numeric/source6/6, expected refusal2/2). First static checks are brief8/8,
+recovery4/4, startup-focus6/6; first Python checks are brief7/8, recovery4/4,
+startup-focus5/6. Python's failures retain `pdf-preview-panel.mjs` connection
+reset before the empty-search task and `handoff.mjs` socket-not-connected during
+anchored navigation. They are not rerun into green results or attributed to this
+test-only change. Existing transport investigations remain open. Production files
+and the shared diagnostic helper are byte-unchanged from the reviewed base.
+
 ## Unexpected navigation in the diagnostic runner (2026-10-29)
 
 Independent review of b2d201b accepted the bounded main-document collector,

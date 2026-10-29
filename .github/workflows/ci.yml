@@ -101,6 +101,8 @@ jobs:
         run: pnpm test:review-ledger
       - name: Local review failures retain phases and redacted diagnostics
         run: pnpm test:review-report
+      - name: Brief recovery failures retain phases, cleanup and unfinished plans
+        run: pnpm test:brief-report
       - name: Opaque source filenames through local review receipts
         run: pnpm test:review-filename
       - name: Correct rejected observations and preserve unknown-outcome request IDs

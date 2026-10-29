@@ -1,0 +1,2782 @@
+{
+  "base_commit": "7172a098312ab6de5aaf86d5f40b136d8442fade",
+  "classification": "KNOWN_SYNTHETIC_ENGINEERING_REPORT_CONTRACTS",
+  "date": "2026-10-30 Asia/Taipei",
+  "runtime": {
+    "platform": "Darwin",
+    "architecture": "arm64",
+    "python": "3.12.2",
+    "installed_chrome": "156.0.8078.49",
+    "playwright": "1.62.1",
+    "ci_matched_chromium": "151.0.7922.34",
+    "comparison_note": "Pinned Chromium is a separate environment control, not a replacement for installed Chrome first failures; diagnostic overlapped only candidate first run, not financial or paired baseline evaluation.",
+    "formatting_preparation": {
+      "tool": "bundled prettier",
+      "result": "MODULE_NOT_FOUND",
+      "source_changed": false
+    }
+  },
+  "plan": {
+    "report_contracts": 8,
+    "rows_per_child": 4,
+    "financial_task": "one existing synthetic gross-margin task repeated; not 32 financial tasks",
+    "source_documents_per_child": 1,
+    "hidden_tasks": 0,
+    "real_report_tasks": 0,
+    "new_human_labels": 0,
+    "real_model_calls": 0,
+    "paid_calls": 0,
+    "known_model_tokens": 0,
+    "unknown_usage_calls": 0
+  },
+  "primary_scope": {
+    "chromium_reporting_acceptance_before": 0,
+    "chromium_reporting_acceptance_after": 8,
+    "reporting_denominator": 8,
+    "ready_and_download_stage_capture_before": 0,
+    "ready_and_download_stage_capture_after": 2,
+    "stage_denominator": 2,
+    "ready_and_download_children_exit": 1,
+    "ready_and_download_children_passed": 3,
+    "ready_and_download_children_total": 4,
+    "unaffected_download_controls_before": 6,
+    "unaffected_download_controls_after": 6,
+    "unaffected_control_denominator": 6
+  },
+  "probe_sha256": {
+    "tests/browser-brief-report.cjs": "64239db485a9eb1bde0bbd74315a78b8a1170b7b17e96c5f3296f24ace66c9d4",
+    "tests/helpers/brief-report-fault.cjs": "77dbf8eeabf31a640ac4e67d356bbb03e16f00913ec76e24220a288b033b22c5"
+  },
+  "paired_commands": [
+    {
+      "arm": "chromium-baseline",
+      "exit": 1,
+      "seconds": 247.74495479115285,
+      "runner_sha256": "d128abe469c7f938244c4c3b69a3297b83d0a4fb97026e9a0f7e227445c4a074"
+    },
+    {
+      "arm": "chromium-candidate",
+      "exit": 0,
+      "seconds": 254.10278145805933,
+      "runner_sha256": "2eddf310adbaa47f23063a3d5a660839cd2e53023dc762666c10f728007ec098"
+    }
+  ],
+  "regression_commands": [
+    {
+      "name": "python",
+      "exit": 0,
+      "seconds": 244.01140437508002
+    },
+    {
+      "name": "build",
+      "exit": 0,
+      "seconds": 0.94260587496683
+    },
+    {
+      "name": "js",
+      "exit": 0,
+      "seconds": 3.9857350001111627
+    },
+    {
+      "name": "finance",
+      "exit": 0,
+      "seconds": 1.0335504999384284
+    }
+  ],
+  "arms": {
+    "baseline": {
+      "classification": "SYNTHETIC_BRIEF_REPORT_CONTRACT",
+      "model_calls": 0,
+      "total": 8,
+      "passed": 0,
+      "rows": [
+        {
+          "scenario": "ready",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 80.197748125,
+          "child_passed": 1,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\nundefined !== 2\n",
+          "child_report": {
+            "schema_version": null,
+            "suite_phase": null,
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": null,
+            "total": 4,
+            "attempted": null,
+            "passed": 1,
+            "failed": null,
+            "not_run": null,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 16.407608583000002
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 10.934097541
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 10.525896541000002
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "passed": true,
+                "seconds": 1.6948654170000008
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "download",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 63.97583595799998,
+          "child_passed": 1,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\nundefined !== 2\n",
+          "child_report": {
+            "schema_version": null,
+            "suite_phase": null,
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": null,
+            "total": 4,
+            "attempted": null,
+            "passed": 1,
+            "failed": null,
+            "not_run": null,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 16.977128875000002
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 11.005049834000001
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 12.141517874999998
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "passed": true,
+                "seconds": 0.881617250000003
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "launch",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 1.7276782079999975,
+          "error": "ENOENT: no such file or directory, open '<temporary-report>'"
+        },
+        {
+          "scenario": "context",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 65.94400654199998,
+          "child_passed": 0,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\nundefined !== 2\n",
+          "child_report": {
+            "schema_version": null,
+            "suite_phase": null,
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": null,
+            "total": 4,
+            "attempted": null,
+            "passed": 0,
+            "failed": null,
+            "not_run": null,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 16.741299625
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 10.89849275
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "passed": null
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "context-close",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 74.64133499999997,
+          "child_passed": 0,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\nundefined !== 2\n",
+          "child_report": {
+            "schema_version": null,
+            "suite_phase": null,
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": null,
+            "total": 4,
+            "attempted": null,
+            "passed": 0,
+            "failed": null,
+            "not_run": null,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 16.345537584000002
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 11.031862166
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "passed": null
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "ready-close",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 76.729937875,
+          "child_passed": 0,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\nundefined !== 2\n",
+          "child_report": {
+            "schema_version": null,
+            "suite_phase": null,
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": null,
+            "total": 4,
+            "attempted": null,
+            "passed": 0,
+            "failed": null,
+            "not_run": null,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 16.376133125
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 11.616757333
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "passed": null
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "browser-close",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 79.892004625,
+          "child_passed": 2,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\nundefined !== 2\n",
+          "child_report": {
+            "schema_version": null,
+            "suite_phase": null,
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": null,
+            "total": 4,
+            "attempted": null,
+            "passed": 2,
+            "failed": null,
+            "not_run": null,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 16.128721667
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 10.836789540999998
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "passed": true,
+                "seconds": 10.968722000000001
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "passed": true,
+                "seconds": 3.5860161670000017
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "kill",
+          "passed": false,
+          "child_exit": null,
+          "signal": "SIGTERM",
+          "checkpoint": false,
+          "seconds": 5.015047667000036,
+          "error": "child must complete or reach the intended kill checkpoint\n\ntrue !== false\n"
+        }
+      ]
+    },
+    "candidate-first": {
+      "classification": "SYNTHETIC_BRIEF_REPORT_CONTRACT",
+      "model_calls": 0,
+      "total": 8,
+      "passed": 2,
+      "rows": [
+        {
+          "scenario": "ready",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 80.46128141700001,
+          "child_passed": 1,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\n1 !== 3\n",
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "complete",
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": true,
+            "total": 4,
+            "attempted": 4,
+            "passed": 1,
+            "failed": 3,
+            "not_run": 0,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "1440-download-retry-failure-layout.png"
+                },
+                "seconds": 19.447694916
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "1440-legacy-html-failure-layout.png"
+                },
+                "seconds": 12.506587958
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "failed",
+                "phase": "ready",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": true,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": true,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [
+                    {
+                      "resource": "runtime.json",
+                      "event": "http_error",
+                      "status": 503,
+                      "phase": "ready"
+                    }
+                  ],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "390-download-retry-failure-layout.png"
+                },
+                "seconds": 11.844674082999997
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 2.6965909170000013
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "download",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 82.92952783400001,
+          "child_passed": 1,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\n1 !== 3\n",
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "complete",
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": true,
+            "total": 4,
+            "attempted": 4,
+            "passed": 1,
+            "failed": 3,
+            "not_run": 0,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "1440-download-retry-failure-layout.png"
+                },
+                "seconds": 18.420391625
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "1440-legacy-html-failure-layout.png"
+                },
+                "seconds": 14.002273
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "390-download-retry-failure-layout.png"
+                },
+                "seconds": 14.067887708000002
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 2.6821095419999983
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "launch",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 1.4131415419999975,
+          "child_passed": 0,
+          "child_total": 4,
+          "download_controls": 0,
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "browser-launch",
+            "suite_error": "HARNESS_ERROR",
+            "suite_cleanup_error": null,
+            "finished": true,
+            "total": 4,
+            "attempted": 0,
+            "passed": 0,
+            "failed": 0,
+            "not_run": 4,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "context",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 75.86495166599998,
+          "child_passed": 1,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\n1 !== 3\n",
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "complete",
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": true,
+            "total": 4,
+            "attempted": 4,
+            "passed": 1,
+            "failed": 3,
+            "not_run": 0,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "1440-download-retry-failure-layout.png"
+                },
+                "seconds": 18.69168625
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "1440-legacy-html-failure-layout.png"
+                },
+                "seconds": 13.014748166
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "failed",
+                "phase": "context-create",
+                "passed": false,
+                "error_code": "HARNESS_ERROR",
+                "seconds": 0.005262707999994745
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 9.319048292000007
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "context-close",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 74.96448587500001,
+          "child_passed": 0,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\n0 !== 2\n",
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "context-close",
+            "suite_error": "HARNESS_ERROR",
+            "suite_cleanup_error": null,
+            "finished": true,
+            "total": 4,
+            "attempted": 3,
+            "passed": 0,
+            "failed": 3,
+            "not_run": 1,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "1440-download-retry-failure-layout.png"
+                },
+                "seconds": 20.205646375
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "1440-legacy-html-failure-layout.png"
+                },
+                "seconds": 12.589750708999997
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "failed",
+                "phase": "context-close",
+                "passed": false,
+                "cleanup_error": "HARNESS_ERROR",
+                "error_code": "HARNESS_ERROR",
+                "seconds": 7.672022625000005
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "ready-close",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 76.26726437499997,
+          "child_passed": 0,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\n0 !== 2\n",
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "context-close",
+            "suite_error": "HARNESS_ERROR",
+            "suite_cleanup_error": null,
+            "finished": true,
+            "total": 4,
+            "attempted": 3,
+            "passed": 0,
+            "failed": 3,
+            "not_run": 1,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "1440-download-retry-failure-layout.png"
+                },
+                "seconds": 18.573679
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "1440-legacy-html-failure-layout.png"
+                },
+                "seconds": 12.565792792
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "failed",
+                "phase": "ready",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": true,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": true,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [
+                    {
+                      "resource": "runtime.json",
+                      "event": "http_error",
+                      "status": 503,
+                      "phase": "ready"
+                    }
+                  ],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "390-download-retry-failure-layout.png"
+                },
+                "cleanup_error": "HARNESS_ERROR",
+                "seconds": 11.803328833
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "browser-close",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 75.574593833,
+          "child_passed": 2,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\n2 !== 4\n",
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "browser-close",
+            "suite_error": "HARNESS_ERROR",
+            "suite_cleanup_error": "HARNESS_ERROR",
+            "finished": true,
+            "total": 4,
+            "attempted": 4,
+            "passed": 2,
+            "failed": 2,
+            "not_run": 0,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "1440-download-retry-failure-layout.png"
+                },
+                "seconds": 18.483075999999997
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "1440-legacy-html-failure-layout.png"
+                },
+                "seconds": 12.163165625000001
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 9.474297417
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 2.3686224169999988
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "kill",
+          "passed": true,
+          "child_exit": null,
+          "signal": "SIGKILL",
+          "checkpoint": true,
+          "seconds": 2.8855769579999615,
+          "child_passed": 0,
+          "child_total": 4,
+          "download_controls": 0,
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "browser-launch",
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": false,
+            "total": 4,
+            "attempted": 0,
+            "passed": 0,
+            "failed": 0,
+            "not_run": 4,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "chromium-baseline": {
+      "classification": "SYNTHETIC_BRIEF_REPORT_CONTRACT",
+      "model_calls": 0,
+      "total": 8,
+      "passed": 0,
+      "rows": [
+        {
+          "scenario": "ready",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 48.473484458,
+          "child_passed": 3,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\nundefined !== 2\n",
+          "child_report": {
+            "schema_version": null,
+            "suite_phase": null,
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": null,
+            "total": 4,
+            "attempted": null,
+            "passed": 3,
+            "failed": null,
+            "not_run": null,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "passed": true,
+                "seconds": 1.5487757920000003
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "passed": true,
+                "seconds": 0.7847480419999993
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 10.105253250000002
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "passed": true,
+                "seconds": 0.31944658300000084
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "download",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 36.67849308299999,
+          "child_passed": 3,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\nundefined !== 2\n",
+          "child_report": {
+            "schema_version": null,
+            "suite_phase": null,
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": null,
+            "total": 4,
+            "attempted": null,
+            "passed": 3,
+            "failed": null,
+            "not_run": null,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "passed": true,
+                "seconds": 1.0328337500000002
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "passed": true,
+                "seconds": 0.545701083
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "passed": false,
+                "error": "TimeoutError",
+                "seconds": 10.627063458
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "passed": true,
+                "seconds": 0.29111308300000016
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "launch",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 1.26974008399999,
+          "error": "ENOENT: no such file or directory, open '<temporary-report>'"
+        },
+        {
+          "scenario": "context",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 34.65589729199999,
+          "child_passed": 2,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\nundefined !== 2\n",
+          "child_report": {
+            "schema_version": null,
+            "suite_phase": null,
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": null,
+            "total": 4,
+            "attempted": null,
+            "passed": 2,
+            "failed": null,
+            "not_run": null,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "passed": true,
+                "seconds": 0.9082237089999998
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "passed": true,
+                "seconds": 0.5702531250000001
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "passed": null
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "context-close",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 34.81933008300001,
+          "child_passed": 2,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\nundefined !== 2\n",
+          "child_report": {
+            "schema_version": null,
+            "suite_phase": null,
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": null,
+            "total": 4,
+            "attempted": null,
+            "passed": 2,
+            "failed": null,
+            "not_run": null,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "passed": true,
+                "seconds": 0.9288691669999999
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "passed": true,
+                "seconds": 0.6577419999999997
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "passed": null
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "ready-close",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 44.58810725,
+          "child_passed": 2,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\nundefined !== 2\n",
+          "child_report": {
+            "schema_version": null,
+            "suite_phase": null,
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": null,
+            "total": 4,
+            "attempted": null,
+            "passed": 2,
+            "failed": null,
+            "not_run": null,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "passed": true,
+                "seconds": 1.0141256249999997
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "passed": true,
+                "seconds": 0.534048542
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "passed": null
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "browser-close",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 41.845320917,
+          "child_passed": 4,
+          "child_total": 4,
+          "error": "Expected values to be strictly equal:\n\nundefined !== 2\n",
+          "child_report": {
+            "schema_version": null,
+            "suite_phase": null,
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": null,
+            "total": 4,
+            "attempted": null,
+            "passed": 4,
+            "failed": null,
+            "not_run": null,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "passed": true,
+                "seconds": 2.025532792
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "passed": true,
+                "seconds": 1.0304424580000004
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "passed": true,
+                "seconds": 1.1814668329999987
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "passed": true,
+                "seconds": 0.6176133750000008
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "kill",
+          "passed": false,
+          "child_exit": null,
+          "signal": "SIGTERM",
+          "checkpoint": false,
+          "seconds": 5.043906500000012,
+          "error": "child must complete or reach the intended kill checkpoint\n\ntrue !== false\n"
+        }
+      ]
+    },
+    "chromium-candidate": {
+      "classification": "SYNTHETIC_BRIEF_REPORT_CONTRACT",
+      "model_calls": 0,
+      "total": 8,
+      "passed": 8,
+      "rows": [
+        {
+          "scenario": "ready",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": true,
+          "seconds": 45.653382459,
+          "child_passed": 3,
+          "child_total": 4,
+          "download_controls": 3,
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "complete",
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": true,
+            "total": 4,
+            "attempted": 4,
+            "passed": 3,
+            "failed": 1,
+            "not_run": 0,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 1.6010555000000002
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 0.7783487500000001
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "failed",
+                "phase": "ready",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": true,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": true,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [
+                    {
+                      "resource": "runtime.json",
+                      "event": "http_error",
+                      "status": 503,
+                      "phase": "ready"
+                    }
+                  ],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "390-download-retry-failure-layout.png"
+                },
+                "seconds": 10.632919583
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 0.9047993750000005
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "download",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": true,
+          "seconds": 47.357119584,
+          "child_passed": 3,
+          "child_total": 4,
+          "download_controls": 3,
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "complete",
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": true,
+            "total": 4,
+            "attempted": 4,
+            "passed": 3,
+            "failed": 1,
+            "not_run": 0,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 1.6451407089999999
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 0.9820792079999997
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "failed",
+                "phase": "download",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": false,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": false,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "390-download-retry-failure-layout.png"
+                },
+                "seconds": 11.134193167
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 1.3479875410000004
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "launch",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 0.8339314169999997,
+          "child_passed": 0,
+          "child_total": 4,
+          "download_controls": 0,
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "browser-launch",
+            "suite_error": "HARNESS_ERROR",
+            "suite_cleanup_error": null,
+            "finished": true,
+            "total": 4,
+            "attempted": 0,
+            "passed": 0,
+            "failed": 0,
+            "not_run": 4,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "context",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": false,
+          "seconds": 36.044298708999996,
+          "child_passed": 3,
+          "child_total": 4,
+          "download_controls": 3,
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "complete",
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": true,
+            "total": 4,
+            "attempted": 4,
+            "passed": 3,
+            "failed": 1,
+            "not_run": 0,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 1.462459292
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 0.7096445000000003
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "failed",
+                "phase": "context-create",
+                "passed": false,
+                "error_code": "HARNESS_ERROR",
+                "seconds": 0.00903650000000016
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 1.2255873750000001
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "context-close",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": true,
+          "seconds": 41.149389542,
+          "child_passed": 2,
+          "child_total": 4,
+          "download_controls": 2,
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "context-close",
+            "suite_error": "HARNESS_ERROR",
+            "suite_cleanup_error": null,
+            "finished": true,
+            "total": 4,
+            "attempted": 3,
+            "passed": 2,
+            "failed": 1,
+            "not_run": 1,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 1.1619736250000001
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 3.0278676669999993
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "failed",
+                "phase": "context-close",
+                "passed": false,
+                "cleanup_error": "HARNESS_ERROR",
+                "error_code": "HARNESS_ERROR",
+                "seconds": 5.520796582999999
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "ready-close",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": true,
+          "seconds": 45.98362387500002,
+          "child_passed": 2,
+          "child_total": 4,
+          "download_controls": 2,
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "context-close",
+            "suite_error": "HARNESS_ERROR",
+            "suite_cleanup_error": null,
+            "finished": true,
+            "total": 4,
+            "attempted": 3,
+            "passed": 2,
+            "failed": 1,
+            "not_run": 1,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 1.9925045
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 1.273942458
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "failed",
+                "phase": "ready",
+                "passed": false,
+                "error_code": "TIMEOUT",
+                "diagnostics": {
+                  "schema_version": 2,
+                  "readiness": {
+                    "run_present": true,
+                    "run_disabled": true,
+                    "startup_panel_visible": false,
+                    "startup_reload_visible": false,
+                    "data_retry_visible": true,
+                    "ledger_busy": false,
+                    "ledger_retry_visible": false,
+                    "ledger_alert": false,
+                    "records": 0
+                  },
+                  "resources": [
+                    {
+                      "resource": "runtime.json",
+                      "event": "http_error",
+                      "status": 503,
+                      "phase": "ready"
+                    }
+                  ],
+                  "page_errors": 0
+                },
+                "screenshot": {
+                  "policy": "layout_only",
+                  "saved": true,
+                  "file": "390-download-retry-failure-layout.png"
+                },
+                "cleanup_error": "HARNESS_ERROR",
+                "seconds": 10.564098625
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "browser-close",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "checkpoint": true,
+          "seconds": 35.595372833,
+          "child_passed": 4,
+          "child_total": 4,
+          "download_controls": 4,
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "browser-close",
+            "suite_error": "HARNESS_ERROR",
+            "suite_cleanup_error": "HARNESS_ERROR",
+            "finished": true,
+            "total": 4,
+            "attempted": 4,
+            "passed": 4,
+            "failed": 0,
+            "not_run": 0,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 1.3283463749999997
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 0.8625359590000002
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 0.8183652499999998
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "passed",
+                "phase": "complete",
+                "passed": true,
+                "seconds": 0.7496092090000002
+              }
+            ]
+          }
+        },
+        {
+          "scenario": "kill",
+          "passed": true,
+          "child_exit": null,
+          "signal": "SIGKILL",
+          "checkpoint": true,
+          "seconds": 1.2868928339999983,
+          "child_passed": 0,
+          "child_total": 4,
+          "download_controls": 0,
+          "child_report": {
+            "schema_version": 2,
+            "suite_phase": "browser-launch",
+            "suite_error": null,
+            "suite_cleanup_error": null,
+            "finished": false,
+            "total": 4,
+            "attempted": 0,
+            "passed": 0,
+            "failed": 0,
+            "not_run": 4,
+            "rows": [
+              {
+                "name": "download-retry",
+                "width": 1440,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 1440,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              },
+              {
+                "name": "download-retry",
+                "width": 390,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              },
+              {
+                "name": "legacy-html",
+                "width": 390,
+                "status": "not_run",
+                "phase": "not_started",
+                "passed": null
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Installed Chrome first results 0/8 then 2/8 are retained separately; unexpected normal download timeouts remain unresolved.",
+    "Pinned Chromium comparison isolates the CI browser environment and does not repair or supersede installed-Chrome failures.",
+    "An overlapping installed-Chrome download observer diagnosed completed clicks without download events and one resource error; no causal browser-version claim.",
+    "Historical live-model development 7/8 and FE-013, E2 and final E7 remain open.",
+    "Zero change to production application, financial predicates or timeout budgets."
+  ],
+  "financial_control": {
+    "dataset": "SYNTHETIC_DEVELOPMENT_V1",
+    "cases_sha256": "e50617a118d17d4723ad0110fe636d91c83ecc3c3188c1da399373468636901a",
+    "transport": "in-process deterministic baseline only",
+    "summary": {
+      "completion": {
+        "passed": 8,
+        "total": 8
+      },
+      "numeric_correct": {
+        "passed": 6,
+        "total": 6
+      },
+      "sources_complete": {
+        "passed": 6,
+        "total": 6
+      },
+      "safe_refusal": {
+        "passed": 2,
+        "total": 2
+      },
+      "latency_n": 8,
+      "p50_seconds": 0.0006715,
+      "p95_seconds": 0.016987,
+      "model_calls": 0,
+      "reported_tokens": 0,
+      "usage_complete": true,
+      "calls_with_unknown_usage": 0
+    }
+  },
+  "release_runner_formatting": {
+    "only_whitespace_changed_after_paired_run": true,
+    "sha256": "392479c9da7b7e708e37c0958e284a7b8ae05a4ecbd6dc1d7a9a762f422fa66c"
+  },
+  "normal_first_runs": {
+    "static-browser": {
+      "review-brief": {
+        "schema_version": 2,
+        "run_id": "4402b810-b391-4639-a3fc-9c593e921385",
+        "classification": "SYNTHETIC_BRIEF_DEVELOPMENT",
+        "source_documents": 4,
+        "model_calls": 0,
+        "independent_financial_tasks": 2,
+        "expected_displays": [
+          "20.00%",
+          "-20.00%"
+        ],
+        "finished": true,
+        "suite_error": null,
+        "total": 8,
+        "attempted": 8,
+        "passed": 8,
+        "failed": 0,
+        "not_run": 0,
+        "rows": [
+          {
+            "name": "growth",
+            "width": 1440,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 2.5998557910000004
+          },
+          {
+            "name": "decline",
+            "width": 1440,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 1.350228083
+          },
+          {
+            "name": "empty",
+            "width": 1440,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 0.9072803749999994
+          },
+          {
+            "name": "refusal-retry",
+            "width": 1440,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 1.429072958999999
+          },
+          {
+            "name": "growth",
+            "width": 390,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 1.1655285410000016
+          },
+          {
+            "name": "decline",
+            "width": 390,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 1.2320662500000017
+          },
+          {
+            "name": "empty",
+            "width": 390,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 1.2556895409999997
+          },
+          {
+            "name": "refusal-retry",
+            "width": 390,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 1.5730700420000012
+          }
+        ]
+      },
+      "brief-recovery": {
+        "schema_version": 2,
+        "run_id": "e9251d74-9894-40fd-b030-fa56ae1dae0f",
+        "classification": "SYNTHETIC_BRIEF_BOUNDARIES",
+        "source_documents": 1,
+        "model_calls": 0,
+        "independent_financial_tasks": 1,
+        "suite_phase": "complete",
+        "suite_cleanup_error": null,
+        "finished": true,
+        "suite_error": null,
+        "total": 4,
+        "attempted": 4,
+        "passed": 4,
+        "failed": 0,
+        "not_run": 0,
+        "rows": [
+          {
+            "name": "download-retry",
+            "width": 1440,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "seconds": 1.4890701249999998
+          },
+          {
+            "name": "legacy-html",
+            "width": 1440,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "seconds": 1.1195573750000003
+          },
+          {
+            "name": "download-retry",
+            "width": 390,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "seconds": 0.8463377919999994
+          },
+          {
+            "name": "legacy-html",
+            "width": 390,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "seconds": 0.6698931669999992
+          }
+        ]
+      },
+      "startup-focus": {
+        "schema_version": 2,
+        "run_id": "07705114-56e9-4489-a674-50726d1607ee",
+        "classification": "SYNTHETIC_STARTUP_FOCUS_DEVELOPMENT",
+        "source_documents": 1,
+        "model_calls": 0,
+        "finished": true,
+        "suite_error": null,
+        "total": 6,
+        "attempted": 6,
+        "passed": 6,
+        "failed": 0,
+        "not_run": 0,
+        "rows": [
+          {
+            "name": "healthy",
+            "width": 1440,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "injected_requests": 1,
+            "initial_scroll_y": 591,
+            "normal_position_preserved": true,
+            "export_preserved": true,
+            "model_requests": 0,
+            "seconds": 3.5114797909999997
+          },
+          {
+            "name": "entry-failure",
+            "width": 1440,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "injected_requests": 1,
+            "initial_scroll_y": 591,
+            "visibility": {
+              "startup-status": {
+                "top": 17,
+                "bottom": 41,
+                "in_view": true
+              },
+              "startup-reload": {
+                "top": 84.796875,
+                "bottom": 102.796875,
+                "in_view": true
+              }
+            },
+            "error_focused": true,
+            "tabs_to_recovery": 1,
+            "export_preserved": true,
+            "model_requests": 0,
+            "seconds": 2.638247166
+          },
+          {
+            "name": "dependency-timeout",
+            "width": 1440,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "injected_requests": 1,
+            "initial_scroll_y": 591,
+            "visibility": {
+              "startup-status": {
+                "top": 17,
+                "bottom": 41,
+                "in_view": true
+              },
+              "startup-reload": {
+                "top": 84.796875,
+                "bottom": 102.796875,
+                "in_view": true
+              }
+            },
+            "error_focused": true,
+            "tabs_to_recovery": 1,
+            "export_preserved": true,
+            "model_requests": 0,
+            "seconds": 9.456887459
+          },
+          {
+            "name": "healthy",
+            "width": 390,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "injected_requests": 1,
+            "initial_scroll_y": 1196,
+            "normal_position_preserved": true,
+            "export_preserved": true,
+            "model_requests": 0,
+            "seconds": 1.0379545419999996
+          },
+          {
+            "name": "entry-failure",
+            "width": 390,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "injected_requests": 1,
+            "initial_scroll_y": 1196,
+            "visibility": {
+              "startup-status": {
+                "top": 17,
+                "bottom": 65,
+                "in_view": true
+              },
+              "startup-reload": {
+                "top": 150.390625,
+                "bottom": 168.390625,
+                "in_view": true
+              }
+            },
+            "error_focused": true,
+            "tabs_to_recovery": 1,
+            "export_preserved": true,
+            "model_requests": 0,
+            "seconds": 2.7027139590000004
+          },
+          {
+            "name": "dependency-timeout",
+            "width": 390,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "injected_requests": 1,
+            "initial_scroll_y": 1196,
+            "visibility": {
+              "startup-status": {
+                "top": 17,
+                "bottom": 65,
+                "in_view": true
+              },
+              "startup-reload": {
+                "top": 150.390625,
+                "bottom": 168.390625,
+                "in_view": true
+              }
+            },
+            "error_focused": true,
+            "tabs_to_recovery": 1,
+            "export_preserved": true,
+            "model_requests": 0,
+            "seconds": 9.993357500000002
+          }
+        ]
+      },
+      "commands": [
+        {
+          "script": "browser-review-brief.cjs",
+          "exit": 0,
+          "seconds": 45.34951429115608
+        },
+        {
+          "script": "browser-brief-recovery.cjs",
+          "exit": 0,
+          "seconds": 36.806677624816075
+        },
+        {
+          "script": "browser-startup-focus.cjs",
+          "exit": 0,
+          "seconds": 61.44584187492728
+        }
+      ]
+    },
+    "python-browser": {
+      "review-brief": {
+        "schema_version": 2,
+        "run_id": "24a5e80c-86a8-4f60-824b-6d0eef6de2a2",
+        "classification": "SYNTHETIC_BRIEF_DEVELOPMENT",
+        "source_documents": 4,
+        "model_calls": 0,
+        "independent_financial_tasks": 2,
+        "expected_displays": [
+          "20.00%",
+          "-20.00%"
+        ],
+        "finished": true,
+        "suite_error": null,
+        "total": 8,
+        "attempted": 8,
+        "passed": 7,
+        "failed": 1,
+        "not_run": 0,
+        "rows": [
+          {
+            "name": "growth",
+            "width": 1440,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 2.6605042089999995
+          },
+          {
+            "name": "decline",
+            "width": 1440,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 1.3408381659999995
+          },
+          {
+            "name": "empty",
+            "width": 1440,
+            "status": "failed",
+            "phase": "ready",
+            "passed": false,
+            "error_code": "TIMEOUT",
+            "diagnostics": {
+              "schema_version": 2,
+              "readiness": {
+                "run_present": true,
+                "run_disabled": true,
+                "startup_panel_visible": true,
+                "startup_reload_visible": true,
+                "data_retry_visible": false,
+                "ledger_busy": false,
+                "ledger_retry_visible": false,
+                "ledger_alert": false,
+                "records": 0
+              },
+              "resources": [
+                {
+                  "resource": "pdf-preview-panel.mjs",
+                  "event": "request_failed",
+                  "code": "net::ERR_CONNECTION_RESET",
+                  "phase": "ready"
+                }
+              ],
+              "page_errors": 0
+            },
+            "screenshot": {
+              "policy": "layout_only",
+              "saved": true,
+              "file": "1440-empty-failure-layout.png"
+            },
+            "seconds": 30.322591
+          },
+          {
+            "name": "refusal-retry",
+            "width": 1440,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 1.273903542
+          },
+          {
+            "name": "growth",
+            "width": 390,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 1.119401917000003
+          },
+          {
+            "name": "decline",
+            "width": 390,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 1.0472267500000016
+          },
+          {
+            "name": "empty",
+            "width": 390,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 1.1649021670000002
+          },
+          {
+            "name": "refusal-retry",
+            "width": 390,
+            "status": "passed",
+            "phase": "stale-revocation",
+            "passed": true,
+            "parity": true,
+            "external_requests": 0,
+            "seconds": 1.2086047079999989
+          }
+        ]
+      },
+      "brief-recovery": {
+        "schema_version": 2,
+        "run_id": "e3002a5d-4c7a-4633-b679-163ed29899d3",
+        "classification": "SYNTHETIC_BRIEF_BOUNDARIES",
+        "source_documents": 1,
+        "model_calls": 0,
+        "independent_financial_tasks": 1,
+        "suite_phase": "complete",
+        "suite_cleanup_error": null,
+        "finished": true,
+        "suite_error": null,
+        "total": 4,
+        "attempted": 4,
+        "passed": 4,
+        "failed": 0,
+        "not_run": 0,
+        "rows": [
+          {
+            "name": "download-retry",
+            "width": 1440,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "seconds": 1.335638291
+          },
+          {
+            "name": "legacy-html",
+            "width": 1440,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "seconds": 1.0502095
+          },
+          {
+            "name": "download-retry",
+            "width": 390,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "seconds": 0.9322408330000003
+          },
+          {
+            "name": "legacy-html",
+            "width": 390,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "seconds": 0.6137606249999998
+          }
+        ]
+      },
+      "startup-focus": {
+        "schema_version": 2,
+        "run_id": "67388025-3a78-4df0-98e4-b97047653278",
+        "classification": "SYNTHETIC_STARTUP_FOCUS_DEVELOPMENT",
+        "source_documents": 1,
+        "model_calls": 0,
+        "finished": true,
+        "suite_error": null,
+        "total": 6,
+        "attempted": 6,
+        "passed": 5,
+        "failed": 1,
+        "not_run": 0,
+        "rows": [
+          {
+            "name": "healthy",
+            "width": 1440,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "injected_requests": 1,
+            "initial_scroll_y": 591,
+            "normal_position_preserved": true,
+            "export_preserved": true,
+            "model_requests": 0,
+            "seconds": 2.260654958
+          },
+          {
+            "name": "entry-failure",
+            "width": 1440,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "injected_requests": 1,
+            "initial_scroll_y": 591,
+            "visibility": {
+              "startup-status": {
+                "top": 17,
+                "bottom": 41,
+                "in_view": true
+              },
+              "startup-reload": {
+                "top": 84.796875,
+                "bottom": 102.796875,
+                "in_view": true
+              }
+            },
+            "error_focused": true,
+            "tabs_to_recovery": 1,
+            "export_preserved": true,
+            "model_requests": 0,
+            "seconds": 1.7523315830000001
+          },
+          {
+            "name": "dependency-timeout",
+            "width": 1440,
+            "status": "failed",
+            "phase": "anchored-navigation",
+            "passed": false,
+            "error_code": "TIMEOUT",
+            "diagnostics": {
+              "schema_version": 2,
+              "readiness": {
+                "run_present": true,
+                "run_disabled": true,
+                "startup_panel_visible": true,
+                "startup_reload_visible": true,
+                "data_retry_visible": false,
+                "ledger_busy": false,
+                "ledger_retry_visible": false,
+                "ledger_alert": false,
+                "records": 0
+              },
+              "resources": [
+                {
+                  "resource": "handoff.mjs",
+                  "event": "request_failed",
+                  "code": "net::ERR_SOCKET_NOT_CONNECTED",
+                  "phase": "anchored-navigation"
+                }
+              ],
+              "page_errors": 0
+            },
+            "seconds": 11.146080874999999
+          },
+          {
+            "name": "healthy",
+            "width": 390,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "injected_requests": 1,
+            "initial_scroll_y": 1196,
+            "normal_position_preserved": true,
+            "export_preserved": true,
+            "model_requests": 0,
+            "seconds": 0.9491186250000028
+          },
+          {
+            "name": "entry-failure",
+            "width": 390,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "injected_requests": 1,
+            "initial_scroll_y": 1196,
+            "visibility": {
+              "startup-status": {
+                "top": 17,
+                "bottom": 65,
+                "in_view": true
+              },
+              "startup-reload": {
+                "top": 150.390625,
+                "bottom": 168.390625,
+                "in_view": true
+              }
+            },
+            "error_focused": true,
+            "tabs_to_recovery": 1,
+            "export_preserved": true,
+            "model_requests": 0,
+            "seconds": 0.8646866669999981
+          },
+          {
+            "name": "dependency-timeout",
+            "width": 390,
+            "status": "passed",
+            "phase": "complete",
+            "passed": true,
+            "injected_requests": 1,
+            "initial_scroll_y": 1196,
+            "visibility": {
+              "startup-status": {
+                "top": 17,
+                "bottom": 65,
+                "in_view": true
+              },
+              "startup-reload": {
+                "top": 150.390625,
+                "bottom": 168.390625,
+                "in_view": true
+              }
+            },
+            "error_focused": true,
+            "tabs_to_recovery": 1,
+            "export_preserved": true,
+            "model_requests": 0,
+            "seconds": 9.148494999999999
+          }
+        ]
+      },
+      "commands": [
+        {
+          "script": "browser-review-brief.cjs",
+          "exit": 1,
+          "seconds": 71.82604866591282
+        },
+        {
+          "script": "browser-brief-recovery.cjs",
+          "exit": 0,
+          "seconds": 35.66204158286564
+        },
+        {
+          "script": "browser-startup-focus.cjs",
+          "exit": 1,
+          "seconds": 58.041952333878726
+        }
+      ]
+    }
+  }
+}
