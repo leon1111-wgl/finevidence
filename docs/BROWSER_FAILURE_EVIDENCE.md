@@ -1,5 +1,39 @@
 # Browser fault-suite failure evidence
 
+## Unexpected navigation in the diagnostic runner (2026-10-29)
+
+Independent review of b2d201b accepted the bounded main-document collector,
+but reproduced two caller gaps: an unexpected healthy-page goto rejection
+skipped capture, and a new recovery Page had no observer. Both children still
+exited 1 with 11/12 rows passing; only the current failure evidence was lost.
+This is a P3 follow-up to FE-028, not a financial or natural-network fix.
+
+The navigation runner now retains a catch-visible observer for the current
+Page and installs it before recovery navigation. Catch takes a bounded snapshot
+before context cleanup, even when goto failed. `initial_diagnostics` preserves
+the first page's snapshot separately from `diagnostics` on unexpected failure;
+`closed_diagnostics` still proves that the original fault survives page closure.
+Successful rows keep their existing `diagnostics` meaning. No raw exception,
+URL/query or additional production telemetry is introduced.
+
+Run `python3 scripts/build_web.py`, then
+`node tests/browser-navigation-catch.cjs` with existing Playwright/Chromium.
+The command always uses its own local server, ignoring BASE_URL. Its two child
+runs inject a single connection-closed fault into the actual unchanged
+12-row runner: root/1440 healthy initial navigation, then root/1440 recovery
+after the planned 503. A separate listener records only fixed event/code and
+context/page numbers. It verifies the current phase, original 503 retention,
+full row order/denominator, exit 1, the other 22 source/export controls and
+canary exclusion. It is included in `test:review-report` and existing CI.
+
+The same frozen probes change 0/2 to 2/2 for current-page fault capture. Child
+outcomes remain 11/12 and exit 1 in both arms; the unaffected controls remain
+22/22. The ordinary navigation suite is 12/12 after the change. These are known
+synthetic engineering cases, not hidden or real-report accuracy. First results,
+timings and hashes are in [the validation record](validation/navigation-catch-2026-10-29.json).
+Natural connection causes, other unconverted runners, FE-013/history 7/8,
+E2 and final E7 remain open; release and independent acceptance are separate.
+
 ## Main-document failure evidence (2026-10-29)
 
 The24c5d31 review retained natural top-level ERR_CONNECTION_CLOSED failures,

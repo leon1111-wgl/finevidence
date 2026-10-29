@@ -1,5 +1,19 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Unexpected navigation capture, 2026-10-29
+
+Two authored engineering scenarios run the actual 12-row browser plan with
+one unexpected connection-closed injection each. Current-page capture changes
+0/2 to 2/2; required child exits remain 1, child pass counts remain 11/12, and
+unaffected value/source/download controls remain 22/22. This measures diagnostic
+retention, not 24 financial tasks or a network reliability rate. The ordinary
+navigation suite is 12/12. Both first arms and unchanged probe hashes are in
+[the validation record](validation/navigation-catch-2026-10-29.json).
+Fixed synthetic finance stays 8/8 (numeric/source 6/6, refusal 2/2), separate
+from historical live-model 7/8. No model/paid calls, unknown-usage calls, hidden
+tasks, real-report labels or analyst-time benefit is claimed. FE-013, E2,
+final E7 and natural transport causes remain open.
+
 ## Main-document diagnosis, 2026-10-29
 
 Known root/Pages-like directories ×two widths ×503/connection-closed/healthy form12 synthetic development cases. First capture acceptance4/12→12/12, fault-event retention0/8→8/8; explicit recovery/value/source/download controls remain12/12 in both arms. Six contracts2/6→6/6. No model, hidden task, real-report label or analyst-time estimate. Fixed finance8/8 (numeric/source6/6, refusal2/2) and historical live7/8 are separate. See BROWSER_FAILURE_EVIDENCE and validation/navigation-diagnostics-2026-10-29.json for unchanged probes, exact timings, first failures and scope. Natural transport causes, FE-013, E2 and finalE7 remain open.

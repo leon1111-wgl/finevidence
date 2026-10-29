@@ -1,5 +1,19 @@
 # Review queue
 
+## FE-028 follow-up: current-page capture on unexpected navigation
+
+The b2d201b review accepted the bounded collector with 21 boundary controls
+and 6 public navigation cases. It separately reproduced a P3 caller gap:
+healthy goto throws before capture; recovery creates an unobserved new Page.
+The runner now keeps capture in catch scope, reattaches before recovery goto,
+and retains initial_diagnostics separately. Two frozen real-Chromium fault
+contracts change 0/2 to 2/2; the children still exit 1, preserve all 12 rows,
+and keep the other 22 business/source/export controls passing. Review the
+current phase/code, original 503/closed-page evidence, safe fields and first
+failure preservation with tests/browser-navigation-catch.cjs. This caller fix
+awaits independent review; do not infer a fix to natural connection causes.
+See BROWSER_FAILURE_EVIDENCE and validation/navigation-catch-2026-10-29.json.
+
 ## Main-document diagnostic gap — implementation handoff
 
 The24c5d31 review observed document-level ERR_CONNECTION_CLOSED while another shared report retained only HARNESS_ERROR/unavailable with no resources. This bounded follow-up to FE-028 admits only same-origin configured-path main-frame navigation failures. Review HTTP503/connection closed, root/directory forms, missing/destroyed frame, subframe/fetch/neighbor exclusions, safe unknown-error mapping and16-event cap. First unit2/6→6/6 and browser4/12→12/12;8 fault events now retained,12 source/value/download controls unchanged. Probe/result details: BROWSER_FAILURE_EVIDENCE. Do not claim the natural transport cause is fixed or all runners now have per-case reporting. Independent acceptance is pending. The preceding review closed only the known Python-launch-placeholder P3 scope, with18/18 controls and4/4 actual exits; previous unobserved process errors remain unresolved.

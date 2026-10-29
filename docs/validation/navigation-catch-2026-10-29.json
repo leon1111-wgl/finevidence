@@ -1,0 +1,285 @@
+{
+  "classification": "SYNTHETIC_RUNNER_NAVIGATION_DEVELOPMENT",
+  "date": "2026-10-29",
+  "baseline_sha": "b2d201b93edf225e653d0d4c8b3c2b80ec7813c0",
+  "same_probe_sha256": {
+    "tests/browser-navigation-catch.cjs": "6540bdc162ccd7fd7cd5389018a7516471041ac55d47bf99fdebba2207a8e462",
+    "tests/helpers/navigation-runner-fault.cjs": "546eb1c71ef1c3d0ea94a6645e012a2ebf1ff6f689d49c65135dc72aea90d404"
+  },
+  "protocol": "First run of each arm; two known injected fault scenarios, each executes all 12 rows. Child failures are required, not business passes. No best-of-N.",
+  "arms": [
+    {
+      "arm": "baseline",
+      "total": 2,
+      "passed": 0,
+      "rows": [
+        {
+          "name": "healthy",
+          "status": "failed",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "child_total": 12,
+          "child_passed": 11,
+          "current_failure_captured": false,
+          "error_code": "ASSERTION_FAILED",
+          "seconds": 7.901326125000001,
+          "failed_child_rows": [
+            {
+              "surface": "root",
+              "width": 1440,
+              "name": "healthy",
+              "status": "failed",
+              "phase": "initial-navigation",
+              "passed": false,
+              "error_code": "HARNESS_ERROR",
+              "seconds": 0.1652095840000002
+            }
+          ],
+          "child_finished": true,
+          "child_attempted": 12,
+          "child_not_run": 0
+        },
+        {
+          "name": "recovery",
+          "status": "failed",
+          "passed": false,
+          "child_exit": 1,
+          "signal": null,
+          "child_total": 12,
+          "child_passed": 11,
+          "current_failure_captured": false,
+          "error_code": "ASSERTION_FAILED",
+          "seconds": 7.504169333,
+          "failed_child_rows": [
+            {
+              "surface": "root",
+              "width": 1440,
+              "name": "503",
+              "status": "failed",
+              "phase": "explicit-recovery",
+              "passed": false,
+              "diagnostics": {
+                "schema_version": 2,
+                "readiness": {
+                  "run_present": false,
+                  "run_disabled": null,
+                  "startup_panel_visible": false,
+                  "startup_reload_visible": false,
+                  "data_retry_visible": false,
+                  "ledger_busy": false,
+                  "ledger_retry_visible": false,
+                  "ledger_alert": false,
+                  "records": 0
+                },
+                "resources": [
+                  {
+                    "resource": "main_document",
+                    "event": "http_error",
+                    "status": 503,
+                    "phase": "initial-navigation"
+                  }
+                ],
+                "page_errors": 0
+              },
+              "resource_captured": true,
+              "failure_layout": {
+                "policy": "layout_only",
+                "saved": true,
+                "file": "1440-root-503-failure-layout.png"
+              },
+              "closed_diagnostics": {
+                "schema_version": 2,
+                "readiness": null,
+                "resources": [
+                  {
+                    "resource": "main_document",
+                    "event": "http_error",
+                    "status": 503,
+                    "phase": "initial-navigation"
+                  }
+                ],
+                "page_errors": 0,
+                "unavailable": true
+              },
+              "error_code": "HARNESS_ERROR",
+              "seconds": 0.402129916
+            }
+          ],
+          "child_finished": true,
+          "child_attempted": 12,
+          "child_not_run": 0
+        }
+      ]
+    },
+    {
+      "arm": "candidate",
+      "total": 2,
+      "passed": 2,
+      "rows": [
+        {
+          "name": "healthy",
+          "status": "passed",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "child_total": 12,
+          "child_passed": 11,
+          "current_failure_captured": true,
+          "seconds": 7.897528791,
+          "failed_child_rows": [
+            {
+              "surface": "root",
+              "width": 1440,
+              "name": "healthy",
+              "status": "failed",
+              "phase": "initial-navigation",
+              "passed": false,
+              "error_code": "HARNESS_ERROR",
+              "diagnostics": {
+                "schema_version": 2,
+                "readiness": null,
+                "resources": [
+                  {
+                    "resource": "main_document",
+                    "event": "request_failed",
+                    "code": "net::ERR_CONNECTION_CLOSED",
+                    "phase": "initial-navigation"
+                  }
+                ],
+                "page_errors": 0,
+                "unavailable": true
+              },
+              "seconds": 0.1613454999999999
+            }
+          ],
+          "child_finished": true,
+          "child_attempted": 12,
+          "child_not_run": 0
+        },
+        {
+          "name": "recovery",
+          "status": "passed",
+          "passed": true,
+          "child_exit": 1,
+          "signal": null,
+          "child_total": 12,
+          "child_passed": 11,
+          "current_failure_captured": true,
+          "seconds": 7.869166041,
+          "failed_child_rows": [
+            {
+              "surface": "root",
+              "width": 1440,
+              "name": "503",
+              "status": "failed",
+              "phase": "explicit-recovery",
+              "passed": false,
+              "diagnostics": {
+                "schema_version": 2,
+                "readiness": null,
+                "resources": [
+                  {
+                    "resource": "main_document",
+                    "event": "request_failed",
+                    "code": "net::ERR_CONNECTION_CLOSED",
+                    "phase": "explicit-recovery"
+                  }
+                ],
+                "page_errors": 0,
+                "unavailable": true
+              },
+              "initial_diagnostics": {
+                "schema_version": 2,
+                "readiness": {
+                  "run_present": false,
+                  "run_disabled": null,
+                  "startup_panel_visible": false,
+                  "startup_reload_visible": false,
+                  "data_retry_visible": false,
+                  "ledger_busy": false,
+                  "ledger_retry_visible": false,
+                  "ledger_alert": false,
+                  "records": 0
+                },
+                "resources": [
+                  {
+                    "resource": "main_document",
+                    "event": "http_error",
+                    "status": 503,
+                    "phase": "initial-navigation"
+                  }
+                ],
+                "page_errors": 0
+              },
+              "resource_captured": true,
+              "failure_layout": {
+                "policy": "layout_only",
+                "saved": true,
+                "file": "1440-root-503-failure-layout.png"
+              },
+              "closed_diagnostics": {
+                "schema_version": 2,
+                "readiness": null,
+                "resources": [
+                  {
+                    "resource": "main_document",
+                    "event": "http_error",
+                    "status": 503,
+                    "phase": "initial-navigation"
+                  }
+                ],
+                "page_errors": 0,
+                "unavailable": true
+              },
+              "error_code": "HARNESS_ERROR",
+              "seconds": 0.408628583
+            }
+          ],
+          "child_finished": true,
+          "child_attempted": 12,
+          "child_not_run": 0
+        }
+      ]
+    }
+  ],
+  "normal_runner": {
+    "finished": true,
+    "total": 12,
+    "attempted": 12,
+    "passed": 12,
+    "failed": 0,
+    "not_run": 0
+  },
+  "fixed_finance": {
+    "completion": {
+      "passed": 8,
+      "total": 8
+    },
+    "numeric_correct": {
+      "passed": 6,
+      "total": 6
+    },
+    "sources_complete": {
+      "passed": 6,
+      "total": 6
+    },
+    "safe_refusal": {
+      "passed": 2,
+      "total": 2
+    },
+    "latency_n": 8,
+    "p50_seconds": 0.0005645,
+    "p95_seconds": 0.000837,
+    "model_calls": 0,
+    "reported_tokens": 0,
+    "usage_complete": true,
+    "calls_with_unknown_usage": 0
+  },
+  "model_calls": 0,
+  "paid_calls": 0,
+  "hidden_tasks": 0,
+  "new_real_financial_labels": 0,
+  "unknown_usage_calls": 0,
+  "scope": "Test evidence only; natural network cause, historical live 7/8 FE-013, E2 and final E7 remain open. CI and deployed verification are separate."
+}

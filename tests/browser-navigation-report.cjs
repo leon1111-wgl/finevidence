@@ -30,13 +30,13 @@ let browser,server,suiteError=null;
  }
  browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH});
  for(const row of rows){
-  let context;const start=performance.now();row.status='running';
+  let context,capture;const start=performance.now();row.status='running';
   const phase=async value=>{row.phase=value;await save();};
   try{
    const base=process.env.BASE_URL||(origin+(row.surface==='pages'?'/finevidence/':'/'));
    context=await browser.newContext({viewport:{width:row.width,height:900},acceptDownloads:true});
    let p=await context.newPage();p.setDefaultTimeout(12000);
-   const capture=observe(p,base,()=>row.phase);let hits=0,modelRequests=0;
+   capture=observe(p,base,()=>row.phase);let hits=0,modelRequests=0;
    context.on('request',q=>{if(new URL(q.url()).pathname.endsWith('/api/run')&&q.postDataJSON()?.operation==='agent')modelRequests++;});
    await phase('initial-navigation');
    if(row.name!=='healthy')await p.route('**/*',route=>{
@@ -49,6 +49,8 @@ let browser,server,suiteError=null;
    try{await p.goto(base+'?PRIVATE_DIAGNOSTIC_CANARY');}
    catch(e){if(row.name!=='abort')throw e;row.expected_navigation_rejection=true;}
    row.diagnostics=await capture();
+   // Preserve the planned fault separately if an unexpected recovery fails.
+   row.initial_diagnostics=row.diagnostics;
    if(row.name!=='healthy'){
     assert.equal(hits,1);
     if(row.name==='abort')assert.equal(row.expected_navigation_rejection,true);
@@ -59,7 +61,8 @@ let browser,server,suiteError=null;
     assert.equal(row.closed_diagnostics.unavailable,true);
     assert.deepEqual(row.closed_diagnostics.resources,row.diagnostics.resources);
     // Explicit new navigation is a recovery control, not a hidden model retry.
-    await phase('explicit-recovery');p=await context.newPage();p.setDefaultTimeout(12000);await p.goto(base);
+    await phase('explicit-recovery');p=await context.newPage();p.setDefaultTimeout(12000);
+    capture=observe(p,base,()=>row.phase);await p.goto(base);
    }else row.resource_captured=row.diagnostics.resources.length===0;
    await p.waitForFunction(()=>document.querySelector('#run')?.disabled===false);
    await phase('source-and-export');await p.focus('#run');await p.keyboard.press('Enter');
@@ -77,7 +80,11 @@ let browser,server,suiteError=null;
    assert.ok(!JSON.stringify(row.diagnostics).includes(new URL(base).host));
    assert.equal(row.resource_captured,true,'the main-document failure must remain in the redacted report');
    row.passed=true;row.status='passed';await phase('complete');
-  }catch(e){row.passed=false;row.status='failed';row.error_code=errorCode(e);process.exitCode=1;}
+  }catch(e){
+   row.passed=false;row.status='failed';row.error_code=errorCode(e);process.exitCode=1;
+   // Snapshot the current page before cleanup, even when goto never completed.
+   if(capture)row.diagnostics=await capture();
+  }
   finally{
    try{await context?.close();}catch(e){row.cleanup_error=errorCode(e);row.passed=false;row.status='failed';process.exitCode=1;}
    row.seconds=(performance.now()-start)/1000;await save();

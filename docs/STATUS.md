@@ -1,5 +1,19 @@
 # Capability status
 
+## Unexpected navigation evidence (2026-10-29)
+
+The b2d201b independent review accepted the bounded main-document collector
+(21 boundary cases and 6 public navigation controls), but found that its new
+runner lost unexpected initial/recovery navigation events. The caller now
+captures the current Page in catch before cleanup, with the initial 503 kept
+separately. Frozen actual-browser fault contracts change 0/2 to 2/2; child
+failures stay exit 1 / 11 of 12 passed and unaffected exports stay 22/22.
+Normal navigation is 12/12; local Python 283/283, JS 254/254, fixed synthetic
+finance 8/8 (numeric/source 6/6, refusal 2/2). No production financial change
+or model call. See BROWSER_FAILURE_EVIDENCE and the exact first-result record.
+Independent closure and exact-release CI/public verification remain separate;
+natural network causes, FE-013/history 7/8, E2 and final E7 are still open.
+
 ## Main-document failure diagnostics, 2026-10-29
 
 The shared test collector retains trusted main-frame document failures as main_document with fixed error/status and stage, including after page destruction. Known faults0/8→8/8;12-case acceptance4/12→12/12; actual recovery/calculation/source downloads12/12 unchanged. It excludes subframes/fetches/unknown paths and private URL/error text. See BROWSER_FAILURE_EVIDENCE. This is diagnostic reliability, not a natural-network fix or financial feature. CI/public deployment and independent closure remain separate. The24c5d31 independent review accepted the known launcher-placeholderP3 scope (18 controls and4 actual exit faults); old uncaptured process errors, FE-013/history7/8, E2 and finalE7 remain open.
