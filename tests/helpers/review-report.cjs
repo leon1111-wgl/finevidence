@@ -4,7 +4,7 @@ const {randomUUID} = require('node:crypto');
 const errorCode = error => error?.name === 'TimeoutError' ? 'TIMEOUT' : error?.code === 'ERR_ASSERTION' ? 'ASSERTION_FAILED' : 'HARNESS_ERROR';
 // Fixed safe names, never arbitrary request paths. The module coverage test
 // requires an explicit privacy review when a shipped first-party module is added.
-const known = new Set(['runtime.json','manifest.json','bundle.json','app.mjs','bootstrap.mjs','workbench.mjs','engine.mjs','state.mjs','handoff.mjs','replay.mjs','pdf-panel.mjs','pdf-intake.mjs','pdf-preview-panel.mjs','pdf-preview.mjs','fact-draft-panel.mjs','review-ledger-panel.mjs','source-catalog.mjs','file-name.mjs','fact-draft.mjs','draft-review.mjs','fact-draft-import.mjs','fact-draft-import-panel.mjs','vendor/pdf.min.mjs','vendor/pdf.worker.min.mjs','api/reviews','api/reviews/revoke','api/run']);
+const known = new Set(['runtime.json','manifest.json','bundle.json','app.mjs','bootstrap.mjs','workbench.mjs','review-brief.mjs','engine.mjs','state.mjs','handoff.mjs','replay.mjs','pdf-panel.mjs','pdf-intake.mjs','pdf-preview-panel.mjs','pdf-preview.mjs','fact-draft-panel.mjs','review-ledger-panel.mjs','source-catalog.mjs','file-name.mjs','fact-draft.mjs','draft-review.mjs','fact-draft-import.mjs','fact-draft-import-panel.mjs','vendor/pdf.min.mjs','vendor/pdf.worker.min.mjs','api/reviews','api/reviews/revoke','api/run']);
 const failureCodes = new Set(['net::ERR_FAILED','net::ERR_ABORTED','net::ERR_SOCKET_NOT_CONNECTED','net::ERR_CONNECTION_REFUSED','net::ERR_CONNECTION_RESET','net::ERR_CONNECTION_CLOSED','net::ERR_TIMED_OUT','net::ERR_INTERNET_DISCONNECTED']);
 function observe(page, baseUrl, phase) {
   // The caller supplies the deployment directory, never an observed request URL.

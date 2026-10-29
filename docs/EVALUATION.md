@@ -1,5 +1,9 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Readable brief delivery (2026-10-29)
+
+Eight authored synthetic browser sequences (four workflows at two widths, four source documents, two existing numeric tasks) measure readable-export completion: 0/8 missing capability, first candidate2/8, final static/Python each8/8. Separate download retry and legacy HTML checks are4/4 each. This is workflow coverage, not eight independent financial questions or measured analyst savings. First unit1/6 and corrected6/6, schema-handling changes, exact timings and provenance are retained in [validation/review-brief-2026-10-29.json](validation/review-brief-2026-10-29.json). Fixed finance8/8 (numeric/source6/6, refusal2/2), historical live7/8 and its FE-013 failure remain separate. No paid/model calls, unknown-use calls, hidden tasks or genuine human labels added. See REVIEW_BRIEF; E2 and finalE7 remain incomplete.
+
 ## Unexpected navigation capture, 2026-10-29
 
 Two authored engineering scenarios run the actual 12-row browser plan with

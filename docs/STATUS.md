@@ -1,5 +1,9 @@
 # Capability status
 
+## Readable evidence brief (2026-10-29)
+
+The existing synthetic review snapshot now also downloads as a script-free HTML brief with formula, input periods/units, full source pages, hashes and current notes/checkmarks. The eight authored browser observations change from no control (0/8) through first candidate 2/8 to 8/8 on both static and Python surfaces; separate retry/legacy boundaries are 4/4 each. See REVIEW_BRIEF for first failures and schema differences. No recalculation, admission, PDF upload or model call. E2, final E7 and FE-013/live7/8 remain open. Exact-release CI/public verification and independent review are separate.
+
 ## Unexpected navigation evidence (2026-10-29)
 
 The b2d201b independent review accepted the bounded main-document collector

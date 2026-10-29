@@ -170,3 +170,10 @@ single-column company/year layout. Known synthetic path10/12→12/12 and
 business/keyboard controls12/12 each are documented in SCOPE_SELECTION_LAYOUT.
 This is an incremental E7 usability correction; complete E2 and final E7 still
 require their separate acceptance evidence. No new model evaluation was run.
+
+
+2026-10-29: E6 now includes a readable standalone evidence brief from the existing
+synthetic review snapshot, with original pages and exact numeric/source fields.
+This is a concrete research handoff, not real-report admission or final E7.
+Source rights, genuine human semantic review and admission remain next E2 gates.
+See REVIEW_BRIEF for the tested scope and first failures.

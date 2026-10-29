@@ -1,8 +1,12 @@
-import { bindReviewLedger, configureReviewLedger } from "./review-ledger-panel.mjs";
-import { bindPdfPanel } from './pdf-panel.mjs';
+import {
+  bindReviewLedger,
+  configureReviewLedger,
+} from "./review-ledger-panel.mjs";
+import { bindPdfPanel } from "./pdf-panel.mjs";
 import { validateBundle, run, sha256 } from "./engine.mjs";
 import { readDraft, writeDraft } from "./state.mjs";
 import { bindHandoff } from "./handoff.mjs";
+import { renderReviewBrief } from "./review-brief.mjs";
 const $ = (id) => document.getElementById(id),
   el = (tag, content, cls) => {
     const n = document.createElement(tag);
@@ -82,6 +86,7 @@ function clearResult() {
   selected = "";
   reviewed.clear();
   $("export").disabled = true;
+  $("export-brief").disabled = true;
   $("replay-export").disabled = true;
   $("notes").disabled = true;
   $("notes").value = "";
@@ -260,6 +265,7 @@ function render() {
     content.append(detail);
   }
   $("export").disabled = false;
+  $("export-brief").disabled = false;
   $("replay-export").disabled = false;
   $("notes").disabled = false;
   renderEvidence();
@@ -450,6 +456,14 @@ let started = false;
 export function startWorkbench() {
   if (started) return;
   started = true;
+  // Cached supported HTML may predate the new reading-copy control.
+  if (!$("export-brief")) {
+    const button = el("button", "导出可读简报（HTML）", "secondary");
+    button.id = "export-brief";
+    button.type = "button";
+    button.disabled = true;
+    $("export").after(button);
+  }
   $("query-form").onsubmit = (e) => {
     e.preventDefault();
     execute({
@@ -468,7 +482,7 @@ export function startWorkbench() {
     });
   $("notes").oninput = save;
   $("retry").onclick = () => retryAction?.();
-  $("export").onclick = () => {
+  function exportReview(brief = false) {
     if (!result) return;
     const payload = {
       schema_version: 1,
@@ -487,19 +501,36 @@ export function startWorkbench() {
         result.citations.some((c) => c.doc_id === d.doc_id),
       ),
     };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], {
-        type: "application/json",
-      }),
-      url = URL.createObjectURL(blob),
-      a = el("a");
-    a.href = url;
-    a.download = `finevidence-${request.company.replaceAll(" ", "-")}-${request.year}.json`;
-    document.body.append(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    status("审查记录已导出，包含原文、输入、计算与核对状态。");
-  };
+    try {
+      const blob = new Blob(
+          [
+            brief
+              ? renderReviewBrief(payload)
+              : JSON.stringify(payload, null, 2),
+          ],
+          {
+            type: brief ? "text/html;charset=utf-8" : "application/json",
+          },
+        ),
+        url = URL.createObjectURL(blob),
+        a = el("a");
+      a.href = url;
+      a.download = `finevidence-${request.company.replaceAll(" ", "-")}-${request.year}.${brief ? "html" : "json"}`;
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      document.body.append(a);
+      a.click();
+      a.remove();
+      status(
+        brief
+          ? "简报下载已发起，可在浏览器中打开和打印；核对记录未经认证。"
+          : "审查记录已导出，包含原文、输入、计算与核对状态。",
+      );
+    } catch {
+      status("导出未完成，核查结果和备注已保留。可再次点击导出。", true);
+    }
+  }
+  $("export").onclick = () => exportReview();
+  $("export-brief").onclick = () => exportReview(true);
   bindReviewLedger();
   bindPdfPanel();
   initialize();

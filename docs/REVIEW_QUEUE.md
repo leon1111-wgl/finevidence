@@ -1,5 +1,9 @@
 # Review queue
 
+## Readable brief — implementation handoff (2026-10-29)
+
+Verify HTML against actual JSON downloads for both companies/years, raw values/scales, Python-only normalized values, exact citations/full source pages, current notes and partial checks. Test escape/CSP/no remote requests, keyboard activation, narrow/print layout, generation failure retry, old HTML and scope invalidation. The new capability is not a defect closure or authenticated report. Preserve baseline0/8, candidate2/8 and unit1/6; see REVIEW_BRIEF. FE-013, E2 and finalE7 remain open. Interview: why must a readable export preserve missing fields and unknown model usage rather than making the document look complete?
+
 ## FE-028 follow-up: current-page capture on unexpected navigation
 
 The b2d201b review accepted the bounded collector with 21 boundary controls
