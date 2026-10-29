@@ -7,7 +7,41 @@ established connection were still live at about 5.24 seconds. This was a P3
 failure-cleanup/reporting defect, not a false financial answer or a recurrence
 of the production 15-second deadline defect.
 
-## Judge4 ownership and failure path
+## Judge5 launch observation (2026-10-29)
+
+A fixed local macOS64-process diagnostic captured four immediate `ps` responses
+whose command was only `(python3.12)`; all64 had complete arguments after their
+ready banner. `process_identity` correctly refused that incomplete identity,
+but its one-shot call could abort an otherwise valid owned-worker evaluation.
+This is a reproduced judge availability issue, not a provider deadline failure.
+Earlier intermittent unit failures ended at the same parser guard but did not
+retain their `ps` output; their precise cause is still unproven.
+
+Judge5 re-observes only a recognized parenthesized Python-launcher placeholder,
+at most three times,10ms apart, sharing the original two-second observation
+budget. Parent PID and start time must remain identical throughout. Only a
+complete argument-bearing observation can authorize matching-worker cleanup;
+a confirmed vanished PID returns absence. Persistent placeholders, changed
+parent/start, diagnostics, malformed output and timeouts remain unverified.
+Unknown no-argument commands are not retried. This never retries a model request,
+extends its15/45-second timer, or turns failed TLS work into business success.
+
+The frozen ten-contract suite changes6/10→10/10; the actual owned cleanup with
+one injected recorded placeholder changes0/1→1/1. The first candidate was9/10
+because a finite mock-clock iterator ran out; the corrected clock preserves the
+same elapsed-budget/no-extra-probe assertion, and the final tests still fail4/10
+against415cdea. A separate candidate64-process cohort was64/64 immediately and
+after readiness. Cohorts are not paired, and these counts are not a general
+failure-rate estimate or financial accuracy measurement. First results and
+limits: [validation/process-observation-2026-10-29.json](validation/process-observation-2026-10-29.json).
+
+`python3 -m unittest discover -s tests -p test_process_identity.py -v` exercises
+captured-output replay, fail-closed negative controls and actual process cleanup.
+No command/credential content is added to the public judge report. `ps` start
+identity and later signals still have the previously documented non-atomic/PID
+reuse limits. Natural browser-connection incidents remain separate and open.
+
+## Judge4 ownership and failure path (retained in Judge5)
 
 `run_case` records child process identities while waiting for the fixed request
 count. `remember_workers` requires an intact process census containing the owned

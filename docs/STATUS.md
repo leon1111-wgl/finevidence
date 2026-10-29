@@ -1,5 +1,24 @@
 # Capability status
 
+## Bounded launcher-identity observation (2026-10-29)
+
+A known macOS launch transient can omit Python arguments from ps. Judge5 now
+re-observes only that placeholder within the existing two-second budget, retaining
+stable parent/start and full-argument requirements before cleanup. Frozen contracts
+6/10→10/10 and controlled actual cleanup0/1→1/1; first candidate9/10 mock-clock
+failure is retained. Local full regression283/283, JS248/248, fixed synthetic
+finance8/8 (numeric/source6/6, expected refusal2/2). Natural64-process cohorts
+60/64→64/64 are descriptive and unpaired, not financial accuracy or a measured
+population failure rate. See EXIT_EVALUATION_CLEANUP and its first-result record.
+Provider/business/browser code is unchanged; release/CI and independent closure
+are separate. Earlier uncaptured process errors, natural browser connection
+incidents, FE-013/history7/8, E2 and finalE7 remain open. Zero paid/model calls.
+
+The415cdea independent review accepted FE-028 public-directory capture within
+its observed scope (23 boundary contracts,8 additional browser data faults,
+6 public startup cases); that evidence does not close transport root causes.
+
+
 ## Deployment-aware review diagnostics (2026-10-29 Taipei)
 
 FE-028 now retains known module failures under the configured Pages directory.

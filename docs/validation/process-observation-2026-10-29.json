@@ -1,0 +1,93 @@
+{
+  "classification": "OFFLINE_SYNTHETIC_PROCESS_OBSERVATION",
+  "baseline_sha": "415cdeaab22915d5b3e2b5054ccc1359711e590a",
+  "model_calls": 0,
+  "hidden_cases": 0,
+  "real_financial_labels": 0,
+  "fixed_contract": {
+    "total": 10,
+    "baseline_passed": 6,
+    "first_candidate_passed": 9,
+    "first_candidate_error": "test clock iterator exhausted; observer did not return success",
+    "final_passed": 10,
+    "test_clock_correction": "stable simulated elapsed time instead of a fixed number of monotonic reads; same budget/no-new-probe assertion",
+    "same_final_tests_replayed_against_baseline": true,
+    "test_sha256": "59d46400d04282a820b3d19916e5e02f7fe3a1d5648e2000b0ad4c82ef965fc1"
+  },
+  "controlled_owned_cleanup": {
+    "total": 1,
+    "baseline_passed": 0,
+    "candidate_passed": 1
+  },
+  "natural_launch_samples": {
+    "before": {
+      "total": 64,
+      "immediate_complete_identity": 60,
+      "after_readiness_complete_identity": 64,
+      "seconds": 1.1548624159768224
+    },
+    "candidate": {
+      "total": 64,
+      "immediate_complete_identity": 64,
+      "after_readiness_complete_identity": 64,
+      "seconds": 1.2710444170515984
+    },
+    "same_sample_protocol": true,
+    "same_processes": false,
+    "note": "Different process cohorts; descriptive observations, not an error-rate estimate or universal elimination claim. Four initial ps outputs were parenthesized python3.12 with no arguments."
+  },
+  "limits": [
+    "ps identity is not atomic",
+    "old failure logs omitted ps stdout, so their exact cause is unproven",
+    "browser connection failures are unrelated observations",
+    "15/45 second provider deadlines unchanged"
+  ],
+  "actual_server_exit": {
+    "passed": 4,
+    "total": 4,
+    "rows": [
+      {
+        "id": "interrupt-first",
+        "budget": 15,
+        "passed": true,
+        "observed_seconds": 15.052019,
+        "worker_live": false,
+        "established_socket": false,
+        "cleanup_errors": [],
+        "usage_status": "unknown: server exits before returning an audit"
+      },
+      {
+        "id": "kill-first",
+        "budget": 15,
+        "passed": true,
+        "observed_seconds": 15.039254,
+        "worker_live": false,
+        "established_socket": false,
+        "cleanup_errors": [],
+        "usage_status": "unknown: server exits before returning an audit"
+      },
+      {
+        "id": "terminate-first",
+        "budget": 15,
+        "passed": true,
+        "observed_seconds": 15.014021,
+        "worker_live": false,
+        "established_socket": false,
+        "cleanup_errors": [],
+        "usage_status": "unknown: server exits before returning an audit"
+      },
+      {
+        "id": "kill-remaining",
+        "budget": 45,
+        "passed": true,
+        "observed_seconds": 45.021666,
+        "worker_live": false,
+        "established_socket": false,
+        "cleanup_errors": [],
+        "usage_status": "unknown: server exits before returning an audit"
+      }
+    ],
+    "provider_sha256": "758fc70140a7c901e8eda84bdfaf87afe478a8e29048cf29834c60d92d324da9",
+    "plan_sha256": "ed77726f37d34ca50926a8be529f671bebf51de0fb34a543547ba28a90e33b9b"
+  }
+}

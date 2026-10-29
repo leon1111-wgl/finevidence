@@ -1,5 +1,30 @@
 # Review queue
 
+## Launch placeholder in process observation — implementation handoff
+
+On415cdea, a fixed local64-child diagnostic captured four immediate ps command
+placeholders `(python3.12)` without arguments, rejected as process_observation;
+all64 had full identity after readiness. P3 in exit-evaluation availability,
+merged into the existing process-observation investigation, not a new financial
+or production timeout defect. Judge5 uses up to three bounded observations with
+unchanged parent/start, within the original two-second budget. Full command
+arguments remain mandatory before any matching-worker signal.
+
+Review captured-output recovery, permanent/unknown placeholders, parent/start
+changes, diagnostics, disappearance, observation timeout and real owned cleanup.
+Final frozen10-contract suite6/10→10/10; actual injected cleanup0/1→1/1. Preserve
+first candidate9/10 clock-fixture error and unpaired natural cohorts. Exact old
+intermittent failures lack raw ps output; do not claim their cause is proved or
+close unrelated browser transport errors. See EXIT_EVALUATION_CLEANUP.
+Interview: how can a failed-closed observation still cause false failures, and
+why must a retry not become guessed PID ownership or a new model budget?
+
+The415cdea independent review closed FE-028 public-directory capture within
+its tested scope:23/23 contracts,8/8 new data faults,6/6 published startup cases.
+The historical implementation handoff below is retained; natural transport and
+process-observation incidents, FE-013/history7/8, E2 and finalE7 stay open.
+
+
 ## FE-028 public-directory capture — implementation handoff (2026-10-29 Taipei)
 
 On43493cc, known HTTP503/requestfailed events below /finevidence/ were omitted

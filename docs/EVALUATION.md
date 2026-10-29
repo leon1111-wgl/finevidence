@@ -1,5 +1,20 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Transient process observations (2026-10-29)
+
+This is an offline judge-reliability increment. Ten known contracts change6/10
+to10/10; actual matching-worker cleanup under one injected observed placeholder
+changes0/1 to1/1. The first candidate9/10 clock-fixture error is preserved, and
+the final same tests are replayed against the original observer. A fixed64-child
+natural diagnostic gave60/64 immediate observations,64/64 after readiness; a
+separate candidate cohort gave64/64 for both. These are different spawned cohorts,
+not paired financial tasks, hidden data, or evidence of universal reliability.
+[First results](validation/process-observation-2026-10-29.json) retain counts,
+clock correction, exact test hash and timing. Production15/45-second model
+budgets, fixed financial8/8 and historical live7/8 remain separate and unchanged.
+No paid/real model calls or new human labels. See EXIT_EVALUATION_CLEANUP.
+
+
 ## Deployment-directory diagnostic evidence (2026-10-29 Taipei)
 
 A known synthetic engineering plan measures whether failures remain explainable

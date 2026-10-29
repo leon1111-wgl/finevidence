@@ -10,6 +10,7 @@ import http.client
 import json
 import os
 from pathlib import Path
+import re
 import select
 import shutil
 import signal
@@ -63,19 +64,32 @@ def children(pid, *, require_parent=False):
 
 def process_identity(pid):
     """Observe owner, state and start/command identity without exporting commands."""
-    result = subprocess.run(['ps', '-p', str(pid), '-o', 'ppid=,stat=,lstart=,command='],
-                            capture_output=True, text=True, timeout=2)
-    text = result.stdout.strip()
-    if result.returncode == 1 and not text and not result.stderr: return None
-    fields = text.split(None, 7)
-    if result.returncode != 0 or result.stderr or len(fields) != 8 or not fields[0].isdigit():
-        raise RuntimeError('process_observation')
-    # macOS Python replaces its launcher executable with Python.app after
-    # spawn; the start time and arguments stay the same across that exec.
-    arguments = fields[7].split(None, 1)
-    if len(arguments) != 2: raise RuntimeError('process_observation')
-    identity = ' '.join(fields[2:7]) + ' ' + arguments[1]
-    return int(fields[0]), fields[1], identity
+    deadline = time.monotonic() + 2
+    launch_identity = None
+    for attempt in range(3):
+        remaining = deadline - time.monotonic()
+        if remaining <= 0: raise RuntimeError('process_observation')
+        result = subprocess.run(['ps', '-p', str(pid), '-o', 'ppid=,stat=,lstart=,command='],
+                                capture_output=True, text=True, timeout=remaining)
+        text = result.stdout.strip()
+        if result.returncode == 1 and not text and not result.stderr: return None
+        fields = text.split(None, 7)
+        if result.returncode != 0 or result.stderr or len(fields) != 8 or not fields[0].isdigit():
+            raise RuntimeError('process_observation')
+        owner_start = (int(fields[0]), ' '.join(fields[2:7]))
+        if launch_identity is not None and owner_start != launch_identity:
+            raise RuntimeError('process_observation')
+        # During macOS launcher exec, ps can briefly show only (python3.12).
+        # Re-observe within the original budget; that placeholder never becomes
+        # a signal-authorizing identity. Parent and start must remain stable.
+        arguments = fields[7].split(None, 1)
+        if len(arguments) == 2:
+            # Launcher argv0 changes to Python.app; arguments/start stay stable.
+            return owner_start[0], fields[1], owner_start[1] + ' ' + arguments[1]
+        if not re.fullmatch(r'\((?:python(?:\d+(?:\.\d+)*)?|Python)\)', fields[7]) or attempt == 2:
+            raise RuntimeError('process_observation')
+        launch_identity = owner_start
+        time.sleep(min(.01, max(0, deadline - time.monotonic())))
 
 
 def remember_workers(workers, server_pid):
@@ -252,7 +266,7 @@ def main():
     args = parser.parse_args(); implementation = args.implementation_root.resolve()
     sys.path.insert(0, str(ROOT / 'tests'))
     from tls_provider_fixture import TLSPeer
-    result = {'classification': 'OFFLINE_SYNTHETIC_SERVER_EXIT_DEVELOPMENT', 'judge_version': 4,
+    result = {'classification': 'OFFLINE_SYNTHETIC_SERVER_EXIT_DEVELOPMENT', 'judge_version': 5,
         'sha': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=implementation, text=True).strip(),
         'dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=implementation)),
         'provider_sha256': hashlib.sha256((implementation/'finevidence/provider.py').read_bytes()).hexdigest(),
