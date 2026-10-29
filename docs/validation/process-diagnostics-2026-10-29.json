@@ -1,0 +1,50 @@
+{
+  "classification": "OFFLINE_PROCESS_DIAGNOSTIC_DEVELOPMENT",
+  "first_commit": "0c809242042dd8cf518557f49349011b8a9684e3",
+  "run_id": 40857821162,
+  "attempt": 1,
+  "linux_exit_plan": {
+    "passed": 3,
+    "planned": 4,
+    "failed_case": "kill-remaining",
+    "phase": "process_observation",
+    "tls_requests": 2,
+    "model_audit": null,
+    "usage_status": "unknown: server exits before returning an audit",
+    "cleanup_errors": [],
+    "cleanup_no_live_workers": true
+  },
+  "macos": "success",
+  "browser": "skipped",
+  "pages": "skipped",
+  "root_cause": "unresolved: no original ps result or substage",
+  "diagnostic_methods": {
+    "baseline_passed": 0,
+    "total": 6,
+    "candidate_passed": 6
+  },
+  "combined_process_methods": {
+    "passed": 16,
+    "total": 16
+  },
+  "plan_and_pass_predicates": "unchanged",
+  "real_model_calls": 0,
+  "new_human_labels": 0,
+  "local_actual_exit": {
+    "planned": 4,
+    "completed": 4,
+    "passed": 4,
+    "real_model_calls": 0,
+    "seconds": 91.98131104093045
+  },
+  "related_exit_regression": {
+    "passed": 15,
+    "total": 15,
+    "seconds": 15.245881875045598
+  },
+  "baseline_assertions": {
+    "failures": 8,
+    "errors": 1,
+    "methods": 6
+  }
+}

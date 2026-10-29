@@ -1,5 +1,26 @@
 # Review queue
 
+## Release gate failure and process diagnostics (2026-10-29)
+
+The first readable-brief commit, `0c809242042dd8cf518557f49349011b8a9684e3`,
+failed Linux CI run [40857821162](https://github.com/leon1111-wgl/finevidence/actions/runs/40857821162),
+attempt 1. macOS passed; browser and Pages were skipped. The first three offline
+server-exit cases passed; `kill-remaining` failed at `process_observation` after
+two synthetic TLS requests. Cleanup reported no live workers; missing model-audit
+usage remained unknown. No exact ps result or substage was retained, so the root
+cause is unresolved and is not attributed to the readable-brief change.
+
+Judge 6 adds fixed state/children/identity failure categories, bounded scalar
+metadata and an always-uploaded exit-evaluation artifact for each test OS. It
+exports no raw command, stdout, stderr or exception message. Existing timeouts,
+identity requirements, retry count, four-case plan and pass/fail predicates remain.
+This is diagnostic coverage, not a repair claim for the original Linux failure.
+Six new authored diagnostic methods first failed 0/6; existing process identity
+controls and the new methods pass 16/16 locally. A real local injected census
+failure remains failed and retains its safe category. Independent review should
+verify privacy and failure preservation as well as any new natural observations.
+FE-013/live7/8, E2 and final E7 remain open.
+
 ## Readable brief — implementation handoff (2026-10-29)
 
 Verify HTML against actual JSON downloads for both companies/years, raw values/scales, Python-only normalized values, exact citations/full source pages, current notes and partial checks. Test escape/CSP/no remote requests, keyboard activation, narrow/print layout, generation failure retry, old HTML and scope invalidation. The new capability is not a defect closure or authenticated report. Preserve baseline0/8, candidate2/8 and unit1/6; see REVIEW_BRIEF. FE-013, E2 and finalE7 remain open. Interview: why must a readable export preserve missing fields and unknown model usage rather than making the document look complete?

@@ -1,5 +1,26 @@
 # Capability status
 
+## Release gate failure and process diagnostics (2026-10-29)
+
+The first readable-brief commit, `0c809242042dd8cf518557f49349011b8a9684e3`,
+failed Linux CI run [40857821162](https://github.com/leon1111-wgl/finevidence/actions/runs/40857821162),
+attempt 1. macOS passed; browser and Pages were skipped. The first three offline
+server-exit cases passed; `kill-remaining` failed at `process_observation` after
+two synthetic TLS requests. Cleanup reported no live workers; missing model-audit
+usage remained unknown. No exact ps result or substage was retained, so the root
+cause is unresolved and is not attributed to the readable-brief change.
+
+Judge 6 adds fixed state/children/identity failure categories, bounded scalar
+metadata and an always-uploaded exit-evaluation artifact for each test OS. It
+exports no raw command, stdout, stderr or exception message. Existing timeouts,
+identity requirements, retry count, four-case plan and pass/fail predicates remain.
+This is diagnostic coverage, not a repair claim for the original Linux failure.
+Six new authored diagnostic methods first failed 0/6; existing process identity
+controls and the new methods pass 16/16 locally. A real local injected census
+failure remains failed and retains its safe category. Independent review should
+verify privacy and failure preservation as well as any new natural observations.
+FE-013/live7/8, E2 and final E7 remain open.
+
 ## Readable evidence brief (2026-10-29)
 
 The existing synthetic review snapshot now also downloads as a script-free HTML brief with formula, input periods/units, full source pages, hashes and current notes/checkmarks. The eight authored browser observations change from no control (0/8) through first candidate 2/8 to 8/8 on both static and Python surfaces; separate retry/legacy boundaries are 4/4 each. See REVIEW_BRIEF for first failures and schema differences. No recalculation, admission, PDF upload or model call. E2, final E7 and FE-013/live7/8 remain open. Exact-release CI/public verification and independent review are separate.

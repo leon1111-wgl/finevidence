@@ -30,15 +30,31 @@ PLAN = [
 ]
 
 
+class ProcessObservationError(RuntimeError):
+    """Only categorical metadata is retained; never include ps output or argv."""
+    def __init__(self, stage, reason, **metadata):
+        super().__init__('process_observation')
+        self.diagnostic = dict(stage=stage, reason=reason, **metadata)
+
+
+def process_probe(stage, command, timeout):
+    try:
+        return subprocess.run(command, capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        raise ProcessObservationError(stage, 'timeout') from None
+    except OSError:
+        raise ProcessObservationError(stage, 'unavailable') from None
+
+
 def state(pid):
-    result = subprocess.run(['ps', '-p', str(pid), '-o', 'stat='],
-                            capture_output=True, text=True, timeout=2)
+    result = process_probe('state', ['ps', '-p', str(pid), '-o', 'stat='], 2)
     status = result.stdout.strip()
     if result.returncode == 0 and status and not result.stderr:
         return status
     if result.returncode == 1 and not status and not result.stderr:
         return ''  # ps confirms the PID no longer exists.
-    raise RuntimeError('process_observation')
+    raise ProcessObservationError('state', 'invalid_result', returncode=result.returncode,
+                                  stderr_present=bool(result.stderr))
 
 
 def alive(pid):
@@ -48,17 +64,17 @@ def alive(pid):
 
 
 def children(pid, *, require_parent=False):
-    result = subprocess.run(['ps', '-axo', 'pid=,ppid='],
-                            capture_output=True, text=True, timeout=2)
+    result = process_probe('children', ['ps', '-axo', 'pid=,ppid='], 2)
     rows = [line.split() for line in result.stdout.splitlines()]
     if (result.returncode != 0 or result.stderr or not rows or
             any(len(row) != 2 or not all(value.isdigit() for value in row) for row in rows)):
-        raise RuntimeError('process_observation')
+        raise ProcessObservationError('children', 'invalid_rows', returncode=result.returncode,
+                                      stderr_present=bool(result.stderr), row_count=len(rows))
     pairs = [(int(child), int(parent)) for child, parent in rows]
     if len({child for child, _ in pairs}) != len(pairs):
-        raise RuntimeError('process_observation')
+        raise ProcessObservationError('children', 'duplicate_pid')
     if not any(child == pid for child, _ in pairs) and (require_parent or process_identity(pid) is not None):
-        raise RuntimeError('process_observation')  # Truncated live-parent census.
+        raise ProcessObservationError('children', 'missing_parent')  # Truncated live-parent census.
     return [child for child, parent in pairs if parent == pid]
 
 
@@ -68,17 +84,17 @@ def process_identity(pid):
     launch_identity = None
     for attempt in range(3):
         remaining = deadline - time.monotonic()
-        if remaining <= 0: raise RuntimeError('process_observation')
-        result = subprocess.run(['ps', '-p', str(pid), '-o', 'ppid=,stat=,lstart=,command='],
-                                capture_output=True, text=True, timeout=remaining)
+        if remaining <= 0: raise ProcessObservationError('identity', 'budget_expired', attempt=attempt+1)
+        result = process_probe('identity', ['ps', '-p', str(pid), '-o', 'ppid=,stat=,lstart=,command='], remaining)
         text = result.stdout.strip()
         if result.returncode == 1 and not text and not result.stderr: return None
         fields = text.split(None, 7)
         if result.returncode != 0 or result.stderr or len(fields) != 8 or not fields[0].isdigit():
-            raise RuntimeError('process_observation')
+            raise ProcessObservationError('identity', 'invalid_fields', attempt=attempt+1,
+                returncode=result.returncode, stderr_present=bool(result.stderr), field_count=len(fields))
         owner_start = (int(fields[0]), ' '.join(fields[2:7]))
         if launch_identity is not None and owner_start != launch_identity:
-            raise RuntimeError('process_observation')
+            raise ProcessObservationError('identity', 'owner_start_changed', attempt=attempt+1)
         # During macOS launcher exec, ps can briefly show only (python3.12).
         # Re-observe within the original budget; that placeholder never becomes
         # a signal-authorizing identity. Parent and start must remain stable.
@@ -86,8 +102,10 @@ def process_identity(pid):
         if len(arguments) == 2:
             # Launcher argv0 changes to Python.app; arguments/start stay stable.
             return owner_start[0], fields[1], owner_start[1] + ' ' + arguments[1]
-        if not re.fullmatch(r'\((?:python(?:\d+(?:\.\d+)*)?|Python)\)', fields[7]) or attempt == 2:
-            raise RuntimeError('process_observation')
+        placeholder = bool(re.fullmatch(r'\((?:python(?:\d+(?:\.\d+)*)?|Python)\)', fields[7]))
+        if not placeholder or attempt == 2:
+            raise ProcessObservationError('identity', 'placeholder_exhausted' if placeholder else 'incomplete_command',
+                                          attempt=attempt+1)
         launch_identity = owner_start
         time.sleep(min(.01, max(0, deadline - time.monotonic())))
 
@@ -233,6 +251,7 @@ def run_case(case, implementation, peer):
     except Exception as error:
         row['harness_error_type'] = type(error).__name__
         row['harness_phase'] = str(error) if isinstance(error, RuntimeError) else 'unavailable'
+        if isinstance(error, ProcessObservationError): row['process_observation'] = error.diagnostic
         row['passed'] = False
     finally:
         row['tls_requests'] = len(peer.requests)
@@ -266,7 +285,7 @@ def main():
     args = parser.parse_args(); implementation = args.implementation_root.resolve()
     sys.path.insert(0, str(ROOT / 'tests'))
     from tls_provider_fixture import TLSPeer
-    result = {'classification': 'OFFLINE_SYNTHETIC_SERVER_EXIT_DEVELOPMENT', 'judge_version': 5,
+    result = {'classification': 'OFFLINE_SYNTHETIC_SERVER_EXIT_DEVELOPMENT', 'judge_version': 6,
         'sha': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=implementation, text=True).strip(),
         'dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=implementation)),
         'provider_sha256': hashlib.sha256((implementation/'finevidence/provider.py').read_bytes()).hexdigest(),
