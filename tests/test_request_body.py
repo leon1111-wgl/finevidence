@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import tempfile
 import threading
+import time
 import unittest
 from unittest.mock import Mock, patch
 from uuid import uuid4
@@ -115,10 +116,17 @@ class RequestBodyTests(unittest.TestCase):
         r = exchange(self.server, '/api/run', RUN)
         self.assertEqual(r['http_status'], 200)
         self.assertEqual(r['result']['calculations'][0]['display'], '30.00%')
-        acquired = [self.server.slots.acquire(blocking=False) for _ in range(4)]
-        for ok in acquired:
-            if ok: self.server.slots.release()
-        self.assertEqual(acquired, [True]*4)
+        # Client receipt precedes the handler's finally. Observe actual release
+        # under one bounded deadline; a missing release still fails the census.
+        released_by = time.monotonic() + 1
+        acquired = []
+        try:
+            for _ in range(4):
+                acquired.append(self.server.slots.acquire(timeout=max(0, released_by-time.monotonic())))
+            self.assertEqual(acquired, [True]*4)
+        finally:
+            for ok in acquired:
+                if ok: self.server.slots.release()
 
     def test_deadline_checks_final_chunk_and_restores_write_timeout(self):
         # Deterministic scheduler boundary: the final raw read returns after deadline.

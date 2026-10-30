@@ -1,5 +1,44 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Orphan deadline failure evidence (2026-10-30)
+
+The inherited-signal orphan test now retains bounded output classification,
+TCP/HTTP counts, pre-cleanup return code and worker/pipe cleanup on failure.
+Its original 0.8-second deadline, 1.6-second escape/elapsed checks, one-request,
+nonzero-exit and empty-output assertions remain. Safe protocol errors still fail
+this target scenario; they do not establish autonomous deadline coverage.
+
+Six new engineering contracts first failed0/6 and then passed6/6. An unchanged
+external review probe preserves four failed configurations (HTTP503/truncated
+response ×ordinary/inherited signal state) while safe classification retention
+changes0/4→4/4. The two normal worker configurations remain successful. These
+are known offline TLS/judge controls, not financial tasks, hidden evaluation,
+real-model accuracy or measured analyst savings. Production code is unchanged.
+See [PROVIDER_DEADLINE](PROVIDER_DEADLINE.md) and
+[the first-result record](validation/orphan-evidence-2026-10-30.json).
+
+CI41002669637 attempt1's macOS exit0 failure remains unexplained because that
+run did not retain stdout classification. The controlled errors demonstrate
+ambiguity, not its natural cause. This diagnostic follow-up awaits independent
+review; FE-013/live7/8, E2, natural transport causes and finalE7 remain open.
+Exact-release CI/deployment are separate from local validation.
+
+The first full local regression was298/299: the final request-body slot census
+observed3/4 immediately after a successful response. A controlled0.2-second
+pause after sending bytes reproduces the same assertion, showing that client
+receipt precedes the handler's finally. The test now acquires all four slots
+under one1-second observation deadline and releases its census acquisitions in
+finally; request/model budgets and response predicates do not change. The
+controlled healthy case changes0/1→1/1; intentionally omitted release remains
+rejected1/1. The new contract1/1 and normal request-body file8/8 pass. This
+repairs the observation race, not a demonstrated production capacity leak; the
+first natural scheduling sequence was not recorded and is not reconstructed.
+
+Final local Python regression after that observer change is300/300; JS260/260,
+fixed synthetic finance8/8 (numeric/source6/6, expected refusal2/2), actual local
+TLS deadlines6/6 and server-exit checks4/4. No production source was modified.
+The earlier298/299 remains a separate first result.
+
 ## Deadline test stage evidence (2026-10-30)
 
 The P3 `deadline-stage-precondition` follow-up records TCP/HTTP deltas and

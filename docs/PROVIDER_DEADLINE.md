@@ -202,3 +202,65 @@ timings, denominators and both original-probe outputs. These known engineering
 controls measure diagnosis, not financial accuracy, real-report quality, hidden
 performance or saved analyst time. The previous natural failures remain
 unresolved; this controlled trigger does not establish their cause.
+
+## Orphan failure classification, 2026-10-30
+
+The direct-worker orphan regression previously stopped at `returncode != 0`,
+before recording stdout. A worker can legitimately exit0 with a safe error
+protocol object; the bare failure cannot distinguish it from a result. The
+original macOS CI41002669637 failure is preserved and still lacks that evidence.
+
+`OrphanDeadlineTests.observe_orphan` surrounds the original assertions and cleanup.
+It retains output byte count, output kind, result-field presence (null if not
+parsed), an allowlisted error code, original signal configuration, TCP/HTTP
+counts, completed/observation time, pre-cleanup return code, cleanup intervention,
+reaping/process absence and pipe closure. At most4096 output bytes are parsed;
+no raw content, argv, PID, path, environment or exception text is emitted.
+Unknown or oversized output stays unclassified and failed. Error text and
+unknown fields are never copied. Completed time excludes cleanup; observation
+time includes it. Neither is a product SLA or evidence of remote cancellation.
+
+The scope always attempts the existing kill/communicate cleanup. It records
+whether that cleanup intervened: a watchdog timeout cannot become a passing
+orphan case just because the test subsequently killed the worker. Missing
+network stage, duplicate requests, protocol errors, actual result fields,
+unexpected output, cleanup failure and earlier assertions all remain failures.
+The 0.8-second child deadline, 1.6-second test escape/elapsed assertions and
+15/45-second production budgets are unchanged. No retries were added.
+
+```sh
+python3 -m unittest discover -s tests -p test_orphan_evidence.py -v
+python3 -m unittest discover -s tests -p test_provider_orphan_deadline.py -v
+```
+
+Six contract methods include real TLS HTTP503 and truncated-body faults at two
+signal configurations (four expected child failures), two normal configurations,
+and ten pure judge negative controls: missing stage, duplicate request, watchdog
+cleanup, surviving worker, result output, unknown error, malformed output,
+oversized output, allowlisted error with private extra data, earlier assertion.
+The doubles exercise only the diagnostic judge; they are not actual process or
+network coverage. First contracts0/6 (12 subassertion failures), then6/6; normal
+orphan file2/2. The unchanged external review probe independently retains the
+four expected protocol failures with safe classification4/4, previously0/4.
+Full first timings and usage boundaries are in the validation record. Passing
+these contracts does not explain the earlier natural CI failure or close the
+production timeout investigation.
+
+### Request-body capacity observation discovered during regression
+
+The first full local regression was298/299: the final request-body slot census
+observed3/4 immediately after a successful response. A controlled0.2-second
+pause after sending bytes reproduces the same assertion, showing that client
+receipt precedes the handler's finally. The test now acquires all four slots
+under one1-second observation deadline and releases its census acquisitions in
+finally; request/model budgets and response predicates do not change. The
+controlled healthy case changes0/1→1/1; intentionally omitted release remains
+rejected1/1. The new contract1/1 and normal request-body file8/8 pass. This
+repairs the observation race, not a demonstrated production capacity leak; the
+first natural scheduling sequence was not recorded and is not reconstructed.
+
+Run `python3 -m unittest discover -s tests -p test_request_slot_observation.py -v`.
+The finite post-response pause is an explicit scheduler injection; the missing
+release control must remain failed. Actual acquisition of all four slots is
+the acceptance condition, not a sleep, semaphore private counter or mocked
+release-call count. Production server code is unchanged.

@@ -1,0 +1,420 @@
+{
+  "classification": "KNOWN_OFFLINE_ENGINEERING_DEVELOPMENT",
+  "base_sha": "48386f59b13093a85be5bee61ec257822940c653",
+  "protocol": "One first pass per version; controlled errors stay failed. No best-of-N.",
+  "production_code_changed": false,
+  "real_model_calls": 0,
+  "paid_model_calls": 0,
+  "hidden_tasks": 0,
+  "new_human_labels": 0,
+  "historical_live_first": {
+    "passed": 7,
+    "total": 8,
+    "FE-013": "open"
+  },
+  "orphan_contracts": {
+    "red": {
+      "passed": 0,
+      "total": 6,
+      "failed_subassertions": 12,
+      "name": "red",
+      "exit": 1,
+      "seconds": 5.193033916177228
+    },
+    "candidate": [
+      {
+        "name": "green",
+        "exit": 0,
+        "seconds": 5.3184579578228295
+      },
+      {
+        "name": "normal-orphan",
+        "exit": 0,
+        "seconds": 2.9499241248704493
+      }
+    ],
+    "negative_judge_controls": 10
+  },
+  "external_probe": {
+    "sha256": "221633749e294a07516c77b105e79e601878dae0f98d0298438da514c853a010",
+    "baseline": {
+      "controlled_fault_scenarios": 2,
+      "fault_signal_variants": 4,
+      "normal_variants": 2,
+      "natural_ci_cause": "unresolved; original CI stdout unavailable",
+      "rows": [
+        {
+          "fault": "normal",
+          "classification": "CONTROLLED_OFFLINE_TLS_NO_MODEL",
+          "seconds": 2.405781207839027,
+          "original_test_passed": true,
+          "failures": [],
+          "errors": 0,
+          "workers": [
+            {
+              "inherited_mask": false,
+              "returncode": -14,
+              "stdout_bytes": 0,
+              "result_present": false,
+              "safe_error": null
+            },
+            {
+              "inherited_mask": true,
+              "returncode": -14,
+              "stdout_bytes": 0,
+              "result_present": false,
+              "safe_error": null
+            }
+          ],
+          "peers": [
+            {
+              "tcp": 1,
+              "http": 1,
+              "close_event": false
+            },
+            {
+              "tcp": 1,
+              "http": 1,
+              "close_event": false
+            }
+          ]
+        },
+        {
+          "fault": "http_503",
+          "classification": "CONTROLLED_OFFLINE_TLS_NO_MODEL",
+          "seconds": 1.4851118749938905,
+          "original_test_passed": false,
+          "failures": [
+            "AssertionError: 0 == 0 : late response cannot succeed",
+            "AssertionError: 0 == 0 : late response cannot succeed"
+          ],
+          "errors": 0,
+          "workers": [
+            {
+              "inherited_mask": false,
+              "returncode": 0,
+              "stdout_bytes": 27,
+              "result_present": false,
+              "safe_error": "MODEL_HTTP_503"
+            },
+            {
+              "inherited_mask": true,
+              "returncode": 0,
+              "stdout_bytes": 27,
+              "result_present": false,
+              "safe_error": "MODEL_HTTP_503"
+            }
+          ],
+          "peers": [
+            {
+              "tcp": 1,
+              "http": 1,
+              "close_event": false
+            },
+            {
+              "tcp": 1,
+              "http": 1,
+              "close_event": false
+            }
+          ]
+        },
+        {
+          "fault": "truncated_body",
+          "classification": "CONTROLLED_OFFLINE_TLS_NO_MODEL",
+          "seconds": 1.350702082971111,
+          "original_test_passed": false,
+          "failures": [
+            "AssertionError: 0 == 0 : late response cannot succeed",
+            "AssertionError: 0 == 0 : late response cannot succeed"
+          ],
+          "errors": 0,
+          "workers": [
+            {
+              "inherited_mask": false,
+              "returncode": 0,
+              "stdout_bytes": 27,
+              "result_present": false,
+              "safe_error": "MODEL_RESPONSE"
+            },
+            {
+              "inherited_mask": true,
+              "returncode": 0,
+              "stdout_bytes": 27,
+              "result_present": false,
+              "safe_error": "MODEL_RESPONSE"
+            }
+          ],
+          "peers": [
+            {
+              "tcp": 1,
+              "http": 1,
+              "close_event": false
+            },
+            {
+              "tcp": 1,
+              "http": 1,
+              "close_event": false
+            }
+          ]
+        }
+      ]
+    },
+    "candidate": {
+      "controlled_fault_scenarios": 2,
+      "fault_signal_variants": 4,
+      "normal_variants": 2,
+      "natural_ci_cause": "unresolved; original CI stdout unavailable",
+      "rows": [
+        {
+          "fault": "normal",
+          "classification": "CONTROLLED_OFFLINE_TLS_NO_MODEL",
+          "seconds": 2.383792709093541,
+          "original_test_passed": true,
+          "failures": [],
+          "errors": 0,
+          "workers": [
+            {
+              "inherited_mask": false,
+              "returncode": -14,
+              "stdout_bytes": 0,
+              "result_present": false,
+              "safe_error": null
+            },
+            {
+              "inherited_mask": true,
+              "returncode": -14,
+              "stdout_bytes": 0,
+              "result_present": false,
+              "safe_error": null
+            }
+          ],
+          "peers": [
+            {
+              "tcp": 1,
+              "http": 1,
+              "close_event": false
+            },
+            {
+              "tcp": 1,
+              "http": 1,
+              "close_event": false
+            }
+          ]
+        },
+        {
+          "fault": "http_503",
+          "classification": "CONTROLLED_OFFLINE_TLS_NO_MODEL",
+          "seconds": 1.2761295840609819,
+          "original_test_passed": false,
+          "failures": [
+            "AssertionError: ORPHAN_SAFE_ERROR: {\"budget_seconds\": 0.8, \"cleanup\": {\"process_gone\": true, \"reaped\": true, \"stdin_closed\": true, \"stdout_closed\": true}, \"cleanup_error\": false, \"cleanup_intervened\": false, \"completed_seconds\": 0.055043, \"failure_code\": \"ORPHAN_SAFE_ERROR\", \"http_requests\": 1, \"inherited_mask\": false, \"observation_seconds\": 0.055095, \"output_kind\": \"object\", \"primary_failure\": \"assertion\", \"result_present\": false, \"returncode_before_cleanup\": 0, \"safe_error\": \"MODEL_HTTP_503\", \"stdout_bytes\": 27, \"tcp_accepted\": 1}",
+            "AssertionError: ORPHAN_SAFE_ERROR: {\"budget_seconds\": 0.8, \"cleanup\": {\"process_gone\": true, \"reaped\": true, \"stdin_closed\": true, \"stdout_closed\": true}, \"cleanup_error\": false, \"cleanup_intervened\": false, \"completed_seconds\": 0.071845, \"failure_code\": \"ORPHAN_SAFE_ERROR\", \"http_requests\": 1, \"inherited_mask\": true, \"observation_seconds\": 0.071898, \"output_kind\": \"object\", \"primary_failure\": \"assertion\", \"result_present\": false, \"returncode_before_cleanup\": 0, \"safe_error\": \"MODEL_HTTP_503\", \"stdout_bytes\": 27, \"tcp_accepted\": 1}"
+          ],
+          "errors": 0,
+          "workers": [
+            {
+              "inherited_mask": false,
+              "returncode": 0,
+              "stdout_bytes": 27,
+              "result_present": false,
+              "safe_error": "MODEL_HTTP_503"
+            },
+            {
+              "inherited_mask": true,
+              "returncode": 0,
+              "stdout_bytes": 27,
+              "result_present": false,
+              "safe_error": "MODEL_HTTP_503"
+            }
+          ],
+          "peers": [
+            {
+              "tcp": 1,
+              "http": 1,
+              "close_event": false
+            },
+            {
+              "tcp": 1,
+              "http": 1,
+              "close_event": false
+            }
+          ]
+        },
+        {
+          "fault": "truncated_body",
+          "classification": "CONTROLLED_OFFLINE_TLS_NO_MODEL",
+          "seconds": 1.2027079169638455,
+          "original_test_passed": false,
+          "failures": [
+            "AssertionError: ORPHAN_SAFE_ERROR: {\"budget_seconds\": 0.8, \"cleanup\": {\"process_gone\": true, \"reaped\": true, \"stdin_closed\": true, \"stdout_closed\": true}, \"cleanup_error\": false, \"cleanup_intervened\": false, \"completed_seconds\": 0.05435, \"failure_code\": \"ORPHAN_SAFE_ERROR\", \"http_requests\": 1, \"inherited_mask\": false, \"observation_seconds\": 0.054404, \"output_kind\": \"object\", \"primary_failure\": \"assertion\", \"result_present\": false, \"returncode_before_cleanup\": 0, \"safe_error\": \"MODEL_RESPONSE\", \"stdout_bytes\": 27, \"tcp_accepted\": 1}",
+            "AssertionError: ORPHAN_SAFE_ERROR: {\"budget_seconds\": 0.8, \"cleanup\": {\"process_gone\": true, \"reaped\": true, \"stdin_closed\": true, \"stdout_closed\": true}, \"cleanup_error\": false, \"cleanup_intervened\": false, \"completed_seconds\": 0.068633, \"failure_code\": \"ORPHAN_SAFE_ERROR\", \"http_requests\": 1, \"inherited_mask\": true, \"observation_seconds\": 0.068684, \"output_kind\": \"object\", \"primary_failure\": \"assertion\", \"result_present\": false, \"returncode_before_cleanup\": 0, \"safe_error\": \"MODEL_RESPONSE\", \"stdout_bytes\": 27, \"tcp_accepted\": 1}"
+          ],
+          "errors": 0,
+          "workers": [
+            {
+              "inherited_mask": false,
+              "returncode": 0,
+              "stdout_bytes": 27,
+              "result_present": false,
+              "safe_error": "MODEL_RESPONSE"
+            },
+            {
+              "inherited_mask": true,
+              "returncode": 0,
+              "stdout_bytes": 27,
+              "result_present": false,
+              "safe_error": "MODEL_RESPONSE"
+            }
+          ],
+          "peers": [
+            {
+              "tcp": 1,
+              "http": 1,
+              "close_event": false
+            },
+            {
+              "tcp": 1,
+              "http": 1,
+              "close_event": false
+            }
+          ]
+        }
+      ]
+    },
+    "safe_classification_retention": {
+      "baseline_passed": 0,
+      "candidate_passed": 4,
+      "total": 4
+    },
+    "underlying_fault_configurations_passed": 0,
+    "underlying_fault_configurations_total": 4
+  },
+  "first_full_python": {
+    "passed": 298,
+    "total": 299,
+    "seconds": 85.60821212502196,
+    "failed": "test_four_timeouts_release_all_slots_for_following_calculation",
+    "observed": "[True, True, True, False] != [True, True, True, True]",
+    "natural_scheduling_sequence_not_recorded": true
+  },
+  "slot_observer": {
+    "controlled_trigger": "Hold successful response sender for .2 seconds after writing bytes; client receipt is before finally release.",
+    "negative_control": "Omit actual release; census must still fail.",
+    "healthy_observation_before": {
+      "passed": 0,
+      "total": 1
+    },
+    "healthy_observation_after": {
+      "passed": 1,
+      "total": 1
+    },
+    "missing_release_rejected": {
+      "before": 1,
+      "after": 1,
+      "total": 1
+    },
+    "red": {
+      "exit": 1,
+      "seconds": 2.8491505419369787
+    },
+    "candidate": [
+      {
+        "name": "slot-green",
+        "exit": 0,
+        "seconds": 3.852229874813929
+      },
+      {
+        "name": "body-normal",
+        "exit": 0,
+        "seconds": 6.886518375016749
+      }
+    ],
+    "observation_budget_seconds": 1,
+    "request_and_model_budgets_changed": false
+  },
+  "unresolved": [
+    "CI41002669637 macOS orphan natural cause; stdout unavailable",
+    "historical transport/startup failures",
+    "E2",
+    "FE-013",
+    "final E7"
+  ],
+  "final_local_regression": {
+    "python": {
+      "passed": 300,
+      "total": 300,
+      "name": "python-final-after-slot-observer-fix",
+      "exit": 0,
+      "seconds": 90.04151762486435
+    },
+    "javascript": {
+      "passed": 260,
+      "total": 260
+    },
+    "fixed_finance": {
+      "completion": {
+        "passed": 8,
+        "total": 8
+      },
+      "numeric_correct": {
+        "passed": 6,
+        "total": 6
+      },
+      "sources_complete": {
+        "passed": 6,
+        "total": 6
+      },
+      "safe_refusal": {
+        "passed": 2,
+        "total": 2
+      },
+      "latency_n": 8,
+      "p50_seconds": 0.000523,
+      "p95_seconds": 0.000651,
+      "model_calls": 0,
+      "reported_tokens": 0,
+      "usage_complete": true,
+      "calls_with_unknown_usage": 0
+    },
+    "tls_deadline": {
+      "passed": 6,
+      "total": 6
+    },
+    "server_exit": {
+      "passed": 4,
+      "total": 4
+    },
+    "first_results": [
+      {
+        "name": "python-full",
+        "exit": 1,
+        "seconds": 85.60821212502196
+      },
+      {
+        "name": "js-full",
+        "exit": 0,
+        "seconds": 0.4289058339782059
+      },
+      {
+        "name": "finance",
+        "exit": 0,
+        "seconds": 0.1307771671563387
+      },
+      {
+        "name": "deadline-six",
+        "exit": 0,
+        "seconds": 78.01475008390844
+      },
+      {
+        "name": "exit-four",
+        "exit": 0,
+        "seconds": 92.3754974170588
+      },
+      {
+        "name": "build",
+        "exit": 0,
+        "seconds": 0.12912158388644457
+      }
+    ]
+  }
+}

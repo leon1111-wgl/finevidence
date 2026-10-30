@@ -6,12 +6,79 @@ import subprocess
 import sys
 import time
 import unittest
+from contextlib import contextmanager
 
 from finevidence import provider
 from tls_provider_fixture import TLSPeer
 
 
 class OrphanDeadlineTests(unittest.TestCase):
+    @contextmanager
+    def observe_orphan(self, peer, worker, started, inherited_mask):
+        """Keep safe failure evidence without turning cleanup into deadline coverage."""
+        capture = {'stdout': None, 'timed_out': False, 'completed_seconds': None}
+        primary = None
+        try:
+            yield capture
+        except AssertionError:
+            primary = 'assertion'
+        except Exception:
+            primary = 'unexpected_exception'
+        finally:
+            before = worker.poll()
+            intervened = before is None
+            cleanup_error = False
+            try:
+                if intervened: worker.kill()
+                worker.communicate()
+            except Exception:
+                cleanup_error = True
+            try: os.kill(worker.pid, 0); gone = False
+            except ProcessLookupError: gone = True
+            except OSError: gone = False
+            cleanup = {'reaped': worker.returncode is not None, 'process_gone': gone,
+                       'stdin_closed': worker.stdin is not None and worker.stdin.closed,
+                       'stdout_closed': worker.stdout is not None and worker.stdout.closed}
+            output = capture['stdout']
+            size = None if output is None else len(output)
+            kind = 'unavailable' if output is None else 'empty' if not output else 'oversize'
+            result_present = False if size == 0 else None
+            safe_error = None
+            if output and size <= 4096:
+                try:
+                    decoded = json.loads(output)
+                    kind = 'object' if isinstance(decoded, dict) else 'non_object'
+                    if isinstance(decoded, dict):
+                        result_present = 'result' in decoded
+                        if provider._safe_code(decoded.get('error')): safe_error = decoded['error']
+                except (ValueError, RecursionError):
+                    kind = 'malformed'
+            tcp, http = peer.accepted, len(peer.requests)
+            code = ('ORPHAN_CLEANUP_FAILED' if cleanup_error or not all(cleanup.values())
+                    else 'ORPHAN_WATCHDOG_EXPIRED' if capture['timed_out'] or intervened
+                    else 'ORPHAN_STAGE_NOT_REACHED' if tcp == 0 or http == 0
+                    else 'ORPHAN_NETWORK_COUNT' if tcp != 1 or http != 1
+                    else 'ORPHAN_RESULT_OUTPUT' if result_present
+                    else 'ORPHAN_SAFE_ERROR' if safe_error
+                    else 'ORPHAN_UNEXPECTED_OUTPUT' if size != 0
+                    else 'ORPHAN_EXIT_ZERO' if before == 0
+                    else 'ORPHAN_ASSERTION_FAILED' if primary == 'assertion'
+                    else 'ORPHAN_TEST_ERROR' if primary else None)
+            row = {'inherited_mask': inherited_mask, 'budget_seconds': .8,
+                   'completed_seconds': capture['completed_seconds'],
+                   'observation_seconds': round(time.monotonic() - started, 6),
+                   'tcp_accepted': tcp, 'http_requests': http,
+                   'returncode_before_cleanup': before, 'stdout_bytes': size,
+                   'output_kind': kind, 'result_present': result_present,
+                   'safe_error': safe_error, 'cleanup_intervened': intervened,
+                   'cleanup': cleanup, 'cleanup_error': cleanup_error,
+                   'primary_failure': primary, 'failure_code': code}
+            if not hasattr(self, 'orphan_observations'): self.orphan_observations = []
+            self.orphan_observations.append(row)
+        if code:
+            # No raw stdout, argv, PID, path, environment or exception text.
+            self.fail(code + ': ' + json.dumps(row, sort_keys=True))
+
     def test_unavailable_timer_refuses_before_network(self):
         with TLSPeerContext() as peer:
             envelope = json.dumps({'settings': {
@@ -50,20 +117,21 @@ class OrphanDeadlineTests(unittest.TestCase):
                     'messages': [], 'deadline': started + .8}).encode()
                 worker = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                           stderr=subprocess.DEVNULL)
-                try:
+                with self.observe_orphan(peer, worker, started, inherited_mask) as capture:
                     # This timeout is only a failing-test escape hatch. No ModelProvider
                     # parent timer, signal handler or cleanup may make this test pass.
                     try:
                         output, _ = worker.communicate(envelope, timeout=1.6)
-                    except subprocess.TimeoutExpired:
+                    except subprocess.TimeoutExpired as exc:
+                        capture['stdout'] = exc.output
+                        capture['timed_out'] = True
                         self.fail('transport worker outlived its own absolute deadline')
+                    capture['stdout'] = output
+                    capture['completed_seconds'] = round(time.monotonic() - started, 6)
                     self.assertLess(time.monotonic() - started, 1.6)
                     self.assertEqual(len(peer.requests), 1, 'real TLS request; no retry')
                     self.assertNotEqual(worker.returncode, 0, 'late response cannot succeed')
                     self.assertEqual(output, b'', 'no late success or private diagnostics')
-                finally:
-                    if worker.poll() is None: worker.kill()
-                    worker.communicate()
 
 
 class TLSPeerContext:
