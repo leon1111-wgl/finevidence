@@ -1,0 +1,237 @@
+{
+  "date": "2026-10-31",
+  "baseline": "b8538a48de02972da0ea36b70f5b15983e629e4f",
+  "classification": "known_synthetic_request_protocol_development_inputs",
+  "fixed_inputs_sha256": [
+    "94266eb593c0818ca3c666f3d86b67a7d39bfdc1fe71c169bc70387ac32fc0dc",
+    "3ed69d808a8ccfa5ec72cd521b369d315e4e3cfed198d58abdf51036dd265b40",
+    "45a05ed925ea33a04c69e742b25a7cb1020acb9bd8c2ec1471f52f31a4918adb",
+    "2547beb9a731c7057608d83020fb818f629ecacacc63b213967727354561f994",
+    "70931df80ae69e7081265c8a0ceccf84f3701b74bbeaf3e8dab3c560a6a294fa",
+    "e274f5efa27ebd0e1f9bb43e8baf03df0b7d1bb2823d5b3b5829bc33243a867d",
+    "7eea9e8b49c03d3a35321b58596c9589e64254607cd01124ce17992a29acca7b",
+    "db85e5eb3008d99aea496a458022e1064bbd6f7fe0aa0c8cfac6ba676a1d40ee",
+    "26aa7c2ce5ee41cfd8a3278fd26bf196f0f02bc32182977e96e2336efb7d3ba5"
+  ],
+  "probe_sha256": "16718cb8b0132fe6a2eef655609637a73d73a347472f4851c8a09a2632c6bbcd",
+  "pre_dispatch_refusal": {
+    "before": 0,
+    "after": 9,
+    "total": 9
+  },
+  "before": [
+    {
+      "case": "company",
+      "http": 200,
+      "tool_calls": 1,
+      "provider_calls": 0,
+      "seconds": 0.0070539170410484076
+    },
+    {
+      "case": "year",
+      "http": 200,
+      "tool_calls": 1,
+      "provider_calls": 0,
+      "seconds": 0.0028503749053925276
+    },
+    {
+      "case": "operation",
+      "http": 200,
+      "tool_calls": 1,
+      "provider_calls": 0,
+      "seconds": 0.0017957501113414764
+    },
+    {
+      "case": "query",
+      "http": 200,
+      "tool_calls": 1,
+      "provider_calls": 0,
+      "seconds": 0.0023480828385800123
+    },
+    {
+      "case": "equal-year",
+      "http": 200,
+      "tool_calls": 1,
+      "provider_calls": 0,
+      "seconds": 0.0016895828302949667
+    },
+    {
+      "case": "escaped-operation",
+      "http": 200,
+      "tool_calls": 1,
+      "provider_calls": 0,
+      "seconds": 0.0017282499466091394
+    },
+    {
+      "case": "escaped-company",
+      "http": 200,
+      "tool_calls": 1,
+      "provider_calls": 0,
+      "seconds": 0.0021095830015838146
+    },
+    {
+      "case": "three-queries",
+      "http": 200,
+      "tool_calls": 1,
+      "provider_calls": 0,
+      "seconds": 0.002389291999861598
+    },
+    {
+      "case": "model-dispatch",
+      "http": 200,
+      "tool_calls": 1,
+      "provider_calls": 2,
+      "seconds": 0.002052875002846122
+    }
+  ],
+  "after": [
+    {
+      "case": "company",
+      "http": 400,
+      "tool_calls": 0,
+      "provider_calls": 0,
+      "seconds": 0.0027018750552088022
+    },
+    {
+      "case": "year",
+      "http": 400,
+      "tool_calls": 0,
+      "provider_calls": 0,
+      "seconds": 0.001872749999165535
+    },
+    {
+      "case": "operation",
+      "http": 400,
+      "tool_calls": 0,
+      "provider_calls": 0,
+      "seconds": 0.0008824588730931282
+    },
+    {
+      "case": "query",
+      "http": 400,
+      "tool_calls": 0,
+      "provider_calls": 0,
+      "seconds": 0.0007849158719182014
+    },
+    {
+      "case": "equal-year",
+      "http": 400,
+      "tool_calls": 0,
+      "provider_calls": 0,
+      "seconds": 0.000782540999352932
+    },
+    {
+      "case": "escaped-operation",
+      "http": 400,
+      "tool_calls": 0,
+      "provider_calls": 0,
+      "seconds": 0.0007656668312847614
+    },
+    {
+      "case": "escaped-company",
+      "http": 400,
+      "tool_calls": 0,
+      "provider_calls": 0,
+      "seconds": 0.0008078329265117645
+    },
+    {
+      "case": "three-queries",
+      "http": 400,
+      "tool_calls": 0,
+      "provider_calls": 0,
+      "seconds": 0.000803167000412941
+    },
+    {
+      "case": "model-dispatch",
+      "http": 400,
+      "tool_calls": 0,
+      "provider_calls": 0,
+      "seconds": 0.0007587920408695936
+    }
+  ],
+  "first_red": {
+    "methods_passed": 3,
+    "methods_total": 6,
+    "failure_entries": 10,
+    "note": "The first model-dispatch fixture had an empty question and returned422. Preserved; with a valid question it returned200 and made2 offline calls. Both red runs retain10 failures."
+  },
+  "focused_green": {
+    "passed": 6,
+    "total": 6
+  },
+  "adjacent": {
+    "passed": 39,
+    "total": 39
+  },
+  "python": {
+    "passed": 314,
+    "total": 314,
+    "seconds": 93.756
+  },
+  "javascript_first": {
+    "passed": 226,
+    "total": 229,
+    "failed_files": 3,
+    "cause": "bundle.json not generated; validation ordering error, not a product regression"
+  },
+  "javascript_after_build": {
+    "passed": 260,
+    "total": 260
+  },
+  "fixed_finance": {
+    "completion": [
+      8,
+      8
+    ],
+    "numeric": [
+      6,
+      6
+    ],
+    "source": [
+      6,
+      6
+    ],
+    "refusal": [
+      2,
+      2
+    ],
+    "latency_n": 8,
+    "p50_seconds": 0.0006965,
+    "p95_seconds": 0.001012
+  },
+  "paid_or_live_model_calls": 0,
+  "hidden_tasks": 0,
+  "new_real_report_labels": 0,
+  "historical_live_completion": [
+    7,
+    8
+  ],
+  "FE-013": "open; no original rejected decision available",
+  "deployment": "verify exact final commit separately",
+  "actual_loopback_browser": {
+    "widths": [
+      1440,
+      390
+    ],
+    "flows_passed": 2,
+    "flows_total": 2,
+    "provider_constructions": 0,
+    "network_fault": "only outgoing request JSON is made ambiguous; real handler/decoder are unchanged",
+    "normal_workflow": [
+      14,
+      14
+    ],
+    "brief": [
+      8,
+      8
+    ],
+    "recovery": [
+      4,
+      4
+    ],
+    "startup_keyboard": [
+      6,
+      6
+    ]
+  }
+}

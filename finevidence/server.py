@@ -32,6 +32,14 @@ def error_payload(code):
     return {'schema_version':'1.0','trace_id':uuid4().hex,'mode':'local_workbench','status':code,
             'answer':None,'facts':[],'citations':[],'calculations':[],'claims':[]}
 
+def _unique_request_object(pairs):
+    """Reject ambiguous decoded names before scope, operation or review dispatch."""
+    obj={}
+    for key,value in pairs:
+        if key in obj: raise ValueError()
+        obj[key]=value
+    return obj
+
 class Handler(BaseHTTPRequestHandler):
     server_version='FinEvidence'
     def log_message(self,*args): pass  # No prompts, keys, user notes or provider bodies in access logs.
@@ -101,7 +109,7 @@ class Handler(BaseHTTPRequestHandler):
             raw=self._read_body(size)
             if len(raw)!=size: return self._send(400,error_payload('INVALID_REQUEST'))
             try:
-                d=json.loads(raw.decode('utf-8'))
+                d=json.loads(raw.decode('utf-8'),object_pairs_hook=_unique_request_object)
                 if not isinstance(d,dict) or set(d)!={'operation','company','year','query'} or not all(isinstance(d[k],str) for k in ['operation','company','query']) or type(d['year']) is not int: raise ValueError()
             except (ValueError,UnicodeError,RecursionError): return self._send(400,error_payload('INVALID_REQUEST'))
             try:
@@ -134,13 +142,7 @@ class Handler(BaseHTTPRequestHandler):
             if not 0<=size<=32768: return self._send(413,error_payload('REQUEST_LIMIT'))
             raw=self._read_body(size)
             if len(raw)!=size: return self._send(400,error_payload('INVALID_REQUEST'))
-            def unique(pairs):
-                obj={}
-                for k,v in pairs:
-                    if k in obj: raise ValueError()
-                    obj[k]=v
-                return obj
-            try: body=json.loads(raw.decode('utf-8'),object_pairs_hook=unique,parse_constant=lambda _: (_ for _ in ()).throw(ValueError()))
+            try: body=json.loads(raw.decode('utf-8'),object_pairs_hook=_unique_request_object,parse_constant=lambda _: (_ for _ in ()).throw(ValueError()))
             except (ValueError,UnicodeError,RecursionError): return self._send(400,error_payload('INVALID_REQUEST'))
             return self._send(200,self.server.review_ledger.mutate(action,body))
         except ReviewError as exc: return self._send(exc.status,error_payload(str(exc)))

@@ -1,5 +1,21 @@
 # Capability status
 
+## Ambiguous local requests rejected before dispatch (2026-10-31)
+
+The local `/api/run` now rejects duplicate decoded JSON names with 400 /
+INVALID_REQUEST before calculation or model construction. Nine known synthetic
+wire inputs change 0/9→9/9 pre-dispatch refusals, including changed company/year,
+equal values, escaped aliases and a final duplicate operation selecting Agent.
+The existing review endpoints share the same name check; their auth and
+non-finite-number rules are unchanged. Normal 30.00% and complete source lineage
+match the fixed workflow. First red 3/6 methods with 10 failed entries; green 6/6,
+full Python 314/314 and built-web JS 260/260. The initial JS run lacked the generated
+bundle (226/229, three file failures); its record is preserved. This is protocol
+correctness, not demonstrated real-model savings. Paid/live calls 0; historical
+live 7/8, FE-013, E2, natural deadline causes and final E7 remain open. See
+[request contract](REQUEST_JSON.md) and [first results](validation/request-duplicate-keys-2026-10-31.json).
+
+
 ## Ambiguous model decisions rejected before tools (2026-10-30)
 
 The Agent now rejects duplicate decoded JSON field names before conversion to

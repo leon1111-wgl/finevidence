@@ -1,6 +1,25 @@
 # Review queue
 
-## P2 agent-duplicate-keys — fixed, pending independent review (2026-10-30)
+## P2 request-duplicate-keys — fixed, pending independent review (2026-10-31)
+
+At b8538a4, `/api/run` converted duplicate request names to a dict before checking
+its schema. Different company/year/operation values were overwritten; a final
+operation=agent reached an offline provider twice. Nine wire cases returned 200
+and executed tools. This requires the existing local origin/CSRF gates; it is
+not an authentication bypass or a demonstrated public/paid exploit.
+
+The existing review endpoint's decoded-name check is now shared with `/api/run`.
+Acceptance: 9/9 HTTP400/INVALID_REQUEST before workspace or provider execution,
+empty financial output, equal/escaped names rejected, unique escaped names and
+JSON-like query text accepted, auth precedence and slot release preserved.
+First 3/6 methods pass (10 failures); candidate 6/6; adjacent 39/39 and full 314/314.
+Reproduce `python3 -m unittest tests.test_run_json_keys -v`. Interview: why can
+JSON schema validation miss ambiguity after dict conversion, and why must the
+request parser refuse before selecting fixed versus model execution?
+See [contract](REQUEST_JSON.md) and [measurement](validation/request-duplicate-keys-2026-10-31.json).
+
+
+## P2 agent-duplicate-keys — limited independent verification complete (2026-10-30)
 
 Observed at bc1e6d6: `_decision` decodes to dict before validating, so later
 duplicate tool/argument names replace earlier values and execute a tool.
@@ -13,9 +32,11 @@ fixed DUPLICATE_KEYS category, no format retry and no tool execution.
 Acceptance:8/8 direct and8/8 HTTP refusals; equal values/escaped aliases also
 refused, unique escaped names and JSON-like query strings remain supported;
 known/unknown usage and first malformed round retained. Candidate6/6,
-full Python308/308 and real-browser fixture flows2/2 pass. Review source,
-original red result and [measurement](validation/agent-duplicate-keys-2026-10-30.json)
-before closure. Interview: why can schema validation after dict conversion
+full Python 308/308 and real-browser fixture flows 2/2 pass. The independent
+b8538a4 review checked the original red result and
+[measurement](validation/agent-duplicate-keys-2026-10-30.json), and verified 8/8
+original inputs, 10/10 extra HTTP refusal controls and 4/4 neighboring controls.
+Only this protocol item is closed; FE-013 remains open. Interview: why can schema validation after dict conversion
 miss ambiguity, and why must DecisionError precede a ValueError catch?
 
 ## Deadline traceback privacy — rendered-chain subitem verified (2026-10-30)
