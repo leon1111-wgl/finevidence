@@ -160,3 +160,45 @@ commit and exact CI evidence.
 Judge4's early worker registry, stopped-server final census and unverified cleanup
 semantics are documented in [EXIT_EVALUATION_CLEANUP](EXIT_EVALUATION_CLEANUP.md).
 This fixes FE-030 measurement/cleanup behavior; the production timer is unchanged.
+
+## Test stage evidence, 2026-10-30
+
+The original three subsecond regression methods count the worker's startup in
+their 0.6-second calls. A timeout before a TCP accept cannot establish TLS or
+HTTP cleanup behavior. Their scoped observer now retains expected stage,
+TCP/HTTP count deltas, the fixture close event, worker count/reaped/process-gone
+and pipe-closed booleans even if an earlier assertion fails. Failure output uses
+fixed codes and bounded scalar JSON; it excludes argv, PID, prompt, keys, paths
+and raw exception text. A separate original assertion may still print its own
+ordinary unittest traceback. Only four worker summaries are retained; the full
+worker count remains checked. Observation time includes the existing peer-close
+wait, not just the provider call. The shared trickle close event is not a
+per-connection EOF guarantee.
+
+Missing target stage is `DEADLINE_STAGE_NOT_REACHED`, never a pass or skip.
+A cleanup failure, duplicate/missing request or unexpected assertion/exception
+also remains a failure. All original 0.6-second calls, 1.3-second elapsed checks,
+connection/request assertions and 15/45-second production budgets remain.
+Production code is byte-unchanged. The external unchanged review probe and new
+contract test inject only 0.8 seconds before launching the actual worker.
+They observe 0 TCP/HTTP and four reaped workers across three failed methods.
+The outer contract is green only if those child methods are still red and their
+diagnosis is complete; it does not add three passing network scenarios.
+
+Run the two distinct checks:
+
+```sh
+python3 -m unittest discover -s tests -p test_deadline_evidence.py -v
+python3 -m unittest discover -s tests -p test_provider_deadline.py -v
+```
+
+Four new contract methods contain three delayed-start scenarios and three mock
+judge controls (unreaped worker, duplicate request, private assertion canary).
+Initially all four methods failed; first implementation passed 3/4 because one
+nested Popen tracker bypassed the observer. After chaining that tracker through
+the observer, the unchanged contracts pass 4/4 and normal network methods 7/7.
+The [first-result record](validation/deadline-stage-2026-10-30.json) preserves
+timings, denominators and both original-probe outputs. These known engineering
+controls measure diagnosis, not financial accuracy, real-report quality, hidden
+performance or saved analyst time. The previous natural failures remain
+unresolved; this controlled trigger does not establish their cause.

@@ -1,5 +1,23 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Deadline test stage evidence (2026-10-30)
+
+The P3 `deadline-stage-precondition` follow-up records TCP/HTTP deltas and
+worker reaping/pipe state even when an earlier deadline assertion fails.
+An injected 0.8-second startup delay with the original 0.6-second calls now
+produces explicit missing-stage evidence for 3/3 methods (previously 0/3).
+All three underlying tests still fail: no TCP/HTTP occurred, and all four
+workers were reaped. A passing diagnostic contract is not network coverage.
+Production code, 15/45-second budgets and the original elapsed/request/close
+assertions are unchanged. See [PROVIDER_DEADLINE](PROVIDER_DEADLINE.md) and
+[the first results](validation/deadline-stage-2026-10-30.json).
+Natural failures, FE-013/live7/8, E2 and final E7 remain open.
+Local first full regression: Python293/293, JavaScript260/260; fixed synthetic
+finance8/8 (numeric/source6/6, expected refusal2/2). The real local TLS plan
+passes6/6 and server-exit plan4/4, with original15/45-second settings. No
+external model calls; missing timeout/exit usage stays unknown. Exact-release
+CI, deployed assets and browser acceptance are verified separately.
+
 ## Report-write cleanup acceptance (2026-10-30)
 
 The frozen synthetic engineering plan has two actual filesystem collisions and

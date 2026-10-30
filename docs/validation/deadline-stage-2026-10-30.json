@@ -1,0 +1,471 @@
+{
+  "schema_version": 1,
+  "classification": "KNOWN_SYNTHETIC_ENGINEERING_DIAGNOSIS",
+  "base_commit": "7df90fc969cae7ac3922023dab0a1b33165ddefd",
+  "production_code_changed": false,
+  "external_model_calls": 0,
+  "paid_model_calls": 0,
+  "hidden_tasks": 0,
+  "real_report_labels": 0,
+  "user_independent_contributions": 0,
+  "injection": {
+    "worker_start_delay_seconds": 0.8,
+    "provider_call_budget_seconds": 0.6,
+    "unchanged_probe_sha256": "47769284d2308aa993d7017613512cc9130ff593438c37f7a504fcd9f7ae590c"
+  },
+  "metric": {
+    "name": "missing network-stage diagnosis with all attempted worker cleanup evidence",
+    "denominator_methods": 3,
+    "before": 0,
+    "after": 3,
+    "injected_methods_success_before": 0,
+    "injected_methods_success_after": 0,
+    "attempted_workers_before": 4,
+    "attempted_workers_after": 4,
+    "reaped_before": 4,
+    "reaped_after": 4,
+    "tcp_accepts_each_run": 0,
+    "http_requests_each_run": 0
+  },
+  "first_results": {
+    "new_unittest_methods": 4,
+    "red_failed_methods": 4,
+    "red_failed_assertions": 6,
+    "red_seconds": 5.883,
+    "first_candidate_passed_methods": 3,
+    "first_candidate_total_methods": 4,
+    "first_candidate_seconds": 5.779,
+    "first_candidate_failure": "nested Popen tracker bypassed observer; worker evidence 0 instead of 1",
+    "corrected_candidate_passed_methods": 4,
+    "corrected_candidate_seconds": 5.999,
+    "normal_existing_methods_passed": 7,
+    "normal_existing_methods_total": 7,
+    "normal_existing_seconds": 6.525
+  },
+  "test_contract_sha256": "81971b9bd708414421193c0bcb4d50dc882943153345191956ef644171bdf75f",
+  "judge_negative_controls": {
+    "total": 3,
+    "passed": 3,
+    "cases": [
+      "unreaped worker remains failure",
+      "duplicate request remains failure",
+      "raw assertion text excluded from bounded failure JSON"
+    ],
+    "kind": "mock judge controls, not three actual transport faults"
+  },
+  "baseline_original_probe": [
+    {
+      "name": "test_body_and_header_trickle_have_total_deadline",
+      "seconds": 1.7314915000461042,
+      "test_passed": false,
+      "failures": [
+        "AssertionError: 0 != 2 : never automatically retry"
+      ],
+      "errors": [],
+      "tcp_accepted": 0,
+      "http_requests": 0,
+      "peer_closed_event": false,
+      "workers": [
+        {
+          "returncode": -9,
+          "reaped": true,
+          "pipes_closed": true
+        },
+        {
+          "returncode": -9,
+          "reaped": true,
+          "pipes_closed": true
+        }
+      ]
+    },
+    {
+      "name": "test_timeout_reaps_worker_and_connection_then_fast_request_works",
+      "seconds": 2.1384214169811457,
+      "test_passed": false,
+      "failures": [
+        "AssertionError: False is not true : peer must observe local connection close"
+      ],
+      "errors": [],
+      "tcp_accepted": 0,
+      "http_requests": 0,
+      "peer_closed_event": false,
+      "workers": [
+        {
+          "returncode": -9,
+          "reaped": true,
+          "pipes_closed": true
+        }
+      ]
+    },
+    {
+      "name": "test_tls_handshake_stall_is_bounded",
+      "seconds": 2.092076083878055,
+      "test_passed": false,
+      "failures": [
+        "AssertionError: False is not true"
+      ],
+      "errors": [],
+      "tcp_accepted": 0,
+      "http_requests": 0,
+      "peer_closed_event": false,
+      "workers": [
+        {
+          "returncode": -9,
+          "reaped": true,
+          "pipes_closed": true
+        }
+      ]
+    }
+  ],
+  "candidate_original_probe": [
+    {
+      "name": "test_body_and_header_trickle_have_total_deadline",
+      "seconds": 1.5873883748427033,
+      "test_passed": false,
+      "failures": [
+        "AssertionError: DEADLINE_STAGE_NOT_REACHED: {\"budget_seconds\": 0.6, \"expected_stage\": \"http_request\", \"failure_code\": \"DEADLINE_STAGE_NOT_REACHED\", \"http_requests\": 0, \"network_stage_reached\": false, \"observation_seconds\": 0.605844, \"peer_close_observed\": false, \"primary_failure\": null, \"tcp_accepted\": 0, \"worker_count\": 1, \"workers\": [{\"process_gone\": true, \"reaped\": true, \"stdin_closed\": true, \"stdout_closed\": true}]}",
+        "AssertionError: DEADLINE_STAGE_NOT_REACHED: {\"budget_seconds\": 0.6, \"expected_stage\": \"http_request\", \"failure_code\": \"DEADLINE_STAGE_NOT_REACHED\", \"http_requests\": 0, \"network_stage_reached\": false, \"observation_seconds\": 0.604414, \"peer_close_observed\": false, \"primary_failure\": null, \"tcp_accepted\": 0, \"worker_count\": 1, \"workers\": [{\"process_gone\": true, \"reaped\": true, \"stdin_closed\": true, \"stdout_closed\": true}]}",
+        "AssertionError: 0 != 2 : never automatically retry"
+      ],
+      "errors": [],
+      "tcp_accepted": 0,
+      "http_requests": 0,
+      "peer_closed_event": false,
+      "workers": [
+        {
+          "returncode": -9,
+          "reaped": true,
+          "pipes_closed": true
+        },
+        {
+          "returncode": -9,
+          "reaped": true,
+          "pipes_closed": true
+        }
+      ]
+    },
+    {
+      "name": "test_timeout_reaps_worker_and_connection_then_fast_request_works",
+      "seconds": 2.131428916938603,
+      "test_passed": false,
+      "failures": [
+        "AssertionError: DEADLINE_STAGE_NOT_REACHED: {\"budget_seconds\": 0.6, \"expected_stage\": \"http_request\", \"failure_code\": \"DEADLINE_STAGE_NOT_REACHED\", \"http_requests\": 0, \"network_stage_reached\": false, \"observation_seconds\": 1.613974, \"peer_close_observed\": false, \"primary_failure\": \"assertion\", \"tcp_accepted\": 0, \"worker_count\": 1, \"workers\": [{\"process_gone\": true, \"reaped\": true, \"stdin_closed\": true, \"stdout_closed\": true}]}"
+      ],
+      "errors": [],
+      "tcp_accepted": 0,
+      "http_requests": 0,
+      "peer_closed_event": false,
+      "workers": [
+        {
+          "returncode": -9,
+          "reaped": true,
+          "pipes_closed": true
+        }
+      ]
+    },
+    {
+      "name": "test_tls_handshake_stall_is_bounded",
+      "seconds": 2.131320415996015,
+      "test_passed": false,
+      "failures": [
+        "AssertionError: DEADLINE_STAGE_NOT_REACHED: {\"budget_seconds\": 0.6, \"expected_stage\": \"tcp_accept\", \"failure_code\": \"DEADLINE_STAGE_NOT_REACHED\", \"http_requests\": 0, \"network_stage_reached\": false, \"observation_seconds\": 1.606485, \"peer_close_observed\": false, \"primary_failure\": \"assertion\", \"tcp_accepted\": 0, \"worker_count\": 1, \"workers\": [{\"process_gone\": true, \"reaped\": true, \"stdin_closed\": true, \"stdout_closed\": true}]}"
+      ],
+      "errors": [],
+      "tcp_accepted": 0,
+      "http_requests": 0,
+      "peer_closed_event": false,
+      "workers": [
+        {
+          "returncode": -9,
+          "reaped": true,
+          "pipes_closed": true
+        }
+      ]
+    }
+  ],
+  "interpretation": [
+    "The outer injection test passes only when all three underlying network tests still fail with stage evidence.",
+    "observation_seconds includes existing peer-close wait; not pure provider latency or an SLA.",
+    "peer_close_observed is a fixture event; consecutive trickle calls share it, so it is not proof of individual connection EOF.",
+    "No claim that controlled startup delay caused the earlier natural macOS/Linux/browser failures.",
+    "Timeout usage remains unknown; synthetic fixture calls do not imply measured zero provider usage.",
+    "Historical live-model first run 7/8 remains unchanged and FE-013 remains open."
+  ],
+  "local_regression": {
+    "python": {
+      "passed": 293,
+      "total": 293,
+      "seconds": 79.528
+    },
+    "javascript": {
+      "passed": 260,
+      "total": 260
+    },
+    "synthetic_finance": {
+      "completion": {
+        "passed": 8,
+        "total": 8
+      },
+      "numeric_correct": {
+        "passed": 6,
+        "total": 6
+      },
+      "sources_complete": {
+        "passed": 6,
+        "total": 6
+      },
+      "safe_refusal": {
+        "passed": 2,
+        "total": 2
+      },
+      "latency_n": 8,
+      "p50_seconds": 0.0005725000000000001,
+      "p95_seconds": 0.000986,
+      "model_calls": 0,
+      "reported_tokens": 0,
+      "usage_complete": true,
+      "calls_with_unknown_usage": 0
+    },
+    "deadline_tls": {
+      "planned": 6,
+      "passed": 6,
+      "rows": [
+        {
+          "id": "fast",
+          "timeout": 0.2,
+          "duration": 0,
+          "mode": "fast",
+          "expected": "RETURNED_RESPONSE",
+          "limit": 0.2,
+          "tolerance_seconds": 0.15,
+          "outcome": "RETURNED_RESPONSE",
+          "elapsed_seconds": 0.057595,
+          "tls_requests": 1,
+          "model_audit": {
+            "id": "SYNTHETIC_TLS_FIXTURE",
+            "calls": 1,
+            "usage": {
+              "total_tokens": 0
+            },
+            "usage_complete": true,
+            "calls_with_unknown_usage": 0,
+            "seconds": 0.057
+          },
+          "passed": true
+        },
+        {
+          "id": "silent",
+          "timeout": 0.2,
+          "duration": 0.6,
+          "mode": "silent",
+          "expected": "MODEL_TIMEOUT",
+          "limit": 0.2,
+          "tolerance_seconds": 0.15,
+          "outcome": "MODEL_TIMEOUT",
+          "elapsed_seconds": 0.204824,
+          "tls_requests": 1,
+          "model_audit": {
+            "id": "synthetic-deadline-fixture",
+            "calls": 1,
+            "usage": {},
+            "usage_complete": false,
+            "calls_with_unknown_usage": 1,
+            "seconds": 0.204
+          },
+          "passed": true
+        },
+        {
+          "id": "body-trickle-scaled",
+          "timeout": 0.2,
+          "duration": 0.9,
+          "mode": "body-trickle",
+          "expected": "MODEL_TIMEOUT",
+          "limit": 0.2,
+          "tolerance_seconds": 0.15,
+          "outcome": "MODEL_TIMEOUT",
+          "elapsed_seconds": 0.204696,
+          "tls_requests": 1,
+          "model_audit": {
+            "id": "synthetic-deadline-fixture",
+            "calls": 1,
+            "usage": {},
+            "usage_complete": false,
+            "calls_with_unknown_usage": 1,
+            "seconds": 0.204
+          },
+          "passed": true
+        },
+        {
+          "id": "body-trickle-default15",
+          "timeout": 15,
+          "duration": 18,
+          "mode": "body-trickle",
+          "expected": "MODEL_TIMEOUT",
+          "limit": 15,
+          "tolerance_seconds": 0.75,
+          "outcome": "MODEL_TIMEOUT",
+          "elapsed_seconds": 15.005126,
+          "tls_requests": 1,
+          "model_audit": {
+            "id": "synthetic-deadline-fixture",
+            "calls": 1,
+            "usage": {},
+            "usage_complete": false,
+            "calls_with_unknown_usage": 1,
+            "seconds": 15.004
+          },
+          "passed": true
+        },
+        {
+          "id": "agent-first-call",
+          "timeout": 45,
+          "duration": 50,
+          "mode": "body-trickle",
+          "expected": "MODEL_TIMEOUT",
+          "limit": 15,
+          "tolerance_seconds": 0.75,
+          "outcome": "MODEL_TIMEOUT",
+          "model_audit": {
+            "id": "synthetic-deadline-fixture",
+            "calls": 1,
+            "usage": {},
+            "usage_complete": false,
+            "calls_with_unknown_usage": 1,
+            "seconds": 15.004
+          },
+          "elapsed_seconds": 15.009666,
+          "tls_requests": 1,
+          "passed": true
+        },
+        {
+          "id": "agent-remaining-budget",
+          "timeout": 45,
+          "duration": [
+            14,
+            14,
+            14,
+            10
+          ],
+          "mode": "body-trickle",
+          "expected": "MODEL_TIMEOUT",
+          "limit": 45,
+          "tolerance_seconds": 0.75,
+          "outcome": "MODEL_TIMEOUT",
+          "model_audit": {
+            "id": "SYNTHETIC_TLS_FIXTURE",
+            "calls": 4,
+            "usage": {
+              "total_tokens": 0
+            },
+            "usage_complete": false,
+            "calls_with_unknown_usage": 1,
+            "seconds": 45.003
+          },
+          "elapsed_seconds": 45.006951,
+          "tls_requests": 4,
+          "passed": true
+        }
+      ]
+    },
+    "server_exit": {
+      "planned": 4,
+      "passed": 4,
+      "rows": [
+        {
+          "id": "interrupt-first",
+          "signal": "SIGINT",
+          "calls": 1,
+          "budget": 15,
+          "tolerance_seconds": 0.75,
+          "model_audit": null,
+          "startup_limit_seconds": 60,
+          "usage_status": "unknown: server exits before returning an audit",
+          "startup_seconds": 0.112402,
+          "startup_returncode": null,
+          "signal_seconds": 0.110473,
+          "client_error_type": "RemoteDisconnected",
+          "server_returncode": 0,
+          "observed_seconds": 15.069102,
+          "worker_state": "",
+          "worker_live": false,
+          "established_socket": false,
+          "passed": true,
+          "tls_requests": 1,
+          "cleanup_errors": [],
+          "cleanup_no_live_workers": true
+        },
+        {
+          "id": "kill-first",
+          "signal": "SIGKILL",
+          "calls": 1,
+          "budget": 15,
+          "tolerance_seconds": 0.75,
+          "model_audit": null,
+          "startup_limit_seconds": 60,
+          "usage_status": "unknown: server exits before returning an audit",
+          "startup_seconds": 0.108838,
+          "startup_returncode": null,
+          "signal_seconds": 0.114143,
+          "client_error_type": "RemoteDisconnected",
+          "server_returncode": -9,
+          "observed_seconds": 15.07244,
+          "worker_state": "",
+          "worker_live": false,
+          "established_socket": false,
+          "passed": true,
+          "tls_requests": 1,
+          "cleanup_errors": [],
+          "cleanup_no_live_workers": true
+        },
+        {
+          "id": "terminate-first",
+          "signal": "SIGTERM",
+          "calls": 1,
+          "budget": 15,
+          "tolerance_seconds": 0.75,
+          "model_audit": null,
+          "startup_limit_seconds": 60,
+          "usage_status": "unknown: server exits before returning an audit",
+          "startup_seconds": 0.165103,
+          "startup_returncode": null,
+          "signal_seconds": 0.111537,
+          "client_error_type": "RemoteDisconnected",
+          "server_returncode": -15,
+          "observed_seconds": 15.062629,
+          "worker_state": "",
+          "worker_live": false,
+          "established_socket": false,
+          "passed": true,
+          "tls_requests": 1,
+          "cleanup_errors": [],
+          "cleanup_no_live_workers": true
+        },
+        {
+          "id": "kill-remaining",
+          "signal": "SIGKILL",
+          "calls": 4,
+          "budget": 45,
+          "tolerance_seconds": 0.75,
+          "model_audit": null,
+          "startup_limit_seconds": 60,
+          "usage_status": "unknown: server exits before returning an audit",
+          "startup_seconds": 0.128869,
+          "startup_returncode": null,
+          "signal_seconds": 42.450235,
+          "client_error_type": "RemoteDisconnected",
+          "server_returncode": -9,
+          "observed_seconds": 45.058479,
+          "worker_state": "",
+          "worker_live": false,
+          "established_socket": false,
+          "passed": true,
+          "tls_requests": 4,
+          "cleanup_errors": [],
+          "cleanup_no_live_workers": true
+        }
+      ]
+    },
+    "production_provider_sha256": "758fc70140a7c901e8eda84bdfaf87afe478a8e29048cf29834c60d92d324da9",
+    "exact_release_ci_and_public": "pending at source publication; tracked separately in local delivery records"
+  }
+}

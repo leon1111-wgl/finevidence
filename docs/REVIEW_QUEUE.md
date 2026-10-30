@@ -1,5 +1,27 @@
 # Review queue
 
+## Deadline test stage evidence (2026-10-30)
+
+The P3 `deadline-stage-precondition` follow-up records TCP/HTTP deltas and
+worker reaping/pipe state even when an earlier deadline assertion fails.
+An injected 0.8-second startup delay with the original 0.6-second calls now
+produces explicit missing-stage evidence for 3/3 methods (previously 0/3).
+All three underlying tests still fail: no TCP/HTTP occurred, and all four
+workers were reaped. A passing diagnostic contract is not network coverage.
+Production code, 15/45-second budgets and the original elapsed/request/close
+assertions are unchanged. See [PROVIDER_DEADLINE](PROVIDER_DEADLINE.md) and
+[the first results](validation/deadline-stage-2026-10-30.json).
+Natural failures, FE-013/live7/8, E2 and final E7 remain open.
+
+Independent review is pending for this bounded diagnostic change. Re-run
+`python3 -m unittest discover -s tests -p test_deadline_evidence.py -v` and the
+normal seven provider-deadline methods; inspect 0 TCP/HTTP, four workers, fixed
+failure codes and the three mock rejection controls. The first implementation
+missed a nested worker tracker (3/4 contracts); its correction and original
+failures remain recorded. Do not close the natural timeout investigation or
+FE-029/FE-030 again. Interview: why can a passing failure-diagnostic test still
+mean the intended network stage has zero coverage?
+
 ## FE-019 P3 report-write cleanup — pending independent verification (2026-10-30)
 
 Review of b9fbc03 reproduced persistent report-write failures bypassing context

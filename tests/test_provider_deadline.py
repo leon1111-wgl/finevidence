@@ -4,6 +4,7 @@ import json
 import subprocess
 import time
 import unittest
+from contextlib import contextmanager
 from unittest.mock import patch
 from finevidence.provider import ModelProvider, ProviderError
 from finevidence.agent import MeteredProvider
@@ -11,12 +12,57 @@ from tls_provider_fixture import TLSPeer
 
 class ProviderDeadlineTests(unittest.TestCase):
     def setUp(self):
+        self.deadline_observations = []
         self.peer = TLSPeer(); self.addCleanup(self.peer.close)
         self.env = self.peer.environment(); self.env.__enter__(); self.addCleanup(self.env.__exit__, None, None, None)
 
+    @contextmanager
+    def observe_deadline(self, stage):
+        """Keep stage and cleanup evidence even when an earlier assertion fails."""
+        assert stage in ('http_request', 'tcp_accept')
+        accepted, requests = self.peer.accepted, len(self.peer.requests)
+        children = []; original = subprocess.Popen; primary = None
+        def launch(*args, **kwargs):
+            child = original(*args, **kwargs); children.append(child); return child
+        start = time.monotonic()
+        with patch('subprocess.Popen', side_effect=launch):
+            try:
+                yield
+            except AssertionError:
+                primary = 'assertion'
+            except Exception:
+                primary = 'unexpected_exception'
+            finally:
+                workers = []
+                for child in children[:4]:
+                    try: os.kill(child.pid, 0); gone = False
+                    except ProcessLookupError: gone = True
+                    workers.append({'reaped': child.returncode is not None,
+                                    'process_gone': gone,
+                                    'stdin_closed': child.stdin is not None and child.stdin.closed,
+                                    'stdout_closed': child.stdout is not None and child.stdout.closed})
+                tcp = self.peer.accepted - accepted
+                http = len(self.peer.requests) - requests
+                reached = tcp > 0 and (stage == 'tcp_accept' or http > 0)
+                code = ('DEADLINE_CLEANUP_FAILED' if any(not all(w.values()) for w in workers)
+                        else 'DEADLINE_STAGE_NOT_REACHED' if not reached
+                        else 'DEADLINE_NETWORK_COUNT' if tcp != 1 or http != (stage == 'http_request') or len(children) != 1
+                        else 'DEADLINE_ASSERTION_FAILED' if primary == 'assertion'
+                        else 'DEADLINE_UNEXPECTED_EXCEPTION' if primary else None)
+                row = {'expected_stage': stage, 'network_stage_reached': reached,
+                       'budget_seconds': .6, 'observation_seconds': round(time.monotonic()-start, 6),
+                       'tcp_accepted': tcp, 'http_requests': http,
+                       'peer_close_observed': self.peer.closed.is_set(),
+                       'worker_count': len(children), 'workers': workers,
+                       'primary_failure': primary, 'failure_code': code}
+                self.deadline_observations.append(row)
+        if code:
+            # Fixed fields only: no argv, PID, prompt, key, path or raw exception.
+            self.fail(code + ': ' + json.dumps(row, sort_keys=True))
+
     def test_body_and_header_trickle_have_total_deadline(self):
         for mode in ('body-trickle', 'header-trickle'):
-            with self.subTest(mode=mode):
+            with self.subTest(mode=mode), self.observe_deadline('http_request'):
                 self.peer.mode = mode; self.peer.duration = 2.5
                 start = time.monotonic()
                 with self.assertRaisesRegex(ProviderError, 'MODEL_TIMEOUT'):
@@ -26,17 +72,20 @@ class ProviderDeadlineTests(unittest.TestCase):
 
     def test_timeout_reaps_worker_and_connection_then_fast_request_works(self):
         self.peer.mode = 'silent'
-        children = []; original = subprocess.Popen
+        children = []
         def launch(*args, **kwargs):
             child = original(*args, **kwargs); children.append(child); return child
         metered = MeteredProvider(ModelProvider())
-        with patch('subprocess.Popen', side_effect=launch):
-            with self.assertRaisesRegex(ProviderError, 'MODEL_TIMEOUT'):
-                metered.complete([], timeout=.6)
-        self.assertTrue(self.peer.closed.wait(1), 'peer must observe local connection close')
-        self.assertEqual(len(children), 1)
-        self.assertIsNotNone(children[0].returncode, 'worker must be reaped, not left behind')
-        with self.assertRaises(ProcessLookupError): os.kill(children[0].pid, 0)
+        with self.observe_deadline('http_request'):
+            # Chain through the observer (and any external startup injector).
+            original = subprocess.Popen
+            with patch('subprocess.Popen', side_effect=launch):
+                with self.assertRaisesRegex(ProviderError, 'MODEL_TIMEOUT'):
+                    metered.complete([], timeout=.6)
+                self.assertTrue(self.peer.closed.wait(1), 'peer must observe local connection close')
+                self.assertEqual(len(children), 1)
+                self.assertIsNotNone(children[0].returncode, 'worker must be reaped, not left behind')
+                with self.assertRaises(ProcessLookupError): os.kill(children[0].pid, 0)
         self.assertEqual(metered.audit()['calls_with_unknown_usage'], 1)
         self.assertEqual(metered.audit()['usage'], {})
         self.peer.mode = 'fast'
@@ -46,12 +95,13 @@ class ProviderDeadlineTests(unittest.TestCase):
         self.assertEqual(len(self.peer.requests), 2)
 
     def test_tls_handshake_stall_is_bounded(self):
-        self.peer.mode = 'tls-stall'; start = time.monotonic()
-        with self.assertRaisesRegex(ProviderError, 'MODEL_TIMEOUT'):
-            ModelProvider().complete([], timeout=.6)
-        self.assertLess(time.monotonic()-start, 1.3)
-        self.assertTrue(self.peer.closed.wait(1))
-        self.assertEqual(self.peer.requests, [])
+        with self.observe_deadline('tcp_accept'):
+            self.peer.mode = 'tls-stall'; start = time.monotonic()
+            with self.assertRaisesRegex(ProviderError, 'MODEL_TIMEOUT'):
+                ModelProvider().complete([], timeout=.6)
+            self.assertLess(time.monotonic()-start, 1.3)
+            self.assertTrue(self.peer.closed.wait(1))
+            self.assertEqual(self.peer.requests, [])
 
     def test_real_tls_normal_limits_and_redirect_refusal(self):
         for status, body, expected in [(200, b'x'*65537, 'MODEL_OUTPUT_LIMIT'),
