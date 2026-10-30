@@ -2,6 +2,7 @@
 import json
 import socket
 import time
+import traceback
 import unittest
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -88,6 +89,9 @@ class OrphanEvidenceTests(unittest.TestCase):
                     if assertion: raise AssertionError('PRIVATE_CANARY /private/path?key=secret')
             except AssertionError as exc:
                 error = str(exc)
+                rendered = ''.join(traceback.format_exception(exc))
+                self.assertNotIn('PRIVATE_CANARY', rendered, 'CI renders the full exception chain')
+                self.assertNotIn('/private/path', rendered)
         self.assertIsNotNone(error, 'negative control must not pass after cleanup')
         row = case.orphan_observations[0]
         self.assertEqual(json.loads(error.split(': ', 1)[1]), row)

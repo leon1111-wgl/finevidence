@@ -2,6 +2,21 @@
 
 ## Orphan deadline failure evidence (2026-10-30)
 
+First publicatione722471 CI41019311798 attempt1 failed macOS299/300. The new
+observation identified MODEL_TIMEOUT,26 output bytes,no result,one TCP/HTTP,
+no cleanup intervention and reaped/closed worker at0.827159 seconds. This is
+not late model success; OS/socket timer ordering remains unproven, and the
+strict target case remains failed. It cannot retrospectively classify the
+older CI41002669637 run, which lacked output evidence.
+
+CI also exposed exception chaining: the first canary checked only `str(exc)`.
+A full-traceback canary first fails0/1; explicit `raise ... from None` removes
+the original private assertion context while retaining the safe failure and
+cleanup evidence. Updated contracts pass6/6 and full local Python300/300.
+The initial release and its CI failure remain in the record.
+This corrects test diagnostics only; no protocol error is newly counted as
+successful deadline coverage, and the original assertions/budgets remain.
+
 The inherited-signal orphan test now retains bounded output classification,
 TCP/HTTP counts, pre-cleanup return code and worker/pipe cleanup on failure.
 Its original 0.8-second deadline, 1.6-second escape/elapsed checks, one-request,

@@ -416,5 +416,75 @@
         "seconds": 0.12912158388644457
       }
     ]
+  },
+  "first_release": {
+    "sha": "e722471d27a08895682eeaad46252a5414fb6a77",
+    "ci_run": 41019311798,
+    "attempt": 1,
+    "macos": {
+      "passed": 299,
+      "total": 300,
+      "seconds": 96.516,
+      "observation": {
+        "budget_seconds": 0.8,
+        "cleanup": {
+          "process_gone": true,
+          "reaped": true,
+          "stdin_closed": true,
+          "stdout_closed": true
+        },
+        "cleanup_error": false,
+        "cleanup_intervened": false,
+        "completed_seconds": 0.827159,
+        "failure_code": "ORPHAN_SAFE_ERROR",
+        "http_requests": 1,
+        "inherited_mask": true,
+        "observation_seconds": 0.8273,
+        "output_kind": "object",
+        "primary_failure": "assertion",
+        "result_present": false,
+        "returncode_before_cleanup": 0,
+        "safe_error": "MODEL_TIMEOUT",
+        "stdout_bytes": 26,
+        "tcp_accepted": 1
+      }
+    },
+    "interpretation": "This run produced MODEL_TIMEOUT with no result and autonomous cleanup; OS versus socket timer ordering is unproven. The earlier run lacks stdout and cannot be inferred retrospectively."
+  },
+  "exception_chain_followup": {
+    "first_contract_only_checked_exception_string": true,
+    "full_traceback_red": {
+      "passed": 0,
+      "total": 1,
+      "exit": 1,
+      "seconds": 0.140411667060107
+    },
+    "cause": "contextmanager rethrow retains the caught exception context unless explicitly suppressed",
+    "fix": "raise bounded failure from None; original assertion still fails",
+    "production_source_changed": false,
+    "candidate": [
+      {
+        "name": "traceback-green",
+        "exit": 0,
+        "seconds": 5.095540832960978
+      },
+      {
+        "name": "python-final-v2",
+        "exit": 0,
+        "seconds": 89.98861499992199
+      }
+    ],
+    "full_traceback_contract": {
+      "passed": 1,
+      "total": 1
+    },
+    "contracts": {
+      "passed": 6,
+      "total": 6
+    },
+    "full_python": {
+      "passed": 300,
+      "total": 300
+    }
   }
 }

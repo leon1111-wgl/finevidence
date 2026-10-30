@@ -77,7 +77,7 @@ class OrphanDeadlineTests(unittest.TestCase):
             self.orphan_observations.append(row)
         if code:
             # No raw stdout, argv, PID, path, environment or exception text.
-            self.fail(code + ': ' + json.dumps(row, sort_keys=True))
+            raise self.failureException(code + ': ' + json.dumps(row, sort_keys=True)) from None
 
     def test_unavailable_timer_refuses_before_network(self):
         with TLSPeerContext() as peer:
