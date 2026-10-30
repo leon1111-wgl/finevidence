@@ -1,13 +1,30 @@
 # Capability status
 
+## Ambiguous model decisions rejected before tools (2026-10-30)
+
+The Agent now rejects duplicate decoded JSON field names before conversion to
+an allowlisted tool call, including equal values and Unicode-escaped aliases.
+Eight known offline protocol inputs change0/8 to8/8 pre-tool refusals; real
+loopback HTTP changes200 to422 for all8, with empty financial output and no
+format retry. Known/unknown usage and earlier failures remain visible.
+Normal30.00% and source lineage match the deterministic workflow. First red:
+2/6 methods pass,18 failure entries; candidate6/6, full Python308/308,
+JS260/260 and existing compatibility349/349. Actual browser fixture flows2/2
+cover1440/390, keyboard refusal/retry and fixed-workflow source review/export.
+No paid/live calls; historical live7/8 and FE-013 remain unchanged. See
+[diagnostics](AGENT_DIAGNOSTICS.md) and
+[first results](validation/agent-duplicate-keys-2026-10-30.json).
+Exact-release CI/deployment and independent review are separate checks.
+
 ## Deadline traceback privacy follow-up (2026-10-30)
 
 The deadline test observer now suppresses the original exception chain when
 emitting its fixed diagnostic failure. Four authored controls change0/4 to4/4
 safe full tracebacks; the original outcomes still fail. Local contracts6/6,
 normal deadlines7/7, full Python302/302 and JS260/260 pass. Production behavior,
-budgets and financial/UI sources are unchanged. Independent review is pending;
-this does not resolve the macOS orphan investigation or establish new deployment.
+budgets and financial/UI sources are unchanged. Independent review of bc1e6d6 closed the rendered-chain privacy subitem
+(8/8 added fault controls retain failure; exception objects still exist).
+This does not resolve the macOS orphan investigation or establish new deployment.
 See [PROVIDER_DEADLINE](PROVIDER_DEADLINE.md#full-traceback-privacy) and
 [first results](validation/deadline-traceback-2026-10-30.json).
 

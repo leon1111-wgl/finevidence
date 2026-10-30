@@ -22,8 +22,19 @@ class DecisionError(ProviderError):
         self.category=category
 
 
+def _unique_decision_object(pairs):
+    obj={}
+    for key,value in pairs:
+        if key in obj:
+            raise DecisionError('AGENT_TOOL_REJECTED','DUPLICATE_KEYS') from None
+        obj[key]=value
+    return obj
+
+
 def _decision(text):
-    try: d=json.loads(text)
+    try: d=json.loads(text,object_pairs_hook=_unique_decision_object)
+    except DecisionError:
+        raise
     except (ValueError,TypeError,RecursionError):
         raise DecisionError('AGENT_FORMAT','INVALID_JSON') from None
     if not isinstance(d,dict) or set(d)!={'tool','arguments'} or not isinstance(d['tool'],str) or not isinstance(d['arguments'],dict):

@@ -1,0 +1,466 @@
+{
+  "classification": "KNOWN_SYNTHETIC_PROTOCOL_DEFECT_DEVELOPMENT_SET_NOT_MODEL_ACCURACY",
+  "base_commit": "bc1e6d6e2a247e070ebaadf3626a9a8df5d6520c",
+  "candidate": "uncommitted child of base; agent decoder rejects duplicate object names",
+  "reproducer": "python3 -m unittest tests.test_agent_json_keys -v",
+  "before": {
+    "kind": "synthetic_offline_protocol_known_defect_development_set",
+    "model_runtime": "offline_decisions_fixture_no_paid_calls",
+    "denominator": 8,
+    "refused_before_tools": 0,
+    "rows": [
+      {
+        "case": "tool-overwrite",
+        "input_sha256": "16ceb13f253a3d1e7c30e5abc3f4814e593b3b3e07a850adb3c6f0a09092f71c",
+        "status": "CALCULATED",
+        "tool_calls": 1,
+        "provider_calls": 2,
+        "diagnostics": [],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 2,
+          "usage": {
+            "total_tokens": 0
+          },
+          "seconds": 0.001,
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0
+        },
+        "seconds": 0.001294290879741311
+      },
+      {
+        "case": "same-tool",
+        "input_sha256": "b63a03bbbd9f5e1b5ad4d3ac6c60392caf2c09d2e287bddd3fe3d812f10acb75",
+        "status": "CALCULATED",
+        "tool_calls": 1,
+        "provider_calls": 2,
+        "diagnostics": [],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 2,
+          "usage": {
+            "total_tokens": 0
+          },
+          "seconds": 0.001,
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0
+        },
+        "seconds": 0.0006872080266475677
+      },
+      {
+        "case": "arguments-overwrite",
+        "input_sha256": "f288fa339549206c0e607e109c483f4197dd2bbe5a0a964556f5dcf05b2d7b9e",
+        "status": "CALCULATED",
+        "tool_calls": 1,
+        "provider_calls": 2,
+        "diagnostics": [],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 2,
+          "usage": {
+            "total_tokens": 0
+          },
+          "seconds": 0.001,
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0
+        },
+        "seconds": 0.0007889589760452509
+      },
+      {
+        "case": "metric-overwrite",
+        "input_sha256": "43fe4f01a8f835b20d2b9b7b851d9185a9de0bfeea3b35fc539683b00c445ec6",
+        "status": "CALCULATED",
+        "tool_calls": 1,
+        "provider_calls": 2,
+        "diagnostics": [],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 2,
+          "usage": {
+            "total_tokens": 0
+          },
+          "seconds": 0.001,
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0
+        },
+        "seconds": 0.0006384998559951782
+      },
+      {
+        "case": "escaped-metric",
+        "input_sha256": "b6518233f4aece6b7ffcb18544394f93764cec80688591f3a5483220a542e2b9",
+        "status": "CALCULATED",
+        "tool_calls": 1,
+        "provider_calls": 2,
+        "diagnostics": [],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 2,
+          "usage": {
+            "total_tokens": 0
+          },
+          "seconds": 0.0,
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0
+        },
+        "seconds": 0.0005531671922653913
+      },
+      {
+        "case": "query-overwrite",
+        "input_sha256": "0f057f4e29a6dc1c67e27c3e14e6f7ab1b4d8fa30c820fce93cb766043e68771",
+        "status": "EVIDENCE_FOUND",
+        "tool_calls": 1,
+        "provider_calls": 2,
+        "diagnostics": [],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 2,
+          "usage": {
+            "total_tokens": 0
+          },
+          "seconds": 0.001,
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0
+        },
+        "seconds": 0.0008233750704675913
+      },
+      {
+        "case": "escaped-tool",
+        "input_sha256": "9ef0361084b699abb9321cff1b72694d010da76f3bee5dcb61f9c1ada0a22748",
+        "status": "CALCULATED",
+        "tool_calls": 1,
+        "provider_calls": 2,
+        "diagnostics": [],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 2,
+          "usage": {
+            "total_tokens": 0
+          },
+          "seconds": 0.0,
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0
+        },
+        "seconds": 0.00056312489323318
+      },
+      {
+        "case": "empty-arguments",
+        "input_sha256": "a07d5a28138819f1f406fa0ca19daa06261ecdd7ab124327cf6e87d2e9a8c6e1",
+        "status": "FACTS_FOUND",
+        "tool_calls": 1,
+        "provider_calls": 2,
+        "diagnostics": [],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 2,
+          "usage": {
+            "total_tokens": 0
+          },
+          "seconds": 0.0,
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0
+        },
+        "seconds": 0.0004977921489626169
+      }
+    ],
+    "deterministic_control": {
+      "display": "30.00%",
+      "numeric_and_sources_equal": true
+    }
+  },
+  "after": {
+    "kind": "synthetic_offline_protocol_known_defect_development_set",
+    "model_runtime": "offline_decisions_fixture_no_paid_calls",
+    "denominator": 8,
+    "refused_before_tools": 8,
+    "rows": [
+      {
+        "case": "tool-overwrite",
+        "input_sha256": "16ceb13f253a3d1e7c30e5abc3f4814e593b3b3e07a850adb3c6f0a09092f71c",
+        "status": "AGENT_TOOL_REJECTED",
+        "tool_calls": 0,
+        "provider_calls": 1,
+        "diagnostics": [
+          {
+            "call": 1,
+            "category": "DUPLICATE_KEYS"
+          }
+        ],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 1,
+          "usage": {
+            "total_tokens": 0
+          },
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0,
+          "seconds": 0.0
+        },
+        "seconds": 0.0001782500185072422
+      },
+      {
+        "case": "same-tool",
+        "input_sha256": "b63a03bbbd9f5e1b5ad4d3ac6c60392caf2c09d2e287bddd3fe3d812f10acb75",
+        "status": "AGENT_TOOL_REJECTED",
+        "tool_calls": 0,
+        "provider_calls": 1,
+        "diagnostics": [
+          {
+            "call": 1,
+            "category": "DUPLICATE_KEYS"
+          }
+        ],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 1,
+          "usage": {
+            "total_tokens": 0
+          },
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0,
+          "seconds": 0.0
+        },
+        "seconds": 0.00010245805606245995
+      },
+      {
+        "case": "arguments-overwrite",
+        "input_sha256": "f288fa339549206c0e607e109c483f4197dd2bbe5a0a964556f5dcf05b2d7b9e",
+        "status": "AGENT_TOOL_REJECTED",
+        "tool_calls": 0,
+        "provider_calls": 1,
+        "diagnostics": [
+          {
+            "call": 1,
+            "category": "DUPLICATE_KEYS"
+          }
+        ],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 1,
+          "usage": {
+            "total_tokens": 0
+          },
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0,
+          "seconds": 0.0
+        },
+        "seconds": 8.15829262137413e-05
+      },
+      {
+        "case": "metric-overwrite",
+        "input_sha256": "43fe4f01a8f835b20d2b9b7b851d9185a9de0bfeea3b35fc539683b00c445ec6",
+        "status": "AGENT_TOOL_REJECTED",
+        "tool_calls": 0,
+        "provider_calls": 1,
+        "diagnostics": [
+          {
+            "call": 1,
+            "category": "DUPLICATE_KEYS"
+          }
+        ],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 1,
+          "usage": {
+            "total_tokens": 0
+          },
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0,
+          "seconds": 0.0
+        },
+        "seconds": 0.00013291696086525917
+      },
+      {
+        "case": "escaped-metric",
+        "input_sha256": "b6518233f4aece6b7ffcb18544394f93764cec80688591f3a5483220a542e2b9",
+        "status": "AGENT_TOOL_REJECTED",
+        "tool_calls": 0,
+        "provider_calls": 1,
+        "diagnostics": [
+          {
+            "call": 1,
+            "category": "DUPLICATE_KEYS"
+          }
+        ],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 1,
+          "usage": {
+            "total_tokens": 0
+          },
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0,
+          "seconds": 0.0
+        },
+        "seconds": 0.00014350004494190216
+      },
+      {
+        "case": "query-overwrite",
+        "input_sha256": "0f057f4e29a6dc1c67e27c3e14e6f7ab1b4d8fa30c820fce93cb766043e68771",
+        "status": "AGENT_TOOL_REJECTED",
+        "tool_calls": 0,
+        "provider_calls": 1,
+        "diagnostics": [
+          {
+            "call": 1,
+            "category": "DUPLICATE_KEYS"
+          }
+        ],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 1,
+          "usage": {
+            "total_tokens": 0
+          },
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0,
+          "seconds": 0.0
+        },
+        "seconds": 6.329198367893696e-05
+      },
+      {
+        "case": "escaped-tool",
+        "input_sha256": "9ef0361084b699abb9321cff1b72694d010da76f3bee5dcb61f9c1ada0a22748",
+        "status": "AGENT_TOOL_REJECTED",
+        "tool_calls": 0,
+        "provider_calls": 1,
+        "diagnostics": [
+          {
+            "call": 1,
+            "category": "DUPLICATE_KEYS"
+          }
+        ],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 1,
+          "usage": {
+            "total_tokens": 0
+          },
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0,
+          "seconds": 0.0
+        },
+        "seconds": 5.7124998420476913e-05
+      },
+      {
+        "case": "empty-arguments",
+        "input_sha256": "a07d5a28138819f1f406fa0ca19daa06261ecdd7ab124327cf6e87d2e9a8c6e1",
+        "status": "AGENT_TOOL_REJECTED",
+        "tool_calls": 0,
+        "provider_calls": 1,
+        "diagnostics": [
+          {
+            "call": 1,
+            "category": "DUPLICATE_KEYS"
+          }
+        ],
+        "audit": {
+          "id": "offline_protocol_fixture",
+          "calls": 1,
+          "usage": {
+            "total_tokens": 0
+          },
+          "usage_complete": true,
+          "calls_with_unknown_usage": 0,
+          "seconds": 0.0
+        },
+        "seconds": 5.7124998420476913e-05
+      }
+    ],
+    "deterministic_control": {
+      "display": "30.00%",
+      "numeric_and_sources_equal": true
+    }
+  },
+  "first_red": {
+    "passed_methods": 2,
+    "total_methods": 6,
+    "failed_methods": 4,
+    "failure_entries": 18,
+    "seconds": 0.559,
+    "http_expected_422_actual_200": 8
+  },
+  "first_green": {
+    "passed_methods": 6,
+    "total_methods": 6,
+    "seconds": 0.54,
+    "http_422_empty_financial_output": 8
+  },
+  "regression": {
+    "python": {
+      "passed": 308,
+      "total": 308,
+      "seconds": 89.626
+    },
+    "javascript": {
+      "passed": 260,
+      "total": 260
+    },
+    "historical_protocol_compatibility": {
+      "matches": 349,
+      "total": 349,
+      "accepted": 11,
+      "scope": "existing corpus excludes new duplicate-name cases"
+    }
+  },
+  "fixed_synthetic_finance": {
+    "completion": {
+      "passed": 8,
+      "total": 8
+    },
+    "numeric_correct": {
+      "passed": 6,
+      "total": 6
+    },
+    "sources_complete": {
+      "passed": 6,
+      "total": 6
+    },
+    "safe_refusal": {
+      "passed": 2,
+      "total": 2
+    },
+    "latency_n": 8,
+    "p50_seconds": 0.0006805,
+    "p95_seconds": 0.001111,
+    "model_calls": 0,
+    "reported_tokens": 0,
+    "usage_complete": true,
+    "calls_with_unknown_usage": 0
+  },
+  "real_loopback_browser": {
+    "flows": 2,
+    "passed": 2,
+    "widths": [
+      1440,
+      390
+    ],
+    "expected_rejections": 4,
+    "fixed_review_export_success": 2,
+    "offline_provider_instances": 4,
+    "calls_per_instance": [
+      1,
+      1,
+      1,
+      1
+    ],
+    "external_requests": 0,
+    "scope": "actual decoder, HTTP handler and browser; only provider is an offline Decisions fixture; runtime configured indicator is enabled with an unused synthetic key"
+  },
+  "usage_controls": {
+    "fixture_reported_tokens": 17,
+    "fixture_reported_calls": 1,
+    "missing_usage_calls": 2,
+    "missing_usage_remains_unknown": true
+  },
+  "paid_or_real_model_calls": 0,
+  "hidden_tasks": 0,
+  "new_real_report_tasks": 0,
+  "new_human_labels": 0,
+  "open": [
+    "FE-013 historical real model 7/8; original raw decision absent",
+    "E2 source rights and human admission",
+    "natural timeout investigations",
+    "final E7",
+    "exact-release CI and deployment verified separately after publication"
+  ]
+}

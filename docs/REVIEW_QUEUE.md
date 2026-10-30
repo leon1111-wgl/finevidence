@@ -1,6 +1,28 @@
 # Review queue
 
-## Deadline traceback privacy — pending independent verification (2026-10-30)
+## P2 agent-duplicate-keys — fixed, pending independent review (2026-10-30)
+
+Observed at bc1e6d6: `_decision` decodes to dict before validating, so later
+duplicate tool/argument names replace earlier values and execute a tool.
+Reproduce with `python3 -m unittest tests.test_agent_json_keys -v`: baseline
+2/6 methods pass,18 failed entries; eight real HTTP cases return200 instead
+of422. Not evidence of arbitrary tool execution or the original FE-013 cause.
+
+Minimal fix: reject duplicate decoded object names in object_pairs_hook with
+fixed DUPLICATE_KEYS category, no format retry and no tool execution.
+Acceptance:8/8 direct and8/8 HTTP refusals; equal values/escaped aliases also
+refused, unique escaped names and JSON-like query strings remain supported;
+known/unknown usage and first malformed round retained. Candidate6/6,
+full Python308/308 and real-browser fixture flows2/2 pass. Review source,
+original red result and [measurement](validation/agent-duplicate-keys-2026-10-30.json)
+before closure. Interview: why can schema validation after dict conversion
+miss ambiguity, and why must DecisionError precede a ValueError catch?
+
+## Deadline traceback privacy — rendered-chain subitem verified (2026-10-30)
+
+Independent bc1e6d6 review verified the rendered-chain fix, including8/8
+additional nested/group fault controls that remain failures. The exception
+objects are not erased. This closure excludes natural deadline causes.
 
 Merge into P3 deadline-stage-precondition. Review of2875abe found a safe final
 message but raw assertion content in its full traceback. `observe_deadline` now

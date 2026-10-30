@@ -17,6 +17,7 @@
 | UNKNOWN_TOOL | 工具不在允许清单内 |
 | ARGUMENT_KEYS | 参数字段缺失或多出 |
 | ARGUMENT_VALUE | 参数值的类型、长度或允许枚举不符合契约 |
+| DUPLICATE_KEYS | JSON 对象包含重复的解码后字段名；立即拒绝，不触发格式修复 |
 
 只有固定类别和从1开始的调用序号，没有原始工具名、字段名、参数值、模型原文、问题或文档内容。没有文件日志或新增持久化数据库。正常请求不携带空诊断字段。已有 AGENT_FORMAT / AGENT_TOOL_REJECTED 状态码保持。
 
@@ -46,3 +47,17 @@ python3 scripts/evaluate.py --output evaluation-result.json
 `_decision` 在对应拒绝分支抛出带固定 category 的 DecisionError → `_execute` 记录调用序号 → `run_agent` 将记录附到成功结果或异常，并保留失败计量 → HTTP handler 将诊断加入空金融结果。`scripts/evaluate.py` 已保留整份响应，因此未来运行报告自动携带该字段。
 
 检查时不要把 rejected 原文、无效字段名、完整参数或来源片段加入 category；不要将所有拒绝一律计为业务成功。FE-013仍待真实语义复核。公开Pages无模型服务，本字段只在本地模型链和离线测试中出现。
+
+## 重复字段在工具执行前拒绝（2026-10-30）
+
+基线 `bc1e6d6` 的 `json.loads` 先把重复字段覆盖，后续白名单只能检查最后的值。例如同一决策先写未知 `tool`、再写允许的 `calculate_metric`，或重复 `arguments.metric`，会正常执行工具并返回200。此处没有证明任意工具执行，但一个含歧义的模型决策绕过了严格协议约束。
+
+`_unique_decision_object` 使用 `object_pairs_hook` 检查每一层对象，在转换为字典前拒绝重复的**解码后名称**。相同值重复、`to\u006fl` 与 `tool` 也拒绝；独立的转义字段、查询字符串内的 JSON 文本仍合法。该机制依据 [Python 3.12 官方 JSON 文档](https://docs.python.org/3.12/library/json.html#repeated-names-within-an-object)，不依赖对原文做正则匹配。
+
+重复字段产生 `AGENT_TOOL_REJECTED / DUPLICATE_KEYS`，不执行该次业务工具、不追加格式修复调用；HTTP为422、金融输出为空。`DecisionError` 是 `ValueError` 子类，必须先重新抛出，防止广义 JSON 异常分支把它误归为可修复的 `INVALID_JSON`。异常只携带固定类别，不包含字段名或值。已发生的无效 JSON 首轮、调用序号、已报告用量和未知用量均保留。
+
+复跑：`python3 -m unittest tests.test_agent_json_keys -v`。8个已知缺陷协议样例中，在工具执行前拒绝从0/8变为8/8；同一输入的真实回环 HTTP 从8/8返回200变为8/8返回422。每个样例业务工具调用1→0，离线 provider 调用2→1。首次6方法中2通过、4失败，共18条失败项；修复后6/6通过。完整Python308/308、JS260/260，原349组合接受/状态对照一致（原集合不含这8种重复字段）。正常毛利率30.00%及完整事实/来源与确定性工作流相同。
+
+实际 Chromium 在1440和390宽度完成2/2流程：键盘提交拒绝、用户明确重试仍拒绝、切换固定毛利率、核对原文并导出；4次拒绝均只调用离线 provider 一次，外部请求为0。这里只替换模型 provider，HTTP处理和解析器均为真实代码；测试用未使用的合成配置值打开模型选项，界面的“模型已配置”指示不构成真实模型运行证据。
+
+[首轮及候选量化记录](validation/agent-duplicate-keys-2026-10-30.json)保留输入哈希、逐题耗时、真实输出和分母。固定合成金融仍8/8（准确数值6/6、来源完整6/6、预期拒绝2/2），不是新业务准确率提升。0付费/真实模型调用，无隐藏题、真实资料或新增人审；首轮真实模型仍7/8。原失败原文未保存，不能据此认定FE-013根因或关闭该项。部署和远端CI要按最终提交另验。
