@@ -1,5 +1,23 @@
 # Capability status
 
+## Orphan stream fixture correction (2026-10-31)
+
+The direct-worker timer test now uses continuous small TLS chunks instead of
+0.6-second gaps that can exceed the post-setup socket wait. A controlled setup
+delay reproduced competing socket-timeout output. Two new methods first failed
+0/2, then passed2/2: ordinary/inherited-signal workers terminate by SIGALRM with
+empty output; removing only the test child's timer must leave it active until
+the failing escape. The four configuration observations change1/4 to4/4, an
+engineering coverage measure, not financial accuracy or a hidden-set result.
+Production code/15-45s budgets and the test's0.8/1.6s deadlines are unchanged.
+Local related tests10/10, full Python316/316 and built-web JS260/260 pass; fixed
+synthetic finance8/8 (numeric/source6/6, refusal2/2) remains separate. Old CI
+failures remain recorded; their exact natural event order is not reconstructed.
+The unchanged real-TLS deadline plan passes6/6 and server-exit plan4/4 locally.
+Exact-release CI/deployment and independent review remain separate gates.
+Paid/live calls0; historical live7/8, FE-013, E2 and finalE7 stay open.
+See [contract](ORPHAN_STREAM.md) and [first results](validation/orphan-stream-2026-10-31.json).
+
 ## Ambiguous local requests rejected before dispatch (2026-10-31)
 
 The local `/api/run` now rejects duplicate decoded JSON names with 400 /

@@ -1,6 +1,18 @@
 # Review queue
 
-## P2 request-duplicate-keys — fixed, pending independent review (2026-10-31)
+## P3 orphan stream fixture — corrected, pending independent review (2026-10-31)
+
+Merge with the existing timer-coverage investigation. A controlled0.35-second
+setup delay exposes the old0.6-second body gap competing with an approximately
+0.39-second remaining socket wait. The target test rejects safe-error output;
+its exact alarm assertion must not be replaced by a generic safe-failure check.
+Only this scenario now streams with0.05-second nominal gaps. Two new methods
+first0/2 then2/2, including a disabled-timer negative control that must fail the
+original target at its unchanged1.6-second escape. Worker budget0.8 and
+production15/45 remain unchanged. Historical CI event order remains unknown.
+Reproduce and review [ORPHAN_STREAM](ORPHAN_STREAM.md) before limited closure.
+
+## P2 request-duplicate-keys — limited independent verification complete (2026-10-31)
 
 At b8538a4, `/api/run` converted duplicate request names to a dict before checking
 its schema. Different company/year/operation values were overwritten; a final
@@ -16,6 +28,9 @@ First 3/6 methods pass (10 failures); candidate 6/6; adjacent 39/39 and full 314
 Reproduce `python3 -m unittest tests.test_run_json_keys -v`. Interview: why can
 JSON schema validation miss ambiguity after dict conversion, and why must the
 request parser refuse before selecting fixed versus model execution?
+Independent cbe90bd review verified the original nine inputs and script hashes,
+9/9 pre-dispatch refusals, 24/24 additional HTTP controls and 34/34 related tests.
+Only this request ambiguity item is closed; FE-013 is unchanged.
 See [contract](REQUEST_JSON.md) and [measurement](validation/request-duplicate-keys-2026-10-31.json).
 
 

@@ -299,3 +299,15 @@ and cleanup. Missing-stage, duplicate and unreaped controls remain failures.
 Four new safe-traceback cases change0/4 to4/4; no production or budget change.
 The first red and unchanged external probe are in the
 [validation record](validation/deadline-traceback-2026-10-30.json).
+
+
+## Orphan stream fixture correction (2026-10-31)
+
+The original six-chunk orphan fixture could make its 0.6-second gap exceed the
+remaining socket wait after setup. A delayed-setup real-TLS control exposed
+competing socket errors; it does not reconstruct earlier CI event ordering.
+That scenario now uses 61 chunks with nominal0.05-second gaps, the same3-second
+body and0.8/1.6-second deadlines, and exactly-SIGALRM/empty-output assertions.
+A disabled-timer control must remain active until the failing escape hatch.
+Production transport/budgets and other fixture plans are unchanged. See
+[the bounded correction and first evidence](ORPHAN_STREAM.md).

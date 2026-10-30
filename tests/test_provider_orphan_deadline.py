@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import signal
 import sys
 import time
 import unittest
@@ -101,6 +102,10 @@ class OrphanDeadlineTests(unittest.TestCase):
         for inherited_mask in (False, True):
             with self.subTest(inherited_mask=inherited_mask), TLSPeerContext() as peer:
                 peer.mode = 'body-trickle'; peer.duration = 3
+                # Keep inter-chunk gaps below the remaining socket wait even
+                # after slow setup. Six chunks meant .6s gaps, which could
+                # select a socket error before the OS alarm was observed.
+                peer.chunk_count = 61
                 command = [sys.executable, '-I', str(Path(provider.__file__).resolve())]
                 if inherited_mask:
                     # exec preserves ignored dispositions and the blocked signal mask.
@@ -130,7 +135,7 @@ class OrphanDeadlineTests(unittest.TestCase):
                     capture['completed_seconds'] = round(time.monotonic() - started, 6)
                     self.assertLess(time.monotonic() - started, 1.6)
                     self.assertEqual(len(peer.requests), 1, 'real TLS request; no retry')
-                    self.assertNotEqual(worker.returncode, 0, 'late response cannot succeed')
+                    self.assertEqual(worker.returncode, -signal.SIGALRM, 'OS alarm must terminate the worker')
                     self.assertEqual(output, b'', 'no late success or private diagnostics')
 
 

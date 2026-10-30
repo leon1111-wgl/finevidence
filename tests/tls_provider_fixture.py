@@ -30,6 +30,7 @@ class TLSPeer:
         self.context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
         self.context.load_cert_chain(self.cert, root/'key.pem')
         self.mode = 'fast'; self.duration = 0; self.status = 200; self.body = RESPONSE
+        self.chunk_count = 6
         self.plan = []
         self.requests = []; self.accepted = 0; self.closed = threading.Event(); self.stop = threading.Event()
         peer = self
@@ -77,9 +78,10 @@ class TLSPeer:
         self.thread.start()
 
     def write_chunks(self, conn, data, duration):
-        for i in range(6):
-            if i and self.stop.wait(duration/5): return
-            conn.sendall(data[len(data)*i//6:len(data)*(i+1)//6])
+        parts = self.chunk_count
+        for i in range(parts):
+            if i and self.stop.wait(duration/(parts-1)): return
+            conn.sendall(data[len(data)*i//parts:len(data)*(i+1)//parts])
 
     @contextmanager
     def environment(self):

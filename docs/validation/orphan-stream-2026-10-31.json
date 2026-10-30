@@ -1,0 +1,498 @@
+{
+  "date": "2026-10-31",
+  "baseline": "cbe90bd356b1acaeb0c7a0644c21198d40b47016",
+  "classification": "known_offline_real_TLS_engineering_controls_not_hidden",
+  "probe_sha256": "ede167a62ab0d67cde80569a1fa1127915a503c24fc3cff12a13f2c89176631d",
+  "measurement_script_sha256": "1ba64eb7a6c3b326257f9a308f57322ddd9b1c1c630eb86254f1912bf1ebab89",
+  "first_diagnostic_plan": {
+    "baseline": "cbe90bd356b1acaeb0c7a0644c21198d40b47016",
+    "plan": "six known loopback diagnostic configurations, single pass, no real model",
+    "rows": [
+      {
+        "masked": false,
+        "init_delay": 0,
+        "timer_disabled_control": false,
+        "chunk_gap": 0.6,
+        "returncode": -14,
+        "stdout": "",
+        "events": [
+          {
+            "stage": "timer",
+            "seconds": 0.033676667138934135,
+            "remaining": 0.7467632498592138,
+            "disabled": false
+          },
+          {
+            "stage": "transport",
+            "seconds": 0.03496483317576349,
+            "timeout": 0.74547458300367
+          }
+        ],
+        "seconds": 0.8144909581169486,
+        "cleanup_intervened": false,
+        "tcp": 1,
+        "http": 1
+      },
+      {
+        "masked": false,
+        "init_delay": 0.35,
+        "timer_disabled_control": false,
+        "chunk_gap": 0.6,
+        "returncode": -14,
+        "stdout": "{\"error\": \"MODEL_TIMEOUT\"}",
+        "events": [
+          {
+            "stage": "timer",
+            "seconds": 0.027840583818033338,
+            "remaining": 0.7530379169620574,
+            "disabled": false
+          },
+          {
+            "stage": "transport",
+            "seconds": 0.3891600000206381,
+            "timeout": 0.39174974989145994
+          },
+          {
+            "stage": "error",
+            "seconds": 0.7870077090337873,
+            "code": "MODEL_TIMEOUT"
+          }
+        ],
+        "seconds": 0.8116725410800427,
+        "cleanup_intervened": false,
+        "tcp": 1,
+        "http": 1
+      },
+      {
+        "masked": false,
+        "init_delay": 0.35,
+        "timer_disabled_control": true,
+        "chunk_gap": 0.6,
+        "returncode": 0,
+        "stdout": "{\"error\": \"MODEL_TIMEOUT\"}",
+        "events": [
+          {
+            "stage": "timer",
+            "seconds": 0.027953916927799582,
+            "remaining": 0.7522849161177874,
+            "disabled": true
+          },
+          {
+            "stage": "transport",
+            "seconds": 0.38917979202233255,
+            "timeout": 0.3910791252274066
+          },
+          {
+            "stage": "error",
+            "seconds": 0.7926280000247061,
+            "code": "MODEL_TIMEOUT"
+          }
+        ],
+        "seconds": 0.8224995420314372,
+        "cleanup_intervened": false,
+        "tcp": 1,
+        "http": 1
+      },
+      {
+        "masked": true,
+        "init_delay": 0,
+        "timer_disabled_control": false,
+        "chunk_gap": 0.6,
+        "returncode": -14,
+        "stdout": "",
+        "events": [
+          {
+            "stage": "timer",
+            "seconds": 0.028217457933351398,
+            "remaining": 0.7517840000800788,
+            "disabled": false
+          },
+          {
+            "stage": "transport",
+            "seconds": 0.029539166018366814,
+            "timeout": 0.7504622500855476
+          }
+        ],
+        "seconds": 0.8120112081523985,
+        "cleanup_intervened": false,
+        "tcp": 1,
+        "http": 1
+      },
+      {
+        "masked": true,
+        "init_delay": 0.35,
+        "timer_disabled_control": false,
+        "chunk_gap": 0.6,
+        "returncode": -14,
+        "stdout": "",
+        "events": [
+          {
+            "stage": "timer",
+            "seconds": 0.028454832965508103,
+            "remaining": 0.7507796671707183,
+            "disabled": false
+          },
+          {
+            "stage": "transport",
+            "seconds": 0.38027733308263123,
+            "timeout": 0.39896908309310675
+          }
+        ],
+        "seconds": 0.8122392918448895,
+        "cleanup_intervened": false,
+        "tcp": 1,
+        "http": 1
+      },
+      {
+        "masked": true,
+        "init_delay": 0.35,
+        "timer_disabled_control": true,
+        "chunk_gap": 0.6,
+        "returncode": 0,
+        "stdout": "{\"error\": \"MODEL_TIMEOUT\"}",
+        "events": [
+          {
+            "stage": "timer",
+            "seconds": 0.027205165941268206,
+            "remaining": 0.7526093749329448,
+            "disabled": true
+          },
+          {
+            "stage": "transport",
+            "seconds": 0.3885026250500232,
+            "timeout": 0.39135358296334743
+          },
+          {
+            "stage": "error",
+            "seconds": 0.7888352079316974,
+            "code": "MODEL_TIMEOUT"
+          }
+        ],
+        "seconds": 0.8194140000268817,
+        "cleanup_intervened": false,
+        "tcp": 1,
+        "http": 1
+      }
+    ]
+  },
+  "new_methods": {
+    "first_red": [
+      0,
+      2
+    ],
+    "candidate": [
+      2,
+      2
+    ]
+  },
+  "delayed_setup_alarm_cases": {
+    "before": [
+      1,
+      2
+    ],
+    "after": [
+      2,
+      2
+    ]
+  },
+  "disabled_timer_dependency_cases": {
+    "before": [
+      0,
+      2
+    ],
+    "after": [
+      2,
+      2
+    ],
+    "interpretation": "Expected failing escape hatch, never deadline success"
+  },
+  "rows": {
+    "before": [
+      {
+        "method": "test_delayed_setup_still_terminates_by_alarm_without_output",
+        "passed": false,
+        "seconds": 2.119947124971077,
+        "observations": [
+          {
+            "inherited_mask": false,
+            "budget_seconds": 0.8,
+            "completed_seconds": 0.809733,
+            "observation_seconds": 0.809793,
+            "tcp_accepted": 1,
+            "http_requests": 1,
+            "returncode_before_cleanup": -14,
+            "stdout_bytes": 0,
+            "output_kind": "empty",
+            "result_present": false,
+            "safe_error": null,
+            "cleanup_intervened": false,
+            "cleanup": {
+              "reaped": true,
+              "process_gone": true,
+              "stdin_closed": true,
+              "stdout_closed": true
+            },
+            "cleanup_error": false,
+            "primary_failure": null,
+            "failure_code": null
+          },
+          {
+            "inherited_mask": true,
+            "budget_seconds": 0.8,
+            "completed_seconds": 0.810906,
+            "observation_seconds": 0.811088,
+            "tcp_accepted": 1,
+            "http_requests": 1,
+            "returncode_before_cleanup": -14,
+            "stdout_bytes": 26,
+            "output_kind": "object",
+            "result_present": false,
+            "safe_error": "MODEL_TIMEOUT",
+            "cleanup_intervened": false,
+            "cleanup": {
+              "reaped": true,
+              "process_gone": true,
+              "stdin_closed": true,
+              "stdout_closed": true
+            },
+            "cleanup_error": false,
+            "primary_failure": "assertion",
+            "failure_code": "ORPHAN_SAFE_ERROR"
+          }
+        ]
+      },
+      {
+        "method": "test_disabling_timer_leaves_stream_active_until_failing_escape",
+        "passed": false,
+        "seconds": 2.0100317921023816,
+        "observations": [
+          {
+            "inherited_mask": false,
+            "budget_seconds": 0.8,
+            "completed_seconds": 0.820232,
+            "observation_seconds": 0.820379,
+            "tcp_accepted": 1,
+            "http_requests": 1,
+            "returncode_before_cleanup": 0,
+            "stdout_bytes": 26,
+            "output_kind": "object",
+            "result_present": false,
+            "safe_error": "MODEL_TIMEOUT",
+            "cleanup_intervened": false,
+            "cleanup": {
+              "reaped": true,
+              "process_gone": true,
+              "stdin_closed": true,
+              "stdout_closed": true
+            },
+            "cleanup_error": false,
+            "primary_failure": "assertion",
+            "failure_code": "ORPHAN_SAFE_ERROR"
+          },
+          {
+            "inherited_mask": true,
+            "budget_seconds": 0.8,
+            "completed_seconds": 0.817948,
+            "observation_seconds": 0.818029,
+            "tcp_accepted": 1,
+            "http_requests": 1,
+            "returncode_before_cleanup": 0,
+            "stdout_bytes": 26,
+            "output_kind": "object",
+            "result_present": false,
+            "safe_error": "MODEL_TIMEOUT",
+            "cleanup_intervened": false,
+            "cleanup": {
+              "reaped": true,
+              "process_gone": true,
+              "stdin_closed": true,
+              "stdout_closed": true
+            },
+            "cleanup_error": false,
+            "primary_failure": "assertion",
+            "failure_code": "ORPHAN_SAFE_ERROR"
+          }
+        ]
+      }
+    ],
+    "after": [
+      {
+        "method": "test_delayed_setup_still_terminates_by_alarm_without_output",
+        "passed": true,
+        "seconds": 2.0662290828768164,
+        "observations": [
+          {
+            "inherited_mask": false,
+            "budget_seconds": 0.8,
+            "completed_seconds": 0.809572,
+            "observation_seconds": 0.809629,
+            "tcp_accepted": 1,
+            "http_requests": 1,
+            "returncode_before_cleanup": -14,
+            "stdout_bytes": 0,
+            "output_kind": "empty",
+            "result_present": false,
+            "safe_error": null,
+            "cleanup_intervened": false,
+            "cleanup": {
+              "reaped": true,
+              "process_gone": true,
+              "stdin_closed": true,
+              "stdout_closed": true
+            },
+            "cleanup_error": false,
+            "primary_failure": null,
+            "failure_code": null
+          },
+          {
+            "inherited_mask": true,
+            "budget_seconds": 0.8,
+            "completed_seconds": 0.809597,
+            "observation_seconds": 0.809664,
+            "tcp_accepted": 1,
+            "http_requests": 1,
+            "returncode_before_cleanup": -14,
+            "stdout_bytes": 0,
+            "output_kind": "empty",
+            "result_present": false,
+            "safe_error": null,
+            "cleanup_intervened": false,
+            "cleanup": {
+              "reaped": true,
+              "process_gone": true,
+              "stdin_closed": true,
+              "stdout_closed": true
+            },
+            "cleanup_error": false,
+            "primary_failure": null,
+            "failure_code": null
+          }
+        ]
+      },
+      {
+        "method": "test_disabling_timer_leaves_stream_active_until_failing_escape",
+        "passed": true,
+        "seconds": 4.12388608395122,
+        "observations": [
+          {
+            "inherited_mask": false,
+            "budget_seconds": 0.8,
+            "completed_seconds": null,
+            "observation_seconds": 1.606103,
+            "tcp_accepted": 1,
+            "http_requests": 1,
+            "returncode_before_cleanup": null,
+            "stdout_bytes": null,
+            "output_kind": "unavailable",
+            "result_present": null,
+            "safe_error": null,
+            "cleanup_intervened": true,
+            "cleanup": {
+              "reaped": true,
+              "process_gone": true,
+              "stdin_closed": true,
+              "stdout_closed": true
+            },
+            "cleanup_error": false,
+            "primary_failure": "assertion",
+            "failure_code": "ORPHAN_WATCHDOG_EXPIRED"
+          },
+          {
+            "inherited_mask": true,
+            "budget_seconds": 0.8,
+            "completed_seconds": null,
+            "observation_seconds": 1.605474,
+            "tcp_accepted": 1,
+            "http_requests": 1,
+            "returncode_before_cleanup": null,
+            "stdout_bytes": null,
+            "output_kind": "unavailable",
+            "result_present": null,
+            "safe_error": null,
+            "cleanup_intervened": true,
+            "cleanup": {
+              "reaped": true,
+              "process_gone": true,
+              "stdin_closed": true,
+              "stdout_closed": true
+            },
+            "cleanup_error": false,
+            "primary_failure": "assertion",
+            "failure_code": "ORPHAN_WATCHDOG_EXPIRED"
+          }
+        ]
+      }
+    ]
+  },
+  "body_duration_seconds": 3,
+  "old_gap_seconds": 0.6,
+  "new_nominal_gap_seconds": 0.05,
+  "worker_budget_seconds": 0.8,
+  "escape_seconds": 1.6,
+  "production_budget_changed": false,
+  "production_source_changed": false,
+  "paid_or_live_calls": 0,
+  "hidden_tasks": 0,
+  "new_real_labels": 0,
+  "historical_live": [
+    7,
+    8
+  ],
+  "FE-013": "open",
+  "historical_CI_ordering": "not reconstructed from old logs",
+  "local_regressions": {
+    "orphan": [
+      10,
+      10
+    ],
+    "orphan_seconds": 14.105,
+    "python": [
+      316,
+      316
+    ],
+    "python_seconds": 98.282,
+    "javascript": [
+      260,
+      260
+    ]
+  },
+  "fixed_synthetic_finance": {
+    "completion": {
+      "passed": 8,
+      "total": 8
+    },
+    "numeric_correct": {
+      "passed": 6,
+      "total": 6
+    },
+    "sources_complete": {
+      "passed": 6,
+      "total": 6
+    },
+    "safe_refusal": {
+      "passed": 2,
+      "total": 2
+    },
+    "latency_n": 8,
+    "p50_seconds": 0.0005455,
+    "p95_seconds": 0.000684,
+    "model_calls": 0,
+    "reported_tokens": 0,
+    "usage_complete": true,
+    "calls_with_unknown_usage": 0
+  },
+  "unchanged_plan_evaluations": {
+    "deadline": {
+      "planned": 6,
+      "completed": 6,
+      "passed": 6,
+      "plan_sha256": "38d011b68c5010bb24aa80c082dd6e7eecd19c36c5730981f2dcfd770613e2a2"
+    },
+    "exit": {
+      "planned": 4,
+      "completed": 4,
+      "passed": 4,
+      "plan_sha256": "ed77726f37d34ca50926a8be529f671bebf51de0fb34a543547ba28a90e33b9b"
+    }
+  }
+}
