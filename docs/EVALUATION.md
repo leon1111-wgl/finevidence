@@ -1,5 +1,18 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Report-write cleanup acceptance (2026-10-30)
+
+The frozen synthetic engineering plan has two actual filesystem collisions and
+one healthy browser run: autonomous fault cleanup0/2→2/2, overall1/3→3/3;
+healthy HTML download controls remain4/4. Each fault still exits1, prints the
+fixed safe error and leaves an unfinished checkpoint. The four-second probe
+watchdog intervened in both baseline faults and neither candidate; this is not
+a product SLA or an analyst-time estimate. Existing report contracts remain8/8.
+[All first rows, exact timings and unchanged probe hashes](validation/brief-write-cleanup-2026-10-30.json)
+are separate from fixed finance8/8 and historical live-model7/8. Zero real/paid
+model calls, tokens, unknown-use calls, hidden tasks and new human labels.
+The earlier macOS TLS-request precondition failure and FE-013/E2/finalE7 stay open.
+
 ## Brief recovery report acceptance (2026-10-30)
 
 The independent `7172a09` review found bare timeout errors and missing launch/cleanup

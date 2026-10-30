@@ -1,5 +1,31 @@
 # Browser fault-suite failure evidence
 
+## Report-write failure still closes owned browsers (2026-10-30)
+
+Independent review of `b9fbc03` reproduced a P3 cleanup defect: `await save()`
+in each cleanup block could throw before context/browser close. Nested
+try/finally now attempts actual cleanup even when report persistence fails.
+Errors still exit1 with the fixed `REPORT_WRITE_FAILED` code. The last readable
+checkpoint remains unfinished; disk failure cannot promise a final report.
+No application, financial formula, provider deadline or shared reporter changes.
+
+The frozen real-browser plan has two actual filesystem collisions and one
+healthy run. Autonomous cleanup changes0/2→2/2; the healthy run preserves4/4
+actual HTML downloads in both arms. Overall engineering acceptance1/3→3/3.
+The independent four-second safety watchdog intervened in both baseline faults
+and neither candidate fault; it is not a product SLA or latency benchmark.
+The child still exits1 for each fault and0 for the control. See
+[all first rows, timings and probe hashes](validation/brief-write-cleanup-2026-10-30.json).
+
+Run `python scripts/build_web.py` then `pnpm test:brief-report`; the existing
+CI step also runs this new contract after the original eight reporting cases.
+Use a fresh BROWSER_ARTIFACTS directory per run so evidence is not overwritten.
+Independent review owns closure. Historical live7/8/FE-013, E2, finalE7 and
+natural network/process investigations remain open. In particular, earlier
+CI40967923204 failed its macOS TLS-request precondition before sending a signal;
+this browser cleanup fix does not establish or repair that cause. No paid/real
+model calls, hidden tasks or new human verification labels were added.
+
 ## Brief recovery reports (2026-10-30)
 
 The independent review of `7172a09` retained public and Python brief-recovery

@@ -129,17 +129,20 @@ let browser, suiteError = null;
       // Persist the original failure before cleanup; preserve its phase if
       // closing the context also fails. Stop new cases after unsafe cleanup.
       if (row.passed) row.phase = "context-close";
-      await save();
-      try { await context?.close(); }
-      catch (e) {
-        row.cleanup_error = errorCode(e);
-        if (row.passed) row.error_code = row.cleanup_error;
-        row.passed = false;
-        row.status = "failed";
-        cleanupFailed = true;
-        suiteError = row.cleanup_error;
-        metadata.suite_phase = "context-close";
-        process.exitCode = 1;
+      try { await save(); }
+      finally {
+        // Persistence failure must not bypass the resources owned by this case.
+        try { await context?.close(); }
+        catch (e) {
+          row.cleanup_error = errorCode(e);
+          if (row.passed) row.error_code = row.cleanup_error;
+          row.passed = false;
+          row.status = "failed";
+          cleanupFailed = true;
+          suiteError = row.cleanup_error;
+          metadata.suite_phase = "context-close";
+          process.exitCode = 1;
+        }
       }
       if (row.passed) row.phase = "complete";
       row.seconds = (performance.now() - begin) / 1000;
@@ -154,12 +157,15 @@ let browser, suiteError = null;
 }).finally(async () => {
   if (browser) {
     if (!suiteError) metadata.suite_phase = "browser-close";
-    await save(false, suiteError);
-    try { await browser.close(); }
-    catch (e) {
-      metadata.suite_cleanup_error = errorCode(e);
-      suiteError ??= metadata.suite_cleanup_error;
-      process.exitCode = 1;
+    try { await save(false, suiteError); }
+    finally {
+      // Even a persistently unwritable report must allow the child to exit.
+      try { await browser.close(); }
+      catch (e) {
+        metadata.suite_cleanup_error = errorCode(e);
+        suiteError ??= metadata.suite_cleanup_error;
+        process.exitCode = 1;
+      }
     }
     if (!suiteError) metadata.suite_phase = "complete";
   }

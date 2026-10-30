@@ -18,7 +18,7 @@
     "test:review-export": "node tests/browser-review-export.cjs",
     "test:startup-focus": "node tests/browser-startup-focus.cjs",
     "test:review-brief": "node tests/browser-review-brief.cjs && node tests/browser-brief-recovery.cjs",
-    "test:brief-report": "node tests/browser-brief-report.cjs",
+    "test:brief-report": "node tests/browser-brief-report.cjs && node tests/browser-brief-write.cjs",
     "test:scope-layout": "node tests/browser-scope-layout.cjs"
   },
   "devDependencies": {

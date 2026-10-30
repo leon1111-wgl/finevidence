@@ -1,5 +1,16 @@
 # Capability status
 
+## Report-write cleanup (2026-10-30)
+
+The FE-019/P3 runner now closes owned contexts and the browser even if saving
+its report fails. Two real filesystem collisions change autonomous cleanup0/2→2/2;
+the healthy control retains4/4 actual HTML downloads. Faults still exit1 and
+leave unfinished checkpoints. The original eight report contracts pass8/8.
+This is a test-runner correction, not a product financial/timeout change.
+See BROWSER_FAILURE_EVIDENCE and validation/brief-write-cleanup-2026-10-30.json.
+Earlier macOS CI40967923204 failed a TLS-request precondition; its natural cause,
+FE-013/live7/8, E2 and finalE7 remain open. Exact-release CI/deployment are separate.
+
 ## Brief recovery diagnosis (2026-10-30)
 
 The independent `7172a09` review found bare timeout errors and missing launch/cleanup

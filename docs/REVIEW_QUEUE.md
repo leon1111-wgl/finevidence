@@ -1,5 +1,17 @@
 # Review queue
 
+## FE-019 P3 report-write cleanup — pending independent verification (2026-10-30)
+
+Review of b9fbc03 reproduced persistent report-write failures bypassing context
+and browser cleanup. Nested try/finally now separates persistence from cleanup.
+Verify two real temp-path directory collisions using pnpm test:brief-report:
+child exit1, no probe cleanup, actual contexts/pages closed and browser disconnected,
+fixed safe error, stale checkpoint still unfinished. Preserve the healthy4/4
+download control and previous eight failure/checkpoint contracts. Known cleanup
+acceptance0/2→2/2 is engineering evidence, not financial accuracy or an SLA.
+See BROWSER_FAILURE_EVIDENCE and validation/brief-write-cleanup-2026-10-30.json.
+Do not close the separate macOS TLS-request precondition/natural-cause investigation.
+
 ## FE-019 P3 brief recovery report — implementation handoff (2026-10-30)
 
 The independent `7172a09` review found bare timeout errors and missing launch/cleanup

@@ -1,0 +1,1347 @@
+{
+  "classification": "SYNTHETIC_ENGINEERING_REPORT_WRITE_CLEANUP",
+  "base_sha": "b9fbc0336324fc513cc9a2d7fb945067059e0de3",
+  "candidate_kind": "uncommitted test-runner patch; no application change",
+  "model_calls": 0,
+  "tokens": 0,
+  "unknown_usage_calls": 0,
+  "hidden_tasks": 0,
+  "real_report_tasks": 0,
+  "new_human_labels": 0,
+  "source_documents": 1,
+  "independent_financial_tasks": 1,
+  "fault_cases": 2,
+  "healthy_runs": 1,
+  "probe_watchdog_seconds": 4,
+  "watchdog_boundary": "Independent safety cleanup; intervention fails acceptance. Not a product SLA.",
+  "probe_hashes": {
+    "tests/browser-brief-write.cjs": "3b48da703b80f6e9bb89038f7fc83798a2a921dff4cc241129e14cb4b5ad4991",
+    "tests/helpers/brief-write-fault.cjs": "d60d0b667fd7ffca17f23ba08985889eb8cccf9bd68f075a6dd53e8b05f535d1"
+  },
+  "before": {
+    "classification": "SYNTHETIC_REPORT_WRITE_CLEANUP",
+    "model_calls": 0,
+    "fault_cases": 2,
+    "healthy_runs": 1,
+    "total": 3,
+    "passed": 1,
+    "rows": [
+      {
+        "scenario": "healthy",
+        "passed": true,
+        "child_exit": 0,
+        "signal": null,
+        "seconds": 8.063969457999999,
+        "browser_closes": 1,
+        "context_closes": 4,
+        "probe_cleanup": false,
+        "checkpoint": {
+          "finished": true,
+          "passed": 4,
+          "failed": 0,
+          "not_run": 0,
+          "total": 4
+        },
+        "download_controls": 4
+      },
+      {
+        "scenario": "after-page-create",
+        "passed": false,
+        "child_exit": 1,
+        "signal": null,
+        "seconds": 6.5780515,
+        "browser_closes": 0,
+        "context_closes": 0,
+        "probe_cleanup": true,
+        "checkpoint": {
+          "finished": false,
+          "passed": 0,
+          "failed": 0,
+          "not_run": 3,
+          "total": 4
+        },
+        "error": "runner must close resources without probe intervention\n\ntrue !== false\n"
+      },
+      {
+        "scenario": "after-context-close",
+        "passed": false,
+        "child_exit": 1,
+        "signal": null,
+        "seconds": 7.287759666999999,
+        "browser_closes": 0,
+        "context_closes": 1,
+        "probe_cleanup": true,
+        "checkpoint": {
+          "finished": false,
+          "passed": 1,
+          "failed": 0,
+          "not_run": 3,
+          "total": 4
+        },
+        "error": "runner must close resources without probe intervention\n\ntrue !== false\n"
+      }
+    ]
+  },
+  "after": {
+    "classification": "SYNTHETIC_REPORT_WRITE_CLEANUP",
+    "model_calls": 0,
+    "fault_cases": 2,
+    "healthy_runs": 1,
+    "total": 3,
+    "passed": 3,
+    "rows": [
+      {
+        "scenario": "healthy",
+        "passed": true,
+        "child_exit": 0,
+        "signal": null,
+        "seconds": 8.840461292,
+        "browser_closes": 1,
+        "context_closes": 4,
+        "probe_cleanup": false,
+        "checkpoint": {
+          "finished": true,
+          "passed": 4,
+          "failed": 0,
+          "not_run": 0,
+          "total": 4
+        },
+        "download_controls": 4
+      },
+      {
+        "scenario": "after-page-create",
+        "passed": true,
+        "child_exit": 1,
+        "signal": null,
+        "seconds": 4.150954708000001,
+        "browser_closes": 1,
+        "context_closes": 1,
+        "probe_cleanup": false,
+        "checkpoint": {
+          "finished": false,
+          "passed": 0,
+          "failed": 0,
+          "not_run": 3,
+          "total": 4
+        }
+      },
+      {
+        "scenario": "after-context-close",
+        "passed": true,
+        "child_exit": 1,
+        "signal": null,
+        "seconds": 4.170029749999999,
+        "browser_closes": 1,
+        "context_closes": 1,
+        "probe_cleanup": false,
+        "checkpoint": {
+          "finished": false,
+          "passed": 1,
+          "failed": 0,
+          "not_run": 3,
+          "total": 4
+        }
+      }
+    ]
+  },
+  "limits": [
+    "Filesystem collision is real; Chromium close wrappers call original methods.",
+    "Failed writes leave a stale unfinished checkpoint; no finished success is fabricated.",
+    "Historic CI40967923204 macOS TLS_request_count 3/4 and unknown natural cause remain open.",
+    "Historical live-model 7/8, FE-013, E2 and final E7 remain open."
+  ],
+  "existing_report_contract": {
+    "classification": "SYNTHETIC_BRIEF_REPORT_CONTRACT",
+    "model_calls": 0,
+    "total": 8,
+    "passed": 8,
+    "rows": [
+      {
+        "scenario": "ready",
+        "passed": true,
+        "child_exit": 1,
+        "signal": null,
+        "checkpoint": true,
+        "seconds": 16.438848667,
+        "child_passed": 3,
+        "child_total": 4,
+        "download_controls": 3
+      },
+      {
+        "scenario": "download",
+        "passed": true,
+        "child_exit": 1,
+        "signal": null,
+        "checkpoint": true,
+        "seconds": 15.894813958999999,
+        "child_passed": 3,
+        "child_total": 4,
+        "download_controls": 3
+      },
+      {
+        "scenario": "launch",
+        "passed": true,
+        "child_exit": 1,
+        "signal": null,
+        "checkpoint": false,
+        "seconds": 0.21462295799999992,
+        "child_passed": 0,
+        "child_total": 4,
+        "download_controls": 0
+      },
+      {
+        "scenario": "context",
+        "passed": true,
+        "child_exit": 1,
+        "signal": null,
+        "checkpoint": true,
+        "seconds": 1.3171885410000033,
+        "child_passed": 3,
+        "child_total": 4,
+        "download_controls": 3
+      },
+      {
+        "scenario": "context-close",
+        "passed": true,
+        "child_exit": 1,
+        "signal": null,
+        "checkpoint": true,
+        "seconds": 1.3978932920000007,
+        "child_passed": 2,
+        "child_total": 4,
+        "download_controls": 2
+      },
+      {
+        "scenario": "ready-close",
+        "passed": true,
+        "child_exit": 1,
+        "signal": null,
+        "checkpoint": true,
+        "seconds": 11.154911667,
+        "child_passed": 2,
+        "child_total": 4,
+        "download_controls": 2
+      },
+      {
+        "scenario": "browser-close",
+        "passed": true,
+        "child_exit": 1,
+        "signal": null,
+        "checkpoint": true,
+        "seconds": 1.7751672089999992,
+        "child_passed": 4,
+        "child_total": 4,
+        "download_controls": 4
+      },
+      {
+        "scenario": "kill",
+        "passed": true,
+        "child_exit": null,
+        "signal": "SIGKILL",
+        "checkpoint": true,
+        "seconds": 0.3446800409999996,
+        "child_passed": 0,
+        "child_total": 4,
+        "download_controls": 0
+      }
+    ]
+  },
+  "local_regression": {
+    "python": {
+      "passed": 289,
+      "total": 289
+    },
+    "javascript": {
+      "passed": 260,
+      "total": 260
+    },
+    "commands": [
+      {
+        "name": "python",
+        "exit": 0,
+        "seconds": 78.67226154217497
+      },
+      {
+        "name": "build",
+        "exit": 0,
+        "seconds": 0.14085891586728394
+      },
+      {
+        "name": "js",
+        "exit": 0,
+        "seconds": 0.30961749982088804
+      },
+      {
+        "name": "finance",
+        "exit": 0,
+        "seconds": 0.1946434590499848
+      }
+    ],
+    "finance": {
+      "schema_version": 1,
+      "dataset": "SYNTHETIC_DEVELOPMENT_V1",
+      "not_holdout": true,
+      "timestamp_utc": "2026-10-30T01:02:58.033640+00:00",
+      "cases_sha256": "e50617a118d17d4723ad0110fe636d91c83ecc3c3188c1da399373468636901a",
+      "code_sha": "b9fbc0336324fc513cc9a2d7fb945067059e0de3",
+      "tracked_diff_sha256": "6694701d7a0c7c955c58215f77bd3426e43dc69db1963f265901c6578b196c2a",
+      "protocol": "One pass in listed order; no best-of-N; median p50; nearest-rank p95; no monetary price inferred.",
+      "transport": "in-process deterministic baseline only",
+      "budgets": {
+        "tasks": 8,
+        "max_model_calls_per_task": 4,
+        "max_output_tokens_per_call": 256,
+        "max_model_calls_total": 32
+      },
+      "arms": {
+        "deterministic": {
+          "rows": [
+            {
+              "case_id": "aurora-gross-margin",
+              "kind": "calculation",
+              "seconds": 0.000832,
+              "result": {
+                "schema_version": "1.0",
+                "trace_id": "719b3303758c4448a044479840166978",
+                "mode": "synthetic_calculation",
+                "status": "CALCULATED",
+                "answer": "SYNTHETIC: Aurora Orchard 2024 gross margin = 30.00%",
+                "claims": [
+                  {
+                    "text": "SYNTHETIC: Aurora Orchard 2024 gross margin = 30.00%",
+                    "calc_id": "calc_95b12ec6ff5dec8af70076ca",
+                    "citation_ids": [
+                      "syn_aurora_2024:p1:c1"
+                    ]
+                  }
+                ],
+                "citations": [
+                  {
+                    "citation_id": "syn_aurora_2024:p1:c1",
+                    "chunk_id": "syn_aurora_2024:p1:c1",
+                    "doc_id": "syn_aurora_2024",
+                    "source_file": "aurora_2024.json",
+                    "source_sha256": "8fcdd5f8fcf019b8834463cd792def252bcd0a024dbc6df46aa944da7a70308e",
+                    "company": "Aurora Orchard",
+                    "year": 2024,
+                    "page": 1,
+                    "page_kind": "synthetic",
+                    "classification": "SYNTHETIC",
+                    "excerpt": "Aurora Orchard recorded revenue of USD 120 million in 2024. Its gross profit was USD 36 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope."
+                  }
+                ],
+                "calculations": [
+                  {
+                    "calc_id": "calc_95b12ec6ff5dec8af70076ca",
+                    "operation": "gross_margin",
+                    "formula": "gross_profit / revenue",
+                    "input_fact_ids": {
+                      "gross_profit": "syn_aurora_2024_gross_profit",
+                      "revenue": "syn_aurora_2024_revenue"
+                    },
+                    "normalized_inputs": {
+                      "gross_profit": "36000000",
+                      "revenue": "120000000"
+                    },
+                    "value": "0.3",
+                    "unit": "ratio",
+                    "display": "30.00%",
+                    "numeric_policy": {
+                      "version": "gross_margin_v1",
+                      "precision": 50,
+                      "rounding": "ROUND_HALF_EVEN",
+                      "display_decimal_places": 2
+                    },
+                    "citation_ids": [
+                      "syn_aurora_2024:p1:c1"
+                    ]
+                  }
+                ],
+                "limitations": [
+                  "SYNTHETIC fixture calculation only; not real financial data or human-verified facts.",
+                  "The version-controlled fixture manifest is trusted for numeric transcription and metadata.",
+                  "Source hashes/excerpts detect drift, not semantic correctness or malicious replacement of all artifacts.",
+                  "Only calendar-year gross margin, adjacent-year revenue growth and margin percentage-point change are exposed; no currency conversion or missing-value inference.",
+                  "Decimal ratios use 50 significant digits; margin change uses 100-digit cross-product arithmetic. Displays use two decimals, half-even rounding.",
+                  "No model, authorization system or persistent trace is involved. Fact storage does not establish human review."
+                ],
+                "facts": [
+                  {
+                    "fact_id": "syn_aurora_2024_revenue",
+                    "company": "Aurora Orchard",
+                    "metric": "revenue",
+                    "period_start": "2024-01-01",
+                    "period_end": "2024-12-31",
+                    "report_type": "annual",
+                    "raw_value": "120",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_aurora_2024",
+                    "source_file": "aurora_2024.json",
+                    "source_sha256": "8fcdd5f8fcf019b8834463cd792def252bcd0a024dbc6df46aa944da7a70308e",
+                    "page": 1,
+                    "source_excerpt": "Aurora Orchard recorded revenue of USD 120 million in 2024. Its gross profit was USD 36 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "120000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_aurora_2024:p1:c1"
+                  },
+                  {
+                    "fact_id": "syn_aurora_2024_gross_profit",
+                    "company": "Aurora Orchard",
+                    "metric": "gross_profit",
+                    "period_start": "2024-01-01",
+                    "period_end": "2024-12-31",
+                    "report_type": "annual",
+                    "raw_value": "36",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_aurora_2024",
+                    "source_file": "aurora_2024.json",
+                    "source_sha256": "8fcdd5f8fcf019b8834463cd792def252bcd0a024dbc6df46aa944da7a70308e",
+                    "page": 1,
+                    "source_excerpt": "Aurora Orchard recorded revenue of USD 120 million in 2024. Its gross profit was USD 36 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "36000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_aurora_2024:p1:c1"
+                  }
+                ],
+                "fact_store": "json_manifest",
+                "filters": {
+                  "company": "Aurora Orchard",
+                  "year": 2024,
+                  "report_type": "annual"
+                },
+                "resolved_operation": "gross-margin"
+              },
+              "judgment": {
+                "passed": true,
+                "numeric_correct": true,
+                "sources_complete": true
+              }
+            },
+            {
+              "case_id": "aurora-revenue-growth",
+              "kind": "calculation",
+              "seconds": 0.000673,
+              "result": {
+                "schema_version": "1.0",
+                "trace_id": "36026ea3746d4c809be99857407d0e00",
+                "mode": "synthetic_calculation",
+                "status": "CALCULATED",
+                "answer": "SYNTHETIC: Aurora Orchard 2024 vs 2023 revenue growth = 20.00%",
+                "claims": [
+                  {
+                    "text": "SYNTHETIC: Aurora Orchard 2024 vs 2023 revenue growth = 20.00%",
+                    "calc_id": "calc_399468e6d1b3148fc58aad55",
+                    "citation_ids": [
+                      "syn_aurora_2024:p1:c1",
+                      "syn_aurora_2023:p1:c1"
+                    ]
+                  }
+                ],
+                "citations": [
+                  {
+                    "citation_id": "syn_aurora_2024:p1:c1",
+                    "chunk_id": "syn_aurora_2024:p1:c1",
+                    "doc_id": "syn_aurora_2024",
+                    "source_file": "aurora_2024.json",
+                    "source_sha256": "8fcdd5f8fcf019b8834463cd792def252bcd0a024dbc6df46aa944da7a70308e",
+                    "company": "Aurora Orchard",
+                    "year": 2024,
+                    "page": 1,
+                    "page_kind": "synthetic",
+                    "classification": "SYNTHETIC",
+                    "excerpt": "Aurora Orchard recorded revenue of USD 120 million in 2024. Its gross profit was USD 36 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope."
+                  },
+                  {
+                    "citation_id": "syn_aurora_2023:p1:c1",
+                    "chunk_id": "syn_aurora_2023:p1:c1",
+                    "doc_id": "syn_aurora_2023",
+                    "source_file": "aurora_2023.json",
+                    "source_sha256": "6b3c50b0c42524ce2d03c5178230bd5a9168f1cf8b643ea4d5cb17f0f3ff09cf",
+                    "company": "Aurora Orchard",
+                    "year": 2023,
+                    "page": 1,
+                    "page_kind": "synthetic",
+                    "classification": "SYNTHETIC",
+                    "excerpt": "Aurora Orchard recorded revenue of USD 100 million in 2023. Its gross profit was USD 25 million. These SYNTHETIC annual amounts cover 2023-01-01 to 2023-12-31, use the synthetic_simplified accounting basis and the standalone entity scope."
+                  }
+                ],
+                "calculations": [
+                  {
+                    "calc_id": "calc_399468e6d1b3148fc58aad55",
+                    "operation": "revenue_growth",
+                    "formula": "(current_revenue - prior_revenue) / prior_revenue",
+                    "input_fact_ids": {
+                      "current_revenue": "syn_aurora_2024_revenue",
+                      "prior_revenue": "syn_aurora_2023_revenue"
+                    },
+                    "normalized_inputs": {
+                      "current_revenue": "120000000",
+                      "prior_revenue": "100000000"
+                    },
+                    "absolute_change": "20000000",
+                    "currency": "USD",
+                    "value": "0.2",
+                    "unit": "ratio",
+                    "display": "20.00%",
+                    "numeric_policy": {
+                      "version": "revenue_growth_v1",
+                      "precision": 50,
+                      "rounding": "ROUND_HALF_EVEN",
+                      "display_decimal_places": 2,
+                      "period": "adjacent_calendar_years",
+                      "prior_revenue": "positive",
+                      "current_revenue": "nonnegative"
+                    },
+                    "citation_ids": [
+                      "syn_aurora_2024:p1:c1",
+                      "syn_aurora_2023:p1:c1"
+                    ]
+                  }
+                ],
+                "limitations": [
+                  "SYNTHETIC fixture calculation only; not real financial data or human-verified facts.",
+                  "The version-controlled fixture manifest is trusted for numeric transcription and metadata.",
+                  "Source hashes/excerpts detect drift, not semantic correctness or malicious replacement of all artifacts.",
+                  "Only calendar-year gross margin, adjacent-year revenue growth and margin percentage-point change are exposed; no currency conversion or missing-value inference.",
+                  "Decimal ratios use 50 significant digits; margin change uses 100-digit cross-product arithmetic. Displays use two decimals, half-even rounding.",
+                  "No model, authorization system or persistent trace is involved. Fact storage does not establish human review."
+                ],
+                "facts": [
+                  {
+                    "fact_id": "syn_aurora_2024_revenue",
+                    "company": "Aurora Orchard",
+                    "metric": "revenue",
+                    "period_start": "2024-01-01",
+                    "period_end": "2024-12-31",
+                    "report_type": "annual",
+                    "raw_value": "120",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_aurora_2024",
+                    "source_file": "aurora_2024.json",
+                    "source_sha256": "8fcdd5f8fcf019b8834463cd792def252bcd0a024dbc6df46aa944da7a70308e",
+                    "page": 1,
+                    "source_excerpt": "Aurora Orchard recorded revenue of USD 120 million in 2024. Its gross profit was USD 36 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "120000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_aurora_2024:p1:c1"
+                  },
+                  {
+                    "fact_id": "syn_aurora_2023_revenue",
+                    "company": "Aurora Orchard",
+                    "metric": "revenue",
+                    "period_start": "2023-01-01",
+                    "period_end": "2023-12-31",
+                    "report_type": "annual",
+                    "raw_value": "100",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_aurora_2023",
+                    "source_file": "aurora_2023.json",
+                    "source_sha256": "6b3c50b0c42524ce2d03c5178230bd5a9168f1cf8b643ea4d5cb17f0f3ff09cf",
+                    "page": 1,
+                    "source_excerpt": "Aurora Orchard recorded revenue of USD 100 million in 2023. Its gross profit was USD 25 million. These SYNTHETIC annual amounts cover 2023-01-01 to 2023-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "100000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_aurora_2023:p1:c1"
+                  }
+                ],
+                "fact_store": "json_manifest",
+                "filters": {
+                  "company": "Aurora Orchard",
+                  "year": 2024,
+                  "prior_year": 2023,
+                  "report_type": "annual"
+                },
+                "resolved_operation": "revenue-growth"
+              },
+              "judgment": {
+                "passed": true,
+                "numeric_correct": true,
+                "sources_complete": true
+              }
+            },
+            {
+              "case_id": "aurora-gross-margin-change",
+              "kind": "calculation",
+              "seconds": 0.000858,
+              "result": {
+                "schema_version": "1.0",
+                "trace_id": "ebc6bca89090408088446af99b534e80",
+                "mode": "synthetic_calculation",
+                "status": "CALCULATED",
+                "answer": "SYNTHETIC: Aurora Orchard 2024 vs 2023 gross margin change = 5.00 pp (current 30.00%; prior 25.00%)",
+                "claims": [
+                  {
+                    "text": "SYNTHETIC: Aurora Orchard 2024 vs 2023 gross margin change = 5.00 pp (current 30.00%; prior 25.00%)",
+                    "calc_id": "calc_0b686246380d4c4314ddac5d",
+                    "citation_ids": [
+                      "syn_aurora_2024:p1:c1",
+                      "syn_aurora_2023:p1:c1"
+                    ]
+                  }
+                ],
+                "citations": [
+                  {
+                    "citation_id": "syn_aurora_2024:p1:c1",
+                    "chunk_id": "syn_aurora_2024:p1:c1",
+                    "doc_id": "syn_aurora_2024",
+                    "source_file": "aurora_2024.json",
+                    "source_sha256": "8fcdd5f8fcf019b8834463cd792def252bcd0a024dbc6df46aa944da7a70308e",
+                    "company": "Aurora Orchard",
+                    "year": 2024,
+                    "page": 1,
+                    "page_kind": "synthetic",
+                    "classification": "SYNTHETIC",
+                    "excerpt": "Aurora Orchard recorded revenue of USD 120 million in 2024. Its gross profit was USD 36 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope."
+                  },
+                  {
+                    "citation_id": "syn_aurora_2023:p1:c1",
+                    "chunk_id": "syn_aurora_2023:p1:c1",
+                    "doc_id": "syn_aurora_2023",
+                    "source_file": "aurora_2023.json",
+                    "source_sha256": "6b3c50b0c42524ce2d03c5178230bd5a9168f1cf8b643ea4d5cb17f0f3ff09cf",
+                    "company": "Aurora Orchard",
+                    "year": 2023,
+                    "page": 1,
+                    "page_kind": "synthetic",
+                    "classification": "SYNTHETIC",
+                    "excerpt": "Aurora Orchard recorded revenue of USD 100 million in 2023. Its gross profit was USD 25 million. These SYNTHETIC annual amounts cover 2023-01-01 to 2023-12-31, use the synthetic_simplified accounting basis and the standalone entity scope."
+                  }
+                ],
+                "calculations": [
+                  {
+                    "calc_id": "calc_0b686246380d4c4314ddac5d",
+                    "operation": "gross_margin_change",
+                    "formula": "(current_gross_profit / current_revenue - prior_gross_profit / prior_revenue) * 100",
+                    "input_fact_ids": {
+                      "current_gross_profit": "syn_aurora_2024_gross_profit",
+                      "current_revenue": "syn_aurora_2024_revenue",
+                      "prior_gross_profit": "syn_aurora_2023_gross_profit",
+                      "prior_revenue": "syn_aurora_2023_revenue"
+                    },
+                    "normalized_inputs": {
+                      "current_gross_profit": "36000000",
+                      "current_revenue": "120000000",
+                      "prior_gross_profit": "25000000",
+                      "prior_revenue": "100000000"
+                    },
+                    "component_margins": {
+                      "current": {
+                        "value": "0.3",
+                        "unit": "ratio",
+                        "display": "30.00%"
+                      },
+                      "prior": {
+                        "value": "0.25",
+                        "unit": "ratio",
+                        "display": "25.00%"
+                      }
+                    },
+                    "value": "5",
+                    "unit": "percentage_points",
+                    "display": "5.00 pp",
+                    "numeric_policy": {
+                      "version": "gross_margin_change_v1",
+                      "precision": 100,
+                      "rounding": "ROUND_HALF_EVEN",
+                      "display_decimal_places": 2,
+                      "period": "adjacent_calendar_years",
+                      "revenue": "positive_in_both_years",
+                      "method": "normalized_cross_products",
+                      "component_ratio_precision": 50
+                    },
+                    "citation_ids": [
+                      "syn_aurora_2024:p1:c1",
+                      "syn_aurora_2023:p1:c1"
+                    ]
+                  }
+                ],
+                "limitations": [
+                  "SYNTHETIC fixture calculation only; not real financial data or human-verified facts.",
+                  "The version-controlled fixture manifest is trusted for numeric transcription and metadata.",
+                  "Source hashes/excerpts detect drift, not semantic correctness or malicious replacement of all artifacts.",
+                  "Only calendar-year gross margin, adjacent-year revenue growth and margin percentage-point change are exposed; no currency conversion or missing-value inference.",
+                  "Decimal ratios use 50 significant digits; margin change uses 100-digit cross-product arithmetic. Displays use two decimals, half-even rounding.",
+                  "No model, authorization system or persistent trace is involved. Fact storage does not establish human review."
+                ],
+                "facts": [
+                  {
+                    "fact_id": "syn_aurora_2024_revenue",
+                    "company": "Aurora Orchard",
+                    "metric": "revenue",
+                    "period_start": "2024-01-01",
+                    "period_end": "2024-12-31",
+                    "report_type": "annual",
+                    "raw_value": "120",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_aurora_2024",
+                    "source_file": "aurora_2024.json",
+                    "source_sha256": "8fcdd5f8fcf019b8834463cd792def252bcd0a024dbc6df46aa944da7a70308e",
+                    "page": 1,
+                    "source_excerpt": "Aurora Orchard recorded revenue of USD 120 million in 2024. Its gross profit was USD 36 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "120000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_aurora_2024:p1:c1"
+                  },
+                  {
+                    "fact_id": "syn_aurora_2024_gross_profit",
+                    "company": "Aurora Orchard",
+                    "metric": "gross_profit",
+                    "period_start": "2024-01-01",
+                    "period_end": "2024-12-31",
+                    "report_type": "annual",
+                    "raw_value": "36",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_aurora_2024",
+                    "source_file": "aurora_2024.json",
+                    "source_sha256": "8fcdd5f8fcf019b8834463cd792def252bcd0a024dbc6df46aa944da7a70308e",
+                    "page": 1,
+                    "source_excerpt": "Aurora Orchard recorded revenue of USD 120 million in 2024. Its gross profit was USD 36 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "36000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_aurora_2024:p1:c1"
+                  },
+                  {
+                    "fact_id": "syn_aurora_2023_revenue",
+                    "company": "Aurora Orchard",
+                    "metric": "revenue",
+                    "period_start": "2023-01-01",
+                    "period_end": "2023-12-31",
+                    "report_type": "annual",
+                    "raw_value": "100",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_aurora_2023",
+                    "source_file": "aurora_2023.json",
+                    "source_sha256": "6b3c50b0c42524ce2d03c5178230bd5a9168f1cf8b643ea4d5cb17f0f3ff09cf",
+                    "page": 1,
+                    "source_excerpt": "Aurora Orchard recorded revenue of USD 100 million in 2023. Its gross profit was USD 25 million. These SYNTHETIC annual amounts cover 2023-01-01 to 2023-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "100000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_aurora_2023:p1:c1"
+                  },
+                  {
+                    "fact_id": "syn_aurora_2023_gross_profit",
+                    "company": "Aurora Orchard",
+                    "metric": "gross_profit",
+                    "period_start": "2023-01-01",
+                    "period_end": "2023-12-31",
+                    "report_type": "annual",
+                    "raw_value": "25",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_aurora_2023",
+                    "source_file": "aurora_2023.json",
+                    "source_sha256": "6b3c50b0c42524ce2d03c5178230bd5a9168f1cf8b643ea4d5cb17f0f3ff09cf",
+                    "page": 1,
+                    "source_excerpt": "Aurora Orchard recorded revenue of USD 100 million in 2023. Its gross profit was USD 25 million. These SYNTHETIC annual amounts cover 2023-01-01 to 2023-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "25000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_aurora_2023:p1:c1"
+                  }
+                ],
+                "fact_store": "json_manifest",
+                "filters": {
+                  "company": "Aurora Orchard",
+                  "year": 2024,
+                  "prior_year": 2023,
+                  "report_type": "annual"
+                },
+                "resolved_operation": "gross-margin-change"
+              },
+              "judgment": {
+                "passed": true,
+                "numeric_correct": true,
+                "sources_complete": true
+              }
+            },
+            {
+              "case_id": "harbor-gross-margin",
+              "kind": "calculation",
+              "seconds": 0.000618,
+              "result": {
+                "schema_version": "1.0",
+                "trace_id": "85b035a3524443258e8f9fbb24f6fd0b",
+                "mode": "synthetic_calculation",
+                "status": "CALCULATED",
+                "answer": "SYNTHETIC: Harbor Lantern 2024 gross margin = 25.00%",
+                "claims": [
+                  {
+                    "text": "SYNTHETIC: Harbor Lantern 2024 gross margin = 25.00%",
+                    "calc_id": "calc_9918c9dfc558cc68656fd932",
+                    "citation_ids": [
+                      "syn_harbor_2024:p1:c1"
+                    ]
+                  }
+                ],
+                "citations": [
+                  {
+                    "citation_id": "syn_harbor_2024:p1:c1",
+                    "chunk_id": "syn_harbor_2024:p1:c1",
+                    "doc_id": "syn_harbor_2024",
+                    "source_file": "harbor_2024.json",
+                    "source_sha256": "befa8170e624a5c2c8b67eb71d5e449ffc635b97b1bbddafbeb24d80dbc4cbd1",
+                    "company": "Harbor Lantern",
+                    "year": 2024,
+                    "page": 1,
+                    "page_kind": "synthetic",
+                    "classification": "SYNTHETIC",
+                    "excerpt": "Harbor Lantern recorded revenue of USD 80 million in 2024. Its gross profit was USD 20 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope."
+                  }
+                ],
+                "calculations": [
+                  {
+                    "calc_id": "calc_9918c9dfc558cc68656fd932",
+                    "operation": "gross_margin",
+                    "formula": "gross_profit / revenue",
+                    "input_fact_ids": {
+                      "gross_profit": "syn_harbor_2024_gross_profit",
+                      "revenue": "syn_harbor_2024_revenue"
+                    },
+                    "normalized_inputs": {
+                      "gross_profit": "20000000",
+                      "revenue": "80000000"
+                    },
+                    "value": "0.25",
+                    "unit": "ratio",
+                    "display": "25.00%",
+                    "numeric_policy": {
+                      "version": "gross_margin_v1",
+                      "precision": 50,
+                      "rounding": "ROUND_HALF_EVEN",
+                      "display_decimal_places": 2
+                    },
+                    "citation_ids": [
+                      "syn_harbor_2024:p1:c1"
+                    ]
+                  }
+                ],
+                "limitations": [
+                  "SYNTHETIC fixture calculation only; not real financial data or human-verified facts.",
+                  "The version-controlled fixture manifest is trusted for numeric transcription and metadata.",
+                  "Source hashes/excerpts detect drift, not semantic correctness or malicious replacement of all artifacts.",
+                  "Only calendar-year gross margin, adjacent-year revenue growth and margin percentage-point change are exposed; no currency conversion or missing-value inference.",
+                  "Decimal ratios use 50 significant digits; margin change uses 100-digit cross-product arithmetic. Displays use two decimals, half-even rounding.",
+                  "No model, authorization system or persistent trace is involved. Fact storage does not establish human review."
+                ],
+                "facts": [
+                  {
+                    "fact_id": "syn_harbor_2024_revenue",
+                    "company": "Harbor Lantern",
+                    "metric": "revenue",
+                    "period_start": "2024-01-01",
+                    "period_end": "2024-12-31",
+                    "report_type": "annual",
+                    "raw_value": "80",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_harbor_2024",
+                    "source_file": "harbor_2024.json",
+                    "source_sha256": "befa8170e624a5c2c8b67eb71d5e449ffc635b97b1bbddafbeb24d80dbc4cbd1",
+                    "page": 1,
+                    "source_excerpt": "Harbor Lantern recorded revenue of USD 80 million in 2024. Its gross profit was USD 20 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "80000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_harbor_2024:p1:c1"
+                  },
+                  {
+                    "fact_id": "syn_harbor_2024_gross_profit",
+                    "company": "Harbor Lantern",
+                    "metric": "gross_profit",
+                    "period_start": "2024-01-01",
+                    "period_end": "2024-12-31",
+                    "report_type": "annual",
+                    "raw_value": "20",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_harbor_2024",
+                    "source_file": "harbor_2024.json",
+                    "source_sha256": "befa8170e624a5c2c8b67eb71d5e449ffc635b97b1bbddafbeb24d80dbc4cbd1",
+                    "page": 1,
+                    "source_excerpt": "Harbor Lantern recorded revenue of USD 80 million in 2024. Its gross profit was USD 20 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "20000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_harbor_2024:p1:c1"
+                  }
+                ],
+                "fact_store": "json_manifest",
+                "filters": {
+                  "company": "Harbor Lantern",
+                  "year": 2024,
+                  "report_type": "annual"
+                },
+                "resolved_operation": "gross-margin"
+              },
+              "judgment": {
+                "passed": true,
+                "numeric_correct": true,
+                "sources_complete": true
+              }
+            },
+            {
+              "case_id": "harbor-revenue-growth",
+              "kind": "calculation",
+              "seconds": 0.000585,
+              "result": {
+                "schema_version": "1.0",
+                "trace_id": "29ca0d88652c41baa68c3607eba46a2b",
+                "mode": "synthetic_calculation",
+                "status": "CALCULATED",
+                "answer": "SYNTHETIC: Harbor Lantern 2024 vs 2023 revenue growth = -20.00%",
+                "claims": [
+                  {
+                    "text": "SYNTHETIC: Harbor Lantern 2024 vs 2023 revenue growth = -20.00%",
+                    "calc_id": "calc_8d9148edca781a85c009dba9",
+                    "citation_ids": [
+                      "syn_harbor_2024:p1:c1",
+                      "syn_harbor_2023:p1:c1"
+                    ]
+                  }
+                ],
+                "citations": [
+                  {
+                    "citation_id": "syn_harbor_2024:p1:c1",
+                    "chunk_id": "syn_harbor_2024:p1:c1",
+                    "doc_id": "syn_harbor_2024",
+                    "source_file": "harbor_2024.json",
+                    "source_sha256": "befa8170e624a5c2c8b67eb71d5e449ffc635b97b1bbddafbeb24d80dbc4cbd1",
+                    "company": "Harbor Lantern",
+                    "year": 2024,
+                    "page": 1,
+                    "page_kind": "synthetic",
+                    "classification": "SYNTHETIC",
+                    "excerpt": "Harbor Lantern recorded revenue of USD 80 million in 2024. Its gross profit was USD 20 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope."
+                  },
+                  {
+                    "citation_id": "syn_harbor_2023:p1:c1",
+                    "chunk_id": "syn_harbor_2023:p1:c1",
+                    "doc_id": "syn_harbor_2023",
+                    "source_file": "harbor_2023.json",
+                    "source_sha256": "a7d9e864d27fb3ade51d2284f3fa4283b37657972cf50839c9ce86ee039ea268",
+                    "company": "Harbor Lantern",
+                    "year": 2023,
+                    "page": 1,
+                    "page_kind": "synthetic",
+                    "classification": "SYNTHETIC",
+                    "excerpt": "Harbor Lantern recorded revenue of USD 100 million in 2023. Its gross profit was USD 30 million. These SYNTHETIC annual amounts cover 2023-01-01 to 2023-12-31, use the synthetic_simplified accounting basis and the standalone entity scope."
+                  }
+                ],
+                "calculations": [
+                  {
+                    "calc_id": "calc_8d9148edca781a85c009dba9",
+                    "operation": "revenue_growth",
+                    "formula": "(current_revenue - prior_revenue) / prior_revenue",
+                    "input_fact_ids": {
+                      "current_revenue": "syn_harbor_2024_revenue",
+                      "prior_revenue": "syn_harbor_2023_revenue"
+                    },
+                    "normalized_inputs": {
+                      "current_revenue": "80000000",
+                      "prior_revenue": "100000000"
+                    },
+                    "absolute_change": "-20000000",
+                    "currency": "USD",
+                    "value": "-0.2",
+                    "unit": "ratio",
+                    "display": "-20.00%",
+                    "numeric_policy": {
+                      "version": "revenue_growth_v1",
+                      "precision": 50,
+                      "rounding": "ROUND_HALF_EVEN",
+                      "display_decimal_places": 2,
+                      "period": "adjacent_calendar_years",
+                      "prior_revenue": "positive",
+                      "current_revenue": "nonnegative"
+                    },
+                    "citation_ids": [
+                      "syn_harbor_2024:p1:c1",
+                      "syn_harbor_2023:p1:c1"
+                    ]
+                  }
+                ],
+                "limitations": [
+                  "SYNTHETIC fixture calculation only; not real financial data or human-verified facts.",
+                  "The version-controlled fixture manifest is trusted for numeric transcription and metadata.",
+                  "Source hashes/excerpts detect drift, not semantic correctness or malicious replacement of all artifacts.",
+                  "Only calendar-year gross margin, adjacent-year revenue growth and margin percentage-point change are exposed; no currency conversion or missing-value inference.",
+                  "Decimal ratios use 50 significant digits; margin change uses 100-digit cross-product arithmetic. Displays use two decimals, half-even rounding.",
+                  "No model, authorization system or persistent trace is involved. Fact storage does not establish human review."
+                ],
+                "facts": [
+                  {
+                    "fact_id": "syn_harbor_2024_revenue",
+                    "company": "Harbor Lantern",
+                    "metric": "revenue",
+                    "period_start": "2024-01-01",
+                    "period_end": "2024-12-31",
+                    "report_type": "annual",
+                    "raw_value": "80",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_harbor_2024",
+                    "source_file": "harbor_2024.json",
+                    "source_sha256": "befa8170e624a5c2c8b67eb71d5e449ffc635b97b1bbddafbeb24d80dbc4cbd1",
+                    "page": 1,
+                    "source_excerpt": "Harbor Lantern recorded revenue of USD 80 million in 2024. Its gross profit was USD 20 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "80000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_harbor_2024:p1:c1"
+                  },
+                  {
+                    "fact_id": "syn_harbor_2023_revenue",
+                    "company": "Harbor Lantern",
+                    "metric": "revenue",
+                    "period_start": "2023-01-01",
+                    "period_end": "2023-12-31",
+                    "report_type": "annual",
+                    "raw_value": "100",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_harbor_2023",
+                    "source_file": "harbor_2023.json",
+                    "source_sha256": "a7d9e864d27fb3ade51d2284f3fa4283b37657972cf50839c9ce86ee039ea268",
+                    "page": 1,
+                    "source_excerpt": "Harbor Lantern recorded revenue of USD 100 million in 2023. Its gross profit was USD 30 million. These SYNTHETIC annual amounts cover 2023-01-01 to 2023-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "100000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_harbor_2023:p1:c1"
+                  }
+                ],
+                "fact_store": "json_manifest",
+                "filters": {
+                  "company": "Harbor Lantern",
+                  "year": 2024,
+                  "prior_year": 2023,
+                  "report_type": "annual"
+                },
+                "resolved_operation": "revenue-growth"
+              },
+              "judgment": {
+                "passed": true,
+                "numeric_correct": true,
+                "sources_complete": true
+              }
+            },
+            {
+              "case_id": "harbor-gross-margin-change",
+              "kind": "calculation",
+              "seconds": 0.00072,
+              "result": {
+                "schema_version": "1.0",
+                "trace_id": "e4473229026c4d6dba8be78bfdb58b44",
+                "mode": "synthetic_calculation",
+                "status": "CALCULATED",
+                "answer": "SYNTHETIC: Harbor Lantern 2024 vs 2023 gross margin change = -5.00 pp (current 25.00%; prior 30.00%)",
+                "claims": [
+                  {
+                    "text": "SYNTHETIC: Harbor Lantern 2024 vs 2023 gross margin change = -5.00 pp (current 25.00%; prior 30.00%)",
+                    "calc_id": "calc_9873704fc7bc57e3e9a87894",
+                    "citation_ids": [
+                      "syn_harbor_2024:p1:c1",
+                      "syn_harbor_2023:p1:c1"
+                    ]
+                  }
+                ],
+                "citations": [
+                  {
+                    "citation_id": "syn_harbor_2024:p1:c1",
+                    "chunk_id": "syn_harbor_2024:p1:c1",
+                    "doc_id": "syn_harbor_2024",
+                    "source_file": "harbor_2024.json",
+                    "source_sha256": "befa8170e624a5c2c8b67eb71d5e449ffc635b97b1bbddafbeb24d80dbc4cbd1",
+                    "company": "Harbor Lantern",
+                    "year": 2024,
+                    "page": 1,
+                    "page_kind": "synthetic",
+                    "classification": "SYNTHETIC",
+                    "excerpt": "Harbor Lantern recorded revenue of USD 80 million in 2024. Its gross profit was USD 20 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope."
+                  },
+                  {
+                    "citation_id": "syn_harbor_2023:p1:c1",
+                    "chunk_id": "syn_harbor_2023:p1:c1",
+                    "doc_id": "syn_harbor_2023",
+                    "source_file": "harbor_2023.json",
+                    "source_sha256": "a7d9e864d27fb3ade51d2284f3fa4283b37657972cf50839c9ce86ee039ea268",
+                    "company": "Harbor Lantern",
+                    "year": 2023,
+                    "page": 1,
+                    "page_kind": "synthetic",
+                    "classification": "SYNTHETIC",
+                    "excerpt": "Harbor Lantern recorded revenue of USD 100 million in 2023. Its gross profit was USD 30 million. These SYNTHETIC annual amounts cover 2023-01-01 to 2023-12-31, use the synthetic_simplified accounting basis and the standalone entity scope."
+                  }
+                ],
+                "calculations": [
+                  {
+                    "calc_id": "calc_9873704fc7bc57e3e9a87894",
+                    "operation": "gross_margin_change",
+                    "formula": "(current_gross_profit / current_revenue - prior_gross_profit / prior_revenue) * 100",
+                    "input_fact_ids": {
+                      "current_gross_profit": "syn_harbor_2024_gross_profit",
+                      "current_revenue": "syn_harbor_2024_revenue",
+                      "prior_gross_profit": "syn_harbor_2023_gross_profit",
+                      "prior_revenue": "syn_harbor_2023_revenue"
+                    },
+                    "normalized_inputs": {
+                      "current_gross_profit": "20000000",
+                      "current_revenue": "80000000",
+                      "prior_gross_profit": "30000000",
+                      "prior_revenue": "100000000"
+                    },
+                    "component_margins": {
+                      "current": {
+                        "value": "0.25",
+                        "unit": "ratio",
+                        "display": "25.00%"
+                      },
+                      "prior": {
+                        "value": "0.3",
+                        "unit": "ratio",
+                        "display": "30.00%"
+                      }
+                    },
+                    "value": "-5",
+                    "unit": "percentage_points",
+                    "display": "-5.00 pp",
+                    "numeric_policy": {
+                      "version": "gross_margin_change_v1",
+                      "precision": 100,
+                      "rounding": "ROUND_HALF_EVEN",
+                      "display_decimal_places": 2,
+                      "period": "adjacent_calendar_years",
+                      "revenue": "positive_in_both_years",
+                      "method": "normalized_cross_products",
+                      "component_ratio_precision": 50
+                    },
+                    "citation_ids": [
+                      "syn_harbor_2024:p1:c1",
+                      "syn_harbor_2023:p1:c1"
+                    ]
+                  }
+                ],
+                "limitations": [
+                  "SYNTHETIC fixture calculation only; not real financial data or human-verified facts.",
+                  "The version-controlled fixture manifest is trusted for numeric transcription and metadata.",
+                  "Source hashes/excerpts detect drift, not semantic correctness or malicious replacement of all artifacts.",
+                  "Only calendar-year gross margin, adjacent-year revenue growth and margin percentage-point change are exposed; no currency conversion or missing-value inference.",
+                  "Decimal ratios use 50 significant digits; margin change uses 100-digit cross-product arithmetic. Displays use two decimals, half-even rounding.",
+                  "No model, authorization system or persistent trace is involved. Fact storage does not establish human review."
+                ],
+                "facts": [
+                  {
+                    "fact_id": "syn_harbor_2024_revenue",
+                    "company": "Harbor Lantern",
+                    "metric": "revenue",
+                    "period_start": "2024-01-01",
+                    "period_end": "2024-12-31",
+                    "report_type": "annual",
+                    "raw_value": "80",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_harbor_2024",
+                    "source_file": "harbor_2024.json",
+                    "source_sha256": "befa8170e624a5c2c8b67eb71d5e449ffc635b97b1bbddafbeb24d80dbc4cbd1",
+                    "page": 1,
+                    "source_excerpt": "Harbor Lantern recorded revenue of USD 80 million in 2024. Its gross profit was USD 20 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "80000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_harbor_2024:p1:c1"
+                  },
+                  {
+                    "fact_id": "syn_harbor_2024_gross_profit",
+                    "company": "Harbor Lantern",
+                    "metric": "gross_profit",
+                    "period_start": "2024-01-01",
+                    "period_end": "2024-12-31",
+                    "report_type": "annual",
+                    "raw_value": "20",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_harbor_2024",
+                    "source_file": "harbor_2024.json",
+                    "source_sha256": "befa8170e624a5c2c8b67eb71d5e449ffc635b97b1bbddafbeb24d80dbc4cbd1",
+                    "page": 1,
+                    "source_excerpt": "Harbor Lantern recorded revenue of USD 80 million in 2024. Its gross profit was USD 20 million. These SYNTHETIC annual amounts cover 2024-01-01 to 2024-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "20000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_harbor_2024:p1:c1"
+                  },
+                  {
+                    "fact_id": "syn_harbor_2023_revenue",
+                    "company": "Harbor Lantern",
+                    "metric": "revenue",
+                    "period_start": "2023-01-01",
+                    "period_end": "2023-12-31",
+                    "report_type": "annual",
+                    "raw_value": "100",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_harbor_2023",
+                    "source_file": "harbor_2023.json",
+                    "source_sha256": "a7d9e864d27fb3ade51d2284f3fa4283b37657972cf50839c9ce86ee039ea268",
+                    "page": 1,
+                    "source_excerpt": "Harbor Lantern recorded revenue of USD 100 million in 2023. Its gross profit was USD 30 million. These SYNTHETIC annual amounts cover 2023-01-01 to 2023-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "100000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_harbor_2023:p1:c1"
+                  },
+                  {
+                    "fact_id": "syn_harbor_2023_gross_profit",
+                    "company": "Harbor Lantern",
+                    "metric": "gross_profit",
+                    "period_start": "2023-01-01",
+                    "period_end": "2023-12-31",
+                    "report_type": "annual",
+                    "raw_value": "30",
+                    "currency": "USD",
+                    "unit_scale": "1000000",
+                    "accounting_basis": "synthetic_simplified",
+                    "consolidation_scope": "standalone",
+                    "doc_id": "syn_harbor_2023",
+                    "source_file": "harbor_2023.json",
+                    "source_sha256": "a7d9e864d27fb3ade51d2284f3fa4283b37657972cf50839c9ce86ee039ea268",
+                    "page": 1,
+                    "source_excerpt": "Harbor Lantern recorded revenue of USD 100 million in 2023. Its gross profit was USD 30 million. These SYNTHETIC annual amounts cover 2023-01-01 to 2023-12-31, use the synthetic_simplified accounting basis and the standalone entity scope.",
+                    "verification_status": "synthetic_fixture",
+                    "verified_by": null,
+                    "normalized_value": "30000000",
+                    "classification": "SYNTHETIC",
+                    "citation_id": "syn_harbor_2023:p1:c1"
+                  }
+                ],
+                "fact_store": "json_manifest",
+                "filters": {
+                  "company": "Harbor Lantern",
+                  "year": 2024,
+                  "prior_year": 2023,
+                  "report_type": "annual"
+                },
+                "resolved_operation": "gross-margin-change"
+              },
+              "judgment": {
+                "passed": true,
+                "numeric_correct": true,
+                "sources_complete": true
+              }
+            },
+            {
+              "case_id": "missing-prior",
+              "kind": "refusal",
+              "seconds": 0.000266,
+              "result": {
+                "status": "FACTS_NOT_FOUND",
+                "answer": null
+              },
+              "judgment": {
+                "passed": true,
+                "refused_safely": true
+              }
+            },
+            {
+              "case_id": "unsupported-live-price",
+              "kind": "refusal",
+              "seconds": 9e-06,
+              "result": {
+                "status": "INVALID_OPERATION",
+                "answer": null
+              },
+              "judgment": {
+                "passed": true,
+                "refused_safely": true
+              }
+            }
+          ],
+          "summary": {
+            "completion": {
+              "passed": 8,
+              "total": 8
+            },
+            "numeric_correct": {
+              "passed": 6,
+              "total": 6
+            },
+            "sources_complete": {
+              "passed": 6,
+              "total": 6
+            },
+            "safe_refusal": {
+              "passed": 2,
+              "total": 2
+            },
+            "latency_n": 8,
+            "p50_seconds": 0.0006455,
+            "p95_seconds": 0.000858,
+            "model_calls": 0,
+            "reported_tokens": 0,
+            "usage_complete": true,
+            "calls_with_unknown_usage": 0
+          }
+        }
+      }
+    }
+  }
+}
