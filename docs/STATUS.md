@@ -1,5 +1,16 @@
 # Capability status
 
+## Deadline traceback privacy follow-up (2026-10-30)
+
+The deadline test observer now suppresses the original exception chain when
+emitting its fixed diagnostic failure. Four authored controls change0/4 to4/4
+safe full tracebacks; the original outcomes still fail. Local contracts6/6,
+normal deadlines7/7, full Python302/302 and JS260/260 pass. Production behavior,
+budgets and financial/UI sources are unchanged. Independent review is pending;
+this does not resolve the macOS orphan investigation or establish new deployment.
+See [PROVIDER_DEADLINE](PROVIDER_DEADLINE.md#full-traceback-privacy) and
+[first results](validation/deadline-traceback-2026-10-30.json).
+
 ## Orphan deadline failure evidence (2026-10-30)
 
 First publicatione722471 CI41019311798 attempt1 failed macOS299/300. The new

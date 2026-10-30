@@ -2,6 +2,7 @@
 import json
 import subprocess
 import threading
+import traceback
 import unittest
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -50,7 +51,7 @@ class DeadlineEvidenceTests(unittest.TestCase):
                 self.assertIn('DEADLINE_STAGE_NOT_REACHED', messages)
                 self.assertNotIn('SYNTHETIC_LOCAL_ONLY', messages)
 
-    def observe_fake(self, *, requests=1, reaped=True, error=False):
+    def observe_fake(self, *, requests=1, reaped=True, error=None):
         # Pure judge negative controls, not a network/model execution claim.
         case = deadline.ProviderDeadlineTests()
         case.peer = SimpleNamespace(accepted=0, requests=[], closed=threading.Event())
@@ -67,31 +68,57 @@ class DeadlineEvidenceTests(unittest.TestCase):
                     subprocess.Popen(['synthetic-judge-canary'])
                     case.peer.accepted = requests
                     case.peer.requests = [{} for _ in range(requests)]
-                    if error: raise AssertionError('PRIVATE_CANARY /private/path?key=secret')
+                    if error: raise error('PRIVATE_CANARY /private/path?key=secret')
             except AssertionError as exc:
-                return case.deadline_observations, str(exc)
+                return case.deadline_observations, str(exc), ''.join(traceback.format_exception(exc))
         self.fail('negative control incorrectly became successful')
 
     def test_unreaped_worker_remains_a_failure(self):
-        rows, error = self.observe_fake(reaped=False)
+        rows, error, _ = self.observe_fake(reaped=False)
         self.assertEqual(rows[0]['failure_code'], 'DEADLINE_CLEANUP_FAILED')
         self.assertFalse(rows[0]['workers'][0]['reaped'])
         self.assertIn('DEADLINE_CLEANUP_FAILED', error)
 
     def test_duplicate_request_remains_a_failure(self):
-        rows, error = self.observe_fake(requests=2)
+        rows, error, _ = self.observe_fake(requests=2)
         self.assertEqual(rows[0]['failure_code'], 'DEADLINE_NETWORK_COUNT')
         self.assertEqual(rows[0]['http_requests'], 2)
         self.assertIn('DEADLINE_NETWORK_COUNT', error)
 
     def test_failure_details_are_bounded_and_do_not_echo_raw_assertions(self):
-        rows, error = self.observe_fake(error=True)
+        rows, error, _ = self.observe_fake(error=AssertionError)
         self.assertEqual(rows[0]['failure_code'], 'DEADLINE_ASSERTION_FAILED')
         self.assertTrue(rows[0]['network_stage_reached'])
         self.assertNotIn('PRIVATE_CANARY', error)
         self.assertNotIn('/private/', error)
         self.assertLess(len(error), 1500)
         self.assertEqual(json.loads(error.split(': ', 1)[1]), rows[0])
+
+    def assert_safe_traceback(self, error_type, primary, failure_code):
+        for requests in (0, 1):
+            with self.subTest(requests=requests):
+                rows, message, rendered = self.observe_fake(requests=requests, error=error_type)
+                expected = failure_code if requests else 'DEADLINE_STAGE_NOT_REACHED'
+                self.assertEqual(rows[0]['failure_code'], expected)
+                self.assertEqual(rows[0]['primary_failure'], primary)
+                self.assertEqual(rows[0]['network_stage_reached'], bool(requests))
+                self.assertEqual(rows[0]['tcp_accepted'], requests)
+                self.assertEqual(rows[0]['http_requests'], requests)
+                self.assertEqual(rows[0]['workers'], [{
+                    'reaped': True, 'process_gone': True,
+                    'stdin_closed': True, 'stdout_closed': True}])
+                self.assertEqual(json.loads(message.split(': ', 1)[1]), rows[0])
+                self.assertIn(expected, rendered, 'redaction must retain the failure')
+                self.assertNotIn('PRIVATE_CANARY', rendered)
+                self.assertNotIn('/private/path?', rendered)
+                self.assertNotIn('key=secret', rendered)
+                self.assertNotIn('During handling of the above exception', rendered)
+
+    def test_assertion_traceback_excludes_original_context(self):
+        self.assert_safe_traceback(AssertionError, 'assertion', 'DEADLINE_ASSERTION_FAILED')
+
+    def test_unexpected_exception_traceback_excludes_original_context(self):
+        self.assert_safe_traceback(ValueError, 'unexpected_exception', 'DEADLINE_UNEXPECTED_EXCEPTION')
 
 
 if __name__ == '__main__': unittest.main()

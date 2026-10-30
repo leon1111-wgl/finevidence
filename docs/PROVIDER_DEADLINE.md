@@ -281,3 +281,21 @@ cleanup evidence. Updated contracts pass6/6 and full local Python300/300.
 The initial release and its CI failure remain in the record.
 This corrects test diagnostics only; no protocol error is newly counted as
 successful deadline coverage, and the original assertions/budgets remain.
+
+
+## Full traceback privacy
+
+The stage observer is a test diagnostic boundary. Python can render the original
+exception even when the final message contains only safe fields. It now raises
+`failureException` with explicit `from None`, matching the orphan observer.
+This suppresses original context in standard formatted tracebacks; it is not
+memory erasure or a promise to hide local filenames in ordinary stack frames.
+Reproduction uses synthetic canaries; no actual credential exposure was observed.
+
+Run `python3 -m unittest discover -s tests -p test_deadline_evidence.py -v`.
+Tests inspect full `traceback.format_exception` for AssertionError and ValueError
+with absent/present HTTP stage, preserving primary failure, fixed code, counts
+and cleanup. Missing-stage, duplicate and unreaped controls remain failures.
+Four new safe-traceback cases change0/4 to4/4; no production or budget change.
+The first red and unchanged external probe are in the
+[validation record](validation/deadline-traceback-2026-10-30.json).

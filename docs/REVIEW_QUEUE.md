@@ -1,5 +1,19 @@
 # Review queue
 
+## Deadline traceback privacy — pending independent verification (2026-10-30)
+
+Merge into P3 deadline-stage-precondition. Review of2875abe found a safe final
+message but raw assertion content in its full traceback. `observe_deadline` now
+raises the fixed failure with `from None`. Run `test_deadline_evidence.py`:
+AssertionError/ValueError ×missing/reached HTTP stage must retain category,
+counts and cleanup without the synthetic canary in the rendered traceback.
+First4/6 methods (four failed subcases), candidate6/6; normal deadlines7/7.
+Unreaped and duplicate negative controls remain failures. The unchanged external
+probe still asserts the old leak, so its candidate exit1 is retained and the
+four actual rows are assessed separately. No real secret exposure is established.
+Natural timeout causes, FE-013, E2 and finalE7 remain open.
+See [first results](validation/deadline-traceback-2026-10-30.json).
+
 ## Orphan deadline failure evidence (2026-10-30)
 
 First publicatione722471 CI41019311798 attempt1 failed macOS299/300. The new

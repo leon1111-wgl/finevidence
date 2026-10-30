@@ -1,0 +1,165 @@
+{
+  "classification": "KNOWN_SYNTHETIC_TEST_DIAGNOSTIC_PRIVACY_NOT_FINANCIAL_QUALITY",
+  "base_commit": "2875abe070102426824ac49450239d3bcb567fc8",
+  "measured_candidate": "uncommitted child of base; test helper changed only",
+  "probe_sha256": "6d4f6f50edefc80dba87e0c98529a9190d19e6cb271fda5dec9ebb1a0b4fae67",
+  "probe_rows": {
+    "before": [
+      {
+        "helper": "deadline",
+        "synthetic_private_assertion": false,
+        "safe_final_message": true,
+        "canary_in_full_traceback": false,
+        "fixed_code": "DEADLINE_STAGE_NOT_REACHED",
+        "seconds": 0.002488665981218219
+      },
+      {
+        "helper": "deadline",
+        "synthetic_private_assertion": true,
+        "safe_final_message": true,
+        "canary_in_full_traceback": true,
+        "fixed_code": "DEADLINE_STAGE_NOT_REACHED",
+        "seconds": 0.0009608329273760319
+      },
+      {
+        "helper": "orphan",
+        "synthetic_private_assertion": false,
+        "safe_final_message": true,
+        "canary_in_full_traceback": false,
+        "fixed_code": "ORPHAN_STAGE_NOT_REACHED",
+        "seconds": 0.0010207497980445623
+      },
+      {
+        "helper": "orphan",
+        "synthetic_private_assertion": true,
+        "safe_final_message": true,
+        "canary_in_full_traceback": false,
+        "fixed_code": "ORPHAN_STAGE_NOT_REACHED",
+        "seconds": 0.0005154160317033529
+      }
+    ],
+    "after": [
+      {
+        "helper": "deadline",
+        "synthetic_private_assertion": false,
+        "safe_final_message": true,
+        "canary_in_full_traceback": false,
+        "fixed_code": "DEADLINE_STAGE_NOT_REACHED",
+        "seconds": 0.00147387501783669
+      },
+      {
+        "helper": "deadline",
+        "synthetic_private_assertion": true,
+        "safe_final_message": true,
+        "canary_in_full_traceback": false,
+        "fixed_code": "DEADLINE_STAGE_NOT_REACHED",
+        "seconds": 0.00042491708882153034
+      },
+      {
+        "helper": "orphan",
+        "synthetic_private_assertion": false,
+        "safe_final_message": true,
+        "canary_in_full_traceback": false,
+        "fixed_code": "ORPHAN_STAGE_NOT_REACHED",
+        "seconds": 0.0008167501073330641
+      },
+      {
+        "helper": "orphan",
+        "synthetic_private_assertion": true,
+        "safe_final_message": true,
+        "canary_in_full_traceback": false,
+        "fixed_code": "ORPHAN_STAGE_NOT_REACHED",
+        "seconds": 0.0005467920564115047
+      }
+    ]
+  },
+  "original_probe": {
+    "baseline_exit": 0,
+    "candidate_exit": 1,
+    "reason": "unchanged historical probe asserts the old leak pattern; candidate rows judged separately; hardcoded SHA in original probe is its reviewed base"
+  },
+  "new_regression_cases": {
+    "dimensions": [
+      "AssertionError or ValueError",
+      "missing or reached HTTP stage"
+    ],
+    "total": 4,
+    "first_safe": 0,
+    "after_safe": 4,
+    "original_failed_outcomes_retained": 4
+  },
+  "existing_controls": {
+    "private_tracebacks_safe_before": 1,
+    "private_tracebacks_safe_after": 2,
+    "private_total": 2,
+    "neutral_total": 2,
+    "neutral_safe_before_and_after": 2,
+    "unreaped_worker_still_rejected": true,
+    "duplicate_request_still_rejected": true
+  },
+  "focused_contracts": {
+    "first_passed_methods": 4,
+    "first_total_methods": 6,
+    "first_failure_entries": 4,
+    "candidate_passed_methods": 6,
+    "candidate_total_methods": 6,
+    "first_seconds": 6.04377,
+    "candidate_seconds": 5.886348,
+    "normal_deadline_passed": 7,
+    "normal_deadline_total": 7,
+    "normal_seconds": 6.92675
+  },
+  "local_regression": {
+    "python_passed": 302,
+    "python_total": 302,
+    "python_seconds": 93.459965,
+    "javascript_passed": 260,
+    "javascript_total": 260
+  },
+  "fixed_synthetic_finance": {
+    "completion": {
+      "passed": 8,
+      "total": 8
+    },
+    "numeric_correct": {
+      "passed": 6,
+      "total": 6
+    },
+    "sources_complete": {
+      "passed": 6,
+      "total": 6
+    },
+    "safe_refusal": {
+      "passed": 2,
+      "total": 2
+    },
+    "latency_n": 8,
+    "p50_seconds": 0.000548,
+    "p95_seconds": 0.000948,
+    "model_calls": 0,
+    "reported_tokens": 0,
+    "usage_complete": true,
+    "calls_with_unknown_usage": 0
+  },
+  "no_changes_to": [
+    "production code",
+    "deadline budgets",
+    "financial formulas",
+    "web source",
+    "CI configuration"
+  ],
+  "calls": {
+    "paid_or_real_model": 0,
+    "hidden_tasks": 0,
+    "new_human_labels": 0,
+    "mock_diagnostic_usage": "not applicable; no provider call",
+    "missing_usage_policy": "unknown, never zero"
+  },
+  "open": [
+    "FE-013 historical live model 7/8",
+    "E2 source rights and human admission",
+    "natural timeout causes",
+    "final E7",
+    "exact-release CI and deployment checked after publication"
+  ]
+}

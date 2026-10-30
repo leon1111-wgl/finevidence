@@ -1,5 +1,19 @@
 # 任务效果量化：首轮真实模型与固定工作流
 
+## Full traceback privacy in deadline evidence (2026-10-30)
+
+Four known engineering controls (two error types ×two stage states) improve
+safe rendered tracebacks0/4→4/4 while preserving all four failed outcomes.
+The historical external probe's private controls improve1/2→2/2; two neutral
+controls stay2/2. These overlapping plans are not summed. That unchanged probe
+still asserts the legacy leak, so candidate exit1 is expected; inspect its rows.
+First focused methods4/6 and candidate6/6, normal deadlines7/7, full Python302/302
+and JS260/260 are separate from fixed synthetic finance8/8 (numeric/source6/6,
+refusal2/2). Timings, probe digest and first failures are in
+[validation/deadline-traceback-2026-10-30.json](validation/deadline-traceback-2026-10-30.json).
+No paid/live call, hidden task, real-report label or analyst-time claim was added.
+Historical live7/8/FE-013, E2, natural failures and finalE7 remain open.
+
 ## Orphan deadline failure evidence (2026-10-30)
 
 First publicatione722471 CI41019311798 attempt1 failed macOS299/300. The new

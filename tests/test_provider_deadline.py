@@ -58,7 +58,7 @@ class ProviderDeadlineTests(unittest.TestCase):
                 self.deadline_observations.append(row)
         if code:
             # Fixed fields only: no argv, PID, prompt, key, path or raw exception.
-            self.fail(code + ': ' + json.dumps(row, sort_keys=True))
+            raise self.failureException(code + ': ' + json.dumps(row, sort_keys=True)) from None
 
     def test_body_and_header_trickle_have_total_deadline(self):
         for mode in ('body-trickle', 'header-trickle'):
