@@ -1,6 +1,11 @@
 # FinEvidence · 金融证据工作台
 
-**[打开在线工作台](https://leon1111-wgl.github.io/finevidence/)** · [量化验证与首轮失败](docs/EVALUATION.md) · [完整本地运行／模型配置](docs/WORKBENCH_RUNBOOK.md) · [深圳／香港企业调研与两轮设计检查](docs/ENTERPRISE_RESEARCH.md)
+**检索原文证据，用确定性工具复核财务指标，导出可复算、可重新核验的交接包。**
+Auditable financial-evidence workbench: source-linked retrieval, deterministic Decimal calculations, bounded model tool calls and replayable handoff packages. Sample reports are SYNTHETIC; no real-report accuracy is claimed.
+
+**[打开在线工作台](https://leon1111-wgl.github.io/finevidence/)** · [代码](https://github.com/leon1111-wgl/finevidence) · [量化验证与首轮失败](docs/EVALUATION.md) · [完整本地运行／模型配置](docs/WORKBENCH_RUNBOOK.md) · [深圳／香港企业调研与两轮设计检查](docs/ENTERPRISE_RESEARCH.md)
+
+**关键词 / Keywords**：金融证据 financial evidence · 原文检索 BM25 · 来源指纹 SHA256 · Decimal 财务计算（毛利率 / 收入同比 / 百分点变化）· 受限模型工具调用 tool calling · PDF 预检 · 复算交接 · 审查记录 audit trail
 
 选择公司与年度 → 检索证据／复核财务指标 → 打开原文核对 → 导出审查记录／可读简报／复算交接包 → 接收者重新核验。在线版本直接在浏览器工作；本地版本使用共享 Python 逻辑并可调用真实模型选择受限工具。
 
